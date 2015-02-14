@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.springframework.samples</groupId>
+	<artifactId>Gamify</artifactId>
+	<name>Gamify</name>
+	<packaging>war</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<properties>
+		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
+		<org.slf4j.version>1.6.1</org.slf4j.version>
+	</properties>
+	<dependencies>
+
+		<!--  Spring -->
+		<!--
+	    Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, and iBatis.
+	    (depends on spring-core, spring-beans, spring-context, spring-tx)
+	    Define this if you need ORM (org.springframework.orm.*)
+	-->
+ <!--
+	    Core utilities used by other modules.
+	    Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
+	-->
+	<dependency>
+	<groupId>com.google.code.gson</groupId>
+	<artifactId>gson</artifactId>
+	<version>1.7.2</version>
+	</dependency>
+            
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-core</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Expression Language (depends on spring-core)
+	    Define this if you use Spring Expression APIs (org.springframework.expression.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-expression</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Bean Factory and JavaBeans utilities (depends on spring-core)
+	    Define this if you use Spring Bean APIs (org.springframework.beans.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-beans</artifactId>
+	  <version>${org.springframework.version}</version>	  
+	</dependency>
+	<!--  Selenium -->
+	<dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>2.41.0</version>
+        <scope>test</scope>
+    </dependency> 
+	 
+	<!--
+	    Aspect Oriented Programming (AOP) Framework (depends on spring-core, spring-beans)
+	    Define this if you use Spring AOP APIs (org.springframework.aop.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-aop</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Application Context (depends on spring-core, spring-expression, spring-aop, spring-beans)
+	    This is the central artifact for Spring's Dependency Injection Container and is generally always defined
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-context</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Various Application Context utilities, including EhCache, JavaMail, Quartz, and Freemarker integration
+	    Define this if you need any of these integrations
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-context-support</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.sf.ehcache</groupId>
+	    <artifactId>ehcache</artifactId>
+	    <version>2.7.4</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+	  <artifactId>ehcache-spring-annotations</artifactId>
+	  <version>1.2.0</version>
+	</dependency>	 
+	<!--
+	    Transaction Management Abstraction (depends on spring-core, spring-beans, spring-aop, spring-context)
+	    Define this if you use Spring Transactions or DAO Exception Hierarchy
+	    (org.springframework.transaction.*/org.springframework.dao.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-tx</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, spring-tx)
+	    Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-jdbc</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, and iBatis.
+	    (depends on spring-core, spring-beans, spring-context, spring-tx)
+	    Define this if you need ORM (org.springframework.orm.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-orm</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Object-to-XML Mapping (OXM) abstraction and integration with JAXB, JiBX, Castor, XStream, and XML Beans.
+	    (depends on spring-core, spring-beans, spring-context)
+	    Define this if you need OXM (org.springframework.oxm.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-oxm</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Web application development utilities applicable to both Servlet and Portlet Environments
+	    (depends on spring-core, spring-beans, spring-context)
+	    Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-web</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	
+	<!-- spring crypto security -->
+	<dependency>
+	   <groupId>org.springframework.security</groupId>
+	   <artifactId>spring-security-crypto</artifactId>
+	   <version>3.2.4.RELEASE</version>
+    </dependency>
+
+	 
+	<!--
+	    Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
+	    Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-webmvc</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Spring MVC for Portlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
+	    Define this if you use Spring MVC with a Portlet Container (org.springframework.web.portlet.*)
+	-->
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-webmvc-portlet</artifactId>
+	  <version>${org.springframework.version}</version>
+	</dependency>
+	 
+	<!--
+	    Support for testing Spring applications with tools such as JUnit and TestNG
+	    This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs
+	-->
+<!-- 	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-test</artifactId>
+	  <version>${org.springframework.version}</version>
+	  <scope>test</scope>
+	</dependency> -->
+	
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>log4j</groupId> -->
+<!-- 			<artifactId>log4j</artifactId> -->
+<!-- 			<version>1.2.16</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+		
+		<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>3.6.3.Final</version>
+	</dependency>
+
+		<!--  JSR 303 with Hibernate Validator -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+
+		<!--  Joda Time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- Jackson JSON Mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+		
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		<groupId>taglibs</groupId>
+		<artifactId>standard</artifactId>
+		<version>1.1.2</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.3</version>
+	</dependency>
+	
+		<dependency>
+	  <groupId>commons-dbcp</groupId>
+	  <artifactId>commons-dbcp</artifactId>
+	  <version>1.4</version>
+	</dependency>
+        
+   <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>5.1.30</version>
+	</dependency>
+	
+      <dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+		</dependency>
+		
+    <!-- Java Mail API -->
+    <dependency>
+	 <groupId>javax.mail</groupId>
+	 <artifactId>mail</artifactId>
+	 <version>1.4.3</version>
+    </dependency>
+    
+    <!-- Spring social -->
+   <dependency>
+	<groupId>org.springframework.social</groupId>
+	<artifactId>spring-social-core</artifactId>
+	<version>1.1.0.RELEASE</version>
+   </dependency>
+   
+
+            
+	</dependencies>
+	<repositories>
+		<!-- For Hibernate Validator -->
+		 <repository>
+  	<id>Java.Net</id>
+  	<url>http://download.java.net/maven/2/</url>
+    </repository>
+		<repository>
+			<id>org.jboss.repository.release</id>
+			<name>JBoss Maven Release Repository</name>			
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<snapshots><enabled>false</enabled></snapshots>			
+		</repository>		
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install</id>
+						<phase>install</phase>
+						<goals>
+							<goal>sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		
+	</build>
+</project>
