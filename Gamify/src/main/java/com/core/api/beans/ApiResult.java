@@ -4,6 +4,7 @@ import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 
 public class ApiResult{
+	
 	int status;
 	String message;
 	String redirectLink;
