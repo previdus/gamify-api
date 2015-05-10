@@ -7,8 +7,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>LMS</title>
 </head>
+<link rel="stylesheet" href="<c:url value="/resources/blueprint/screen.css" />" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="<c:url value="/resources/blueprint/print.css" />" type="text/css" media="print">
+		<!--[if lt IE 8]>
+			<link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
+		<![endif]-->
+		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
+<link rel="stylesheet" type="text/css" href="/resources/css/lmsgame.css" media="screen" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>
@@ -256,24 +263,25 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 }
 </script>
 <body>
-
-Last Man Standing Game. Welcome <div id="displayUserName"></div>
+<form id="backToMainRoom"  action="${pageContext.request.contextPath}/rooms/changeroom"></form>
+<form id="logoutform"  action="${pageContext.request.contextPath}/logout"></form>
+<div id="topPane">
+<span id="mainRoomLink">
+     <a href="#" onClick="$('#backToMainRoom').submit()">Back to main room</a>
+</span>
+<span id="welcomeMessage"> Hello <span id="displayUserName"></span>. Welcome to Last Man Standing </span> 
+<span id="logoutLink">
+<a href="#" onClick="$('#logoutform').submit()">Logout</a>
+</span>
+</div>
+ <div id="timer"></div>
 <div id="game">
      
-     <div id="playerSection"></div>     
-     <div id="timer"></div><br/>
+   <div id="playerSection"></div> 
    <div id="questionSection"></div>
    <div id="jsonresponse"></div>
 </div>
 
-<div id="logout_pane">
-<form id="logoutform"  action="${pageContext.request.contextPath}/logout">
-<a href="#" onClick="$('#logoutform').submit()">Logout</a>
-</form>
-<form id="backToMainRoom"  action="${pageContext.request.contextPath}/rooms/changeroom">
 
-<a href="#" onClick="$('#backToMainRoom').submit()">Back to Main Room</a>
-</form>
-</div>
 </body>
 </html>

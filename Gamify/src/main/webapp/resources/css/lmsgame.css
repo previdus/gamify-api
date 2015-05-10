@@ -1,0 +1,7 @@
+#topPane{margin-bottom:50px; border-style: solid;   border-bottom-style: dotted;}
+#mainRoomLink {margin-right:350px}
+#welcomeMessage {color:blue; font-size:200%}
+#displayUserName {color:red}
+#logoutLink{margin-left:350px}
+#timer{color:red; text-align:center; font-size:150%; margin-top:50px; margin-bottom:50px}
+#jsonresponse{display:none}
