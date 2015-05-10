@@ -24,7 +24,7 @@ var pollGameInstance;
 var userId;
 
 var timerInterval = null;
-var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 7000;
+var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 30000;
 var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
 var cookieToStoreKeyForUserGameQuestionTime = "LMSuserGameQuestion"
@@ -101,9 +101,13 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	 		 
          
           
-          playerHtml += "<td><div id=\"player"+ index1 +"\" style=\"width:100%; height:100%; top:10%; background-color:rgb(234,252,250);overflow-y:scroll;\">"+
-// 	        "<a href=\"form.jsp\"> <img src=\"images/"+element.examImageName+".jpg\" alt=\"lms\" width=\"150\" height=\"100\" /></br>"
- 	        element1.user.displayName+"&nbsp;&nbsp;&nbsp;<img src=\""+element1.user.imageUrl+"\"></img>&nbsp;&nbsp;&nbsp;(Lives :"+element1.noOfLife+" )</div></td>";
+          playerHtml += "<td><div id=\"player"
+              + index1 +
+              "\" style=\"width:100%; height:100%; top:10%; background-color:rgb(234,252,250);overflow-y:scroll;\">"+
+    	        element1.user.displayName+
+ 	           "&nbsp;&nbsp;&nbsp;<img src=\""+element1.user.imageUrl+
+ 	          "\"></img>&nbsp;&nbsp;&nbsp;(Lives :"+element1.noOfLife+
+ 	          " )</div></td>";
  	        
 
  		    });
@@ -112,7 +116,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 
 
  	playerHtml += "</table>";
- 	$("#playerSection").html(playerHtml);
+ 	$("#topPlayerSection").html(playerHtml);
  	var questionHtml = "";
     timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
     if(obj.currentQuestion != null){    
@@ -277,7 +281,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
  <div id="timer"></div>
 <div id="game">
      
-   <div id="playerSection"></div> 
+   <div id="topPlayerSection"></div> 
    <div id="questionSection"></div>
    <div id="jsonresponse"></div>
 </div>
