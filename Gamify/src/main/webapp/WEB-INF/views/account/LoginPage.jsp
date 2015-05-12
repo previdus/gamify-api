@@ -164,12 +164,17 @@
 											
 						<p>	
 							<input id="login" type="submit" value="Login" />
+							<br/><br/>OR<br/><br/>
+							<fb:login-button scope="public_profile,email"  onlogin="checkLoginState();">
+			                </fb:login-button>
 						</p>
 					</fieldset>
 				</form:form>
 			</div>
-			<fb:login-button scope="public_profile,email"  onlogin="checkLoginState();">
-			</fb:login-button>
+			<br/>
+			
+			
+			
 			
 			<div id="status">
 			</div>

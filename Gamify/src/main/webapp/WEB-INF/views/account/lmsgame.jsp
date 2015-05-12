@@ -15,7 +15,7 @@
 			<link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
 		<![endif]-->
 		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
-<link rel="stylesheet" type="text/css" href="/resources/css/lmsgame.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/lmsgame.css" />" media="screen" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>

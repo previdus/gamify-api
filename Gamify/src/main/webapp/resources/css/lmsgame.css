@@ -4,6 +4,7 @@
 #displayUserName {color:red}
 #logoutLink{margin-left:350px}
 #timer{color:red; text-align:center; font-size:150%; margin-top:50px; margin-bottom:50px}
+#topPlayerSection{text-align:center}
 #questionSection{text-align:center}
 #submitOption{margin-top:25px}
 #jsonresponse{display:none}
