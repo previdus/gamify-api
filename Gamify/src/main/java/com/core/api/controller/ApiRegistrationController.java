@@ -41,56 +41,61 @@ public class ApiRegistrationController {
 			@RequestParam("facebookId") String facebookId
 			) 
 	{
-	    ApiResult apr = new ApiResult();   
+	     
 	    //validation
 	    //email format validation
 	    if(!validator.emailValidate(email)){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("invalid email format");
-	    	return apr;
+	    	
+	    	return createApiResult(-1,"invalid email format");
 	    }
 	    //username format validation
 	    if(!validator.userNameValidate(userName)){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("invalid userName format");
-	    	return apr;
+	    	
+	    	return createApiResult(-1,"invalid userName format");
 	    }
 	    
 	    //password format validation
 	    if(!validator.passwordValidate(password)){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("iinvalid password format. Your password must contain 6 to 20 characters");
-	    	return apr;
+	    	
+	    	return createApiResult(-1,"iinvalid password format. Your password must contain 6 to 20 characters");
 	    }
-	    //email already exists validation
-	   
+	    
+	    //email already exists validation	   
 	    if(userService.getUserByEmail(email) != null){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("the email address seems to be already registered in the system");
-	    	return apr;
+	    	
+	    	return createApiResult(-1,"the email address seems to be already registered in the system");
 	    }
 	    //username already exists validation
 	    if(userService.getUserByName(userName) != null){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("the userName seems to be already registered in the system");
-	    	return apr;
+	    	
+	    	return createApiResult(-1,"the userName seems to be already registered in the system");
 	    }   
 	    //end validation
 	    
-	    User user = new User(userName,password,email,displayName, gender, facebookId,GenericUtil.generateFacebookProfileSmallImageUrl(facebookId));
+	    User user = new User(userName,password,email,displayName, resolveGender(gender), facebookId,GenericUtil.generateFacebookProfileSmallImageUrl(facebookId));
 	    user = userService.saveUser(user);
         //null check
 	    if(user == null){
-	    	apr.setStatus(-1);
-	    	apr.setMessage("there was a problem registering the user");
-	    	return apr;
+	    	return createApiResult(-1,"there was a problem registering the user");
 	    }
 	    //successful registration so autologin
-	    apr =  apiLoginController.loginPost(userName, password);
+	    ApiResult apr =  apiLoginController.loginPost(userName, password);
 	    apr.setMessage("Registration successful. "+ apr.getMessage());
 	    return apr;
 		
+	}
+
+	private ApiResult createApiResult(int status, String message) {
+		ApiResult apr = new ApiResult();  
+		apr.setStatus(-1);
+		apr.setMessage(message);
+		return apr;
 	}	
+	
+	//TODO: get rid of checks like this. This should be resolved at database level
+	private String resolveGender(String gender){
+		return "male".equals(gender)?"1":"0";
+	}
 	
 	
 	
