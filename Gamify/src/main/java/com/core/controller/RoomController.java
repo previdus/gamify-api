@@ -18,42 +18,45 @@ import com.core.manager.GameQueueManager;
 import com.core.service.RoomService;
 
 @Controller
-@RequestMapping(value="/rooms")
+@RequestMapping(value = "/rooms")
 public class RoomController {
-	
+
 	@Autowired
 	private RoomService roomService;
-	
+
 	private Validator validator;
-	
-	
 
 	@Autowired
 	public RoomController(Validator validator) {
 		this.validator = validator;
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public ModelAndView show( Model model, HttpServletRequest request) {
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView show(Model model, HttpServletRequest request) {
 		roomService.getRoom().setRoomName("Main Room");
-		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));
-		model.addAttribute("room", roomService.getRoom());	
+		model.addAttribute(
+				"user",
+				(User) request.getSession().getAttribute(
+						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));
+		model.addAttribute("room", roomService.getRoom());
 		return new ModelAndView("account/rooms");
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/changeroom")
-	public String changeRoom( HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+	@RequestMapping(method = RequestMethod.GET, value = "/changeroom")
+	public String changeRoom(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		roomService.getRoom().setRoomName("Main Room");
-		User user = (User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
-	    GameQueueManager.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
-	    return "redirect:/rooms";
+		User user = (User) request.getSession().getAttribute(
+				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
+		GameQueueManager
+				.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
+		return "redirect:/rooms";
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView selectRoom(Long roomId) {
-	   
+
 		return null;
 	}
-	
-	
+
 }

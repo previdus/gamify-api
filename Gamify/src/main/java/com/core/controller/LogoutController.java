@@ -12,35 +12,29 @@ import com.core.domain.User;
 import com.core.manager.GameQueueManager;
 import com.core.service.UserService;
 
-
 @Controller
-@RequestMapping(value="/logout")
+@RequestMapping(value = "/logout")
 public class LogoutController {
-	
-	
-	
+
 	@Autowired
 	private UserService userService;
-	
-	
-	
-	
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView logout(Model model, HttpServletRequest request) {
 		User user = null;
-		try{	 
-			user = (User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
-			GameQueueManager.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
-		    request.getSession().removeAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER); 
-		            
-		}catch (Throwable theException) 	    
-		{
-		     
+		try {
+			user = (User) request.getSession().getAttribute(
+					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
+			GameQueueManager
+					.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
+			request.getSession().removeAttribute(
+					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
+
+		} catch (Throwable theException) {
+
 		}
-		model.addAttribute(new User());	
+		model.addAttribute(new User());
 		return new ModelAndView("account/LoginPage");
 	}
-	
-	
+
 }
