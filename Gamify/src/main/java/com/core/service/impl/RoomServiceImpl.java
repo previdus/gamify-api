@@ -22,9 +22,18 @@ public class RoomServiceImpl implements RoomService {
 	@Cacheable(cacheName = "room")
 	public Room getRoom(){
 		Room room = new Room();
+		room.setExams(examDAO.findActiveExams());
+		return room;
+	}
+	
+	@Cacheable(cacheName = "room_all")
+	public Room getRoomWithAllExams(){
+		Room room = new Room();
 		room.setExams(examDAO.findAll());
 		return room;
 	}
+	
+	
 	
 	
 	

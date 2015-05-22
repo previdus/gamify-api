@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.core.dao.QuestionDAO;
 import com.core.domain.Question;
-
 import com.core.domain.lms.Topic;
 import com.core.service.QuestionService;
 
@@ -23,6 +22,22 @@ public class QuestionServiceImpl implements QuestionService{
 	public Question getQuestion(Topic topic) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<Question> showQuestions(long topicId){
+		return null;
+	}
+	public Question showQuestion(long topicId){
+		return null;
+	}
+	public Question addQuestion(long topicId, int difficultyLevel, String imageUrl, String questionText){
+		return null;
+	}
+	public Question editQuestion(long questionId, int difficultyLevel, String imageUrl, String questionText){
+		return null;
+	}
+	public void deleteQuestion(long questionId){
+		
 	}
 
 }

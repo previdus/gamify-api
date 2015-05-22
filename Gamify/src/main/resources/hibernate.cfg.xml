@@ -5,6 +5,7 @@
  
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.enable_lazy_load_no_trans">false</property>
         <mapping class="com.core.domain.Question" />
         <mapping class="com.core.domain.Option" />
         <mapping class="com.core.domain.User" />
@@ -13,8 +14,9 @@
         <mapping class="com.core.domain.lms.ExamSection" />
         <mapping class="com.core.domain.lms.Topic" />
         <mapping class="com.core.domain.knockout.GameInstance" />  
-         <mapping class="com.core.domain.knockout.Player" />
-          <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
-          <mapping class="com.core.domain.knockout.PlayerResponseLog" />
+        <mapping class="com.core.domain.knockout.Player" />
+        <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
+        <mapping class="com.core.domain.knockout.PlayerResponseLog" />
+        
     </session-factory>
 </hibernate-configuration>

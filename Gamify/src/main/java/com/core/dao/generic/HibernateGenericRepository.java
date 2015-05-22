@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.util.CollectionUtils;
 
+import com.core.domain.lms.Exam;
 import com.core.exception.ConstraintException;
 import com.core.exception.MultipleObjectsFoundException;
 import com.core.exception.RepositoryException;
@@ -89,7 +93,28 @@ GenericRepository<T, ID > {
 
 	public T findObjectByKey(String keyColumn, String keyValue) 
 	throws ZeroObjectsFoundException,MultipleObjectsFoundException {
+		
 		return null;
+	}
+	
+	public T findObjectByKey(Class entityClass, String columnName, String value){
+		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		criteria.add(Restrictions.eq(columnName, value));
+		List results = criteria.list();
+		if(!CollectionUtils.isEmpty(results))
+		     return (T)results.get(0);
+		else 
+			return null;
+	}
+	
+	public List<T> findObjectsByKeys(Class entityClass, String columnName, String value){
+		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		criteria.add(Restrictions.eq(columnName, value));
+		List results = criteria.list();
+		if(!CollectionUtils.isEmpty(results))
+		    return results;
+		else 
+			return null;
 	}
 
 	public void flush() {

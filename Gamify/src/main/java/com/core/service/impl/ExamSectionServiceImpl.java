@@ -1,5 +1,7 @@
 package com.core.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,23 @@ public class ExamSectionServiceImpl implements ExamSectionService{
 				    return GameStub.examSectionMap.get(examSectionId);
 
 		//return examSectionDAO.findObjectById(examSectionId);
+	}
+	
+    public List<ExamSection> showExamSections(Long examId){
+    	return null;
+    }
+	
+	public ExamSection addExamSection(Long examId, String examSectionName){
+		return null;
+	}
+	
+	public ExamSection editExamSection(Long examSectionId, String examSectionName)
+	{
+		return null;
+	}
+	
+	public void deleteExamSection(Long examSectionId){
+		
 	}
 
 }

@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.springframework.samples</groupId>
+	<groupId>Gamify</groupId>
 	<artifactId>Gamify</artifactId>
 	<name>Gamify</name>
 	<packaging>war</packaging>
@@ -10,7 +10,8 @@
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
-	</properties>
+        <powermock.version>1.6.2</powermock.version>
+    </properties>
 	<dependencies>
 
 		<!--  Spring -->
@@ -23,7 +24,7 @@
 	    Core utilities used by other modules.
 	    Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
 	-->
-	<dependency>
+	 <dependency>
 	<groupId>com.google.code.gson</groupId>
 	<artifactId>gson</artifactId>
 	<version>1.7.2</version>
@@ -55,18 +56,18 @@
 	  <version>${org.springframework.version}</version>	  
 	</dependency>
 	<!--  Selenium -->
-	<dependency>
+	<!-- <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>2.41.0</version>
         <scope>test</scope>
-    </dependency> 
+    </dependency>-->
 	 
 	<!--
 	    Aspect Oriented Programming (AOP) Framework (depends on spring-core, spring-beans)
 	    Define this if you use Spring AOP APIs (org.springframework.aop.*)
 	-->
-	<dependency>
+	 <dependency>
 	  <groupId>org.springframework</groupId>
 	  <artifactId>spring-aop</artifactId>
 	  <version>${org.springframework.version}</version>
@@ -138,7 +139,7 @@
 	    (depends on spring-core, spring-beans, spring-context)
 	    Define this if you need OXM (org.springframework.oxm.*)
 	-->
-	<dependency>
+	 <dependency>
 	  <groupId>org.springframework</groupId>
 	  <artifactId>spring-oxm</artifactId>
 	  <version>${org.springframework.version}</version>
@@ -156,7 +157,7 @@
 	</dependency>
 	
 	<!-- spring crypto security -->
-	<dependency>
+	 <dependency>
 	   <groupId>org.springframework.security</groupId>
 	   <artifactId>spring-security-crypto</artifactId>
 	   <version>3.2.4.RELEASE</version>
@@ -278,6 +279,18 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+		 <dependency>
+		      <groupId>org.powermock</groupId>
+		      <artifactId>powermock-module-junit4</artifactId>
+		      <version>${powermock.version}</version>
+		      <scope>test</scope>
+		   </dependency>
+		   <dependency>
+		      <groupId>org.powermock</groupId>
+		      <artifactId>powermock-api-mockito</artifactId>
+		      <version>${powermock.version}</version>
+		      <scope>test</scope>
+		   </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
