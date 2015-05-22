@@ -1,57 +1,29 @@
 package com.core.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.validation.BindingResult;
-
+import org.springframework.web.servlet.ModelAndView;
 import com.core.api.beans.ApiResult;
 import com.core.api.beans.GamePageResult;
 import com.core.api.controller.ApiLmsGameController;
-import com.core.api.controller.ApiLoginController;
-import com.core.api.controller.ApiRoomController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-
+import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
-import com.core.service.impl.RoomServiceImpl;
 import com.core.service.ExamSectionService;
 import com.core.service.RoomService;
-import com.core.domain.knockout.GameInstance;
-import com.core.domain.lms.Room;
-import com.google.gson.Gson;
 
 
 @Controller
@@ -173,7 +145,6 @@ public class LmsGameController {
 			      
             }			
 		}
-		
 		
 		 ModelAndView mav = new ModelAndView("account/LoginPage"); 
 		 mav.addObject(new User());

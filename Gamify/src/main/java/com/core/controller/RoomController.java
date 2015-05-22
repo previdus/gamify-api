@@ -11,14 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.core.constants.GameConstants;
 import com.core.domain.User;
 import com.core.manager.GameQueueManager;
 import com.core.service.RoomService;
-
 
 @Controller
 @RequestMapping(value="/rooms")
@@ -40,7 +37,6 @@ public class RoomController {
 	public ModelAndView show( Model model, HttpServletRequest request) {
 		roomService.getRoom().setRoomName("Main Room");
 		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));
-    	//System.out.println(" Total Exam Count: "	+ roomService.getRoom().getExams().size() + roomService.getRoom().getRoomName());
 		model.addAttribute("room", roomService.getRoom());	
 		return new ModelAndView("account/rooms");
 	}
