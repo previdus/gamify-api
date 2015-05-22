@@ -232,6 +232,7 @@ CREATE TABLE `exam` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `exam_image_name` varchar(255) DEFAULT NULL,
   `exam_name` varchar(255) DEFAULT NULL,
+  `state` varchar(20) NOT NULL DEFAULT 'ACTIVE',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
