@@ -1,12 +1,8 @@
 package com.core.manager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -20,7 +16,6 @@ import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
-import com.core.domain.knockout.Player;
 import com.core.domain.knockout.PlayerResponseLog;
 import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
