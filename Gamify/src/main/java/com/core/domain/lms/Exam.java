@@ -3,12 +3,13 @@ package com.core.domain.lms;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,19 +20,21 @@ import org.hibernate.annotations.Proxy;
 
 import com.core.constants.EntityStateENUM;
 
-
 @Entity
 @Table(name="exam")
 @Proxy(lazy=false)
 public class Exam  implements Serializable{
 	
+
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="exam_name")
+	@Column(name = "exam_name")
 	private String examName;
-	@Column(name="exam_image_name")
+	@Column(name = "exam_image_name")
 	private String examImageName;
+
 	
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
 	private String state;
@@ -39,6 +42,7 @@ public class Exam  implements Serializable{
 	@OneToMany(mappedBy="exam", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<ExamSection> examSections;
+
 	
 	
 	
@@ -52,14 +56,16 @@ public class Exam  implements Serializable{
 		this.state = state;
 	}
 
+
 	public Exam(Long id) {
 		super();
 		this.id = id;
 	}
-	
+
 	public Exam() {
 		super();
 	}
+
 	public Exam(Long id, String examName, String examImageName,
 			List<ExamSection> examSections) {
 		super();
@@ -68,33 +74,37 @@ public class Exam  implements Serializable{
 		this.examImageName = examImageName;
 		this.examSections = examSections;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getExamName() {
 		return examName;
 	}
-	
-	
+
 	public String getExamImageName() {
 		return examImageName;
 	}
+
 	public void setExamImageName(String examImageName) {
 		this.examImageName = examImageName;
 	}
+
 	public void setExamName(String examName) {
 		this.examName = examName;
 	}
+
 	public List<ExamSection> getExamSections() {
 		return examSections;
 	}
+
 	public void setExamSections(List<ExamSection> examSections) {
 		this.examSections = examSections;
 	}
-	
-	
 
 }

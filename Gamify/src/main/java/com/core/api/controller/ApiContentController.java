@@ -24,7 +24,7 @@ import com.core.service.ExamService;
 
 
 @Controller
-@RequestMapping(value="/api/content")
+@RequestMapping(value="/api/content/exams")
 public class ApiContentController {
 	
 	@Autowired

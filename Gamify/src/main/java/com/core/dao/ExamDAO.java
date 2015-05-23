@@ -1,6 +1,7 @@
 package com.core.dao;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import com.core.dao.generic.GenericRepository;

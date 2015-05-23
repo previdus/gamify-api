@@ -3,21 +3,21 @@ package com.core.domain.lms;
 import java.io.Serializable;
 import java.util.List;
 
-public class Room  implements Serializable{
-	
+public class Room implements Serializable {
+
 	private long roomId;
 	private String roomName;
 	private String imageName;
-	
+
 	private List<Exam> exams;
-	
+
 	public long getRoomId() {
 		return roomId;
 	}
 
 	public void setRoomId(long roomId) {
 		this.roomId = roomId;
-		
+
 	}
 
 	public String getRoomName() {
@@ -35,7 +35,5 @@ public class Room  implements Serializable{
 	public void setExams(List<Exam> exams) {
 		this.exams = exams;
 	}
-
-	
 
 }

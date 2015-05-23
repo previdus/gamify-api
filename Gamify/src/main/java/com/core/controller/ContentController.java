@@ -24,7 +24,7 @@ import com.core.service.RoomService;
 
 
 @Controller
-@RequestMapping(value="/content")
+@RequestMapping(value="/content/exams")
 public class ContentController {
 	
 	@Autowired

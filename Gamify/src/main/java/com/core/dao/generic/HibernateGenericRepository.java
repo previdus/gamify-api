@@ -4,60 +4,57 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
 import org.springframework.util.CollectionUtils;
 
-import com.core.domain.lms.Exam;
+
 import com.core.exception.ConstraintException;
-import com.core.exception.MultipleObjectsFoundException;
+
 import com.core.exception.RepositoryException;
-import com.core.exception.ZeroObjectsFoundException;
 
 
-
-
-public abstract class HibernateGenericRepository<T, ID extends Serializable>
-extends HibernateDaoSupport implements
-GenericRepository<T, ID > {
+public  abstract class HibernateGenericRepository<T, ID extends Serializable>
+		extends HibernateDaoSupport implements GenericRepository<T, ID> {
 
 	private Class<T> persistentClass;
-	
-   @Autowired
-	public void init(SessionFactory sessionFactory){
+
+	@Autowired
+	public void init(SessionFactory sessionFactory) {
 		this.setSessionFactory(sessionFactory);
 	}
 
-
 	@SuppressWarnings("unchecked")
-	public HibernateGenericRepository(){
+	public HibernateGenericRepository() {
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	public Class<T> getPersistentClass() {
-		return  persistentClass;
+		return persistentClass;
 	}
 
 	public void attach(T entity) throws RepositoryException {
-		getHibernateTemplate().update(entity);	
+		getHibernateTemplate().update(entity);
 	}
-	
+
 	public void merge(T entity) throws RepositoryException {
 		getHibernateTemplate().merge(entity);
-		
+
 	}
+
 	public T saveOrUpdate(T entity) throws ConstraintException {
 		getHibernateTemplate().saveOrUpdate(entity);
 		return entity;
 	}
-	
+
 	public void delete(T entity) throws RepositoryException {
-		getHibernateTemplate().delete(entity);	
+		getHibernateTemplate().delete(entity);
 
 	}
 
@@ -71,31 +68,29 @@ GenericRepository<T, ID > {
 
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
-		List<T> find = getHibernateTemplate().find("from " + persistentClass.getSimpleName());
+		List<T> find = getHibernateTemplate().find(
+				"from " + persistentClass.getSimpleName());
 		return find;
 	}
 
 	public List<T> findByCriteria(String... criterion)
-	throws RepositoryException {
+			throws RepositoryException {
 		return null;
 	}
 
-	public T findObjectById(ID id)  {
+	public T findObjectById(ID id) {
 		return (T) getHibernateTemplate().load(getPersistentClass(), id);
 	}
 
-	public T findObjectByIdImmediate(ID id)
-	{
-		T entity=null;
+	public T findObjectByIdImmediate(ID id) {
+		T entity = null;
 		entity = (T) getHibernateTemplate().get(getPersistentClass(), id);
 		return entity;
 	}
 
-	public T findObjectByKey(String keyColumn, String keyValue) 
-	throws ZeroObjectsFoundException,MultipleObjectsFoundException {
-		
-		return null;
-	}
+	public T findObjectByKey(String columnName, String value){		
+			return null;
+	} 
 	
 	public T findObjectByKey(Class entityClass, String columnName, String value){
 		Criteria criteria = this.getSession().createCriteria(entityClass);  
@@ -125,7 +120,5 @@ GenericRepository<T, ID > {
 		getHibernateTemplate().save(entity);
 		return entity;
 	}
-	
-
 
 }

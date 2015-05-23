@@ -13,13 +13,8 @@ public class GameInstanceServiceImpl implements GameInstanceService {
 	@Autowired
 	GameInstanceDAO gameInstanceDAO;
 
-	
 	public GameInstance saveOrUpdate(GameInstance gi) {
 		return gameInstanceDAO.saveOrUpdate(gi);
 	}
-	
-	
-	
-	
 
 }
