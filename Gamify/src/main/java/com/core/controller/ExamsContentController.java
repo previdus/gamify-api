@@ -25,7 +25,7 @@ import com.core.service.RoomService;
 
 @Controller
 @RequestMapping(value="/content/exams")
-public class ContentController {
+public class ExamsContentController {
 	
 	@Autowired
 	private RoomService roomService;
@@ -36,7 +36,7 @@ public class ContentController {
 	private Validator validator;
 	
 	@Autowired
-	public ContentController(Validator validator) {
+	public ExamsContentController(Validator validator) {
 		this.validator = validator;
 	}
 	
@@ -162,7 +162,7 @@ public class ContentController {
 		model.addAttribute("success",success);	
 		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));    	
 		model.addAttribute("room", roomService.getRoomWithAllExams());	
-		return new ModelAndView("account/contentEntry");
+		return new ModelAndView("contentAdmin/contentEntry");
 		
 	}
 	
