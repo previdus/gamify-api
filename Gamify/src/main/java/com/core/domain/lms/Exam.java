@@ -6,16 +6,18 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterJoinTable;
 import org.hibernate.annotations.Proxy;
 
 import com.core.constants.EntityStateENUM;
@@ -23,8 +25,9 @@ import com.core.constants.EntityStateENUM;
 @Entity
 @Table(name="exam")
 @Proxy(lazy=false)
+@FilterDef(name = Exam.ACTIVE_EXAM_SECTIONS)
 public class Exam  implements Serializable{
-	
+	public static final String ACTIVE_EXAM_SECTIONS = "activeExamSectionsFilter";
 
 
 	@Id
@@ -40,7 +43,7 @@ public class Exam  implements Serializable{
 	private String state;
 	
 	@OneToMany(mappedBy="exam", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
+	@Fetch(value = FetchMode.SUBSELECT)	
 	private List<ExamSection> examSections;
 
 	

@@ -257,6 +257,7 @@ CREATE TABLE `exam_section` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `exam_id` bigint(20) NOT NULL,
+  `state` varchar(20) NOT NULL DEFAULT 'INACTIVE',
   PRIMARY KEY (`id`),
   KEY `FK87404EC5CEE29EBE` (`exam_id`),
   CONSTRAINT `FK87404EC5CEE29EBE` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`)
@@ -267,7 +268,7 @@ CREATE TABLE `exam_section` (
 --
 
 /*!40000 ALTER TABLE `exam_section` DISABLE KEYS */;
-INSERT INTO `exam_section` (`id`,`name`,`exam_id`) VALUES 
+INSERT INTO `exam_section` (`id`,`name`,`exam_id`) VALUES
  (1,' VERBAL ',1),
  (2,' QUANT  ',1),
  (3,' FULL LENGTH  ',1),
@@ -279,56 +280,38 @@ INSERT INTO `exam_section` (`id`,`name`,`exam_id`) VALUES
  (9,' FULL LENGTH  ',3);
 /*!40000 ALTER TABLE `exam_section` ENABLE KEYS */;
 
-
 --
--- Definition of table `examsection_topic_mapping`
+-- Definition of table `topic`
 --
 
 DROP TABLE IF EXISTS `examsection_topic_mapping`;
-CREATE TABLE `examsection_topic_mapping` (
+DROP TABLE IF EXISTS `topic`;
+CREATE TABLE `topic` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
   `exam_section_id` bigint(20) NOT NULL,
-  `topic_id` bigint(20) NOT NULL,
-  KEY `FK7819AB2561BC4676` (`topic_id`),
-  KEY `FK7819AB25A0390B7` (`exam_section_id`),
-  CONSTRAINT `FK7819AB2561BC4676` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
-  CONSTRAINT `FK7819AB25A0390B7` FOREIGN KEY (`exam_section_id`) REFERENCES `exam_section` (`id`)
+  `state` varchar(20) NOT NULL DEFAULT 'INACTIVE',
+  PRIMARY KEY (`id`),
+  KEY `FK87404EC5CEE29EZE` (`exam_section_id`),
+  CONSTRAINT `FK87404EC5CEE29EZE` FOREIGN KEY (`exam_section_id`) REFERENCES `exam_section` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `examsection_topic_mapping`
+-- Dumping data for table `topic`
 --
 
-/*!40000 ALTER TABLE `examsection_topic_mapping` DISABLE KEYS */;
-INSERT INTO `examsection_topic_mapping` (`exam_section_id`,`topic_id`) VALUES 
- (1,3),
- (1,2),
- (2,7),
- (2,8),
- (2,3),
- (2,2),
- (3,7),
- (3,8),
- (3,3),
- (3,2),
- (5,1),
- (5,4),
- (4,5),
- (4,6),
- (4,1),
- (4,4),
- (6,5),
- (6,6),
- (6,1),
- (6,4),
- (8,1),
- (8,4),
- (7,9),
- (7,1),
- (7,4),
- (9,9),
- (9,1),
- (9,4);
-/*!40000 ALTER TABLE `examsection_topic_mapping` ENABLE KEYS */;
+/*!40000 ALTER TABLE `topic` DISABLE KEYS */;
+INSERT INTO `topic` (`id`,`name`,`exam_section_id`) VALUES
+ (1,' CR ',1),
+ (2,' SC  ',1),
+ (3,' Geometry  ',2),
+ (4,' Algebra ',2),
+ (5,' CR  ',4),
+ (6,' SC  ',4),
+ (7,' Algebra ',5),
+ (8,' Geometry  ',5),
+ (9,' DS  ',5);
+/*!40000 ALTER TABLE `topic` ENABLE KEYS */;
 
 
 --
@@ -1868,33 +1851,6 @@ INSERT INTO `question_option` (`id`,`image_url`,`ordr`,`text`,`question_id`) VAL
 /*!40000 ALTER TABLE `question_option` ENABLE KEYS */;
 
 
---
--- Definition of table `topic`
---
-
-DROP TABLE IF EXISTS `topic`;
-CREATE TABLE `topic` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic`
---
-
-/*!40000 ALTER TABLE `topic` DISABLE KEYS */;
-INSERT INTO `topic` (`id`,`name`) VALUES 
- (1,'Gemeotry'),
- (2,'GMAT SC'),
- (3,'GMAT CR'),
- (4,'Alzebra'),
- (5,'GRE RC'),
- (6,'GRE CR'),
- (7,'GMAT DS'),
- (8,'GMAT PS'),
- (9,'CAT VERBAL');
-/*!40000 ALTER TABLE `topic` ENABLE KEYS */;
 
 
 --

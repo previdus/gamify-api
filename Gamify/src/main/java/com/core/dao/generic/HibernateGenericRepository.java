@@ -3,19 +3,16 @@ package com.core.dao.generic;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.util.CollectionUtils;
 
-
 import com.core.exception.ConstraintException;
-
 import com.core.exception.RepositoryException;
 
 
@@ -98,6 +95,19 @@ public  abstract class HibernateGenericRepository<T, ID extends Serializable>
 		List results = criteria.list();
 		if(!CollectionUtils.isEmpty(results))
 		     return (T)results.get(0);
+		else 
+			return null;
+	}
+	
+	public List<T> findObjectsByKeyMap(Class entityClass, Map<String, Object> keyValueMap){
+		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		for(String key:keyValueMap.keySet()){
+			criteria.add(Restrictions.eq(key, keyValueMap.get(key)));			
+		}
+		
+		List results = criteria.list();
+		if(!CollectionUtils.isEmpty(results))
+		     return results;
 		else 
 			return null;
 	}

@@ -147,7 +147,7 @@ public class ExamsContentController {
 			   success = "exam state successfully changed";
 			}
 			catch(Exception e){
-				error ="internal error while disabling exam:"+e.getMessage();
+				error ="internal error while toggling exam state:"+e.getMessage();
 			}
 			
 			
@@ -162,7 +162,7 @@ public class ExamsContentController {
 		model.addAttribute("success",success);	
 		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));    	
 		model.addAttribute("room", roomService.getRoomWithAllExams());	
-		return new ModelAndView("contentAdmin/contentEntry");
+		return new ModelAndView("contentAdmin/exams");
 		
 	}
 	

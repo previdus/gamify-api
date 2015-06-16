@@ -93,8 +93,8 @@
 	           	             </div>
 	           	         </form:form>
 	           	         <br/>
-	           	         <form:form action="${pageContext.request.contextPath}/content/examSections" method="post">
-				               <input type="hidden" name="examId"/>
+	           	         <form:form action="${pageContext.request.contextPath}/content/examSections" method="get">
+				               <input type="hidden" name="examId" value="${exam.id}"/>
 				               <input type="submit" value="go to exam sections" /><br/>				              	               
 				        </form:form>
 				       
