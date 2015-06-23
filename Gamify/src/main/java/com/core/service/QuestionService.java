@@ -7,14 +7,14 @@ import com.core.domain.lms.Topic;
 
 public interface QuestionService {
 	public List<Question> getQuestions(Topic topic);
+	public Question findById(long questionId);
+	public Question saveQuestion(Question question);
 
-	public Question getQuestion(Topic topic);
-	public List<Question> showQuestions(long topicId);
-	public Question showQuestion(long topicId);
-	public Question addQuestion(long topicId, int difficultyLevel, String imageUrl, String questionText);
-	public Question editQuestion(long questionId, int difficultyLevel, String imageUrl, String questionText);
-	public void deleteQuestion(long questionId);
-
+	public Question addQuestion(long topicId, byte difficultyLevel, String imageUrl, String questionText);
+	public Question editQuestionText(long questionId, String questionText);
+	public Question updateQuestionImage(long questionId, String imageUrl);
+	public Question editQuestionDifficultyLevel(long questionId, byte difficultyLevel);	
+	public List<Question> findByTextAndTopic(long topicId, String questionText);
 
 	
 }

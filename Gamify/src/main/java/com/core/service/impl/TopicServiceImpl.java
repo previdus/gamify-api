@@ -29,9 +29,7 @@ public class TopicServiceImpl implements TopicService {
 
 	
 	
-    public List<Topic> showTopics(Long examSectionId){
-    	return null;
-    }
+   
     
     public Topic saveTopic(Topic topic){
     	return topicDAO.saveOrUpdate(topic);

@@ -1,6 +1,7 @@
 package com.core.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "question_option")
+@Proxy(lazy=false)
 public class Option implements Serializable {
 
 	public Option(String text, String imageUrl, Integer ordr, Question question) {
@@ -43,12 +46,27 @@ public class Option implements Serializable {
 	@Column(name = "image_url")
 	private String imageUrl;
 
+	@Column(name = "ordr")
 	private Integer ordr;
 
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "question_id")
 	private Question question;
+
+	@Column(name="state")
+    private String state;
+	public String getState() {
+		return state;
+	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public Option(Long id) {
 		super();

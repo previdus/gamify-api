@@ -1,11 +1,15 @@
 package com.core.dao.impl;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
 import com.core.dao.QuestionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Question;
@@ -22,7 +26,7 @@ public class QuestionDAOImpl extends
 	public List<Question> getQuestions(Topic topic) {
 		log.info("getting questions for topic");
 		Query qry = getSession().createQuery(
-				"from Question where topic = :selectedtopic").setParameter(
+				"from Question where topic = :selectedtopic order by id desc").setParameter(
 				"selectedtopic", topic);
 		log.info("before");
 		List<Question> questions = qry.list();
@@ -53,5 +57,12 @@ public class QuestionDAOImpl extends
 		log.info(" questions.size() == 0 for topic");
 		return null;
 	}
+	
+	public  List<Question> findByQuestionTextAndTopic(long topicId, String questionText){
+		Map<String, Object> keyValueMap = new HashMap<String, Object>();
+		keyValueMap.put("questionText", questionText);
+		keyValueMap.put("topic.id", topicId);
+        return findObjectsByKeyMap(Question.class,keyValueMap);
+    }
 
 }

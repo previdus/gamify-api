@@ -4,18 +4,18 @@ import java.util.List;
 
 import com.core.domain.Option;
 import com.core.domain.Question;
-import com.core.domain.lms.Exam;
-import com.core.domain.lms.ExamSection;
-import com.core.domain.lms.Topic;
+
 
 public interface OptionService {
 	
-	public List<Option> showOptions(Long questionId);
-	
-	public Option addOption(Long questionId, String imageUrl, int ordr, String text);
-	
-	public Option editOption(Long optionId, String imageUrl, int ordr, String text);
-		
-	public void deleteOption(Long optionId); 
+	public List<Option> getOptions(Question question);
+	public Option findById(long optionId);
+	public Option saveOption(Option option);
+	public Option addOption(long questionId,  String imageUrl, String optionText, int order);
+	public Option editOptionText(long optionId, String optionText);
+	public Option updateOptionImage(long optionId, String imageUrl);
+	public Option editOptionOrdr(long optionId, int order);	
+	public List<Option> findByOptionTextAndQuestion(long questionId, String optionName);
+	public  List<Option> findByOptionOrderAndQuestion(long questionId, int order);
 
 }

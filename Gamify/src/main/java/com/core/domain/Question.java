@@ -2,6 +2,7 @@ package com.core.domain;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,11 +17,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Proxy;
 
 import com.core.domain.lms.Topic;
 
 @Entity
 @Table(name = "question")
+@Proxy(lazy=false)
 public class Question implements Serializable {
 
 	/**
@@ -45,6 +48,16 @@ public class Question implements Serializable {
 	private Topic topic;
 	@Column(name = "difficulty_level")
 	private byte difficultyLevel;
+	
+	@Column(name="state")
+    private String state;
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public Question() {
 		super();
@@ -80,6 +93,8 @@ public class Question implements Serializable {
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}
+
+	
 
 	public String getImageUrl() {
 		return imageUrl;

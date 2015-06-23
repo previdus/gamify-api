@@ -7,7 +7,7 @@ import com.core.domain.lms.Topic;
 public interface TopicService {
 	
 
-	public List<Topic> showTopics(Long examSectionId);
+	
 	
 	public Topic addTopic(Long examSectionId, String topicName);
 	

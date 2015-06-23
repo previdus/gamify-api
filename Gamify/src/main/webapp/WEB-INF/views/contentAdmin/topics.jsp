@@ -98,7 +98,7 @@
 	           	         </form:form>
 	           	         <br/>
 	           	         <form:form action="${pageContext.request.contextPath}/content/questions" method="get">
-				               <input type="hidden" name="topicId"/>
+				               <input type="hidden" name="topicId" value="${topic.id}"/>
 				               <input type="submit" value="go to the questions for this topic" /><br/>				              	               
 				        </form:form>
 				       
