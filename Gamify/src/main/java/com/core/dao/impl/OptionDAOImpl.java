@@ -27,7 +27,7 @@ public class OptionDAOImpl extends
 	public List<Option> getOptions(Question	question) {
 		log.info("getting options for question");
 		Query qry = getSession().createQuery(
-				"from Option where question = :selectedquestion order by id desc").setParameter(
+				"from Option where question = :selectedquestion order by ordr").setParameter(
 				"selectedquestion", question);
 		log.info("before");
 		List<Option> options = qry.list();
