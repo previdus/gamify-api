@@ -13,5 +13,5 @@ public interface OptionDAO extends GenericRepository<Option, Serializable> {
 	public Option getOption(Question question);
 	
 	public  List<Option> findByOptionTextAndQuestion(long questionId, String optionText);
-	public  List<Option> findByOptionOrderAndQuestion(long questionId, int order);
+	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order);
 }

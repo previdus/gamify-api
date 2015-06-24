@@ -67,8 +67,8 @@ public class OptionServiceImpl implements OptionService {
 		return optionDAO.findByOptionTextAndQuestion(questionId, optionText);
 	}
 	
-	public  List<Option> findByOptionOrderAndQuestion(long questionId, int order){
-		return optionDAO.findByOptionOrderAndQuestion(questionId, order);
+	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order){
+		return optionDAO.findActiveOptionByOrderAndQuestion(questionId, order);
 	}
 
 }

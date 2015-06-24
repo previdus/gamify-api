@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.core.constants.EntityStateENUM;
 import com.core.dao.OptionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Option;
@@ -65,10 +66,11 @@ public class OptionDAOImpl extends
         return findObjectsByKeyMap(Option.class,keyValueMap);
 	}
 	
-	public  List<Option> findByOptionOrderAndQuestion(long questionId, int order){
+	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order){
 		Map<String, Object> keyValueMap = new HashMap<String, Object>();
 		keyValueMap.put("ordr", order);
 		keyValueMap.put("question.id", questionId);
+		keyValueMap.put("state", EntityStateENUM.ACTIVE.toString());
         return findObjectsByKeyMap(Option.class,keyValueMap);
 	}
 }

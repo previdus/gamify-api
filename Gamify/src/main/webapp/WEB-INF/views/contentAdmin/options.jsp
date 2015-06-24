@@ -62,8 +62,8 @@
 					<br/>
 		     <form:form action="${pageContext.request.contextPath}/content/options/addOption" method="post">
 		           <input type="hidden" name="questionId" value="${questionId}"/>
-	               <input id="addOption" type="text" name="addOption" placeholder="enter an option"/>&nbsp;
-	               <select name="order">
+	               <input id="addOption" type="text" name="addOption" placeholder="enter an option"/>&nbsp; Order: 
+	               <select name="order" >
 		               <option selected>1</option>
 		               <option>2</option>
 		               <option>3</option>
@@ -77,11 +77,29 @@
 			<div class="span-12 last" style="width: 800px; height: 500px; overflow-y: scroll; border:solid">					  	
 	               <br/>
 	               <c:if test="${not empty options}">
-					<c:forEach var="option" items="${options}" step="1">	
+					<c:forEach var="option" items="${options}" step="1">
+					    <c:if test="${option.state == 'ACTIVE'}">	
+					    <c:choose>
+	           	         <c:when test="${not empty answerKey and answerKey.optionId == option.id}">
+	           	             <b>(This is the answer key)</b>	           	             
+	           	         </c:when>
+	           	         <c:otherwise>
+	           	         <form:form id="makeOptionAnswerKey${option.id}" action="${pageContext.request.contextPath}/content/options/chooseAnswerKey" method="get">
+	           	             <input type="hidden" name="questionId" value="${option.question.id}"></input>	            	         
+	           	             <input type="hidden" name="optionId" value="${option.id}"></input>	           	            
+	           	             <input type="submit" value="choose this option as answer key"></input>&nbsp;
+	           	         </form:form>
+	           	         </c:otherwise>
+	           	         </c:choose>  
+	           	         </c:if>
+	           	         <br/>
 	           	         <span id="optionDisplay${option.id}">${option.text}</span>	           	                   	         
 	           	         <br/>
+	           	                   	         
 	           	         <span id="optionOrderDisplay${option.id}"><b>order:</b>${option.ordr}</span>
 	           	         <br/>
+	           	         
+	           	         
 	           	         <c:set var="status_disable"  value="${option.state == 'ACTIVE' ?'':'disabled'}"/>
 	           	         <c:set var="status_enable"  value="${option.state == 'INACTIVE' ?'':'disabled'}"/>	
 	           	         <form:form id="disableOptionState${option.id}" action="${pageContext.request.contextPath}/content/options/disableOption" method="get">
@@ -95,6 +113,8 @@
 	           	             <input type="hidden" name="optionId" value="${option.id}"></input>	           	            
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
+	           	         
+	           	         
 	           	         
 	           	         <br/>
 	           	         <form:form id="editOptionForm${option.id}" 
@@ -123,10 +143,13 @@
 			           	         <option>5</option>		           	         
 		           	         </select>
 		           	         
-		           	         <input type="submit" value="save order" ></input>	           	            
+		           	         <input type="submit" value="save order" ></input>
+		           	         	           	            
 	           	             </div>
 	           	         </form:form>
-	           	           <br/>  
+	           	           <br/>
+	           	           
+	           	           
 				         <hr/>           
 	               </c:forEach>
 	               </c:if>

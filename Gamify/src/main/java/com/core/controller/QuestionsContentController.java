@@ -196,6 +196,8 @@ public class QuestionsContentController {
 		return postRequestProcessing(topicId, error,success,request,model);
 		
 	}*/
+	
+	
 	@RequestMapping(value="/disableQuestion", method=RequestMethod.GET)	
 	public ModelAndView disableQuestion(@RequestParam("topicId") Long topicId, @RequestParam("questionId") Long questionId,Model model, HttpServletRequest request) {
 				

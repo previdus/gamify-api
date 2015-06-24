@@ -16,6 +16,6 @@ public interface OptionService {
 	public Option updateOptionImage(long optionId, String imageUrl);
 	public Option editOptionOrdr(long optionId, int order);	
 	public List<Option> findByOptionTextAndQuestion(long questionId, String optionName);
-	public  List<Option> findByOptionOrderAndQuestion(long questionId, int order);
+	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order);
 
 }

@@ -10,6 +10,8 @@ import com.core.domain.AnswerKey;
 import com.core.domain.Option;
 import com.core.domain.Question;
 import com.core.service.AnswerKeyService;
+import com.core.service.OptionService;
+import com.core.service.QuestionService;
 
 @Service("answerKeyService")
 public class AnswerKeyServiceImpl implements AnswerKeyService {
@@ -18,7 +20,13 @@ public class AnswerKeyServiceImpl implements AnswerKeyService {
 			.getLogger(AnswerKeyServiceImpl.class);
 
 	@Autowired
-	AnswerKeyDAO answerKeyDAO;// = new AnswerKeyDAOImpl();
+	private AnswerKeyDAO answerKeyDAO;// = new AnswerKeyDAOImpl();
+	
+	@Autowired
+	private QuestionService questionService;
+	
+	@Autowired
+	private OptionService optionService;
 
 	public boolean isCorrectAnswer(Long questionId, Option answer) {
 		if (answer == null)
@@ -35,6 +43,16 @@ public class AnswerKeyServiceImpl implements AnswerKeyService {
 
 	public AnswerKey getAnswerKey(Question question) {
 		return answerKeyDAO.getAnswerKey(question);
+	}
+	
+	public AnswerKey saveAnswerKey(Long questionId, Long optionId){
+		Question question = questionService.findById(questionId);
+	     Option option = optionService.findById(optionId);
+	     AnswerKey answerKey = new AnswerKey();
+	     answerKey.setQuestion(question);
+	     answerKey.setAnswer(option);
+	     return answerKeyDAO.saveOrUpdate(answerKey);
+	     
 	}
 
 }

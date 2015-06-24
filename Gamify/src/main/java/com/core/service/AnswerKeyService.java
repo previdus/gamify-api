@@ -9,5 +9,7 @@ public interface AnswerKeyService {
 	public boolean isCorrectAnswer(Long questionId, Option Answer);
 
 	public AnswerKey getAnswerKey(Question question);
+	
+	public AnswerKey saveAnswerKey(Long questionId, Long optionId);
 
 }

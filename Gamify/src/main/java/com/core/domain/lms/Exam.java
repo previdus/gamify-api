@@ -18,6 +18,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterJoinTable;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 import com.core.constants.EntityStateENUM;
@@ -25,9 +27,13 @@ import com.core.constants.EntityStateENUM;
 @Entity
 @Table(name="exam")
 @Proxy(lazy=false)
-@FilterDef(name = Exam.ACTIVE_EXAM_SECTIONS)
+@FilterDef(name = Exam.ACTIVE_EXAMS,  parameters = @ParamDef(name = "activeState", type = "java.lang.String"))
+@Filters( {
+    @Filter(name=Exam.ACTIVE_EXAMS, condition="state = :activeState")
+   
+} )
 public class Exam  implements Serializable{
-	public static final String ACTIVE_EXAM_SECTIONS = "activeExamSectionsFilter";
+	public static final String ACTIVE_EXAMS = "activeExamsFilter";
 
 
 	@Id

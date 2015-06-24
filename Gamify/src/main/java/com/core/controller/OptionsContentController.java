@@ -16,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.core.constants.EntityStateENUM;
 import com.core.constants.GameConstants;
+import com.core.domain.AnswerKey;
 import com.core.domain.Option;
 import com.core.domain.Question;
 import com.core.domain.User;
+import com.core.service.AnswerKeyService;
 import com.core.service.OptionService;
 import com.core.service.QuestionService;
 
@@ -34,6 +36,9 @@ public class OptionsContentController {
 
 	@Autowired
 	private OptionService optionService;
+	
+	@Autowired
+	private AnswerKeyService answerKeyService;
 	
 	private Validator validator;
 	
@@ -56,6 +61,8 @@ public class OptionsContentController {
 		model.addAttribute("success",success);	
 		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER)); 
 		Question question = questionService.findById(questionId);
+		AnswerKey answerKey = answerKeyService.getAnswerKey(question);
+		model.addAttribute("answerKey", answerKey);	
 		List<Option> options = optionService.getOptions(question);		
 		model.addAttribute("options", options);	
 		model.addAttribute("questionId",questionId);		
@@ -88,7 +95,7 @@ public class OptionsContentController {
 				error="You cannot add a duplicate option";
 			}
 			else{
-				options = optionService.findByOptionOrderAndQuestion(questionId, order);
+				options = optionService.findActiveOptionByOrderAndQuestion(questionId, order);
 				if(options!= null){
 					error="An option with the same order already exists for this question. Please choose a different order";
 				} else{
@@ -164,7 +171,7 @@ public class OptionsContentController {
 		}
 		
 		else{
-			List<Option> options = optionService.findByOptionOrderAndQuestion(questionId, order);
+			List<Option> options = optionService.findActiveOptionByOrderAndQuestion(questionId, order);
 			if(options!= null){
 				error="An option with the same order already exists for this question. Please choose a different order";
 			} else{
@@ -213,6 +220,17 @@ public class OptionsContentController {
 		
 	}
 	*/
+	
+	@RequestMapping(value="/chooseAnswerKey", method=RequestMethod.GET)	
+	public ModelAndView chooseAnswerKey(@RequestParam("questionId") Long questionId, @RequestParam("optionId") Long optionId,Model model, HttpServletRequest request) {
+				
+		answerKeyService.saveAnswerKey(questionId, optionId);
+		String error = "";
+		String success = "";
+		return postRequestProcessing(questionId, error,success,request,model);
+		
+	}
+	
 	@RequestMapping(value="/disableOption", method=RequestMethod.GET)	
 	public ModelAndView disableOption(@RequestParam("questionId") Long questionId, @RequestParam("optionId") Long optionId,Model model, HttpServletRequest request) {
 				
