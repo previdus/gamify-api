@@ -340,18 +340,7 @@
 	<artifactId>spring-social-core</artifactId>
 	<version>1.1.0.RELEASE</version>
    </dependency>
-    <!-- Apache Commons file upload  -->
-    <dependency>
-        <groupid>commons-fileupload</groupid>
-        <artifactid>commons-fileupload</artifactid>
-        <version>1.2.2</version>
-    </dependency>
-    <!-- Apache Commons IO -->
-    <dependency>
-        <groupid>org.apache.commons</groupid>
-        <artifactid>commons-io</artifactid>
-        <version>1.3.2</version>
-    </dependency>
+   
    <dependency>
         <groupId>javax.media.jai</groupId>
         <artifactId>com.springsource.javax.media.jai.core</artifactId>
