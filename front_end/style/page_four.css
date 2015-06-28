@@ -171,6 +171,10 @@ hr {
 	color: #657982;
 }
 
+.question-completed .winner-image .glyphicon-user {
+	font-size: 2em;
+}
+
 .question-completed .answer:hover {
 	background-color: #657982;
 	border: 2px solid #657982;
