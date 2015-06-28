@@ -1,0 +1,21 @@
+body {
+
+}
+
+.navbar.navbar-default{
+	margin-bottom: 0px;
+}
+
+/* sidebar */
+#sidebar-wrapper {
+	background: rgba(232,232,232,5);
+}
+
+.sidebar-nav li a{
+	color: #546E7A;
+}
+
+.sidebar-nav li a:hover{
+	color: #546E7A;
+}
+/* /sidebar */
