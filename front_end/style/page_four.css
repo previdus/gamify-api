@@ -4,11 +4,14 @@ body {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 }
 
 /* navbar */
 .navbar.navbar-default{
 	margin-bottom: 0px;
+	font-family: 'Lato', sans-serif;
 }
 
 .navbar-default .navbar-brand {
@@ -47,6 +50,7 @@ body {
 /* sidebar */
 #sidebar-wrapper {
 	background: rgba(232,232,232,5);
+	font-family: 'Lato', sans-serif;
 }
 
 .sidebar-headline {
@@ -131,6 +135,7 @@ hr {
 
 /* question-active */
 .question-active {
+	font-family: 'Lato', sans-serif;
 	width: 100%;
 	min-height: 15vh;
 	background-color: #657982;
@@ -162,6 +167,7 @@ hr {
 
 /* question-completed */
 .question-completed {
+	font-family: 'Lato', sans-serif;
 	width: 100%;
 	min-height: 15vh;
 	background-color: #FFF;
