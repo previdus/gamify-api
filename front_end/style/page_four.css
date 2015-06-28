@@ -1,5 +1,9 @@
 body {
-
+	background-image: url('../images/bg_gamify_yellow_blur.jpg');
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
 }
 
 /* navbar */
@@ -118,7 +122,7 @@ hr {
 	width: 100%;
 	min-height: 15vh;
 	background-color: #657982;
-	opacity: 0.6;
+	opacity: 0.8;
 	border: 2px solid white;
 	padding: 3em;
 	padding-bottom: 2.5em;
@@ -134,6 +138,46 @@ hr {
 	color: white;
 	border-radius: 0px;
 }
+
+.question-active .answer:hover {
+	background-color: whitesmoke;
+	border: 2px solid white;
+	color: #657982;
+	-webkit-transition: background-color 0.2s, color: 0.2s;
+	transition: background-color 0.2s, color 0.2s;
+}
 /* /question-active */
+
+/* question-completed */
+.question-completed {
+	width: 100%;
+	min-height: 15vh;
+	background-color: #FFF;
+	opacity: 0.8;
+	border: 2px solid #657982;
+	padding: 3em;
+	padding-bottom: 2.5em;
+  padding-top: 2.5em;
+  color: #657982;
+}
+
+.question-completed .answer {
+	margin: 1em;
+	padding: 0.6em; padding-left: 1.1em; padding-right: 1.1em;
+	border: 2px solid white;
+	border-radius: 0px;
+	background-color: transparent;
+	border: 2px solid #657982;
+	color: #657982;
+}
+
+.question-completed .answer:hover {
+	background-color: #657982;
+	border: 2px solid #657982;
+	color: whitesmoke;
+	-webkit-transition: background-color 0.2s, color: 0.2s;
+	transition: background-color 0.2s, color 0.2s;
+}
+/* /question-completed */
 
 /* /page-content-wrapper */
