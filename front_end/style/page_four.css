@@ -30,6 +30,18 @@ body {
 .highlight {
 	color: #1976D2;
 }
+
+.navbar .dropdown-menu > li {
+	padding: 0.4em;
+}
+
+.navbar .dropdown-menu > li:hover {
+	background: #F1F1F1;
+}
+
+.navbar .dropdown-menu > li[role="separator"].divider{
+	padding: 0px;
+}
 /* /navbar */
 
 /* sidebar */
