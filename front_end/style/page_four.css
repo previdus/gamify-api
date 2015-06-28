@@ -2,13 +2,45 @@ body {
 
 }
 
+/* navbar */
 .navbar.navbar-default{
 	margin-bottom: 0px;
 }
 
+.navbar-default .navbar-brand {
+	color: #42A5F5;
+	padding-left: 2em;
+}
+
+.navbar-default .navbar-brand:hover {
+	color: #42A5F5;
+}
+
+.navbar .leave-game {
+	background-color: #1C75BC;
+	padding: 4px;
+	color: whitesmoke;
+}
+
+.highlight {
+	color: #1976D2;
+}
+/* /navbar */
+
 /* sidebar */
 #sidebar-wrapper {
 	background: rgba(232,232,232,5);
+}
+
+.sidebar-headline {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-weight: bold;
+  color: #546E7A;
+}
+
+.sidebar-hr {
+	margin-top: 0px;
 }
 
 .sidebar-nav li a{
@@ -17,5 +49,47 @@ body {
 
 .sidebar-nav li a:hover{
 	color: #546E7A;
+}
+
+.sidebar-user-info > div {
+	padding: 0px;
+}
+
+.sidebar-user-info {
+	padding: 0px;
+}
+
+.sidebar-user-info .glyphicon.glyphicon-user {
+  position: relative;
+  right: 0.5em;
+  font-size: 2.2em;
+  color: #90A4AE;
+}
+
+.sidebar-user-info .sidebar-user-name {
+  position: relative;
+  bottom: 0.1em;
+}
+
+.sidebar-user-info .glyphicon.glyphicon-heart {
+  position: relative;
+  right: 1em;
+  font-size: 1.9em;
+  color: #D81B60;
+}
+
+.sidebar-user-info .glyphicon.glyphicon-heart.special {
+	color: #FFA726;
+}
+
+.sidebar-user-info .life-count > span {
+	position: relative;
+  bottom: 0.1em;
+  right: 0.8em;
+}
+
+hr {
+	height: 1px;
+	background-color: whitesmoke;
 }
 /* /sidebar */
