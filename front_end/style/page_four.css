@@ -17,9 +17,10 @@ body {
 }
 
 .navbar .leave-game {
-	background-color: #1C75BC;
-	padding: 4px;
-	color: whitesmoke;
+  background-color: #1C75BC;
+  color: whitesmoke;
+  padding: 0.5em;
+  font-weight: 300;
 }
 
 .highlight {
@@ -93,3 +94,46 @@ hr {
 	background-color: whitesmoke;
 }
 /* /sidebar */
+
+/* page-content-wrapper */
+
+/* timer */
+.timer {
+	background: #FF7043;
+	min-height: 5vh;
+	color: white;
+	overflow: hidden;
+}
+
+.timer .clock-wrapper, .timer .text, .timer .space {
+	text-align: center;
+	position: relative;
+  top: 2.5vh;
+  transform: translateY(-50%);
+}
+/* /timer */
+
+/* question-active */
+.question-active {
+	width: 100%;
+	min-height: 15vh;
+	background-color: #657982;
+	opacity: 0.6;
+	border: 2px solid white;
+	padding: 3em;
+	padding-bottom: 2.5em;
+  padding-top: 2.5em;
+  color: white;
+}
+
+.question-active .answer {
+	margin: 1em;
+	background-color: transparent;
+	padding: 0.6em; padding-left: 1.1em; padding-right: 1.1em;
+	border: 2px solid white;
+	color: white;
+	border-radius: 0px;
+}
+/* /question-active */
+
+/* /page-content-wrapper */
