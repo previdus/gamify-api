@@ -120,7 +120,10 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 }
 
 	
-	 var playerHtml = "<table>";
+
+	 var playerHtml = "";
+	 
+	 var playerCount = 0;
      var currentUserExistsInTheGame = false;
      
  	  	$(obj.players).each(function(index , element) {
@@ -132,15 +135,27 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	 			
  	 	 	  }
  	 		 
-         
+        playerCount++; 
           
-          playerHtml += "<td><div id=\"player"
-              + index1 +
-              "\" style=\"width:100%; height:100%; top:10%; background-color:rgb(234,252,250);overflow-y:scroll;\">"+
-    	        element1.user.displayName+
- 	           "&nbsp;&nbsp;&nbsp;<img src=\""+element1.user.imageUrl+
- 	          "\"></img>&nbsp;&nbsp;&nbsp;(Lives :"+element1.noOfLife+
- 	          " )</div></td>";
+          
+
+        playerHtml += "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
+
+          "<li class=\"sidebar-user-info col-md-12\">"+
+              "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
+              	"<i class=\"glyphicon glyphicon-user\"></i>"+
+              "</div>"+
+              "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
+              	"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+
+              "</div>"+
+              "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
+              	"<i class=\"glyphicon glyphicon-heart\"></i>"+
+              "</div>"+
+              "<div class=\"col-xs-1 col-sm-1 col-md-1 col-lg-1 life-count\">"+
+              	"<span>"+element1.noOfLife+"</span>"+
+              "</div>"+
+          "</li>";
+  			    
  	        
 
  		    });
@@ -148,8 +163,10 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  		});
 
 
- 	playerHtml += "</table>";
- 	$("#topPlayerSection").html(playerHtml);
+ 	var totalPlayerHtml = "<ul class=\"sidebar-nav\"><li class=\"sidebar-headline col-md-12\">Total Players: "+playerCount+"</li>"+playerHtml+"</ul>";
+ 	
+
+ 	$("#sidebar-wrapper").html(totalPlayerHtml);
  	var questionHtml = "";
     timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
     if(obj.currentQuestion != null){    
@@ -337,14 +354,12 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 <form id="backToMainRoom"  action="${pageContext.request.contextPath}/rooms/changeroom"></form>
 <form id="logoutform"  action="${pageContext.request.contextPath}/logout"></form>
-<div id="topPane">
-<span id="mainRoomLink">
-     <a href="#" onClick="$('#backToMainRoom').submit()">Back to main room</a>
-</span>	
-<span id="welcomeMessage"> Hello <span id="displayUserName"></span>. Welcome to Last Man Standing </span> 
-<span id="logoutLink">
-<a href="#" onClick="$('#logoutform').submit()">Logout</a>
-</span>
+
+
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+    
+    </div>
 </div>
  <div id="timer"></div>
 <div id="game">
