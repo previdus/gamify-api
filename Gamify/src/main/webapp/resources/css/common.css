@@ -1,0 +1,44 @@
+body {
+  width: 100%;
+  min-height: 780px;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+section {
+	margin-top: 20px;
+	position: relative;
+}
+.custom-form input, button {
+	border-radius: 0;
+	box-shadow: none;
+	border: 1px solid #acacac;
+}
+
+.custom-form .btn-default {
+	background-color: #42a5f5;
+	color: #fff;
+}
+
+/************* common bg component ***************/
+.light-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-shadow: 0px 8px 6px -6px #000;
+	background-color: #fff;
+    width: 100%;
+	opacity: 0.9;
+}
+
+.heading {
+	color: #fb8c00;
+	font-size: 28px;
+}
+.sub-heading {
+	color: #546e7a;
+	font-size: 26px;
+}
