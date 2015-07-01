@@ -135,10 +135,9 @@
       </div>
       <div class="login-section">
 				<form:form modelAttribute="user" action="login" method="post" class="form-inline custom-form">
-							<form:input path="name" placeholder="Username" /><form:errors path="name" />
-							<form:input type="password"  placeholder="Password"  path="pwd" /><form:errors path="pwd" />
+							<form:input path="name" placeholder="Username" class="form-control"/><form:errors path="name" />
+							<form:input type="password"  placeholder="Password" class="form-control" path="pwd" /><form:errors path="pwd" />
 							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>
-
 				</form:form>
 </div>
     </header>
