@@ -18,6 +18,8 @@
 		<![endif]-->
 		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
 		<!-- vendor styles -->
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
@@ -34,11 +36,11 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/lmsgame.css" />" media="screen" />
 <!-- vendor scripts -->
 	<!-- Latest compiled and minified JavaScript -->
-	<!-- <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.11.3.min.js" />" > </script>-->
+	 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.11.3.min.js" />" > </script>
 	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />" > </script>
 	
 	
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 </script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>
 <script  type="text/javascript">
@@ -86,8 +88,12 @@ $(document).ready(function() {
 				});
 		 }
 	 setInterval(pollGameInstance,timeNeededToWaitBeforePollingForGame);
-	 $('a').live('click', function() { clearInterval(pollGameInstance); });
+	 //$('a').live('click', function() { clearInterval(pollGameInstance); });
 
+	 //TODO: verify that this clearInterval actually works
+	 $('ul.dropdown-menu').on("click", "li.clearTimeInterval", function(){
+		 clearInterval(pollGameInstance);
+	 });	 
 
 	 $(window).bind("beforeunload", function() { 
 	 	clearInterval(pollGameInstance); 
@@ -310,18 +316,18 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
  <!-- Collect the nav links, forms, and other content for toggling -->
  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" onClick="$('#backToMainRoom').submit()"><span class="leave-game">Leave Game</span></a></li>
+        <li><a class="clearTimeInterval" href="#" onClick="$('#backToMainRoom').submit()"><span class="leave-game">Leave Game</span></a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           <span id="displayUserName"></span> 
           <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
-            <li><a href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
+            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
+            <li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>
+            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
+            <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
           </ul>
         </li>
       </ul>
