@@ -48,6 +48,7 @@ public class Exam  implements Serializable{
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
 	private String state;
 	
+	
 	@OneToMany(mappedBy="exam", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)	
 	private List<ExamSection> examSections;

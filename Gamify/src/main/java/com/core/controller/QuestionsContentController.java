@@ -59,8 +59,8 @@ public class QuestionsContentController {
 		List<Question> 	questions = questionService.getQuestions(topic);		
 		model.addAttribute("questions", questions);	
 		model.addAttribute("topicId",topicId);
-		model.addAttribute("examSectionName", topic.getExamSection().getName());
-		model.addAttribute("examName", topic.getExamSection().getExam().getExamName());
+		model.addAttribute("examSectionName", topic.fetchExamSection().getName());
+		model.addAttribute("examName", topic.fetchExamSection().fetchExam().getExamName());
 		model.addAttribute("topicName",topic.getName());
 		return new ModelAndView("contentAdmin/questions");	
 	}

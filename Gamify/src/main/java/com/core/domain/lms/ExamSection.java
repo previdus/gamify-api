@@ -58,7 +58,7 @@ public class ExamSection implements Serializable {
 		return state;
 	}
 
-	public Exam getExam() {
+	public Exam fetchExam() {
 		return exam;
 	}
 

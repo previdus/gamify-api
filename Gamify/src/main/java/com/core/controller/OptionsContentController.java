@@ -66,9 +66,9 @@ public class OptionsContentController {
 		List<Option> options = optionService.getOptions(question);		
 		model.addAttribute("options", options);	
 		model.addAttribute("questionId",questionId);		
-		model.addAttribute("topicName", question.getTopic().getName());
-		model.addAttribute("examSectionName", question.getTopic().getExamSection().getName());
-		model.addAttribute("examName", question.getTopic().getExamSection().getExam().getExamName());
+		model.addAttribute("topicName", question.fetchTopic().getName());
+		model.addAttribute("examSectionName", question.fetchTopic().fetchExamSection().getName());
+		model.addAttribute("examName", question.fetchTopic().fetchExamSection().fetchExam().getExamName());
 		model.addAttribute("questionText",question.getQuestionText());
 		return new ModelAndView("contentAdmin/options");	
 	}

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Proxy;
@@ -43,6 +44,7 @@ public class Question implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Option> options;
 
+	@JsonIgnore
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
@@ -112,7 +114,7 @@ public class Question implements Serializable {
 		this.options = options;
 	}
 
-	public Topic getTopic() {
+	public Topic fetchTopic() {
 		return topic;
 	}
 

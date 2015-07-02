@@ -60,7 +60,7 @@ public class Option implements Serializable {
 		return state;
 	}
 	
-	public Question getQuestion() {
+	public Question fetchQuestion() {
 		return question;
 	}
 

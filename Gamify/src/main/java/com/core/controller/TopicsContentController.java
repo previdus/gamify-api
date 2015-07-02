@@ -61,7 +61,7 @@ public class TopicsContentController {
 		
 		model.addAttribute("topics", examSection.getTopics());	
 		model.addAttribute("examSectionId",examSectionId);
-		model.addAttribute("examName", examSection.getExam().getExamName());
+		model.addAttribute("examName", examSection.fetchExam().getExamName());
 		model.addAttribute("examSectionName",examSection.getName());
 		return new ModelAndView("contentAdmin/topics");	
 	}

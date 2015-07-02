@@ -33,7 +33,7 @@ public class Topic implements Serializable {
 	@JoinColumn(name = "exam_section_id")
 	private ExamSection examSection;
 
-	public ExamSection getExamSection() {
+	public ExamSection fetchExamSection() {
 		return examSection;
 	}
 
