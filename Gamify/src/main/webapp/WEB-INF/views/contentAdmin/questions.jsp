@@ -82,20 +82,20 @@
 	           	         <c:set var="status_disable"  value="${question.state == 'ACTIVE' ?'':'disabled'}"/>
 	           	         <c:set var="status_enable"  value="${question.state == 'INACTIVE' ?'':'disabled'}"/>	
 	           	         <form:form id="disableQuestionState${question.id}" action="${pageContext.request.contextPath}/content/questions/disableQuestion" method="get">
-	           	             <input type="hidden" name="topicId" value="${question.topic.id}"></input>	            	         
+	           	             <input type="hidden" name="topicId" value="${topicId}"></input>	            	         
 	           	             <input type="hidden" name="questionId" value="${question.id}"></input>
 	           	             <input type="submit" value="disable" ${status_disable}></input>&nbsp;
 	           	         </form:form>
 	           	         <br/>
 	           	         <form:form id="enableQuestionState${question.id}" action="${pageContext.request.contextPath}/content/questions/enableQuestion" method="get">
-	           	             <input type="hidden" name="topicId" value="${question.topic.id}"></input>	            	         
+	           	             <input type="hidden" name="topicId" value="${topicId}"></input>	            	         
 	           	             <input type="hidden" name="questionId" value="${question.id}"></input>	           	            
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
 	           	         
 	           	         <br/>
 	           	         <form:form id="editQuestionForm${question.id}" action="${pageContext.request.contextPath}/content/questions/editQuestion" method="post">	           	             
-	           	             <input type="hidden" name="topicId" value="${question.topic.id}"></input>
+	           	             <input type="hidden" name="topicId" value="${topicId}"></input>
 	           	             <input type="hidden" name="questionId" value="${question.id}"></input>
 		           	         <input type="button" onclick="enableEditQuestionText(${question.id})" value="edit question"></input>&nbsp;	           	         
 		           	         

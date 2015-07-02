@@ -85,7 +85,7 @@
 	           	         </c:when>
 	           	         <c:otherwise>
 	           	         <form:form id="makeOptionAnswerKey${option.id}" action="${pageContext.request.contextPath}/content/options/chooseAnswerKey" method="get">
-	           	             <input type="hidden" name="questionId" value="${option.question.id}"></input>	            	         
+	           	             <input type="hidden" name="questionId" value="${questionId}"></input>	            	         
 	           	             <input type="hidden" name="optionId" value="${option.id}"></input>	           	            
 	           	             <input type="submit" value="choose this option as answer key"></input>&nbsp;
 	           	         </form:form>
@@ -103,13 +103,13 @@
 	           	         <c:set var="status_disable"  value="${option.state == 'ACTIVE' ?'':'disabled'}"/>
 	           	         <c:set var="status_enable"  value="${option.state == 'INACTIVE' ?'':'disabled'}"/>	
 	           	         <form:form id="disableOptionState${option.id}" action="${pageContext.request.contextPath}/content/options/disableOption" method="get">
-	           	             <input type="hidden" name="questionId" value="${option.question.id}"></input>	            	         
+	           	             <input type="hidden" name="questionId" value="${questionId}"></input>	            	         
 	           	             <input type="hidden" name="optionId" value="${option.id}"></input>
 	           	             <input type="submit" value="disable" ${status_disable}></input>&nbsp;
 	           	         </form:form>
 	           	         <br/>
 	           	         <form:form id="enableOptionState${option.id}" action="${pageContext.request.contextPath}/content/options/enableOption" method="get">
-	           	             <input type="hidden" name="questionId" value="${option.question.id}"></input>	            	         
+	           	             <input type="hidden" name="questionId" value="${questionId}"></input>	            	         
 	           	             <input type="hidden" name="optionId" value="${option.id}"></input>	           	            
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
@@ -119,7 +119,7 @@
 	           	         <br/>
 	           	         <form:form id="editOptionForm${option.id}" 
 	           	         action="${pageContext.request.contextPath}/content/options/editOption" method="post">	           	             
-	           	             <input type="hidden" name="questionId" value="${option.question.id}"></input>
+	           	             <input type="hidden" name="questionId" value="${questionId}"></input>
 	           	             <input type="hidden" name="optionId" value="${option.id}"></input>
 		           	         <input type="button" onclick="enableEditOptionText(${option.id})" value="edit option"></input>&nbsp;	           	         
 		           	         

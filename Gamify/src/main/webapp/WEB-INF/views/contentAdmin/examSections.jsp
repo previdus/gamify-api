@@ -73,20 +73,20 @@
 	           	         <c:set var="status_disable"  value="${examSection.state == 'ACTIVE' ?'':'disabled'}"/>
 	           	         <c:set var="status_enable"  value="${examSection.state == 'INACTIVE' ?'':'disabled'}"/>	
 	           	         <form:form id="disableExamSectionState${examSection.id}" action="${pageContext.request.contextPath}/content/examSections/disableExamSection" method="post">
-	           	             <input type="hidden" name="examId" value="${examSection.exam.id}"></input>	            	         
+	           	             <input type="hidden" name="examId" value="${examId }"></input>	            	         
 	           	             <input type="hidden" name="examSectionId" value="${examSection.id}"></input>
 	           	             <input type="submit" value="disable" ${status_disable}></input>&nbsp;
 	           	         </form:form>
 	           	         <br/>
 	           	         <form:form id="enableExamSectionState${examSection.id}" action="${pageContext.request.contextPath}/content/examSections/enableExamSection" method="post">
-	           	             <input type="hidden" name="examId" value="${examSection.exam.id}"></input>	 
+	           	             <input type="hidden" name="examId" value="${examId}"></input>	 
 	           	             <input type="hidden" name="examSectionId" value="${examSection.id}"></input>
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
 	           	         
 	           	         <br/>
 	           	         <form:form id="editExamSectionForm${examSection.id}" action="${pageContext.request.contextPath}/content/examSections/editExamSection" method="post">	           	             
-	           	             <input type="hidden" name="examId" value="${examSection.exam.id}"></input>
+	           	             <input type="hidden" name="examId" value="${examId}"></input>
 	           	             <input type="hidden" name="examSectionId" value="${examSection.id}"></input>
 		           	         <input type="button" onclick="enableEditExamSectionText(${examSection.id})" value="edit"></input>&nbsp;	           	         
 		           	         

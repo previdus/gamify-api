@@ -73,20 +73,20 @@
 	           	         <c:set var="status_disable"  value="${topic.state == 'ACTIVE' ?'':'disabled'}"/>
 	           	         <c:set var="status_enable"  value="${topic.state == 'INACTIVE' ?'':'disabled'}"/>	
 	           	         <form:form id="disableTopicState${topic.id}" action="${pageContext.request.contextPath}/content/topics/disableTopic" method="post">
-	           	             <input type="hidden" name="examSectionId" value="${topic.examSection.id}"></input>	            	         
+	           	             <input type="hidden" name="examSectionId" value="${examSectionId}"></input>	            	         
 	           	             <input type="hidden" name="topicId" value="${topic.id}"></input>
 	           	             <input type="submit" value="disable" ${status_disable}></input>&nbsp;
 	           	         </form:form>
 	           	         <br/>
 	           	         <form:form id="enableTopicState${topic.id}" action="${pageContext.request.contextPath}/content/topics/enableTopic" method="post">
-	           	             <input type="hidden" name="examSectionId" value="${topic.examSection.id}"></input>	 
+	           	             <input type="hidden" name="examSectionId" value="${examSectionId}"></input>	 
 	           	             <input type="hidden" name="topicId" value="${topic.id}"></input>
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
 	           	         
 	           	         <br/>
 	           	         <form:form id="editTopicForm${topic.id}" action="${pageContext.request.contextPath}/content/topics/editTopic" method="post">	           	             
-	           	             <input type="hidden" name="examSectionId" value="${topic.examSection.id}"></input>
+	           	             <input type="hidden" name="examSectionId" value="${examSectionId}"></input>
 	           	             <input type="hidden" name="topicId" value="${topic.id}"></input>
 		           	         <input type="button" onclick="enableEditTopicText(${topic.id})" value="edit"></input>&nbsp;	           	         
 		           	         
