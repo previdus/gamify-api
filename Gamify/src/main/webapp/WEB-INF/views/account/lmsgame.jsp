@@ -173,7 +173,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
 	    	
 	    	
-	    	questionHtml += "<br><div id=\"currentQuestion"+obj.currentQuestion.id+"\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
+	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
 	    	
 	    	questionHtml +="<div id = \"options\"><br/>";
  	    	$(obj.currentQuestion.options).each( function(index,element)
@@ -181,9 +181,10 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
                   questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""+element.id+"\">"+element.text+"</input><br/>";
 	    		   
  	    	});
- 	    	questionHtml += "<input type=\"submit\" name=\"submitOption\" id=\"submitOption\" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+")\"></input><br/>";
+ 	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+")\"></input><br/>";
  	    	questionHtml +="</div>";
- 	    		 
+
+ 	    	$("#questionSection").addClass("question-active");	 
  	    	$("#questionSection").html(questionHtml);
  	    	$("#submitOption").attr("disabled", "disabled");
 
@@ -357,8 +358,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 
 <div id="wrapper">
-    <div id="sidebar-wrapper">
-    
+    <div id="sidebar-wrapper">    
     </div>
 </div>
 <div id="page-content-wrapper">
@@ -378,16 +378,9 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 		<!-- /timer -->
 		<br/>
 		<br/>
+		 <div id="questionSection"></div> 
 	</div>
-</div>
- 
-<div id="game">
-     
-   <div id="topPlayerSection"></div> 
-   <div id="questionSection"></div>
-   <div id="jsonresponse"></div>
-</div>
-
-
+</div> 
+ <div id="jsonresponse"></div>
 </body>
 </html>
