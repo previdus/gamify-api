@@ -14,11 +14,20 @@
 		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		
-		<script type="text/javascript" src="<c:url value="/resources/js/json.min.js" /> "></script>
+		
+		 
+		<script src="<c:url value="/resources/js/jquery.ui.widget.js" />"  type='text/javascript'></script>
+		
+		<script src="<c:url value="/resources/js/jquery.iframe-transport.js" />"  type='text/javascript'></script>
+		
+		<script src="<c:url value="/resources/js/jquery.fileupload.js" />"  type='text/javascript'></script>
+		
+		<script src="<c:url value="/resources/js/jquery.cloudinary.js" />"  type='text/javascript'></script>
 		<script type="text/javascript">
 			
-		
+		$.cloudinary.config({ cloud_name: 'previdus', api_key: '465561835822868'})
 
+		
 			
 			function enableEditQuestionText(questionId){
 				
@@ -92,6 +101,10 @@
 	           	             <input type="hidden" name="questionId" value="${question.id}"></input>	           	            
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
+	           	         
+	           	         <input name="file" type="file" 
+                           class="cloudinary-fileupload" data-cloudinary-field="image_id" 
+                             data-form-data="${htmlEscapedJson }" ></input>
 	           	         
 	           	         <br/>
 	           	         <form:form id="editQuestionForm${question.id}" action="${pageContext.request.contextPath}/content/questions/editQuestion" method="post">	           	             

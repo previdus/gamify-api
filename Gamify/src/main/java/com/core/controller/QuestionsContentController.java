@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validator;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,6 +63,18 @@ public class QuestionsContentController {
 		model.addAttribute("examSectionName", topic.fetchExamSection().getName());
 		model.addAttribute("examName", topic.fetchExamSection().fetchExam().getExamName());
 		model.addAttribute("topicName",topic.getName());
+		
+		String htmlEscapedJson="{" +
+				  "\"timestamp\":  1345719094," + 
+				  "\"callback\": \"http://localhost/Gamify/content/questions?topicId=1\"," +
+				  "\"signature\": \"WzRvYWdcA8qyagdkzjEIr9iJ0p4\", " +
+				 "\"api_key\": \"465561835822868\", " +
+				
+				 "\"public_id\": \"previdus\","+
+				"}";
+		htmlEscapedJson = StringEscapeUtils.escapeHtml(htmlEscapedJson);
+		model.addAttribute("htmlEscapedJson",htmlEscapedJson);
+		
 		return new ModelAndView("contentAdmin/questions");	
 	}
 	
