@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.core.constants.CDNConstants;
 import com.core.constants.EntityStateENUM;
 import com.core.constants.GameConstants;
 import com.core.domain.Question;
@@ -62,19 +63,8 @@ public class QuestionsContentController {
 		model.addAttribute("topicId",topicId);
 		model.addAttribute("examSectionName", topic.fetchExamSection().getName());
 		model.addAttribute("examName", topic.fetchExamSection().fetchExam().getExamName());
-		model.addAttribute("topicName",topic.getName());
-		
-		String htmlEscapedJson="{" +
-				  "\"timestamp\":  1345719094," + 
-				  "\"callback\": \"http://localhost/Gamify/content/questions?topicId=1\"," +
-				  "\"signature\": \"WzRvYWdcA8qyagdkzjEIr9iJ0p4\", " +
-				 "\"api_key\": \"465561835822868\", " +
-				
-				 "\"public_id\": \"previdus\","+
-				"}";
-		htmlEscapedJson = StringEscapeUtils.escapeHtml(htmlEscapedJson);
-		model.addAttribute("htmlEscapedJson",htmlEscapedJson);
-		
+		model.addAttribute("topicName",topic.getName());		
+		model.addAttribute("htmlEscapedJson",CDNConstants.getRequiredEscapedHtmlJsonStringForCloudinaryImageUpload());		
 		return new ModelAndView("contentAdmin/questions");	
 	}
 	
