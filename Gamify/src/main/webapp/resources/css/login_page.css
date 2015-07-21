@@ -1,5 +1,5 @@
 #login {
-  background: url("../images/login_bg.png") top left no-repeat;
+  background-image: url("../images/login_bg.png") top left no-repeat;
   background-size: 100% 100%;
 }
 
