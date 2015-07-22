@@ -66,13 +66,13 @@
 		   
      <bean id="dataSource"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		    <!--<property name="url" value="jdbc:mysql://127.10.84.130:3306/cb_lms-db" />
-		<property name="username" value="adminiJLgJud" />
-		<property name="password" value="DFVKGFe_vCtv" />-->
+<!-- 		  <property name="url" value="jdbc:mysql://127.10.84.130:3306/cb_lms-db" /> -->
+<!-- 		<property name="username" value="adminiJLgJud" /> -->
+<!-- 		<property name="password" value="DFVKGFe_vCtv" /> -->
 		
-		  <property name="url" value="jdbc:mysql://localhost:3306/cb_lms-db" /> 
-		 	<property name="username" value="root" /> 
-		 	<property name="password" value="" /> 
+ 		  <property name="url" value="jdbc:mysql://localhost:3306/cb_lms-db" />  
+ 		 	<property name="username" value="root" />  
+ 		 	<property name="password" value="root" /> 
 	</bean>
 <!-- 	<bean id="dataSource" destroy-method="close" -->
 <!-- 	  class="org.apache.commons.dbcp.BasicDataSource"> -->
