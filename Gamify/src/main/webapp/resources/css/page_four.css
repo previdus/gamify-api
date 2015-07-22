@@ -120,9 +120,8 @@ hr {
 /* timer */
 .timer {
 	background: #FF7043;
-	min-height: 5vh;
+	min-height: 9vh;
 	color: white;
-	overflow: hidden;
 }
 
 .timer .clock-wrapper, .timer .text, .timer .space {
