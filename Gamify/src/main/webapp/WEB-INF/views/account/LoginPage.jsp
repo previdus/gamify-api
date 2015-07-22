@@ -155,7 +155,14 @@
 							<form:input type="password"  placeholder="Password" class="form-control" path="pwd" /><form:errors path="pwd" />
 							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>
 				</form:form>
-</div>
+				<br/><br/>
+				<div class="social-links">
+		           <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
+		           <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
+		           <a href="javascript:void(0)"><i class="fa fa-twitter-square"></i></a>
+		           <a href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>-->
+		        </div>
+      </div>     
     </header>
 
    <section class="row">
@@ -181,12 +188,7 @@
         <p class="description">
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         </p>
-        <div class="social-links">
-        <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
-         <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-          <a href="javascript:void(0)"><i class="fa fa-twitter-square"></i></a>
-          <a href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>-->
-        </div>
+        
 
       </div>
     </section>

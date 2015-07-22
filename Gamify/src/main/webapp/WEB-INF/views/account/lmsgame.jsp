@@ -293,7 +293,7 @@ function submitOptionWhenTimeElapsed(questionId){
 function updateTimerDiv(gameId,currentQuestionId){
 	var internalCountDown = Math.round((timeNeededToWaitBeforeAutoRespondTowrongAnswer - ($.now() - countDown))/1000);
 	if(internalCountDown > 0){
-           $("#timer").html(internalCountDown + " seconds remaining to respond");
+           $("#timer").html(internalCountDown + " seconds remaining to respond!!");
           // $.cookie(userId+gameId+currentQuestionId,internalCountDown);          
           
 	}
