@@ -4,10 +4,10 @@ import com.core.domain.User;
 
 public class ApiResult {
 
-	int status;
-	String message;
-	String redirectLink;
-	String userToken;
+	private int status;
+	private String message;
+	private String redirectLink;
+	private String userToken;
 
 	User user;
 
