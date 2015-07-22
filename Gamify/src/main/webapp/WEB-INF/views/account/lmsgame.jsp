@@ -365,7 +365,8 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
    <div class="container-fluid">
 		<!-- timer -->
 		<div class="row">
-			<div class="col-md-offset-2 col-md-8">
+			 <div class="col-lg-12">
+			<!-- <div class="col-md-offset-2 col-md-8"> -->
 				<div class="timer">
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 clock-wrapper">
 						<i class="glyphicon glyphicon-time"></i>
