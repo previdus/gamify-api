@@ -12,9 +12,11 @@
 			<link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
 		<![endif]-->
 		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
+		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		
 		<script type="text/javascript" src="<c:url value="/resources/js/json.min.js" /> "></script>
+		<script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 		<script type="text/javascript">
 			
 		
@@ -53,7 +55,10 @@
 <a href="#" onClick="$('#logoutform').submit()">Logout</a>
 </form>
 </div>
-		<div class="container">
+	    <div id="iframe_for_latex_editor">
+	        <iframe src="http://hostmath.com"></iframe>
+	    </div>
+		<div id="maincontent" class="container">
 			<h1>
 				You can add, edit, enable or disable an option of a question <br/><i>${questionText}</i><br/> for a topic <i>${topicName}</i> of the exam section <i> ${examSectionName}</i> for the exam <i>${examName} </i>here
 			</h1>
