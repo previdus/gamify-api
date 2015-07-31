@@ -3,7 +3,7 @@
 #welcomeMessage {color:blue; font-size:200%}
 #displayUserName {color:red}
 #logoutLink{margin-left:350px}
-#timer{color:red; text-align:center; font-size:150%; margin-top:50px; margin-bottom:50px}
+#timer{color:#fff; text-align:center; font-size:150%; margin-top:7px;}
 #topPlayerSection{text-align:center}
 #questionSection{text-align:center}
 #submitOption{margin-top:25px}

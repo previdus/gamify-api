@@ -120,12 +120,14 @@ hr {
 /* timer */
 .timer {
 	background: #FF7043;
-	min-height: 5vh;
+	height: 45px;
+	width: 50%;
+	margin: 0 auto;
 	color: white;
 	overflow: inherit;
 }
 
-.timer .clock-wrapper, .timer .text, .timer .space {
+.timer .clock-wrapper, .timer .space {
 	text-align: center;
 	position: relative;
   top: 2.5vh;
