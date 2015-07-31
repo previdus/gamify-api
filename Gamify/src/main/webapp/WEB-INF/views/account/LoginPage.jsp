@@ -12,7 +12,79 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="resources/css/common.css">
   <link rel="stylesheet" type="text/css" href="resources/css/login_page.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
+		
 		<script>
+		function signup(){
+			var userName = $( "#userName" ).val();
+			var memberName = $( "#memberName" ).val();
+			var memberEmail = $( "#memberEmail" ).val();
+			var parentsEmail = $( "#parentsEmail" ).val();
+			var mpassword = $( "#mpassword" ).val();
+			var cpassword = $( "#cpassword" ).val();
+			var selectedGender = $('input[name=gendergrp]:radio:checked');
+			var	selectedGen = "";
+			if (selectedGender.length > 0) {
+				selectedGen = selectedGender.val();
+			}
+			$.ajax({
+			    url: "api/register",
+			    data: {displayName:memberName,gender:selectedGen,userName:userName,password:mpassword,parentsEmail:parentsEmail,email:memberEmail},
+			    type: "POST",
+			    dataType : "json",
+			    success: function( json ) {
+			    	if(json != null){ 
+				    	
+				    	if(json.status == 1){
+					    	// section for successfully signup.
+					    	// display json.message 
+					    	}else{
+						    	// validation failure// show error in red
+						    	}
+			    	}
+			    },
+			    error: function( xhr, status, errorThrown ) {
+				    // request cannot be served
+			    },
+			    // Code to run regardless of success or failure
+			    complete: function( xhr, status ) {
+			    }
+			})
+			}
+		 
+		$(document).ready(function() {
+			$("#signup").click(function(){
+				signup();
+		    });
+			$.ajax({
+			    url: "api/leader-board/maxwin",
+			    data: {},
+			    type: "GET",
+			    dataType : "json",
+			    success: function( json ) {
+			    	if(json != null){ 
+			        	$(json.topUsers).each( function(index,element)
+			     	    	{
+			     	    	     index = +index + +1;
+			        		     var leaderboardid = "leaderboardpos" + index;
+			        		     $('#' +leaderboardid).show();
+			        		     $('#' +leaderboardid + "name").add(element.totalNoOfWins);
+			                     //alert(leaderboardid);
+			                     //alert(element.totalNoOfWins);
+			                     //alert(element.user.displayName);
+			                     //alert(element.user.imageUrl);
+			    	    		   
+			     	    	});
+			    	}
+			    },
+			    error: function( xhr, status, errorThrown ) {
+			    },
+			    // Code to run regardless of success or failure
+			    complete: function( xhr, status ) {
+			    }
+			})
+			});
 		  // This is called with the results from from FB.getLoginStatus().
 		  function statusChangeCallback(response) {
 		    console.log('statusChangeCallback');
@@ -164,23 +236,56 @@
 		        </div>
       </div>     
     </header>
+    
+    <section class="row">
+			<div class="col-md-5 pull-left sign-up">
+				<div class="light-bg"></div>
+				<div id="leaderboard">
+					<h2 class="heading">Leader Board!</h2>
+					<form class="custom-form">
+					<div id="leaderboardpos1"  hidden="true" >
+					    <img   src="<c:url value="/resources/images/1.jpg"/>"></img>
+					    <label id="leaderboardpos1name" >sjnfdjfdjdj</label>
+					</div>    
+					    <div id="leaderboardpos2" hidden="true">
+					    <img  src="<c:url value="/resources/images/2.jpg"/>" ></img>
+					    
+					</div>
+					<div id="leaderboardpos3" hidden="true">    
+					    <img  src="<c:url value="/resources/images/3.jpg"/>"></img>
+					 </div>
+					 <div id="leaderboardpos4" hidden="true">   
+					    <img  src="<c:url value="/resources/images/4.jpg"/>" ></img>
+					 </div>
+					 <div id="leaderboardpos5"  hidden="true">   
+					    <img  src="<c:url value="/resources/images/5.jpg"/>" ></img>
+					 </div>  
+					</form>
+					
+				</div>
 
-   <section class="row">
-      <div class="col-md-5 pull-right sign-up">
-        <div class="light-bg"></div>
-        <div>
-          <h2 class="heading">Be a member and start playing!</h2>
-          <form class="custom-form">
-            <input type="text" placeholder="New member name" class="form-control inputbox  clearfix">
-            <input type="email" placeholder="email" class="form-control inputbox clearfix">
-            <input type="password" placeholder="password" class="form-control inputbox clearfix">
-            <input type="password" placeholder="confirm password" class="form-control inputbox pull-left">
-            <input type="button" value="Sign up" class="btn btn-primary pull-left">
-          </form>
-        </div>
+			</div>
+		
+			<div class="col-md-5 pull-right sign-up">
+				<div class="light-bg"></div>
+				<div>
+				
+					<h2 class="heading">Be a member and start playing! </h2>
+					<form class="custom-form">
+						<input id="memberName" type="text" placeholder="New member name" class="form-control inputbox  clearfix">
+						<input  type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix">Male
+						<input  type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix">Female
+						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
+						<input id="mpassword"  type="password" placeholder="password" class="form-control inputbox clearfix">
+						<input id="cpassword" type="password" placeholder="confirm password" class="form-control inputbox pull-left">
+						<input id="memberEmail" type="email" placeholder="Email" class="form-control inputbox clearfix">
+						<input id ="parentsEmail" type="email" placeholder="Parent's email" class="form-control inputbox clearfix">
+						<input id="signup" name="signup" type="button" value="Sign up" class="btn btn-primary pull-left">
+					</form>
+				</div>
 
-      </div>
-    </section>
+			</div>
+		</section>
     <section class="row">
       <div class="col-md-5 pull-right section-2">
         <div class="light-bg"></div>
@@ -188,8 +293,6 @@
         <p class="description">
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         </p>
-        
-
       </div>
     </section>
 </div> 

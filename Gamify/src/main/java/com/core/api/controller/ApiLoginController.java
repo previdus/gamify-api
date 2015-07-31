@@ -86,7 +86,7 @@ public class ApiLoginController {
 			String tempPassword = GenericUtil
 					.generateTemporaryPasswordBasedOnUserName(facebookName);
 			ApiResult apr = apiRegistrationController.registerPost(
-					facebookEmail, tempPassword, facebookEmail, facebookName,
+					facebookEmail, tempPassword, facebookEmail,"", facebookName,
 					gender, facebookId);
 			if (apr.getStatus() == 1) {
 				List<String> recepients = new LinkedList<String>();
