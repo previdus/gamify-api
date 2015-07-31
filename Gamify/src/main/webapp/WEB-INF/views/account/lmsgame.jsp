@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/sidebar.css"/>">
+	<link rel="stylesheet" href="<c:url value="/resources/css/login_page.css"/>">
 	
 	<!-- custom styles -->
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/page_four.css"/>">
@@ -323,13 +324,15 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 <body>
 <!-- navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
-<div class="container-fluid">
+<div class="container-fluid lms">
     <div class="navbar-header">
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 	        <span class="sr-only"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">lastman<span class="highlight">standing</span></a>
+	      <div class="logo-section">
+                  <h1>lastman<span class="half">standing</span></h1>
+                </div>
  </div>
  <!-- Collect the nav links, forms, and other content for toggling -->
  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -368,7 +371,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 			 <div class="col-lg-12">
 			<!-- <div class="col-md-offset-2 col-md-8"> -->
 				<div class="timer">
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 clock-wrapper">
+					<div class="clock-wrapper">
 						<i class="glyphicon glyphicon-time"></i>
 					</div>
 					<div id="timer" class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text"></div>

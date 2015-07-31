@@ -118,21 +118,20 @@ hr {
 /* page-content-wrapper */
 
 /* timer */
-.timer {
-	background: #FF7043;
-	height: 45px;
-	width: 50%;
-	margin: 0 auto;
-	color: white;
-	overflow: inherit;
-}
 
-.timer .clock-wrapper, .timer .space {
+.timer .space {
 	text-align: center;
 	position: relative;
   top: 2.5vh;
   transform: translateY(-50%);
 }
+
+.timer .clock-wrapper{
+	position: absolute;
+    top: 16px;
+    left: 40%
+    z-index: 1;
+    }
 /* /timer */
 
 /* question-active */

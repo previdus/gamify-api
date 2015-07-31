@@ -3,8 +3,25 @@
 #welcomeMessage {color:blue; font-size:200%}
 #displayUserName {color:red}
 #logoutLink{margin-left:350px}
-#timer{color:#fff; text-align:center; font-size:150%; margin-top:7px;}
+#timer{
+    color: #fff;
+    text-align: center;
+    font-size: 150%;
+    float: none;
+    background: #FF7043;
+    width: 50%;
+    margin: 7px auto 0;
+    overflow: inherit;
+    padding: 10px 0;
+}
+
 #topPlayerSection{text-align:center}
-#questionSection{text-align:center}
+#questionSection{text-align:center;
+                    width: 50%;
+                    margin: 0 auto;
+                    height: 60vh;}
 #submitOption{margin-top:25px}
 #jsonresponse{display:none}
+.lms .logo-section h1 {
+    margin-top: 6px;
+}
