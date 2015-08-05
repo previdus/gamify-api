@@ -72,6 +72,7 @@ public class QuestionsContentController {
 	public ModelAndView addQuestion(@RequestParam("topicId") long topicId, 
 			@RequestParam("addQuestion") String questionText, 
 			@RequestParam("difficultyLevel") byte difficultyLevel,
+			@RequestParam("image_url") String imageUploadUrl,
 			Model model, 
 			HttpServletRequest request) {
 		
@@ -92,7 +93,8 @@ public class QuestionsContentController {
 			else{
 				
 				try{
-				  question = questionService.addQuestion(topicId, difficultyLevel, null, questionText);
+				  String imageUrl = CDNConstants.CLOUDINARY_RELATIVE_URL + StringUtils.substringBeforeLast(imageUploadUrl, CDNConstants.IMAGE_UPLOAD_SEPARATOR);
+				  question = questionService.addQuestion(topicId, difficultyLevel, imageUrl, questionText);
 				   success = "question successfully added";
 				}
 				catch(Exception e){
@@ -172,33 +174,38 @@ public class QuestionsContentController {
 		
 	}
 	
-	/*@RequestMapping(value="/uploadImage", method=RequestMethod.POST)	
+	@RequestMapping(value="/editQuestionImage", method=RequestMethod.POST)	
 	public ModelAndView uploadImageForQuestion(@RequestParam("topicId") Long topicId,@RequestParam("questionId") Long questionId,
-			@RequestParam("image") MultipartFile image, Model model, HttpServletRequest request) {
+			@RequestParam("image_url") String imageUploadUrl, Model model, HttpServletRequest request) {
 				
 		String error = "";
 		String success = "";
 		
 		Question question = questionService.findById(questionId);
 		if(question == null){
-			error = "The question you are trying to upload the image for doesn't exist in the system";
+			error = "The question you are trying to edit the image for doesn't exist in the system";
+		}
+		else if(StringUtils.isEmpty(imageUploadUrl)){
+			error = "The image you are trying to upload has failed to upload on the CDN or you haven't chosen any image to upload";
 		}
 		
 		else{
 			try{
 				
-				byte[] reducedQualityImage = GenericUtil.compress(image.getBytes());
-				questionService.updateQuestionImage(questionId, reducedQualityImage);
-				success = "question image successfully uploaded";
+			    String imageUrl = CDNConstants.CLOUDINARY_RELATIVE_URL + StringUtils.substringBeforeLast(imageUploadUrl, CDNConstants.IMAGE_UPLOAD_SEPARATOR);
+			    question.setImageUrl(imageUrl);
+			    questionService.saveQuestion(question);
+				
+				success = "question image successfully edited";
 			}
 			catch(Exception e){
-				error ="internal error while uploading image for the question :"+e.getMessage();
+				error ="internal error while editing image for the question :"+e.getMessage();
 			}
 		}			
 		
 		return postRequestProcessing(topicId, error,success,request,model);
 		
-	}*/
+	}
 	
 	
 	@RequestMapping(value="/disableQuestion", method=RequestMethod.GET)	
