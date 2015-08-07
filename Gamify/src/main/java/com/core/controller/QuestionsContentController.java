@@ -72,7 +72,7 @@ public class QuestionsContentController {
 	public ModelAndView addQuestion(@RequestParam("topicId") long topicId, 
 			@RequestParam("addQuestion") String questionText, 
 			@RequestParam("difficultyLevel") byte difficultyLevel,
-			@RequestParam("image_url") String imageUploadUrl,
+			@RequestParam(value="image_url",defaultValue="") String imageUploadUrl,
 			Model model, 
 			HttpServletRequest request) {
 		
