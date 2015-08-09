@@ -272,9 +272,8 @@
 				
 					<h2 class="heading">Be a member and start playing! </h2>
 					<form class="custom-form">
-						<input id="memberName" type="text" placeholder="New member name" class="form-control inputbox  clearfix">
-						<input  type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix">Male
-						<input  type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix">Female
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"> Male
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"> Female
 						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
 						<input id="mpassword"  type="password" placeholder="password" class="form-control inputbox clearfix">
 						<input id="cpassword" type="password" placeholder="confirm password" class="form-control inputbox pull-left">
