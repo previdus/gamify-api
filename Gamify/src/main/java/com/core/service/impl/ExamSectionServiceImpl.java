@@ -25,9 +25,9 @@ public class ExamSectionServiceImpl implements ExamSectionService {
 	private ExamService examService;
 
 	public ExamSection getExamSection(Long examSectionId) {
-		return GameStub.examSectionMap.get(examSectionId);
+		//return GameStub.examSectionMap.get(examSectionId);
 
-		// return examSectionDAO.findObjectById(examSectionId);
+		 return examSectionDAO.findObjectById(examSectionId);
 	}
 	
     public List<ExamSection> showExamSections(Long examId){
