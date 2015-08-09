@@ -84,7 +84,7 @@
 					<br/>
 		     <form:form action="${pageContext.request.contextPath}/content/options/addOption" method="post">
 		           <input type="hidden" name="questionId" value="${questionId}"/>
-	               <input id="addOption" type="text" name="addOption" placeholder="enter an option"/>&nbsp; Order: 
+                    Order of option: 
 	               <select name="order" >
 		               <option selected>1</option>
 		               <option>2</option>
