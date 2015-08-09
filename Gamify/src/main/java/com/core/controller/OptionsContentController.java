@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.core.constants.CDNConstants;
 import com.core.constants.EntityStateENUM;
 import com.core.constants.GameConstants;
 import com.core.domain.AnswerKey;
@@ -70,6 +71,7 @@ public class OptionsContentController {
 		model.addAttribute("examSectionName", question.fetchTopic().fetchExamSection().getName());
 		model.addAttribute("examName", question.fetchTopic().fetchExamSection().fetchExam().getExamName());
 		model.addAttribute("questionText",question.getQuestionText());
+		model.addAttribute("htmlEscapedJson",CDNConstants.getRequiredEscapedHtmlJsonStringForCloudinaryImageUpload());
 		return new ModelAndView("contentAdmin/options");	
 	}
 	
@@ -77,6 +79,7 @@ public class OptionsContentController {
 	public ModelAndView addOption(@RequestParam("questionId") long questionId, 
 			@RequestParam("addOption") String optionText, 
 			@RequestParam("order") int order,
+			@RequestParam(value="image_url",defaultValue="") String imageUploadUrl,
 			Model model, 
 			HttpServletRequest request) {
 		
@@ -100,7 +103,8 @@ public class OptionsContentController {
 					error="An option with the same order already exists for this question. Please choose a different order";
 				} else{
 					try{
-						  option = optionService.addOption(questionId, null, optionText, order);
+						 String imageUrl = CDNConstants.CLOUDINARY_RELATIVE_URL + StringUtils.substringBeforeLast(imageUploadUrl, CDNConstants.IMAGE_UPLOAD_SEPARATOR);
+						  option = optionService.addOption(questionId, imageUrl, optionText, order);
 						   success = "option successfully added";
 						}
 						catch(Exception e){
@@ -158,6 +162,40 @@ public class OptionsContentController {
 		return postRequestProcessing(questionId, error,success,request,model);		
 	}
 	
+	@RequestMapping(value="/editOptionImage", method=RequestMethod.POST)	
+	public ModelAndView uploadImageForQuestion(@RequestParam("questionId") Long questionId,@RequestParam("optionId") Long optionId,
+			@RequestParam("image_url") String imageUploadUrl, Model model, HttpServletRequest request) {
+				
+		String error = "";
+		String success = "";
+		
+		Option option = optionService.findById(optionId);
+				
+		if(option == null){
+			error = "The option you are trying to edit the image for doesn't exist in the system";
+		}
+		else if(StringUtils.isEmpty(imageUploadUrl)){
+			error = "The image you are trying to upload has failed to upload on the CDN or you haven't chosen any image to upload";
+		}
+		
+		else{
+			try{
+				
+			    String imageUrl = CDNConstants.CLOUDINARY_RELATIVE_URL + StringUtils.substringBeforeLast(imageUploadUrl, CDNConstants.IMAGE_UPLOAD_SEPARATOR);
+			    option.setImageUrl(imageUrl);
+			    optionService.saveOption(option);
+				
+				success = "option image successfully edited";
+			}
+			catch(Exception e){
+				error ="internal error while editing image for the option :"+e.getMessage();
+			}
+		}			
+		
+		return postRequestProcessing(questionId, error,success,request,model);
+		
+	}
+	
 	
 	@RequestMapping(value="/editOptionOrder", method=RequestMethod.POST)	
 	public ModelAndView editOptionLevel(@RequestParam("questionId") Long questionId,@RequestParam("optionId") Long optionId,@RequestParam("order") int order, Model model, HttpServletRequest request) {
@@ -192,34 +230,7 @@ public class OptionsContentController {
 		
 	}
 	
-	/*@RequestMapping(value="/uploadImage", method=RequestMethod.POST)	
-	public ModelAndView uploadImageForOption(@RequestParam("questionId") Long questionId,@RequestParam("optionId") Long optionId,
-			@RequestParam("image") MultipartFile image, Model model, HttpServletRequest request) {
-				
-		String error = "";
-		String success = "";
-		
-		Option option = optionService.findById(optionId);
-		if(option == null){
-			error = "The option you are trying to upload the image for doesn't exist in the system";
-		}
-		
-		else{
-			try{
-				
-				byte[] reducedQualityImage = GenericUtil.compress(image.getBytes());
-				optionService.updateOptionImage(optionId, reducedQualityImage);
-				success = "option image successfully uploaded";
-			}
-			catch(Exception e){
-				error ="internal error while uploading image for the option :"+e.getMessage();
-			}
-		}			
-		
-		return postRequestProcessing(questionId, error,success,request,model);
-		
-	}
-	*/
+	
 	
 	@RequestMapping(value="/chooseAnswerKey", method=RequestMethod.GET)	
 	public ModelAndView chooseAnswerKey(@RequestParam("questionId") Long questionId, @RequestParam("optionId") Long optionId,Model model, HttpServletRequest request) {

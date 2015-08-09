@@ -16,11 +16,31 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		
 		<script type="text/javascript" src="<c:url value="/resources/js/json.min.js" /> "></script>
+		 
+		<script src="<c:url value="/resources/js/jquery.ui.widget.js" />"  type='text/javascript'></script>
+		
 		<script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
+		
+		<script src="<c:url value="/resources/js/jquery.iframe-transport.js" />"  type='text/javascript'></script>
+		
+		<script src="<c:url value="/resources/js/jquery.fileupload.js" />"  type='text/javascript'></script>
+		
+		<script src="<c:url value="/resources/js/jquery.cloudinary.js" />"  type='text/javascript'></script>
 		<script type="text/javascript">
 			
 		
+		$.cloudinary.config({ cloud_name: 'previdus', api_key: '465561835822868'});
 
+		  function showMathEditor(){
+		        
+		        $("#math_editor").show();
+			}
+
+          function hideMathEditor(){
+		        
+		        $("#math_editor").hide();
+			}
+		
 			
 			function enableEditOptionText(optionId){
 				
@@ -55,10 +75,7 @@
 <a href="#" onClick="$('#logoutform').submit()">Logout</a>
 </form>
 </div>
-	    <div id="iframe_for_latex_editor">
-	        <iframe src="http://hostmath.com"></iframe>
-	    </div>
-		<div id="maincontent" class="container">
+	    <div id="maincontent" class="container">
 			<h1>
 				You can add, edit, enable or disable an option of a question <br/><i>${questionText}</i><br/> for a topic <i>${topicName}</i> of the exam section <i> ${examSectionName}</i> for the exam <i>${examName} </i>here
 			</h1>
@@ -75,7 +92,30 @@
 		               <option>4</option>
 		               <option>5</option>		               
 	               </select>
-	               <input type="submit" value="add option" /><br/>
+	               &nbsp; Type the question here. If it is a math question with formulae, 
+	               please use the math editor to type the question. Use \hspace{0.1cm} for horizontal spaces and adjust
+	               the cm unit for spacing. Copy the question from "Get Embedded Code" link in this math editor and paste it in the text area below. 
+	               Strip away the javascript call to MathJax.js in the line below the math formula generated.
+	               
+	               <a id="math_editor_link" href="javascript:void(0);"  onclick="showMathEditor();"> math editor</a>
+	               <div id="verbal_editor">
+		               <textarea name="addOption" cols=250 rows=50></textarea><br/><br/>
+		               <input type="submit" value="save option"/>
+		               &nbsp;&nbsp;&nbsp; Upload Image ->
+		               <input name="file" type="file" 
+	                           class="cloudinary-fileupload" data-cloudinary-field="image_url" 
+	                             data-form-data="${htmlEscapedJson }"></input>
+	                             <br/>
+	                             <br/>
+	               </div>
+	               <div id="math_editor" style="display: none">
+	                   <iframe id="latex_iframe" src="http://www.hostmath.com" width="800" height="800"></iframe><br/><br/>
+	                   <br/>
+		               <input type="button" value="cancel" onClick="hideMathEditor();"/>
+		               &nbsp;&nbsp;&nbsp;
+		               <br/><br/><br/>		                
+	               </div>
+	               
 	               <span id="error" style="color:red">${error}</span><span id="success" style="color:green">${success}</span>	               
 	        </form:form>
 	        
@@ -119,6 +159,17 @@
 	           	             <input type="submit" value="enable" ${status_enable}></input>&nbsp;
 	           	         </form:form>
 	           	         
+	           	         <form:form id="editOptionImageForm${question.id}" action="${pageContext.request.contextPath}/content/options/editOptionImage" method="post">
+	           	         <input type="hidden" name="questionId" value="${questionId}"></input>	            	         
+	           	         <input type="hidden" name="optionId" value="${option.id}"></input>
+	           	         <input name="file" type="file" 
+	                           class="cloudinary-fileupload" data-cloudinary-field="image_url" 
+	                             data-form-data="${htmlEscapedJson}"></input>
+	                     </form:form>
+	                     <input type="submit" value="submit new image"></input>&nbsp;
+	                      <br/>
+	           	         
+	           	         <br/> 
 	           	         
 	           	         
 	           	         <br/>
