@@ -35,7 +35,7 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "question_text")
+	@Column(name = "question_text",length=1000)
 	private String questionText;
 	@Column(name = "image_url")
 	private String imageUrl;
