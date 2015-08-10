@@ -66,8 +66,21 @@
 				   alert("question text cannot be the same"); 
 				   return;  
 				}
+				replaceSpaceByLatexSpace(questionId);
 				$("#editQuestionForm"+questionId).submit();			 
 				
+			}
+
+			function replaceSpaceByLatexSpace(id){
+                var text = $('#editableQuestionText'+id).val();
+               
+                if (text.indexOf("\[") >0 && text.indexOf("\]") > 0 && text.indexOf(' ') >0){
+                    var replacedText = text.replace(/ /g,"\\hspace{0.1cm}");
+                    $('#editableQuestionText'+id).val(replacedText);
+                    
+                 }
+                
+                return true;
 			}
 		</script>
 	</head>
@@ -105,8 +118,8 @@
 	               
 	               <a id="math_editor_link" href="javascript:void(0);"  onclick="showMathEditor();"> math editor</a>
 	               <div id="verbal_editor">
-		               <textarea name="addQuestion" cols=250 rows=50></textarea><br/><br/>
-		               <input type="submit" value="save question"/>
+		               <textarea id="editableQuestionText" name="addQuestion" cols=250 rows=50></textarea><br/><br/>
+		               <input type="submit" value="save question" onclick="return replaceSpaceByLatexSpace('');"/>
 		               &nbsp;&nbsp;&nbsp; Upload Image ->
 		               <input name="file" type="file" 
 	                           class="cloudinary-fileupload" data-cloudinary-field="image_url" 

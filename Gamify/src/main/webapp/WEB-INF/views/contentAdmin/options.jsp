@@ -62,8 +62,22 @@
 				   alert("option text cannot be the same"); 
 				   return;  
 				}
+
+				replaceSpaceByLatexSpace(optionId);
 				$("#editOptionForm"+optionId).submit();			 
 				
+			}
+
+		    function replaceSpaceByLatexSpace(id){
+                var text = $('#editableOptionText'+id).val();
+               
+                if (text.indexOf("\[") >0 && text.indexOf("\]") > 0 && text.indexOf(' ') >0){
+                    var replacedText = text.replace(/ /g,"\\hspace{0.1cm}");
+                    $('#editableOptionText'+id).val(replacedText);
+                    
+                 }
+                
+                return true;
 			}
 		</script>
 	</head>
@@ -99,8 +113,8 @@
 	               
 	               <a id="math_editor_link" href="javascript:void(0);"  onclick="showMathEditor();"> math editor</a>
 	               <div id="verbal_editor">
-		               <textarea name="addOption" cols=250 rows=50></textarea><br/><br/>
-		               <input type="submit" value="save option"/>
+		               <textarea id="editableOptionText" name="addOption" cols=250 rows=50></textarea><br/><br/>
+		               <input type="submit" value="save option" onclick="return replaceSpaceByLatexSpace('');"/>
 		               &nbsp;&nbsp;&nbsp; Upload Image ->
 		               <input name="file" type="file" 
 	                           class="cloudinary-fileupload" data-cloudinary-field="image_url" 
