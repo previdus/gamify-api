@@ -44,7 +44,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 </script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>
-<script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
+<script id="mathjax" type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 <script  type="text/javascript">
 var pollGameInstance;
 var userId;
@@ -85,8 +85,10 @@ $(document).ready(function() {
  					clearInterval(pollGameInstance);	                
  					$('#backToMainRoom').submit();
  					return;
-                }				  
+                }
+                			  
 				  renderHtml(data,true);
+				  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 				});
 		 }
 	 setInterval(pollGameInstance,timeNeededToWaitBeforePollingForGame);
@@ -101,6 +103,8 @@ $(document).ready(function() {
 	 	clearInterval(pollGameInstance); 
 	 });
 
+	 
+
 });
 
 
@@ -109,6 +113,7 @@ $(document).ready(function() {
 
 
 function renderHtml(obj,fromAjax){
+	
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
 if(obj.state == "EXPIRED"){
 	alert('looks like everyone has left the game. Redirecting you to the main room');
@@ -174,7 +179,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
     if(obj.currentQuestion != null){    
 	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
 	    	
-	    	
+	    	 
 	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
 	    	
 	    	questionHtml +="<div id = \"options\"><br/>";
@@ -226,7 +231,8 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
     else{
     	$("#questionSection").html(questionHtml);
     }
-	    
+
+      
     if(!currentUserExistsInTheGame){
         alert("Sorry dude! You ain't the last man standing. Good luck next time. Redirecting you to the main room");
         clearInterval(pollGameInstance); 
@@ -241,7 +247,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
     	$('#backToMainRoom').submit();
     	return;
     }
-	
+    
 }
 
 function handleRefreshPage(obj){
@@ -315,6 +321,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 	$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
   	jQuery("input[name='option']").attr('disabled',true);  
 	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
+		
 		  renderHtml(data,true);
 	});
 	
