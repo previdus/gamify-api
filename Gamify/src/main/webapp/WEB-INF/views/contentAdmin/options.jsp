@@ -63,7 +63,7 @@
 				   return;  
 				}
 
-				replaceSpaceByLatexSpace(optionId);
+				posteEdit(optionId);
 				$("#editOptionForm"+optionId).submit();			 
 				
 			}
@@ -78,6 +78,24 @@
                  }
                 
                 return true;
+			}
+
+			function replaceNewLineByLatexVerticalSpace(id){
+                var text = $('#editableOptionText'+id).val();
+               
+                if (text.indexOf("\[") >0 && text.indexOf("\]") > 0 && text.indexOf('\n') >0){
+                    var replacedText = text.replace(/\n/g,"\\\\");
+                    $('#editableOptionText'+id).val(replacedText);
+                    
+                 }
+                
+                return true;
+			}
+
+		    function posteEdit(id){
+				replaceSpaceByLatexSpace(id);
+				replaceNewLineByLatexVerticalSpace(id);
+				return true;
 			}
 		</script>
 	</head>
@@ -114,7 +132,7 @@
 	               <a id="math_editor_link" href="javascript:void(0);"  onclick="showMathEditor();"> math editor</a>
 	               <div id="verbal_editor">
 		               <textarea id="editableOptionText" name="addOption" cols=250 rows=50></textarea><br/><br/>
-		               <input type="submit" value="save option" onclick="return replaceSpaceByLatexSpace('');"/>
+		               <input type="submit" value="save option" onclick="return posteEdit('');"/>
 		               &nbsp;&nbsp;&nbsp; Upload Image ->
 		               <input name="file" type="file" 
 	                           class="cloudinary-fileupload" data-cloudinary-field="image_url" 
