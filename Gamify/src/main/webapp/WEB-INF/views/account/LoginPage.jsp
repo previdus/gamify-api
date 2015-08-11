@@ -245,22 +245,22 @@
 				<div id="leaderboard">
 					<h2 class="heading">Leader Board!</h2>
 					<form class="custom-form">
-					<div id="leaderboardpos1"  hidden="true" >
-					    <img   src="<c:url value="/resources/images/1.jpg"/>"></img>
+					<div id="leaderboardpos1" class="leader-board" hidden="true" >
+					    <img   class="winner-image" src="<c:url value="/resources/images/1.jpg"/>"></img>
 					    <label id="leaderboardpos1name" >sjnfdjfdjdj</label>
 					</div>    
-					    <div id="leaderboardpos2" hidden="true">
-					    <img  src="<c:url value="/resources/images/2.jpg"/>" ></img>
+					    <div id="leaderboardpos2" class="leader-board" hidden="true">
+					    <img   class="winner-image" src="<c:url value="/resources/images/2.jpg"/>" ></img>
 					    
 					</div>
-					<div id="leaderboardpos3" hidden="true">    
-					    <img  src="<c:url value="/resources/images/3.jpg"/>"></img>
+					<div id="leaderboardpos3" class="leader-board" hidden="true">    
+					    <img   class="winner-image" src="<c:url value="/resources/images/3.jpg"/>"></img>
 					 </div>
-					 <div id="leaderboardpos4" hidden="true">   
-					    <img  src="<c:url value="/resources/images/4.jpg"/>" ></img>
+					 <div id="leaderboardpos4" class="leader-board" hidden="true">   
+					    <img   class="winner-image" src="<c:url value="/resources/images/4.jpg"/>" ></img>
 					 </div>
-					 <div id="leaderboardpos5"  hidden="true">   
-					    <img  src="<c:url value="/resources/images/5.jpg"/>" ></img>
+					 <div id="leaderboardpos5"  class="leader-board" hidden="true">   
+					    <img   class="winner-image" src="<c:url value="/resources/images/5.jpg"/>" ></img>
 					 </div>  
 					</form>
 					
