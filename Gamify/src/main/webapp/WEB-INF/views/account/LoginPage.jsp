@@ -228,6 +228,8 @@
 							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>
 				</form:form>
 				<br/><br/>
+				<div id="status"></div>
+				<br/><br/>
 				<div class="social-links">
 		           <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
 		           <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
