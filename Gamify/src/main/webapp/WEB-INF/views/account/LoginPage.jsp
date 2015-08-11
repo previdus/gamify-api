@@ -274,8 +274,8 @@
 				
 					<h2 class="heading">Be a member and start playing! </h2>
 					<form class="custom-form">
-						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"> Male
-						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"> Female
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"><span class = "gender"> Male</span>
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"><span class="gender"> Female</span>
 						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
 						<input id="mpassword"  type="password" placeholder="password" class="form-control inputbox clearfix">
 						<input id="cpassword" type="password" placeholder="confirm password" class="form-control inputbox pull-left">
@@ -289,7 +289,7 @@
 		</section>
     <section class="row">
       <div class="col-md-5 pull-right section-2">
-        <div class="light-bg"></div>
+        <div class="light-bg sub-headingY"></div>
         <h2 class="sub-heading">Sub-heading!</h2>
         <p class="description">
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
