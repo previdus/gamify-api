@@ -287,12 +287,54 @@
 
 			</div>
 		</section>
+		<section class="row"><br/><br/></section>
     <section class="row">
+    <div class="col-md-5 pull-left section-2">
+        <div class="light-bg sub-headingY"></div>
+        <h2 class="sub-heading">Compete!</h2>
+        <p class="description">
+         
+
+Play games against your friends and try to win. Make the learning process fun by 
+
+competing with your friends as well as those in the same class or taking the same competitive exam. 
+
+       </p>
+      </div>
+    <div class="col-md-5 pull-right section-2">
+        <div class="light-bg sub-headingY"></div>
+        <h2 class="sub-heading">Get Ranked!</h2>
+      
+
+
+Based on your performance, score more points, level up and get ranked. Show not just 
+
+yourself but also your friends how you have improved. Understand your ability on a global 
+
+competitive scale.
+
+        </p>
+      </div>
+      <div class="col-md-5 pull-left section-2">
+        <div class="light-bg sub-headingY"></div>
+        <h2 class="sub-heading">Teach!</h2>
+        <p class="description">
+          
+
+If you know a better and more efficient way to solve a problem – Teach your friends. You 
+
+learn better when you teach. There are other incentives as well
+        </p>
+      </div>
       <div class="col-md-5 pull-right section-2">
         <div class="light-bg sub-headingY"></div>
-        <h2 class="sub-heading">Sub-heading!</h2>
+        <h2 class="sub-heading">Improve in your weak areas!</h2>
         <p class="description">
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+Play specific games focused on improving your weak areas and learn from the best on 
+
+their approach to problem solving. Learn to optimise your study time.       
+
+
         </p>
       </div>
     </section>
