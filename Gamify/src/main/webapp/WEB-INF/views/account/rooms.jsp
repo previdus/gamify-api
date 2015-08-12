@@ -119,15 +119,16 @@ $(document).ready(function() {
 </form>
 </div>
         <div class="container sub-container">
+        	<br><br>
             <form:form modelAttribute="room" action="play" method="post">
-
-            <div class="span-12 last">    
+<div class="each-room">
+            <div class="span-12 last room-category">    
                 <c:out value="${room.roomName}"></c:out><br/>
 
 
                     <c:forEach var="exam" items="${room.exams}" step="1">                    
                          <input type="radio" class="exam-category" id="exam-id${exam.id}" name="exam-id" value="${exam.id}" onclick="enableCurrentDropDown(${exam.id})">
-                            <c:out value="${exam.examName}"></c:out>
+                          <label>  <c:out value="${exam.examName}"></c:out></label>
                          <select id="examSection${exam.id}" class="examSectionDropDown" style="display:none">
                          <c:forEach var="examSection" items="${exam.examSections}" step="1">
                              <option value="${examSection.id}">${examSection.name}</option>
@@ -136,7 +137,7 @@ $(document).ready(function() {
                          <br/>    <br>               
                    </c:forEach>
 
-
+</div>
                     <br>
                     <br/>
 
@@ -144,7 +145,7 @@ $(document).ready(function() {
 
             </div>
             </form:form>
-            <hr>    
+            
             </div>
 
 </html>

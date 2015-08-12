@@ -16,12 +16,32 @@ background-size: 100% auto;
   }
 
   .sub-container{
-  	    width: 1435px;
+  	    width: 1435px !important;
     height: 100%;
     background-color: white;
     opacity: 0.7;
   }
 
   .exam-category{
-  	top: 0;
+  	top: 0 !important;
   }
+
+  .last, .room-category{
+    width: 100% !important;
+    padding-left: 370px;
+  }
+  #submitForm{
+  	display: block;
+  	background-color: rgb(66,165,245);
+  }
+
+/*  .room-category{
+  	    width: 400 !important;
+  	        height: 60px;
+    background-color: #8FA1BD;
+        text-align: center;
+            margin: 1.5em 0;
+  }
+  .examSectionDropDown{
+  margin: 1.5em 0;	
+  }*/
