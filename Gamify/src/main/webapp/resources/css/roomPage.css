@@ -1,5 +1,5 @@
 #roomPage{
-background-image: url('../images/roomPage_bg.jpg');
+background-image: url('../images/PickExam.jpg');
 background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -10,13 +10,13 @@ background-size: 100% auto;
 .choose-category
 {
     padding-top: 10px;
-    color: rgb(237,89,47);
+    color: rgb(66,165,245);
     font-size: 20px;
     padding-right: 27em;
   }
 
   .sub-container{
-  	    width: 1131px;
+  	    width: 1435px;
     height: 100%;
     background-color: white;
     opacity: 0.7;
