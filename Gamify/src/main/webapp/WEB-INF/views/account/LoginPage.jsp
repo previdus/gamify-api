@@ -245,20 +245,24 @@
 					<form class="custom-form">
 					<div id="leaderboardpos1" class="leader-board" hidden="true" >
 					    <img   class="winner-image" src="<c:url value="/resources/images/1.jpg"/>"></img>
-					    <label id="leaderboardpos1name" >sjnfdjfdjdj</label>
+					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
 					</div>    
 					    <div id="leaderboardpos2" class="leader-board" hidden="true">
 					    <img   class="winner-image" src="<c:url value="/resources/images/2.jpg"/>" ></img>
+					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
 					    
 					</div>
 					<div id="leaderboardpos3" class="leader-board" hidden="true">    
 					    <img   class="winner-image" src="<c:url value="/resources/images/3.jpg"/>"></img>
+					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
 					 </div>
 					 <div id="leaderboardpos4" class="leader-board" hidden="true">   
 					    <img   class="winner-image" src="<c:url value="/resources/images/4.jpg"/>" ></img>
+					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
 					 </div>
 					 <div id="leaderboardpos5"  class="leader-board" hidden="true">   
 					    <img   class="winner-image" src="<c:url value="/resources/images/5.jpg"/>" ></img>
+					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
 					 </div>  
 					</form>
 					
