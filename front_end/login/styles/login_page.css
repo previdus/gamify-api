@@ -9,7 +9,7 @@
 }
 #login header .light-bg {
   top: 35px;
-  height: 80px;
+  height: 100%;
   z-index: -1;
 }
 

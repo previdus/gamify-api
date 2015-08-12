@@ -353,7 +353,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
           </a>
           <ul class="dropdown-menu">
             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
-            <li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>
+            <!--<li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>-->
             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
             <li role="separator" class="divider"></li>
             <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
@@ -369,7 +369,8 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 
 <div id="wrapper">
-    <div id="sidebar-wrapper">    
+    <div id="sidebar-wrapper">
+       <a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" ></i></a>
     </div>
 </div>
 <div id="page-content-wrapper">
@@ -377,15 +378,15 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 		<!-- timer -->
 		<div class="row">
 			 <div class="col-lg-12">
-			<!-- <div class="col-md-offset-2 col-md-8"> -->
+			<!-- <div class="col-md-offset-2 col-md-8">
 				<div class="timer">
 					<div class="clock-wrapper">
-					
+
 					</div>
 					<div id="timer" class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text"></div>
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 space"></div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 		<!-- /timer -->
 		<br/>

@@ -229,43 +229,41 @@
 				</form:form>
 				<br/><br/>
 				<div class="social-links">
-		           <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
-		           <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-		           <a href="javascript:void(0)"><i class="fa fa-twitter-square"></i></a>
-		           <a href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>-->
-		        </div>
+          <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
+	        <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
+	        <a href="javascript:void(0)"><i class="fa fa-twitter-square"></i></a>
+	        <a href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>-->
+        </div>
       </div>     
     </header>
     
     <section class="row">
-			<div class="col-md-5 pull-left sign-up">
-				<div class="light-bg"></div>
-				<div id="leaderboard">
+			<div class="col-md-5 pull-left sign-up" style="opacity: 0.8;">
+				<div class="light-bg" style="height: 100%;"></div>
+				<div id="leaderboard" class="">
 					<h2 class="heading">Leader Board!</h2>
 					<form class="custom-form">
-					<div id="leaderboardpos1" class="leader-board" hidden="true" >
-					    <img   class="winner-image" src="<c:url value="/resources/images/1.jpg"/>"></img>
-					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
-					</div>    
-					    <div id="leaderboardpos2" class="leader-board" hidden="true">
-					    <img   class="winner-image" src="<c:url value="/resources/images/2.jpg"/>" ></img>
-					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
-					    
-					</div>
-					<div id="leaderboardpos3" class="leader-board" hidden="true">    
-					    <img   class="winner-image" src="<c:url value="/resources/images/3.jpg"/>"></img>
-					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
-					 </div>
-					 <div id="leaderboardpos4" class="leader-board" hidden="true">   
-					    <img   class="winner-image" src="<c:url value="/resources/images/4.jpg"/>" ></img>
-					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
-					 </div>
-					 <div id="leaderboardpos5"  class="leader-board" hidden="true">   
-					    <img   class="winner-image" src="<c:url value="/resources/images/5.jpg"/>" ></img>
-					    <label class="winner-details">{{ FirstName }} won {{ 10 }} Games</label>
-					 </div>  
+						<div id="leaderboardpos1" hidden="true" style="display: block; margin-bottom: 1em;">
+  						<span class="col-md-1">1</span>
+					    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/73.jpg" style=" border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					    <span id="leaderboardpos1name">Gopal</span>
+						</div>    
+					  <div id="leaderboardpos2" hidden="true" style="display: block; margin-bottom: 1em;">
+					  	<span class="col-md-1">2</span>
+					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/sauro/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<span id="leaderboardpos2name">Kariappa</span>
+						</div>
+						<div id="leaderboardpos3" hidden="true" style="display: block; margin-bottom: 1em;">    
+					  	<span class="col-md-1">3</span>
+					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/tomaslau/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<span id="leaderboardpos3name">Ruchi</span>
+					  </div>
+					  <div id="leaderboardpos4" hidden="true" style="display: block; margin-bottom: 1em;">
+					  	<span class="col-md-1">4</span>
+					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
+					  	<span id="leaderboardpos4name">Piyush</span>
+					  </div>
 					</form>
-					
 				</div>
 
 			</div>
