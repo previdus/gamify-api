@@ -354,7 +354,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
           </a>
           <ul class="dropdown-menu">
             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
-            <!--<li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>-->
+            <li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>
             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
             <li role="separator" class="divider"></li>
             <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
@@ -371,7 +371,6 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 <div id="wrapper">
     <div id="sidebar-wrapper">
-       <a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" ></i></a>
     </div>
 </div>
 <div id="page-content-wrapper">
