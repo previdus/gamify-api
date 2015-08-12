@@ -24,6 +24,7 @@ background-size: 100% auto;
 
   .exam-category{
   	top: 0 !important;
+  	    margin: 1.5em 0 !important;
   }
 
   .last, .room-category{
@@ -35,7 +36,7 @@ background-size: 100% auto;
   	background-color: rgb(66,165,245);
   }
 
-/*  .room-category{
+  .each-room{
   	    width: 400 !important;
   	        height: 60px;
     background-color: #8FA1BD;
@@ -44,4 +45,9 @@ background-size: 100% auto;
   }
   .examSectionDropDown{
   margin: 1.5em 0;	
-  }*/
+  }
+
+label{
+	    padding-left: 10px;
+    padding-right: 15px;
+}
