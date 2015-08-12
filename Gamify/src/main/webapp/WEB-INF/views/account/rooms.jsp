@@ -2,7 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+ <link rel="stylesheet" href="<c:url value="/resources/blueprint/screen.css" />" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<c:url value="/resources/blueprint/print.css" />" type="text/css" media="print">
+        <link rel="stylesheet" href="<c:url value="/resources/css/login_page.css"/>">
+        <link rel="stylesheet" href="<c:url value="/resources/css/roomPage.css"/>">
+        <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
+            <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
+        <!--[if lt IE 8]>
+            <link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
+        <![endif]-->
+        <link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="<c:url value="/resources/js/json.min.js" /> "></script>
+         <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.11.3.min.js" />" > </script>
+	<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />" > </script>
+	
+
 <script type="text/javascript">
+var userId;
 $(document).ready(function() {
     $("#menu-toggle").click(function(e) {
           e.preventDefault();
@@ -53,18 +70,7 @@ $(document).ready(function() {
 <html>
     <head>
         <title>Choose A Exam Category</title>
-        <link rel="stylesheet" href="<c:url value="/resources/blueprint/screen.css" />" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="<c:url value="/resources/blueprint/print.css" />" type="text/css" media="print">
-        <link rel="stylesheet" href="<c:url value="/resources/css/login_page.css"/>">
-        <link rel="stylesheet" href="<c:url value="/resources/css/roomPage.css"/>">
-        <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
-            <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
-        <!--[if lt IE 8]>
-            <link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
-        <![endif]-->
-        <link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script type="text/javascript" src="<c:url value="/resources/js/json.min.js" /> "></script>
+
         <script type="text/javascript">
             function enableCurrentDropDown(examId){                
                 $(".examSectionDropDown").hide();

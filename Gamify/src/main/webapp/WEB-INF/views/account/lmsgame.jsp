@@ -26,6 +26,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/sidebar.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/login_page.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/css/page_four.css"/>">
 	
 	<!-- custom styles -->
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/page_four.css"/>">
