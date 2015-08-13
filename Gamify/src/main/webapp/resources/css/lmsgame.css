@@ -17,9 +17,8 @@
 
 #topPlayerSection{text-align:center}
 #questionSection{text-align:center;
-                    width: 50%;
-                    margin: 0 auto;
-                    height: 60vh;}
+                    width: 50%;                    
+                }
 #submitOption{margin-top:25px}
 #jsonresponse{display:none}
 .lms .logo-section h1 {
