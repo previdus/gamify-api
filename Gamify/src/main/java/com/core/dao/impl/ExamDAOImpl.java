@@ -30,7 +30,7 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 		Query query = this.getSession().createQuery("from Exam");
 		List<Exam> exams = query.list();
 		this.getSession().disableFilter(Exam.ACTIVE_EXAMS);
-		return exams;
+		return exams; 
 		//return findObjectsByKeys(Exam.class, "state", EntityStateENUM.ACTIVE.name());
 	}
 	
