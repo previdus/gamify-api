@@ -144,6 +144,9 @@ hr {
 	border: 2px solid white;
 	padding: 3em;
 	padding-bottom: 2.5em;
+	margin: 100px auto;	
+    margin-right: 300px;
+    height: 100vh;
   padding-top: 2.5em;
   color: white;
 }

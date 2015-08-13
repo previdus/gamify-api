@@ -302,8 +302,17 @@ function submitOptionWhenTimeElapsed(questionId){
 function updateTimerDiv(gameId,currentQuestionId){
 	var internalCountDown = Math.round((timeNeededToWaitBeforeAutoRespondTowrongAnswer - ($.now() - countDown))/1000);
 	if(internalCountDown > 0){
+		
            $("#timer").html(internalCountDown + " seconds remaining to respond!!");
-          // $.cookie(userId+gameId+currentQuestionId,internalCountDown);          
+          // $.cookie(userId+gameId+currentQuestionId,internalCountDown);    
+        if(internalCountDown > 10)
+		{
+			$('#timer').css({"background":"#FF9000"});
+		}
+		else
+		{
+			$('#timer').css({"background":"#FF0000"});
+		}      
           
 	}
 	else{
@@ -378,7 +387,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 		<!-- timer -->
 		<div class="row">
 			 <div class="col-lg-12">
-			<!-- <div class="col-md-offset-2 col-md-8">
+			 <div class="col-md-offset-2 col-md-8">
 				<div class="timer">
 					<div class="clock-wrapper">
 
@@ -386,7 +395,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 					<div id="timer" class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text"></div>
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 space"></div>
 				</div>
-			</div>-->
+			</div>
 		</div>
 		<!-- /timer -->
 		<br/>
