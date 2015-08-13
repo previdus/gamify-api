@@ -68,13 +68,14 @@
 			     	    	{
 			     	    	     index = +index + +1;
 			        		     var leaderboardid = "leaderboardpos" + index;
+			        		     var leaderBoardName ='#'+ leaderboardid + " #" +leaderboardid +"name";
+			        		     var leaderBoardWins ='#'+ leaderboardid + " #" +leaderboardid +"Wins";
+			        		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
 			        		     $('#' +leaderboardid).show();
-			        		     $('#' +leaderboardid + "name").add(element.totalNoOfWins);
-			                     //alert(leaderboardid);
-			                     //alert(element.totalNoOfWins);
-			                     //alert(element.user.displayName);
-			                     //alert(element.user.imageUrl);
-			    	    		   
+			        		     $(leaderBoardName).text(element.user.displayName);
+			        		     $(leaderBoardWins).text(" ( " + element.totalNoOfWins + " Wins ) ");
+			        		     if(element.user.imageUrl != null)
+			        		     	$(leaderBoardImage).attr("src",element.user.imageUrl);
 			     	    	});
 			    	}
 			    },
@@ -244,25 +245,35 @@
 				<div id="leaderboard" class="">
 					<h2 class="heading">Leader Board!</h2>
 					<form class="custom-form">
-						<div id="leaderboardpos1" hidden="true" style="display: block; margin-bottom: 1em;">
+						<div id="leaderboardpos1" hidden="true" style="display: none; margin-bottom: 1em;">
   						<span class="col-md-1">1</span>
-					    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/73.jpg" style=" border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
-					    <span id="leaderboardpos1name">Gopal</span>
+					    <img id="leaderboardpos1img" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/73.jpg" style=" border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					    <span id="leaderboardpos1name" >Gopal</span>
+					    <span id="leaderboardpos1Wins"></span>
 						</div>    
-					  <div id="leaderboardpos2" hidden="true" style="display: block; margin-bottom: 1em;">
+					  <div id="leaderboardpos2" hidden="true" style="display: none; margin-bottom: 1em;">
 					  	<span class="col-md-1">2</span>
-					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/sauro/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<img id="leaderboardpos2img" src="https://s3.amazonaws.com/uifaces/faces/twitter/sauro/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
 					  	<span id="leaderboardpos2name">Kariappa</span>
+					  	<span id="leaderboardpos2Wins"></span>
 						</div>
-						<div id="leaderboardpos3" hidden="true" style="display: block; margin-bottom: 1em;">    
+						<div id="leaderboardpos3" hidden="true" style="display: none; margin-bottom: 1em;">    
 					  	<span class="col-md-1">3</span>
-					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/tomaslau/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<img id="leaderboardpos3img" src="https://s3.amazonaws.com/uifaces/faces/twitter/tomaslau/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
 					  	<span id="leaderboardpos3name">Ruchi</span>
+					  	<span id="leaderboardpos3Wins"></span>
 					  </div>
-					  <div id="leaderboardpos4" hidden="true" style="display: block; margin-bottom: 1em;">
+					  <div id="leaderboardpos4" hidden="true" style="display: none; margin-bottom: 1em;">
 					  	<span class="col-md-1">4</span>
-					  	<img src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
+					  	<img id="leaderboardpos4img" src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
 					  	<span id="leaderboardpos4name">Piyush</span>
+					  	<span id="leaderboardpos4Wins"></span>
+					  </div>
+					  <div id="leaderboardpos5" hidden="true" style="display: none; margin-bottom: 1em;">
+					  	<span class="col-md-1">5</span>
+					  	<img id="leaderboardpos5img" src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
+					  	<span id="leaderboardpos5name">Sumit</span>
+					  	<span id="leaderboardpos5Wins"></span>
 					  </div>
 					</form>
 				</div>
