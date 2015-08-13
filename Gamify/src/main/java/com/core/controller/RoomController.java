@@ -6,12 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.core.api.controller.ApiRegistrationController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
 import com.core.manager.GameQueueManager;
@@ -20,6 +24,10 @@ import com.core.service.RoomService;
 @Controller
 @RequestMapping(value = "/rooms")
 public class RoomController {
+	
+
+	private static final Logger log = LoggerFactory
+			.getLogger(RoomController.class);
 
 	@Autowired
 	private RoomService roomService;
@@ -34,6 +42,7 @@ public class RoomController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView show(Model model, HttpServletRequest request) {
 		roomService.getRoom().setRoomName("Main Room");
+		log.info("in /rooms get request");
 		model.addAttribute(
 				"user",
 				(User) request.getSession().getAttribute(

@@ -133,7 +133,7 @@ public class Emailer {
 
 		tr.sendMessage(msg, msg.getAllRecipients());
 		tr.close();
-		System.out.println("Successfully Sent the e-mail");
+		//log.info("Successfully Sent the e-mail");
 	}
 
 	private class SMTPAuthenticator extends javax.mail.Authenticator {

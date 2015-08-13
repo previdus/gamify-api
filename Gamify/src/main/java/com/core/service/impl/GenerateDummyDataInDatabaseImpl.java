@@ -108,7 +108,7 @@ public class GenerateDummyDataInDatabaseImpl implements
 			try {
 				userDAO.saveNew(createUser(i));
 			} catch (Exception ex) {
-				System.out.println("Cannot Create Mock Users " + ex);
+				//log.info("Cannot Create Mock Users " + ex);
 			}
 		}
 	}

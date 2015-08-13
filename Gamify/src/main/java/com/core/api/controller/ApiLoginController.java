@@ -2,24 +2,33 @@ package com.core.api.controller;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.core.api.beans.ApiResult;
+import com.core.controller.LoginController;
 import com.core.domain.User;
 import com.core.manager.UserManager;
 import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
 import com.core.util.GenericUtil;
+
 import emailTemplates.EmailNotificationSender;
 
 @Controller
 @RequestMapping(value = "/api/login")
 public class ApiLoginController {
+	
+	private static final Logger log = LoggerFactory
+			.getLogger(ApiLoginController.class);
 
 	@Autowired
 	private RoomService roomService;
@@ -73,7 +82,9 @@ public class ApiLoginController {
 
 		User userFromRepository = userService.getUserByFacebookId(facebookId);
 		if (userFromRepository == null) {
+			log.info("before querying user by facebookEmail");
 			userFromRepository = userService.getUserByEmail(facebookEmail);
+			log.info("after querying user by facebookEmail");
 			if (userFromRepository != null) {
 				userFromRepository.setFacebookId(facebookId);
 				userService.saveUser(userFromRepository);
@@ -83,12 +94,15 @@ public class ApiLoginController {
 			return loginPost(userFromRepository.getName(),
 					userFromRepository.getPwd());
 		} else {
+			log.info("before generating temp password");
 			String tempPassword = GenericUtil
 					.generateTemporaryPasswordBasedOnUserName(facebookName);
+			log.info("before registering user");
 			ApiResult apr = apiRegistrationController.registerPost(
 					facebookEmail, tempPassword, facebookEmail,"", facebookName,
 					gender, facebookId);
 			if (apr.getStatus() == 1) {
+				log.info("successfully created user with his facebook credentials");
 				List<String> recepients = new LinkedList<String>();
 				recepients.add(facebookEmail);
 				String emailBody = "You have been assigned a temporary user id and password to login. You can change these later from the edit profile page of our application Your user Id is "
@@ -104,6 +118,7 @@ public class ApiLoginController {
 						+ facebookEmail
 						+ " with the details. " + apr.getMessage());
 			} else {
+				log.info("failed to  create user with his facebook credentials");
 				apr.setMessage("Unable to use your facebook credentials to auto register to our application. "
 						+ apr.getMessage());
 			}

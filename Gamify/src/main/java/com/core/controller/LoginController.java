@@ -91,7 +91,7 @@ public class LoginController {
 				response.sendRedirect("rooms");
 				// return new ModelAndView("account/rooms");
 			} catch (IOException ioe) {
-				System.out.println("Exception while redirecting to rooms "
+				log.info("Exception while redirecting to rooms "
 						+ ioe);
 			}
 			return null;
@@ -124,12 +124,14 @@ public class LoginController {
 						apiResult);
 
 				response.sendRedirect("rooms");
-				return null;
+				
 
 			}
+			
 			// return new ModelAndView("account/rooms");
+			return null;
 		} catch (Exception ioe) {
-			System.out.println("Exception while redirecting to rooms " + ioe);
+			log.info("Exception while redirecting to rooms " + ioe);
 		}
 		return modelAndView;
 	}

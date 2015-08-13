@@ -220,7 +220,7 @@ public class GameStub {
 		exams.add(exam);
 
 		room.setExams(exams);
-		// System.out.println("completely done loading static maps in GameStub");
+		// log.info("completely done loading static maps in GameStub");
 	}
 
 	public static List<Exam> getExams() {
@@ -300,7 +300,7 @@ public class GameStub {
 			question.setQuestionText("Question" + QUESTION_COUNT++);
 			question.setTopic(topic);
 			List<Option> options = new ArrayList<Option>();
-			// System.out.println("before option_count loop");
+			// log.info("before option_count loop");
 			for (long i = OPTION_COUNT; i < OPTION_COUNT + 5; i++) {
 				Option option = new Option(i);
 				option.setText("option" + i);
@@ -326,7 +326,7 @@ public class GameStub {
 		user.setName("lastmanstanding" + i++);
 		user.setPwd("lms");
 		usersMapForlogin.put(user.getName(), user);
-		// System.out.println("user.getId():"+
+		// log.info("user.getId():"+
 		// usersMapForlogin.get(user.getName()).getId());
 		users.put(user.getId(), user);
 	}

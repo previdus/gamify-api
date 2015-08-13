@@ -127,7 +127,7 @@ public class LmsGameController {
 	public ModelAndView selectRoom(
 			@RequestParam("examSection") String examSection,
 			HttpServletRequest request, Model model) {
-		// System.out.println("examSection in selectRoom method is:"+examSection);
+		// log.info("examSection in selectRoom method is:"+examSection);
 
 		GameInstance gi = null;
 		if (examSection != null && examSection.length() > 0) {

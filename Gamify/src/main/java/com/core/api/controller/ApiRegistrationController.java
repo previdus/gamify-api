@@ -3,6 +3,9 @@ package com.core.api.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,10 @@ import emailTemplates.EmailNotificationSender;
 @Controller
 @RequestMapping(value = "/api/register")
 public class ApiRegistrationController {
+	
+	private static final Logger log = LoggerFactory
+			.getLogger(ApiRegistrationController.class);
+
 
 	@Autowired
 	private UserService userService;
@@ -46,26 +53,36 @@ public class ApiRegistrationController {
 			@RequestParam(value="facebookId", required = false) String facebookId) {
 
 		// validation
+		log.info("before validating all fields before registering");
+		log.info(userName);
+		log.info(password);
+		log.info(email);
+		log.info(parentsEmail);
+		log.info(displayName);
+		log.info(gender);
+		log.info(facebookId);
 		
 		// email format validation
-				if (!validator.emailValidate(parentsEmail)) {
-
-					return createApiResult(-1, "invalid parents email format");
-				}
+		if (!StringUtils.isEmpty(parentsEmail) && !validator.emailValidate(parentsEmail)) {
+			log.info("invalid parents email format");
+			return createApiResult(-1, "invalid parents email format");
+		}
 		// email format validation
 		if (!validator.emailValidate(email)) {
 
+			log.info("invalid email format");
 			return createApiResult(-1, "invalid email format");
 		}
 		// username format validation
 		if (!validator.userNameValidate(userName)) {
 
+            log.info( "invalid userName format");			
 			return createApiResult(-1, "invalid userName format");
 		}
 
 		// password format validation
 		if (!validator.passwordValidate(password)) {
-
+			 log.info( "invalid password format. Your password must contain 6 to 20 characters");
 			return createApiResult(-1,
 					"invalid password format. Your password must contain 6 to 20 characters");
 		}
@@ -73,23 +90,36 @@ public class ApiRegistrationController {
 		// email already exists validation
 		if (userService.getUserByEmail(email) != null) {
 
+			log.info("the email address seems to be already registered in the system");
 			return createApiResult(-1,
 					"the email address seems to be already registered in the system");
 		}
 		// username already exists validation
 		if (userService.getUserByName(userName) != null) {
 
+			log.info("the userName seems to be already registered in the system");
 			return createApiResult(-1,
 					"the userName seems to be already registered in the system");
 		}
+		log.info("after validating all fields before registering");
 		// end validation
 		String imageUrl = (facebookId != null && facebookId.trim().length() > 0)? GenericUtil.generateFacebookProfileSmallImageUrl(facebookId):"";
 
+		log.info("imageUrl is:"+imageUrl);
 		User user = new User(userName, password, email, displayName,
 				resolveGender(gender), facebookId,imageUrl);
-		user = userService.saveUser(user);
+		try{
+			log.info("before saving/registering user");
+		    user = userService.saveUser(user);
+		    log.info("after saving/registering user");
+		}
+		catch(Exception ex){
+			log.info(ex.getMessage());
+		}
+		
 		// null check
 		if (user == null) {
+			log.info("unable to save/register user");
 			return createApiResult(-1,
 					"there was a problem registering the user");
 		}

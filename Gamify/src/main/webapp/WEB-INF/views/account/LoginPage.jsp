@@ -170,8 +170,9 @@
 		        var form = document.createElement("form");
 		        form.setAttribute("id","facebookForm");
 		        form.setAttribute("method", method);
+		        console.log("method is : "+method);
 		        form.setAttribute("action", path);
-
+		        console.log("action is : "+path);
 		        for(var key in params) {
 		            if(params.hasOwnProperty(key)) {
 		                var hiddenField = document.createElement("input");
@@ -183,6 +184,7 @@
 		             }
 		        }
 
+		        console.log("before form submit");
 		        document.body.appendChild(form);
 		        console.log(form);
 		        form.submit();
