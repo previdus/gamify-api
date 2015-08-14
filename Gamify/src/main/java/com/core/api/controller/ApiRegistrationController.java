@@ -54,38 +54,41 @@ public class ApiRegistrationController {
 
 		// validation
 		log.info("before validating all fields before registering");
-		log.info(userName);
-		log.info(password);
+		log.info(userName);		
 		log.info(email);
 		log.info(parentsEmail);
 		log.info(displayName);
 		log.info(gender);
 		log.info(facebookId);
+		//only validate these if not coming from facebook
+		if(StringUtils.isEmpty(facebookId))
+		{
 		
-		// email format validation
-		if (!StringUtils.isEmpty(parentsEmail) && !validator.emailValidate(parentsEmail)) {
-			log.info("invalid parents email format");
-			return createApiResult(-1, "invalid parents email format");
-		}
-		// email format validation
-		if (!validator.emailValidate(email)) {
-
-			log.info("invalid email format");
-			return createApiResult(-1, "invalid email format");
-		}
-		// username format validation
-		if (!validator.userNameValidate(userName)) {
-
-            log.info( "invalid userName format");			
-			return createApiResult(-1, "invalid userName format");
-		}
-
-		// password format validation
-		if (!validator.passwordValidate(password)) {
-			 log.info( "invalid password format. Your password must contain 6 to 20 characters");
-			return createApiResult(-1,
-					"invalid password format. Your password must contain 6 to 20 characters");
-		}
+				// email format validation
+				if (!StringUtils.isEmpty(parentsEmail) && !validator.emailValidate(parentsEmail)) {
+					log.info("invalid parents email format");
+					return createApiResult(-1, "invalid parents email format");
+				}
+				// email format validation
+				if (!validator.emailValidate(email)) {
+		
+					log.info("invalid email format");
+					return createApiResult(-1, "invalid email format");
+				}
+				// username format validation
+				if (!validator.userNameValidate(userName)) {
+		
+		            log.info( "invalid userName format");			
+					return createApiResult(-1, "invalid userName format");
+				}
+		
+				// password format validation
+				if (!validator.passwordValidate(password)) {
+					 log.info( "invalid password format. Your password must contain 6 to 20 characters");
+					return createApiResult(-1,
+							"invalid password format. Your password must contain 6 to 20 characters");
+				}
+	    }
 
 		// email already exists validation
 		if (userService.getUserByEmail(email) != null) {
