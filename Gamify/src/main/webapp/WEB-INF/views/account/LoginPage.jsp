@@ -159,7 +159,7 @@
 		    FB.api('/me', function(response) {
 		      console.log('Successful login for: ' + response.name);
 		      document.getElementById('status').innerHTML =
-		        'Or you can login using your facebook, ' + response.name ;
+		        'logging you in using your facebook username: ' + response.name ;
 
 		      post(getApplicationParameters('facebookLoginApiPath'), {facebookName: response.name, facebookEmail: response.email, facebookId: response.id, gender: response.gender });
 
