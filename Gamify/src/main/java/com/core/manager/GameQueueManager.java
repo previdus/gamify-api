@@ -150,13 +150,15 @@ public class GameQueueManager {
 
 	public static synchronized void removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(
 			User user) {
-		GameInstance gi = playerGameMap.get(user.getId());
-		if (gi != null) {
-			gi.removePlayer(user);
-			playerGameMap.remove(user.getId());
+		if(user != null){
+			GameInstance gi = playerGameMap.get(user.getId());
+			if (gi != null) {
+				gi.removePlayer(user);
+				playerGameMap.remove(user.getId());
+			}
+	
+			log.info("The userId removed is:" + user.getId());
 		}
-
-		log.info("The userId removed is:" + user.getId());
 	}
 
 	public static synchronized GameInstance recordPlayerResponseToQuestion(
