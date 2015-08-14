@@ -481,10 +481,12 @@ public class ThreadManager {
 					log.info("the state of the game is:"
 							+ gi.getState().toString());
 					for (Player player : gi.getPlayers().values()) {
-						log.info(" **************the number of lifes for player with id:"
-								+ player.getUser().getId()
-								+ " is :"
-								+ player.getNoOfLife());
+						if(player != null && player.getUser() != null){
+							log.info(" **************the number of lifes for player with id:"
+									+ player.getUser().getId()
+									+ " is :"
+									+ player.getNoOfLife());
+						}
 					}
 				}
 
