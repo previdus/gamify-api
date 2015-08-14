@@ -70,7 +70,7 @@ public class LoginController {
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("account/LoginPage");
+		
 		if (userFromView.getName().equals("mock")) {
 			generateDummyDataInDatabase.generateData();
 		}
@@ -89,14 +89,15 @@ public class LoginController {
 						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT,
 						apiResult);
 				response.sendRedirect("rooms");
-				// return new ModelAndView("account/rooms");
+				
 			} catch (IOException ioe) {
 				log.info("Exception while redirecting to rooms "
 						+ ioe);
 			}
-			return null;
+			
 		}
-		return modelAndView;
+		return null;
+		
 	}
 
 	@RequestMapping(value = "/facebookLogin", method = RequestMethod.POST)
@@ -106,7 +107,7 @@ public class LoginController {
 			@RequestParam("facebookId") String facebookId,
 			@RequestParam("gender") String gender, HttpServletRequest request,
 			HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("account/LoginPage");
+		
 		log.info("facebookName:" + facebookName);
 		log.info("facebookEmail:" + facebookEmail);
 		log.info("facebookId::" + facebookId);
@@ -128,11 +129,11 @@ public class LoginController {
 
 			}
 			
-			// return new ModelAndView("account/rooms");
-			return null;
+		
+			
 		} catch (Exception ioe) {
 			log.info("Exception while redirecting to rooms " + ioe);
 		}
-		return modelAndView;
+		return null;
 	}
 }
