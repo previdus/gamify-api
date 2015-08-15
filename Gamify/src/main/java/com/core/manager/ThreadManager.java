@@ -436,38 +436,38 @@ public class ThreadManager {
 				// new games
 				log.info("New games");
 				for (Long examSectionId : GameQueueManager.newGames.keySet()) {
-					System.out.print(examSectionId + ",");
+					log.info(examSectionId + ",");
 				}
 
 				// waiting games
 				log.info("waiting games");
 				for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
 						.keySet()) {
-					System.out.print(examSectionId + ",");
+					log.info(examSectionId + ",");
 				}
 
 				// ready games
 				log.info("ready games");
 				for (Long examSectionId : GameQueueManager.readyGames.keySet()) {
-					System.out.print(examSectionId + ",");
+					log.info(examSectionId + ",");
 				}
 				// ongoing games
 				log.info("Ongoing games");
 				for (Long gameInstanceId : GameQueueManager.ongoingGames
 						.keySet()) {
-					System.out.print(gameInstanceId + ",");
+					log.info(gameInstanceId + ",");
 				}
 				// finished games
 				log.info("finished games");
 				for (Long gameInstanceId : GameQueueManager.finishedGames
 						.keySet()) {
-					System.out.print(gameInstanceId + ",");
+					log.info(gameInstanceId + ",");
 				}
 				// expired games
 				log.info("Expired games");
 				for (Long gameInstanceId : GameQueueManager.expriredGames
 						.keySet()) {
-					System.out.print(gameInstanceId + ",");
+					log.info(gameInstanceId + ",");
 				}
 				// playerMap queue
 

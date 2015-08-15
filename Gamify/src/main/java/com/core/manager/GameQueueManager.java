@@ -229,62 +229,10 @@ public class GameQueueManager {
 					.getPlayerResponsesToCurrentQuestion().size()) {
 				manageLife(gi);
 				log.info("debug 8");
-				/*
-				 * Map<Long, PlayerResponseLog> prlLog = gi
-				 * .getPlayerResponsesToCurrentQuestion();
-				 * List<PlayerResponseLog> questionWinnerList = new
-				 * ArrayList<PlayerResponseLog>(); for (Long userId :
-				 * prlLog.keySet()) { PlayerResponseLog prl =
-				 * prlLog.get(userId); if (answerKeyService.isCorrectAnswer(gi
-				 * .getCurrentQuestion().getId(), prl.getResponse())) {
-				 * questionWinnerList.add(prl); } else { gi.getPlayers()
-				 * .get(userId) .setNoOfLife( gi.getPlayers().get(userId)
-				 * .getNoOfLife() - 1); if
-				 * (gi.getPlayers().get(userId).getNoOfLife() <= 0) {
-				 * gi.removePlayer(new User(userId)); } } }
-				 */
-
-				/*
-				 * if(gi.getPlayers().size() < 2){ log.info(
-				 * "debug Game Done 99999999999999999999999999999999999999999999999999999999999999999998"
-				 * ); QuestionManager.savePreviousQuestionLog(gi);
-				 * gi.setStateToDone();
-				 * GameQueueManager.finishedGames.put(gi.getId(), gi);
-				 * GameQueueManager.ongoingGames.remove(gi.getId()); return; }
-				 */
-				log.info("debug 9");
-				// Long winningPlayerId = null;
-				/*
-				 * if (questionWinnerList.size() > 0) {
-				 * 
-				 * Collections.sort(questionWinnerList); winningPlayerId =
-				 * questionWinnerList.get(0).getPlayer() .getUser().getId(); for
-				 * (PlayerResponseLog playerResponseLog : questionWinnerList) {
-				 * Player winningPlayerCandidate = playerResponseLog
-				 * .getPlayer(); if (!winningPlayerCandidate.getUser().getId()
-				 * .equals(winningPlayerId)) {
-				 * 
-				 * winningPlayerCandidate .setNoOfLife(winningPlayerCandidate
-				 * .getNoOfLife() - 1);
-				 * 
-				 * if (winningPlayerCandidate.getNoOfLife() <= 0) {
-				 * 
-				 * gi.removePlayer(winningPlayerCandidate .getUser()); //
-				 * GameQueueManager
-				 * .playerGameMap.remove(winningPlayerCandidate.getUser
-				 * ().getId()); } } else {
-				 * gi.setCurrentQuestionWinner(winningPlayerCandidate
-				 * .getUser());
-				 * gi.setBestTimeForCurrentQuestion(playerResponseLog
-				 * .getTimeTakenToAnswer());
-				 * 
-				 * } } }
-				 */
-
-				log.info("debug 10");
-
-				if (gi.getPlayers().size() < 2) {
-					log.info("debug Game Done 99999999999999999999999999999999999999999999999999999999999999999998");
+				
+				
+				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
+					log.info("debug Game Done !!!");
 					QuestionManager.savePreviousQuestionLog(gi);
 					gi.setStateToDone();
 					gi.markGameWinner();
