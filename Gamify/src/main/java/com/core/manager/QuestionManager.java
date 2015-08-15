@@ -21,7 +21,7 @@ import com.core.service.QuestionService;
 @Component
 public class QuestionManager {
 
-	private static Random r = new Random();
+	private static Random random = new Random();
 
 	private static final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
@@ -119,11 +119,11 @@ public class QuestionManager {
 			Question newCurrentQuestion = null;
 			if (gi.getCurrentQuestion() == null) {
 
-				gi.setCurrentQuestion(questions.get(r.nextInt(questions.size())));
+				gi.setCurrentQuestion(questions.get(random.nextInt(questions.size())));
 			} else {
 
 				while (true) {
-					newCurrentQuestion = questions.get(r.nextInt(questions
+					newCurrentQuestion = questions.get(random.nextInt(questions
 							.size()));
 					if (!newCurrentQuestion.getId().equals(
 							gi.getCurrentQuestion().getId())) {
