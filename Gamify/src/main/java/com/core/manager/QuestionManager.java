@@ -88,32 +88,16 @@ public class QuestionManager {
 
 		List<Question> questions = gi.fetchPreLoadedQuestions();
 
-		if (questions == null || questions.size() == 0) {
-			questions = new ArrayList<Question>();
-			log.info("***************ENTERED - attachQuestionToGameInstance() - Loading Questions from DB ***************");
-			try {
-				for (Topic topic : topics) {
-					List<Question> thisTopicQuestions = null;
-					try {
-						thisTopicQuestions = questionService
-								.getQuestions(topic);
-					} catch (Exception q) {
-						q.printStackTrace();
-					}
-					if (thisTopicQuestions != null
-							&& thisTopicQuestions.size() > 0) {
+		questions = fetchQuestionsIfEmpty(topics, questions);
+		attachNextQuestionToGameInstanceFromPrefetchedQuestions(gi, questions);
 
-						questions.addAll(thisTopicQuestions);
-					}
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
+	}
+
+	private static void attachNextQuestionToGameInstanceFromPrefetchedQuestions(
+			GameInstance gi, List<Question> questions) {
 		if (questions.size() > 0) {
 			log.info("*************** Attaching ***************");
 			gi.setPreLoadedQuestions(questions);
-
 			gi.getPlayerResponsesToCurrentQuestion().clear();
 
 			Question newCurrentQuestion = null;
@@ -138,7 +122,33 @@ public class QuestionManager {
 			}
 
 		}
+	}
 
+	private static List<Question> fetchQuestionsIfEmpty(List<Topic> topics,
+			List<Question> questions) {
+		if (questions == null || questions.size() == 0) {
+			questions = new ArrayList<Question>();
+			log.info("***************ENTERED - attachQuestionToGameInstance() - Loading Questions from DB ***************");
+			try {
+				for (Topic topic : topics) {
+					List<Question> thisTopicQuestions = null;
+					try {
+						thisTopicQuestions = questionService
+								.getQuestions(topic);
+					} catch (Exception q) {
+						q.printStackTrace();
+					}
+					if (thisTopicQuestions != null
+							&& thisTopicQuestions.size() > 0) {
+
+						questions.addAll(thisTopicQuestions);
+					}
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return questions;
 	}
 
 }
