@@ -22,14 +22,15 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "exam_section")
 @Proxy(lazy=false)
-@FilterDef(name = ExamSection.ACTIVE_EXAM_SECTIONS)
+@FilterDef(name = ExamSection.ACTIVE_EXAM_SECTIONS,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
 @Filters( {
-    @Filter(name=ExamSection.ACTIVE_EXAM_SECTIONS, condition="state = 'ACTIVE'")
+    @Filter(name=ExamSection.ACTIVE_EXAM_SECTIONS, condition="state = :state")
    
 } )
 public class ExamSection implements Serializable {
@@ -41,7 +42,7 @@ public class ExamSection implements Serializable {
 	private String name;
 
 
-	
+	@Filter(name=Topic.TOPIC_FILTER, condition="state = :state")
 	@OneToMany(mappedBy="examSection", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)	
 	private List<Topic> topics;

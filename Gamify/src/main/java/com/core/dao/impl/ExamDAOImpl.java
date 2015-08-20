@@ -1,20 +1,19 @@
 package com.core.dao.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
 import org.hibernate.Filter;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
-
 import com.core.constants.EntityStateENUM;
 import com.core.dao.ExamDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.lms.Exam;
+import com.core.domain.lms.ExamSection;
+import com.core.domain.lms.Topic;
 
 @Repository("examDAO")
 
@@ -30,12 +29,84 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 		Query query = this.getSession().createQuery("from Exam");
 		List<Exam> exams = query.list();
 		this.getSession().disableFilter(Exam.ACTIVE_EXAMS);
-		return exams; 
+		return exams;
 		//return findObjectsByKeys(Exam.class, "state", EntityStateENUM.ACTIVE.name());
 	}
 	
 	public List<Exam> findInActiveExams(){
 		return findObjectsByKeys(Exam.class, "state", EntityStateENUM.INACTIVE.name());
+	}
+	
+	public List<Exam> findAllActiveExams(){
+
+		List<Exam> exams = new ArrayList<Exam>();
+		try{
+
+			Session session = this.getSession();
+			Transaction transaction =  session.beginTransaction();
+
+			Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
+			filter.setParameter("state", "ACTIVE");
+			
+			Filter sectionFilter = session.enableFilter(ExamSection.ACTIVE_EXAM_SECTIONS);
+			sectionFilter.setParameter("state", "ACTIVE");
+			
+			Filter topicFilter = session.enableFilter(Topic.TOPIC_FILTER);
+			topicFilter.setParameter("state", "ACTIVE");
+			
+			exams = session.createCriteria(Exam.class).list(); 
+			
+
+			//System.out.println("ACTIVE Exams :------------------------------------------------------- " + exams.size());
+			transaction.commit();
+			session.disableFilter(Exam.ACTIVE_EXAMS);
+			session.disableFilter(ExamSection.ACTIVE_EXAM_SECTIONS);
+			session.disableFilter(Topic.TOPIC_FILTER);
+			
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return exams;
+		}
+
+		return exams;
+	}
+	
+	public List<Exam> findExamByState(String examState,String examSectionState,String topicState){
+		
+		List<Exam> exams = new ArrayList<Exam>();
+		
+		try{
+			
+			Session session = this.getSession();
+			Transaction transaction =  session.beginTransaction();
+
+			Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
+			filter.setParameter("state", examState);
+			
+			Filter sectionFilter = session.enableFilter(ExamSection.ACTIVE_EXAM_SECTIONS);
+			sectionFilter.setParameter("state", examSectionState);
+			
+			Filter topicFilter = session.enableFilter(Topic.TOPIC_FILTER);
+			topicFilter.setParameter("state", topicState);
+			
+			exams = session.createCriteria(Exam.class).list(); 
+			
+
+			System.out.println("ACTIVE Exams : " + exams);
+			transaction.commit();
+			session.disableFilter(Exam.ACTIVE_EXAMS);
+			session.disableFilter(ExamSection.ACTIVE_EXAM_SECTIONS);
+			session.disableFilter(Topic.TOPIC_FILTER);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return exams; 
+		}
+		
+		
+		return exams;
 	}
 
 }

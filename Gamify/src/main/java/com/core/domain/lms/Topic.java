@@ -12,12 +12,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "topic")
 @Proxy(lazy=false)
+@FilterDef(name = Topic.TOPIC_FILTER,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
+@Filters( {
+@Filter(name=Topic.TOPIC_FILTER, condition="state = :state")
+} )
 public class Topic implements Serializable {
+	
+	public static final String TOPIC_FILTER = "topicStateFilter";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

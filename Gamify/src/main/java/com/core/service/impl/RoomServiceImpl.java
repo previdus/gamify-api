@@ -22,8 +22,10 @@ public class RoomServiceImpl implements RoomService {
 	public Room getRoom() {
 		Room room = new Room();
 		
-		room.setExams(examDAO.findActiveExams());
-		return room;
+		//	examDAO.findExamByState();
+			System.out.println("Finding room by state");
+			room.setExams(examDAO.findAllActiveExams());
+			return room;
 	}
 	
 	@Cacheable(cacheName = "room_all")

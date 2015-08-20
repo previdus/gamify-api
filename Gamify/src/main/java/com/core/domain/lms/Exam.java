@@ -2,7 +2,6 @@ package com.core.domain.lms;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Filter;
@@ -24,13 +22,16 @@ import org.hibernate.annotations.Proxy;
 
 import com.core.constants.EntityStateENUM;
 
+
+/**/
+
+
 @Entity
 @Table(name="exam")
 @Proxy(lazy=false)
-@FilterDef(name = Exam.ACTIVE_EXAMS,  parameters = @ParamDef(name = "activeState", type = "java.lang.String"))
+@FilterDef(name = Exam.ACTIVE_EXAMS,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
 @Filters( {
-    @Filter(name=Exam.ACTIVE_EXAMS, condition="state = :activeState")
-   
+@Filter(name=Exam.ACTIVE_EXAMS, condition="state = :state")
 } )
 public class Exam  implements Serializable{
 	public static final String ACTIVE_EXAMS = "activeExamsFilter";
@@ -49,6 +50,7 @@ public class Exam  implements Serializable{
 	private String state;
 	
 	
+	@Filter(name=ExamSection.ACTIVE_EXAM_SECTIONS, condition="state = :state")
 	@OneToMany(mappedBy="exam", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)	
 	private List<ExamSection> examSections;
@@ -116,5 +118,24 @@ public class Exam  implements Serializable{
 	public void setExamSections(List<ExamSection> examSections) {
 		this.examSections = examSections;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Exam [id=");
+		builder.append(id);
+		builder.append(", examName=");
+		builder.append(examName);
+		builder.append(", examImageName=");
+		builder.append(examImageName);
+		builder.append(", state=");
+		builder.append(state);
+		builder.append(", examSections=");
+		builder.append(examSections);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 
 }
