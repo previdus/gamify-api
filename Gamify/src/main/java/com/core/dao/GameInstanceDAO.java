@@ -10,6 +10,6 @@ import com.core.domain.knockout.GameInstance;
 public interface GameInstanceDAO extends
 		GenericRepository<GameInstance, Serializable> {
 	
-	public List<TotalNumberOfGameWonByAUser> getTopFivePersonWhoWonMaxGames();
+	public List<TotalNumberOfGameWonByAUser> getTopPersonWhoWonMaxGames(Integer numOfTopPlayersToShow);
 
 }

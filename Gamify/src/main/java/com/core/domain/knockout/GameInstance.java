@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OrderBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,13 +67,14 @@ public class GameInstance implements Serializable {
 	@Column(name = "state")
 	private GAME_STATE state;
 
-	private transient Map<Long, Player> looserPlayers = new HashMap<Long, Player>();
+	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "winner_user_id")
 	private User gameWinner;
 
 	@OneToMany(mappedBy = "gameInstance", cascade = { javax.persistence.CascadeType.ALL })
+	@OrderBy(clause = "noOfLife desc")
 	private Map<Long, Player> players = new HashMap<Long, Player>();
 
 	@OneToMany(mappedBy = "gameInstance", cascade = { javax.persistence.CascadeType.ALL })
@@ -98,11 +100,11 @@ public class GameInstance implements Serializable {
 	}
 
 	public Map<Long, Player> getLooserPlayers() {
-		return looserPlayers;
+		return losingPlayers;
 	}
 
 	public void setLooserPlayers(Map<Long, Player> looserPlayers) {
-		this.looserPlayers = looserPlayers;
+		this.losingPlayers = looserPlayers;
 	}
 
 	public void incrementPollCountForPlayer(Long userId) {
@@ -133,14 +135,14 @@ public class GameInstance implements Serializable {
 		System.out
 				.println("Looser Player *************************************"
 						+ user.getId());
-		looserPlayers.put(user.getId(), this.players.get(user.getId()));
+		losingPlayers.put(user.getId(), this.players.get(user.getId()));
 		this.players.remove(user.getId());
 	}
 
 	public void removePlayers(List<Long> userIds) {
 		if (userIds != null) {
 			for (long userId : userIds) {
-				looserPlayers.put(userId, this.players.get(userId));
+				losingPlayers.put(userId, this.players.get(userId));
 				this.players.remove(userId);
 			}
 		}

@@ -18,9 +18,9 @@ public class GameInstanceDAOImpl extends
 		HibernateGenericRepository<GameInstance, Serializable> implements
 		GameInstanceDAO {
 	
-	public List<TotalNumberOfGameWonByAUser> getTopFivePersonWhoWonMaxGames() {
+	public List<TotalNumberOfGameWonByAUser> getTopPersonWhoWonMaxGames(Integer numOfTopPlayersToShow) {
 		Query query = getSession().createQuery(
-				" select gameWinner as winner, count(*) as noOfWins from GameInstance gi where gi.gameWinner is not null group by gi.gameWinner order by noOfWins desc  limit 5");
+				" select gameWinner as winner, count(*) as noOfWins from GameInstance gi where gi.gameWinner is not null group by gi.gameWinner order by noOfWins desc  limit "+numOfTopPlayersToShow);
 		List<Object[]> listResult = query.list();
 		 List<TotalNumberOfGameWonByAUser> winningUsers = new LinkedList<TotalNumberOfGameWonByAUser>();
 		for (Object[] aRow : listResult) {

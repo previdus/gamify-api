@@ -6,9 +6,11 @@ public class GameConstants {
 	public static final String SESSION_VARIABLE_LOGGEDIN_USER_RESULT = "loggedInUserResult";
 
 	public static Long GAME_INSTANCE_ID = 1L;
-	public final static short NUM_OF_LIVES = 3;
+	public final static short NUM_OF_LIVES = 5;
 	public final static short MINIMUM_NUM_OF_PLAYERS_NEEDED = 2;
 	public final static short MAXIMUM_NUM_OF_PLAYERS_NEEDED = 5;
+	
+	public static final Integer NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD = 5;
 
 	public static enum GAME_DIFFICULTY_LEVEL {
 		EASY, MEDIIUM, HARD
