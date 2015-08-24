@@ -133,28 +133,31 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 	 
 	 var playerCount = 0;
      var currentUserExistsInTheGame = false;
-     
+     var currentUserClass = "";
  	  	$(obj.players).each(function(index , element) {
  	 	 
  		$.each(element, function(index1, element1) 
  		 {
- 	 		 if(element1.user.id == userId){
+ 	 		 if(element1.user.id == userId)
+ 	 	 	 {
  	 			currentUserExistsInTheGame = true;
- 	 			
- 	 	 	  }
- 	 		 
-        playerCount++; 
-          
+ 	 			currentUserClass = "highlight-current-user ";
+ 	 	 	 }
+ 	 		 else{
+ 	 			currentUserClass = "";
+ 	 	 		 }
+ 	 		 		 
+        playerCount++;  
           
 
         playerHtml += "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
 
-          "<li class=\"sidebar-user-info col-md-12\">"+
+          "<li class=\""+currentUserClass+"sidebar-user-info col-md-12\">"+
               "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
               	"<i class=\"glyphicon glyphicon-user\"></i>"+
               "</div>"+
               "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
-              	"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+
+	  	 		"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+              	
               "</div>"+
               "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
               	"<i class=\"glyphicon glyphicon-heart\"></i>"+
