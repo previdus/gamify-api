@@ -242,8 +242,8 @@
     </header>
     
     <section class="row">
-			<div class="col-md-5 pull-left sign-up" style="opacity: 0.8;">
-				<div class="light-bg" style="height: 100%;"></div>
+			<div class="col-md-5 pull-left sign-up">
+				<div class="light-bg"></div>
 				<div id="leaderboard" class="">
 					<h2 class="heading">Leader Board!</h2>
 					<form class="custom-form">
