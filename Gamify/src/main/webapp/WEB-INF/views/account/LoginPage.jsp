@@ -18,7 +18,7 @@
 		<script>
 		function signup(){
 			var userName = $( "#userName" ).val();
-			var memberName = $( "#memberName" ).val();
+			var memberName = $( "#memberFullName" ).val();
 			var memberEmail = $( "#memberEmail" ).val();
 			var parentsEmail = $( "#parentsEmail" ).val();
 			var mpassword = $( "#mpassword" ).val();
@@ -288,6 +288,7 @@
 				
 					<h2 class="heading">Become a member and start playing! </h2>
 					<form class="custom-form">
+					<input id="memberFullName" type="text" placeholder="Your Full Name" class="form-control inputbox clearfix">
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"><span class = "gender"> Male</span>
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"><span class="gender"> Female</span>
 						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
