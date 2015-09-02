@@ -32,6 +32,7 @@
 /****** Sign up *****/
 .sign-up, .section-2 {
   padding: 10px 30px 30px;
+  opacity: 0.8;
 }
 .sign-up .light-bg, .section-2 .light-bg {
   width: 100%;

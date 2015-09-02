@@ -15,8 +15,8 @@ public class LeaderBoardServiceImpl implements LeaderBoardService{
 	@Autowired
 	GameInstanceDAO gameInstanceDAO;
 	
-	public List<TotalNumberOfGameWonByAUser> getTopFivePersonWhoWonMaxGames(){
-		return gameInstanceDAO.getTopFivePersonWhoWonMaxGames();
+	public List<TotalNumberOfGameWonByAUser> getTopPersonWhoWonMaxGames(Integer numOfTopPlayersToShow){
+		return gameInstanceDAO.getTopPersonWhoWonMaxGames(numOfTopPlayersToShow);
 	}
 
 }
