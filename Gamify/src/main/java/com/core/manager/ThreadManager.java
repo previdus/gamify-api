@@ -78,7 +78,7 @@ public class ThreadManager {
 				.scheduleAtFixedRate(
 						periodicTaskToCheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAlive,
 						10,
-						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_POLLING_ALL_QUEUES,
+						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_POLLING_ALL_QUEUES_FOR_PLAYERS_STILL_ALIVE,
 						TimeUnit.SECONDS);
 		executors[6]
 				.scheduleAtFixedRate(
