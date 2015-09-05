@@ -189,10 +189,13 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 	    	questionHtml +="<div id = \"options\"><br/>";
  	    	$(obj.currentQuestion.options).each( function(index,element)
  	    	{
-                  questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""+element.id+"\">"+element.text+"</input><br/>";
+                  questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
+                  "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
+                  +element.id+"\"> <span id=\"optionValue"+element.id+"\">"+element.text+"</span></input><br/>";
 	    		   
  	    	});
- 	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+")\"></input><br/>";
+ 	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\""+ 
+ 	 	    	" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+","+obj.bang+")\"></input><br/>";
  	    	questionHtml +="</div>";
 
  	    	$("#questionSection").addClass("question-active");	 
@@ -325,14 +328,20 @@ function updateTimerDiv(gameId,currentQuestionId){
 	}		
 }
 
-function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUser){
+function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUser,bang){
 	
 	var selectedOptionId = $("input[name='option']:checked").val();
 	//$.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime),-1);
 	$("#submitOption").attr("disabled", "disabled");
 	clearInterval(timerInterval);
 	$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
-  	jQuery("input[name='option']").attr('disabled',true);  
+  	jQuery("input[name='option']").attr('disabled',true);
+
+  	//selected option red
+  	$("#optionValue"+selectedOptionId).css("background-color","red");
+  	//  	
+  	$("#optionValue"+bang).css("background-color","#7FFF00");
+  	
 	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
 		
 		  renderHtml(data,true);

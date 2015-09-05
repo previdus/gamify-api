@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
+import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.User;
 import com.core.domain.lms.ExamSection;
@@ -58,13 +59,13 @@ public class GameInstance implements Serializable {
 	//this is the id of the option which is the answerkey. The reason it has been named bang is because
 	//the game instance object is visible in the frontend for every ajax poll and the player can easily figure out 
 	//what the answer key to the question is if it is named the obvious
-	private transient Integer bang;
+	private transient Long  bang;
 
-	public Integer getBang() {
+	public Long getBang() {
 		return bang;
 	}
 
-	public void setBang(Integer bang) {
+	public void setBang(Long bang) {
 		this.bang = bang;
 	}
 
@@ -254,9 +255,10 @@ public class GameInstance implements Serializable {
 		return currentQuestion;
 	}
 
-	public void setCurrentQuestion(Question currentQuestion) {
+	public void setCurrentQuestion(Question currentQuestion, AnswerKey key) {
 		log.info("attaching question with id:" + currentQuestion.getId());
 		this.currentQuestion = currentQuestion;
+		this.bang = key.getOptionId();
 	}
 
 	public List<PreviousQuestionLog> getPreviousQuestionLogs() {

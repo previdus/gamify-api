@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.PlayerResponseLog;
@@ -103,7 +104,9 @@ public class QuestionManager {
 			Question newCurrentQuestion = null;
 			if (gi.getCurrentQuestion() == null) {
 
-				gi.setCurrentQuestion(questions.get(random.nextInt(questions.size())));
+				Question question = questions.get(random.nextInt(questions.size()));
+				AnswerKey answerKey = answerKeyService.getAnswerKey(question);
+				gi.setCurrentQuestion(question, answerKey);
 			} else {
 
 				while (true) {
@@ -113,7 +116,9 @@ public class QuestionManager {
 							gi.getCurrentQuestion().getId())) {
 						// attach new question
 						log.info("*****************************ATTACHING QUESTION*****************************************");
-						gi.setCurrentQuestion(newCurrentQuestion);
+						
+						AnswerKey answerKey = answerKeyService.getAnswerKey(newCurrentQuestion);
+						gi.setCurrentQuestion(newCurrentQuestion, answerKey);
 						break;
 					} else {
 						log.info("ALARM***************************************DUPLICATE QUESTION GENERATED******************************");
