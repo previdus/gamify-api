@@ -12,12 +12,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "question_option")
 @Proxy(lazy=false)
+@FilterDef(name = Option.OPTION_FILTER,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
+@Filters( {
+@Filter(name=Option.OPTION_FILTER, condition="state = :state")
+} )
 public class Option implements Serializable {
+	
+	public static final String OPTION_FILTER = "optionStateFilter";
 
 	public Option(String text, String imageUrl, Integer ordr, Question question) {
 		super();
@@ -55,7 +65,7 @@ public class Option implements Serializable {
 	@JoinColumn(name = "question_id")
 	private Question question;
 
-	@Column(name="state")
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
     private String state;
 	public String getState() {
 		return state;

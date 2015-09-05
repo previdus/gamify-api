@@ -24,7 +24,7 @@ public class RoomServiceImpl implements RoomService {
 		
 		//	examDAO.findExamByState();
 			System.out.println("Finding room by state");
-			room.setExams(examDAO.findAllActiveExams());
+			room.setExams(examDAO.findExamsWithAllActiveEntities());
 			return room;
 	}
 	

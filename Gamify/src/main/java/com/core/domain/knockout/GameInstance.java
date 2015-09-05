@@ -52,9 +52,21 @@ public class GameInstance implements Serializable {
 	}
 
 	private transient Map<Long, PlayerResponseLog> playerResponsesToCurrentQuestion = new HashMap<Long, PlayerResponseLog>();
-	// @ManyToOne(optional=true)
-	// @JoinColumn(name="current_question_id")
+	
 	private transient Question currentQuestion;
+	
+	//this is the id of the option which is the answerkey. The reason it has been named bang is because
+	//the game instance object is visible in the frontend for every ajax poll and the player can easily figure out 
+	//what the answer key to the question is if it is named the obvious
+	private transient Integer bang;
+
+	public Integer getBang() {
+		return bang;
+	}
+
+	public void setBang(Integer bang) {
+		this.bang = bang;
+	}
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "exam_section_id")

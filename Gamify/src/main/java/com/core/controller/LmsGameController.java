@@ -66,23 +66,7 @@ public class LmsGameController {
 				gi = gamePageResult.getGi();
 				return gi;
 			}
-			/*
-			 * // gi = GameQueueManager.getGameInstanceForPlayer(new
-			 * Long(userId)); if(gi != null){ gi.incrementPollCountForPlayer(new
-			 * Long(userId)); Gson gson = new Gson();
-			 * 
-			 * String json = gson.toJson(gi); if(json != null &&
-			 * json.trim().length() > 0) {
-			 * 
-			 * 
-			 * log.info("in LmsGameController: user Id is-"+userId+
-			 * ",  and the json string returned is:"+json); return json; } else{
-			 * return "redirect:/rooms"; } }
-			 * 
-			 * } else{ log.info("userId is null so redirecting to login page");
-			 * return "redirect:/login"; }
-			 */
-
+			
 		}
 		return null;
 	}
@@ -98,9 +82,7 @@ public class LmsGameController {
 		log.info("In respondToQuestion");
 		ApiResult result1 = (ApiResult) request.getSession().getAttribute(
 				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT);
-		// GameInstance gi = GameQueueManager.recordPlayerResponseToQuestion(new
-		// Long(userId), new Long(questionId), new Long(optionId), new
-		// Long(timeTakenToRespond));
+	
 		if (result1 != null) {
 			GamePageResult result = apiLmsGameController.respondToQuestion(
 					result1.getUserToken(), questionId, optionId,
@@ -109,25 +91,14 @@ public class LmsGameController {
 				return result.getGi();
 		}
 		return null;
-		// Gson gson = new Gson();
-		// String json = gson.toJson(gi);
-		/*
-		 * if(gi == null || json == null || json.trim().length() == 0){
-		 * log.info("since json is empty redirecting to logout"); return
-		 * "redirect:/logout"; }
-		 * log.info("in LmsGameController respondToQuestion: user Id is-"
-		 * +userId+" questionId is:"+questionId+", optionId is:"+optionId+
-		 * ", timeTakenToRespond is:"
-		 * +timeTakenToRespond+"  and the json string returned is:"+json);
-		 * return json;
-		 */
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView selectRoom(
 			@RequestParam("examSection") String examSection,
 			HttpServletRequest request, Model model) {
-		// log.info("examSection in selectRoom method is:"+examSection);
+		
 
 		GameInstance gi = null;
 		if (examSection != null && examSection.length() > 0) {
@@ -146,13 +117,10 @@ public class LmsGameController {
 				} else {
 					GamePageResult gpr = apiLmsGameController.selectRoom(
 							result.getUserToken(), examSection);
-					// gi =
-					// GameQueueManager.createGameInstance(examSectionService.getExamSection(new
-					// Long(examSection)),user);
+				
 					ModelAndView mav = new ModelAndView("account/lmsgame");
 					mav.addObject("userId", user.getId());
-					// Gson gson = new Gson();
-					// String json = gson.toJson(gi);
+				
 					mav.addObject("gi", new GameInstance());
 					mav.addObject("token", result.getUserToken());
 					return mav;

@@ -13,7 +13,7 @@ public interface ExamDAO extends GenericRepository<Exam, Serializable>{
 	public List<Exam> findActiveExams();
 	public List<Exam> findInActiveExams();
 	
-	public List<Exam> findAllActiveExams();
+	public List<Exam> findExamsWithAllActiveEntities();
 	public List<Exam> findExamByState(String examState,String examSectionState,String topicState);
 	
 	

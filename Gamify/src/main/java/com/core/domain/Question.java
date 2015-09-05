@@ -18,6 +18,10 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 import com.core.domain.lms.Topic;
@@ -25,7 +29,13 @@ import com.core.domain.lms.Topic;
 @Entity
 @Table(name = "question")
 @Proxy(lazy=false)
+@FilterDef(name = Question.QUESTION_FILTER,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
+@Filters( {
+@Filter(name=Question.QUESTION_FILTER, condition="state = :state")
+} )
 public class Question implements Serializable {
+	
+	public static final String QUESTION_FILTER = "questionStateFilter";
 
 	/**
 	 * 
@@ -50,9 +60,8 @@ public class Question implements Serializable {
 	private Topic topic;
 	@Column(name = "difficulty_level")
 	private byte difficultyLevel;
-	
-	@Column(name="state")
-    private String state;
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
+	private String state;
 	public String getState() {
 		return state;
 	}
