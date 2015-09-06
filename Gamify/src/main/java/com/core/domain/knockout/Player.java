@@ -30,6 +30,16 @@ public class Player  implements Serializable{
 	private transient long playerJoinTime;
 	private transient int noOfPollsSoFar;
 	
+	private transient long   numOfExpectedPollsSincePlayerJoined;
+	
+	public long getNumOfExpectedPollsSincePlayerJoined() {
+		return numOfExpectedPollsSincePlayerJoined;
+	}
+	public void setNumOfExpectedPollsSincePlayerJoined(
+			long numOfExpectedPollsSincePlayerJoined) {
+		this.numOfExpectedPollsSincePlayerJoined = numOfExpectedPollsSincePlayerJoined;
+	}
+
 	@JsonIgnore
 	@ManyToOne(optional=false)
 	@JoinColumn(name="game_instance_id")

@@ -420,16 +420,31 @@ public class ThreadManager {
 	private static void removePlayerFromGameIfHisPollsAreMissedForALongTime(
 			GameInstance gi) {
 		log.info("Running thread 8) removePlayerFromGameIfHisPollsAreMissedForALongTime");
-		for (Player player : gi.getPlayers().values()) {
-			log.info("player currently in the game is:"+player.getUser().getDisplayName());
-			long numOfExpectedPollsSincePlayerJoined = (System
-					.currentTimeMillis() - player.getPlayerJoinTime()) / 5000;
-			if ((numOfExpectedPollsSincePlayerJoined - player
-					.getNoOfPollsSoFar()) > GameConstants.MINIMUM_NUMBER_OF_POLLS_MISSED_BY_PLAYER_BEFORE_DECIDING_TO_REMOVE_PLAYER_FROM_GAME) {
-				gi.removePlayer(player.getUser());
-				GameQueueManager.playerGameMap.remove(player.getUser().getId());
+		try{
+			for (Player player : gi.getPlayers().values()) {
+				log.info("player currently in the game is:"+player.getUser().getDisplayName());
+				long numOfExpectedPollsSincePlayerJoined = (System
+						.currentTimeMillis() - player.getPlayerJoinTime()) / 5000;
+				player.setNumOfExpectedPollsSincePlayerJoined(numOfExpectedPollsSincePlayerJoined);
+				log.info("numOfExpectedPollsSincePlayerJoined is :"+numOfExpectedPollsSincePlayerJoined);
+				if (getNumberOfMissedPolls(player, numOfExpectedPollsSincePlayerJoined) > GameConstants.MINIMUM_NUMBER_OF_POLLS_MISSED_BY_PLAYER_BEFORE_DECIDING_TO_REMOVE_PLAYER_FROM_GAME) {
+					gi.removePlayer(player.getUser());
+					GameQueueManager.playerGameMap.remove(player.getUser().getId());
+				}
 			}
 		}
+		catch(Exception ex){
+			log.error(ex.getMessage());
+		}
+	}
+
+	private static long getNumberOfMissedPolls(Player player,
+			long numOfExpectedPollsSincePlayerJoined) {
+		long numOfMissedPolls = numOfExpectedPollsSincePlayerJoined - player
+				.getNoOfPollsSoFar();
+		log.info("numOfMissedPolls:"+numOfMissedPolls);
+		return numOfMissedPolls;
+		
 	}
 
 	private static Runnable inspectAllQueues = new Runnable() {
