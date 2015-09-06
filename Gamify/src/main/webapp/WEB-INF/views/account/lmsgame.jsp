@@ -191,7 +191,8 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	    	{
                   questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
                   "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
-                  +element.id+"\"> <span id=\"optionValue"+element.id+"\">"+element.text+"</span></input><br/>";
+                  +element.id+"\">"+element.text+"<span id=\"optionCorrect"+element.id+"\" style=\"display:none\">&nbsp;&nbsp;Correct</span><span id=\"optionWrong"
+                  +element.id+"\"  style=\"display:none\">&nbsp;&nbsp;Wrong</span></input><br/>";
 	    		   
  	    	});
  	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\""+ 
@@ -338,9 +339,13 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
   	jQuery("input[name='option']").attr('disabled',true);
 
   	//selected option red
-  	$("#optionValue"+selectedOptionId).css("background-color","red");
+  	if(bang != selectedOptionId){
+  	     $("#optionWrong"+selectedOptionId).css("background-color","red");
+  	   $("#optionWrong"+selectedOptionId).show();
+    }
   	//  	
-  	$("#optionValue"+bang).css("background-color","#7FFF00");
+  	$("#optionCorrect"+bang).css("background-color","#7FFF00");
+  	$("#optionCorrect"+bang).show();
   	
 	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
 		
