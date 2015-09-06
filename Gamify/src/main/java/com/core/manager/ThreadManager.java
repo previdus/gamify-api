@@ -419,7 +419,9 @@ public class ThreadManager {
 
 	private static void removePlayerFromGameIfHisPollsAreMissedForALongTime(
 			GameInstance gi) {
+		log.info("Running thread 8) removePlayerFromGameIfHisPollsAreMissedForALongTime");
 		for (Player player : gi.getPlayers().values()) {
+			log.info("player currently in the game is:"+player.getUser().getDisplayName());
 			long numOfExpectedPollsSincePlayerJoined = (System
 					.currentTimeMillis() - player.getPlayerJoinTime()) / 5000;
 			if ((numOfExpectedPollsSincePlayerJoined - player
