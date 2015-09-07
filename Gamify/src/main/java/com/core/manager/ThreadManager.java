@@ -1,5 +1,7 @@
 package com.core.manager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -8,10 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.core.constants.GameConstants;
+import com.core.domain.Option;
+import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
+import com.core.domain.knockout.PlayerResponseLog;
 import com.core.service.GameInstanceService;
 
 @Component
@@ -22,7 +28,7 @@ public class ThreadManager {
 
 	private static Boolean threadStarted = false;
 
-	private static final int NUM_OF_EXECUTORS = 8;
+	private static final int NUM_OF_EXECUTORS = 9;
 
 	private static ScheduledExecutorService[] executors = new ScheduledExecutorService[NUM_OF_EXECUTORS];
 
@@ -92,6 +98,14 @@ public class ThreadManager {
 						5,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_EMPTYING_FINISHED_GAMES_QUEUES,
 						TimeUnit.SECONDS);
+		
+		executors[8]
+				.scheduleAtFixedRate(
+						periodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime,
+						5,
+						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_UPDATING_THE_QUEUES,
+						TimeUnit.SECONDS);
+		
 		// executor[8].scheduleAtFixedRate(emptyDoneGamesFromPlayerGameMapQueue,
 		// 6,
 		// GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_UPDATING_THE_QUEUES,
@@ -416,6 +430,8 @@ public class ThreadManager {
 		}
 
 	};
+	
+	
 
 	private static void removePlayerFromGameIfHisPollsAreMissedForALongTime(
 			GameInstance gi) {
@@ -446,6 +462,55 @@ public class ThreadManager {
 		return numOfMissedPolls;
 		
 	}
+	private static Runnable periodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime = new Runnable() {
+		public void run() {
+
+			
+            log.info("runnning 9) periodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime");
+			// ongoing games
+			for (GameInstance gi : GameQueueManager.ongoingGames.values()) {
+				automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime(gi);
+			}
+		}
+
+	};
+	
+	private static void automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime(GameInstance gi){
+		
+		try{
+			Map<Long, PlayerResponseLog> responses =  gi.getPlayerResponsesToCurrentQuestion();
+			
+			Map<Long, Player> players = gi.getPlayers();
+			
+			if(isCurrentQuestionExceedingItsTimeLimit(gi)){
+				if(responses == null){
+					responses = new HashMap<Long, PlayerResponseLog>();
+				}
+				log.info("automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime - before for loop");
+				for(Long playerId: players.keySet()){
+					if(responses.size() == 0 || !responses.keySet().contains(playerId)){
+						Player player = players.get(
+								playerId);
+						log.info("recording response since its timed out");
+						GameQueueManager.recordPlayerResponseToQuestion(player.getUser().getId(),
+								gi.getCurrentQuestion().getId(), -1L, 0L);
+						
+					}
+				}
+			}
+		}
+		catch(Exception ex){
+			log.error(ex.getMessage());
+		}
+	}
+
+	private static boolean isCurrentQuestionExceedingItsTimeLimit(
+			GameInstance gi) {
+		
+		log.info( "(System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 : "+(System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 );
+		return (System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 > GameConstants.TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION;
+	}
+	
 
 	private static Runnable inspectAllQueues = new Runnable() {
 		public void run() {

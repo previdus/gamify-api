@@ -37,7 +37,7 @@ public class QuestionManager {
 	 *            The user accessor to set
 	 */
 	@Autowired(required = true)
-	public void setAnswerKeyServicer(AnswerKeyService answerKeyService) {
+	public void setAnswerKeyService(AnswerKeyService answerKeyService) {
 		QuestionManager.answerKeyService = answerKeyService;
 	}
 
@@ -106,7 +106,7 @@ public class QuestionManager {
 
 				Question question = questions.get(random.nextInt(questions.size()));
 				AnswerKey answerKey = answerKeyService.getAnswerKey(question);
-				gi.setCurrentQuestion(question, answerKey);
+				gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
 			} else {
 
 				while (true) {
@@ -118,7 +118,7 @@ public class QuestionManager {
 						log.info("*****************************ATTACHING QUESTION*****************************************");
 						
 						AnswerKey answerKey = answerKeyService.getAnswerKey(newCurrentQuestion);
-						gi.setCurrentQuestion(newCurrentQuestion, answerKey);
+						gi.setCurrentQuestion(newCurrentQuestion, answerKey, System.currentTimeMillis());
 						break;
 					} else {
 						log.info("ALARM***************************************DUPLICATE QUESTION GENERATED******************************");

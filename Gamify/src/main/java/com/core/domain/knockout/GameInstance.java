@@ -56,6 +56,8 @@ public class GameInstance implements Serializable {
 	
 	private transient Question currentQuestion;
 	
+	private transient long timeAtWhichCurrentQuestionWasAttached;
+	
 	//this is the id of the option which is the answerkey. The reason it has been named bang is because
 	//the game instance object is visible in the frontend for every ajax poll and the player can easily figure out 
 	//what the answer key to the question is if it is named the obvious
@@ -251,14 +253,19 @@ public class GameInstance implements Serializable {
 		this.difficultyLevel = difficultyLevel;
 	}
 
+	public long getTimeAtWhichCurrentQuestionWasAttached() {
+		return timeAtWhichCurrentQuestionWasAttached;
+	}
+
 	public Question getCurrentQuestion() {
 		return currentQuestion;
 	}
 
-	public void setCurrentQuestion(Question currentQuestion, AnswerKey key) {
+	public void setCurrentQuestion(Question currentQuestion, AnswerKey key, long timeAtWhichCurrentQuestionWasAttached) {
 		log.info("attaching question with id:" + currentQuestion.getId());
 		this.currentQuestion = currentQuestion;
 		this.bang = key.getOptionId();
+		this.timeAtWhichCurrentQuestionWasAttached = timeAtWhichCurrentQuestionWasAttached;
 	}
 
 	public List<PreviousQuestionLog> getPreviousQuestionLogs() {
