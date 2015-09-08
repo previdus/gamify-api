@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -25,12 +26,14 @@ public class QuestionDAOImpl extends
 
 	public List<Question> getQuestions(Topic topic) {
 		log.info("getting questions for topic");
-		Query qry = getSession().createQuery(
+		Session session = this.getSession();
+		Query qry = session.createQuery(
 				"from Question where topic = :selectedtopic order by id desc").setParameter(
 				"selectedtopic", topic);
 		log.info("before");
 		List<Question> questions = qry.list();
 		log.info("got questions for topic");
+		releaseSession(session);
 		if (questions != null && questions.size() > 0) {
 			log.info(" questions.size() > 0 for topic");
 			return questions;
@@ -42,13 +45,15 @@ public class QuestionDAOImpl extends
 
 	public Question getQuestion(Topic topic) {
 		log.info("getting questions for topic");
-		Query qry = getSession()
+		Session session = this.getSession();
+		Query qry = session
 				.createQuery(
 						"from Question where topic = :selectedtopic order by rand() ")
 				.setParameter("selectedtopic", topic).setFetchSize(1);
 		log.info("before");
 		List<Question> questions = qry.list();
 		log.info("got questions for topic");
+		releaseSession(session);
 		if (questions != null && questions.size() > 0) {
 			log.info(" questions.size() > 0 for topic");
 			return questions.get(0);

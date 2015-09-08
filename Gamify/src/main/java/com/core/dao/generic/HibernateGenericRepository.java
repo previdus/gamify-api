@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,9 +91,11 @@ public  abstract class HibernateGenericRepository<T, ID extends Serializable>
 	} 
 	
 	public T findObjectByKey(Class entityClass, String columnName, String value){
-		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		Session session = this.getSession();
+		Criteria criteria = session.createCriteria(entityClass);  
 		criteria.add(Restrictions.eq(columnName, value));
 		List results = criteria.list();
+		releaseSession(session);
 		if(!CollectionUtils.isEmpty(results))
 		     return (T)results.get(0);
 		else 
@@ -100,12 +103,14 @@ public  abstract class HibernateGenericRepository<T, ID extends Serializable>
 	}
 	
 	public List<T> findObjectsByKeyMap(Class entityClass, Map<String, Object> keyValueMap){
-		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		Session session = this.getSession();
+		Criteria criteria = session.createCriteria(entityClass);  
 		for(String key:keyValueMap.keySet()){
 			criteria.add(Restrictions.eq(key, keyValueMap.get(key)));			
 		}
 		
 		List results = criteria.list();
+		releaseSession(session);
 		if(!CollectionUtils.isEmpty(results))
 		     return results;
 		else 
@@ -113,9 +118,11 @@ public  abstract class HibernateGenericRepository<T, ID extends Serializable>
 	}
 	
 	public List<T> findObjectsByKeys(Class entityClass, String columnName, String value){
-		Criteria criteria = this.getSession().createCriteria(entityClass);  
+		Session session = this.getSession();
+		Criteria criteria =session.createCriteria(entityClass);  
 		criteria.add(Restrictions.eq(columnName, value));
 		List results = criteria.list();
+		releaseSession(session);
 		if(!CollectionUtils.isEmpty(results))
 		    return results;
 		else 

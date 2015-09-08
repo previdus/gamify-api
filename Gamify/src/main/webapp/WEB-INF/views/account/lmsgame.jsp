@@ -51,6 +51,8 @@ var pollGameInstance;
 var userId;
 
 var timerInterval = null;
+//This variable is also used in the backedn in GameConstants.java
+//It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays
 var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 30000;
 var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
@@ -59,6 +61,7 @@ var countDown;
 var timeToUpdateTimerDivAndTimerCookie = 1000;
 var messageToDisplayWhenWaitingForOtherPlayersToRespond = "You have already responded. Waiting for other players to respond";
 var messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond = "Sorry, time has elapsed. Loading next question after all other players have responded";
+
 
 $(document).ready(function() {
 	$("#menu-toggle").click(function(e) {
@@ -82,10 +85,9 @@ $(document).ready(function() {
 			
 			$.getJSON( "play/pollGame?userId="+userId, function( data ) {
                 if(!data){
-					alert('looks like you are still in an expired game. Redirecting you to the main room');
- 					clearInterval(pollGameInstance);	                
- 					$('#backToMainRoom').submit();
- 					return;
+					
+ 					 return showFinalMessage('looks like you are still in an expired game. Redirecting you to the main room<br/>',false);
+ 					 
                 }
                 			  
 				  renderHtml(data,true);
@@ -117,10 +119,8 @@ function renderHtml(obj,fromAjax){
 	
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
 if(obj.state == "EXPIRED"){
-	alert('looks like everyone has left the game. Redirecting you to the main room');
-	clearInterval(pollGameInstance); 
-	$('#backToMainRoom').submit();
-	return;
+	
+	return showFinalMessage('looks like everyone has left the game. Redirecting you to the main room <br/>',false);
 }
 
 if(obj.state == "WAITING" || obj.state == "NEW"){	
@@ -133,7 +133,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 	 
 	 var playerCount = 0;
      var currentUserExistsInTheGame = false;
-     var currentUserClass = "";
+    
  	  	$(obj.players).each(function(index , element) {
  	 	 
  		$.each(element, function(index1, element1) 
@@ -242,18 +242,43 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 
       
     if(!currentUserExistsInTheGame){
-        alert("Sorry dude! You ain't the last man standing. Good luck next time. Redirecting you to the main room");
-        clearInterval(pollGameInstance); 
-        $('#backToMainRoom').submit();
-        return;
-      
+        return showFinalMessage("Sorry dude! You ain't the last man standing. Good luck next time.<br/>",true);
+        
+                 
       }		
     if(obj.state == "DONE"){
         
-    	alert('Congrats!! You are the last man standing');
-    	clearInterval(pollGameInstance); 
-    	$('#backToMainRoom').submit();
-    	return;
+    	if(obj.currentQuestionWinner != null){
+    	 return showFinalMessage( 'Congrats!! You are the last man standing<br/>',true);
+    	}
+    	else
+        {
+    		return showFinalMessage( 'Game ended. No winners in this game!<br/>',true);
+        }
+    	 
+    }
+
+    function showFinalMessage(message, reviewGame){
+
+   	    
+   	    
+   	    var reviewGameMessage = "";
+   	    if(reviewGame)
+   	   	{
+   	    	reviewGameMessage = "Review the game <a href=\"#\">here</a><br/>";
+   	   	}
+   	    
+    	var finalMessage = message+
+    	+reviewGameMessage+
+    	"Go back to the <a  href=\"#\" onClick=\"$(\'#backToMainRoom\').submit()\">Main room</a><br/>";
+    	$('#questionSection').hide();
+    	$("#timer").hide();
+    	$("#finalMessageSection").html(finalMessage);
+    	$("#finalMessageSection").show();
+    	$("#finalMessageSection").addClass('final-message');
+    	clearInterval(pollGameInstance);
+   	    clearInterval(timerInterval);
+     	 return;
     }
     
 }
@@ -262,12 +287,8 @@ function handleRefreshPage(obj){
 	 //delete and replace previous question timer cookie only if currentQuestion Is Not same as Previous Question
     if(userId+obj.id+obj.currentQuestion.id != $.cookie(cookieToStoreKeyForUserGameQuestionTime)){
 
-        alert(userId);
-        alert(obj.id);
-        alert(obj.currentQuestion.id);
-
         
-        alert($.cookie(cookieToStoreKeyForUserGameQuestionTime));
+
     	$.removeCookie($.cookie(cookieToStoreKeyForUserGameQuestionTime), { path: '/Gamify/' });
     	$.cookie(cookieToStoreKeyForUserGameQuestionTime,userId+obj.id+obj.currentQuestion.id);
      }
@@ -417,7 +438,9 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 		<!-- /timer -->
 		<br/>
 		<br/>
+		 <div id="finalMessageSection"></div>
 		 <div id="questionSection"></div> 
+		 
 	</div>
 </div> 
  <div id="jsonresponse"></div>

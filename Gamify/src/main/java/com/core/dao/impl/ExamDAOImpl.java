@@ -28,11 +28,13 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 	}
 	
 	public List<Exam> findActiveExams(){
-		Filter filter = this.getSession().enableFilter(Exam.ACTIVE_EXAMS);
+		Session session = getSession();
+		Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
 		filter.setParameter("activeState", "ACTIVE");
-		Query query = this.getSession().createQuery("from Exam");
+		Query query = session.createQuery("from Exam");
 		List<Exam> exams = query.list();
-		this.getSession().disableFilter(Exam.ACTIVE_EXAMS);
+		session.disableFilter(Exam.ACTIVE_EXAMS);
+		releaseSession(session);
 		return exams;
 		//return findObjectsByKeys(Exam.class, "state", EntityStateENUM.ACTIVE.name());
 	}
@@ -57,6 +59,7 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 			//System.out.println("ACTIVE Exams :------------------------------------------------------- " + exams.size());
 			transaction.commit();
 			disableFilters(session);
+			releaseSession(session);
 			
 
 		}catch(Exception e){
@@ -116,6 +119,7 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 			System.out.println("ACTIVE Exams : " + exams);
 			transaction.commit();
 			disableFilters(session);
+			releaseSession(session);
 			
 			
 		}catch(Exception e){
