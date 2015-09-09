@@ -136,8 +136,8 @@ public class GenerateDummyDataInDatabaseImpl implements
 		Question question = null;
 		options = new ArrayList<Option>();
 		correctOption = null;
-		question = new Question("Question " + topic.getName() + j, null,
-				options, topic, (byte) 0);
+//		question = new Question("Question " + topic.getName() + j, null,
+//				options, topic, (byte) 0);
 		question = questionDAO.saveNew(question);
 		for (int i = 0; i < 4; i++) {
 			options.add(optionDAO.saveNew(new Option("option" + i, null,

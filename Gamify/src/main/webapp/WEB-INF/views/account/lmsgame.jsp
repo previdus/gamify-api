@@ -53,7 +53,7 @@ var userId;
 var timerInterval = null;
 //This variable is also used in the backedn in GameConstants.java
 //It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays
-var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 30000;
+var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 50000;
 var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
 var cookieToStoreKeyForUserGameQuestionTime = "LMSuserGameQuestion"
@@ -231,7 +231,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	 	    }
 
             if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){ 	    	
- 	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id);},timeToUpdateTimerDivAndTimerCookie);
+ 	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id, obj.currentQuestion.maxTimeToAnswerInSeconds);},timeToUpdateTimerDivAndTimerCookie);
             } 	    	
 
 		}
@@ -327,8 +327,9 @@ function submitOptionWhenTimeElapsed(questionId){
  	
 	}
 
-function updateTimerDiv(gameId,currentQuestionId){
-	var internalCountDown = Math.round((timeNeededToWaitBeforeAutoRespondTowrongAnswer - ($.now() - countDown))/1000);
+function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
+	maxTimeAllocatedToRespond = maxTimeAllocatedToRespond *1000;
+	var internalCountDown = Math.round((maxTimeAllocatedToRespond - ($.now() - countDown))/1000);
 	if(internalCountDown > 0){
 		
            $("#timer").html(internalCountDown + " seconds remaining to respond!!");

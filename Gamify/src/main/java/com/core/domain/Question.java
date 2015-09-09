@@ -50,6 +50,9 @@ public class Question implements Serializable {
 	@Column(name = "image_url")
 	private String imageUrl;
 
+	@Column(name = "max_time_to_answer_in_seconds", columnDefinition="int default 80")
+	private int maxTimeToAnswerInSeconds;
+	
 	@OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Option> options;
@@ -79,18 +82,43 @@ public class Question implements Serializable {
 		this.id = id;
 	}
 
-	public Question(String questionText, String imageUrl, List<Option> options,
-			Topic topic, byte difficultyLevel) {
-		super();
-		this.questionText = questionText;
-		this.imageUrl = imageUrl;
-		this.options = options;
-		this.topic = topic;
-		this.difficultyLevel = difficultyLevel;
-	}
+//	public Question(String questionText, String imageUrl, List<Option> options,
+//			Topic topic, byte difficultyLevel) {
+//		super();
+//		this.questionText = questionText;
+//		this.imageUrl = imageUrl;
+//		this.options = options;
+//		this.topic = topic;
+//		this.difficultyLevel = difficultyLevel;
+//	}
+	
+	
+	
 
 	public Long getId() {
 		return id;
+	}
+
+	public Question(Long id, String questionText, String imageUrl,
+		int maxTimeToAnswerInSeconds, List<Option> options, Topic topic,
+		byte difficultyLevel, String state) {
+	super();
+	this.id = id;
+	this.questionText = questionText;
+	this.imageUrl = imageUrl;
+	this.maxTimeToAnswerInSeconds = maxTimeToAnswerInSeconds;
+	this.options = options;
+	this.topic = topic;
+	this.difficultyLevel = difficultyLevel;
+	this.state = state;
+}
+
+	public int getMaxTimeToAnswerInSeconds() {
+		return maxTimeToAnswerInSeconds;
+	}
+
+	public void setMaxTimeToAnswerInSeconds(int maxTimeToAnswerInSeconds) {
+		this.maxTimeToAnswerInSeconds = maxTimeToAnswerInSeconds;
 	}
 
 	public void setId(Long id) {
