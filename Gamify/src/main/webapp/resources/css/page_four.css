@@ -157,26 +157,7 @@ hr {
 }
 
 
-.final-message {
-	font-family: "Lato",sans-serif;
-background-color: #657982;
-opacity: 0.8;
-border: 2px solid #FFF;
-padding: 2.5em 3em;
-margin: 100px 300px 100px auto;
-height: 50vh;
-color: #FFF;
-min-height: 5vh;
-width: 40%;
-font-stretch: expanded;
-font-size: large;
-text-align: center;
-color: beige;
-}
 
-.final-message a:link{
-    color:#FFFFFF;
-}
 .question-active .answer {
 	margin: 1em;
 	background-color: transparent;
