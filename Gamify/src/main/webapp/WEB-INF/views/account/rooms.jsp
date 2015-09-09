@@ -145,7 +145,7 @@ $(document).ready(function() {
                          </div>             
                    </c:forEach>
 
-</div>
+             </div>
   
                     <br>
                     <br/>

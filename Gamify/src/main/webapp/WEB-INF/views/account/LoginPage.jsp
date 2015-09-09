@@ -16,6 +16,10 @@
   <script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 		
 		<script>
+		$(document).ready(function() {
+			            
+		     $("#status").html("${error}"); 
+		});
 		function signup(){
 			var userName = $( "#userName" ).val();
 			var memberName = $( "#memberFullName" ).val();

@@ -59,18 +59,17 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
 		periodicTasksService.startDaemonQueueManager();
-		model.addAttribute(new User());		
+		model.addAttribute(new User());	
+		
 		return new ModelAndView("account/LoginPage");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, Model model) {
 		
-		if (userFromView.getName().equals("mock")) {
-			generateDummyDataInDatabase.generateData();
-		}
+		
 		User userFromRepository = userService.getUser(userFromView.getName(),
 				userFromView.getPwd());
 		if (userFromRepository != null) {
@@ -93,7 +92,8 @@ public class LoginController {
 			}
 			
 		}
-		return null;
+		model.addAttribute("error", "Invalid login. User does not exist in the system or the password is incorrect!");
+		return login( model);
 		
 	}
 
