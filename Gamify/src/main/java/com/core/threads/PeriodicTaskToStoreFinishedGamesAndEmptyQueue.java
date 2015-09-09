@@ -22,6 +22,7 @@ public class PeriodicTaskToStoreFinishedGamesAndEmptyQueue implements Runnable {
 	}
 	
 	public void run() {
+		log.info("*********************storeFinishedGamesAndEmptyQueue***********************");
 		try {
 			GameInstance gameInstance = null;
 			for (Long gameInstanceId : GameQueueManager.finishedGames

@@ -180,10 +180,11 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	$("#sidebar-wrapper").html(totalPlayerHtml);
  	var questionHtml = "";
     timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
+    
     if(obj.currentQuestion != null){    
 	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
-	    	
-	    	 
+
+	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer = obj.currentQuestion.maxTimeToAnswerInSeconds*1000;	    	 
 	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
 	    	
 	    	questionHtml +="<div id = \"options\"><br/>";

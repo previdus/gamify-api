@@ -20,13 +20,8 @@ public class PeriodicTaskToMoveFromOngoingToDone implements Runnable {
 					.keySet()) {
 				GameInstance gi = GameQueueManager.ongoingGames
 						.get(gameInstanceId);
-				if (gi.getPlayers().size() <= 1) {
-					// dump the previous question log to database;
-					// end of dump
-					gi.setStateToDone();
-					// gi.markGameWinner();
-					GameQueueManager.finishedGames.put(gi.getId(), gi);
-					GameQueueManager.ongoingGames.remove(gameInstanceId);
+				if (hasGameEnded(gi)) {
+					GameQueueManager.endGame(gi);
 				}
 
 			}
@@ -34,6 +29,11 @@ public class PeriodicTaskToMoveFromOngoingToDone implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	private boolean hasGameEnded(GameInstance gi) {
+		
+		return gi.getPlayers().size() <= 1 || (gi.getGameWinner() != null);
+	}
+	
 
 
 }
