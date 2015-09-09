@@ -53,7 +53,7 @@ var userId;
 var timerInterval = null;
 //This variable is also used in the backedn in GameConstants.java
 //It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays
-var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 50000;
+var timeNeededToWaitBeforeAutoRespondTowrongAnswer;
 var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
 var cookieToStoreKeyForUserGameQuestionTime = "LMSuserGameQuestion"
@@ -180,11 +180,10 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  	$("#sidebar-wrapper").html(totalPlayerHtml);
  	var questionHtml = "";
     timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
-    
     if(obj.currentQuestion != null){    
 	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
-
-	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer = obj.currentQuestion.maxTimeToAnswerInSeconds*1000;	    	 
+	    	
+	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer =  obj.currentQuestion.maxTimeToAnswerInSeconds*1000;
 	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
 	    	
 	    	questionHtml +="<div id = \"options\"><br/>";

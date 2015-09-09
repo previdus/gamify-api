@@ -22,7 +22,7 @@ import com.core.api.beans.ApiResult;
 import com.core.api.controller.ApiLoginController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-import com.core.manager.ThreadManager;
+import com.core.service.PeriodicTasksService;
 import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
@@ -44,26 +44,23 @@ public class LoginController {
 
 	@Autowired
 	private ApiLoginController apiLoginController;
+	
+	@Autowired
+	private PeriodicTasksService periodicTasksService;
 
 	private GenericValidator validator;
 
 	@Autowired
 	public LoginController(GenericValidator validator) {
 		this.validator = validator;
-		ThreadManager.startDaemonQueueManager();
+		
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
-		model.addAttribute(new User());
-		List<String> recepients = new LinkedList<String>();
-		recepients.add("ricky.rungta@gmail.com");
-		recepients.add("gopal.yami@gmail.com");
-		// EmailNotificationSender.sendResetPasswordMail(null, recepients,
-		// "Test Mail For LMS System");
-
-		return new ModelAndView("account/LoginPage");// , "command", new
-														// User());
+		periodicTasksService.startDaemonQueueManager();
+		model.addAttribute(new User());		
+		return new ModelAndView("account/LoginPage");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

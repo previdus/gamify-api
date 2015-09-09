@@ -1,22 +1,26 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.domain.knockout.PlayerResponseLog;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService;
 
-public class PeriodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime
-		implements Runnable {
+@Service("automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService")
+public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeServiceImpl
+		implements 	AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService{
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime.class);
+			.getLogger(AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeServiceImpl.class);
 	
 	public void run() {
 

@@ -8,6 +8,8 @@ import org.hibernate.Filter;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.core.constants.EntityStateENUM;
@@ -22,6 +24,9 @@ import com.core.domain.lms.Topic;
 @Repository("examDAO")
 
 public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> implements ExamDAO{
+	
+	private static final Logger log = LoggerFactory
+			.getLogger(ExamDAOImpl.class);
 	
 	public Exam findExamByName(String name){
 	          return findObjectByKey(Exam.class, "examName", name);
@@ -116,7 +121,7 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 			exams = session.createCriteria(Exam.class).list(); 
 			
 
-			System.out.println("ACTIVE Exams : " + exams);
+			log.info("ACTIVE Exams : " + exams);
 			transaction.commit();
 			disableFilters(session);
 			releaseSession(session);

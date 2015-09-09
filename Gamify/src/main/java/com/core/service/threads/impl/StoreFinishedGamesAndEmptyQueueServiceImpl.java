@@ -1,24 +1,28 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
-
 import com.core.service.GameInstanceService;
+import com.core.service.threads.StoreFinishedGamesAndEmptyQueueService;
 
-public class PeriodicTaskToStoreFinishedGamesAndEmptyQueue implements Runnable {
+@Service("storeFinishedGamesAndEmptyQueueService")
+public class StoreFinishedGamesAndEmptyQueueServiceImpl 
+implements StoreFinishedGamesAndEmptyQueueService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToStoreFinishedGamesAndEmptyQueue.class);
+			.getLogger(StoreFinishedGamesAndEmptyQueueServiceImpl.class);
 	
-	private static GameInstanceService gameInstanceService;
+	private  GameInstanceService gameInstanceService;
 
 	@Autowired(required = true)
 	public void setGameInstanceService(GameInstanceService gameInstanceService) {
-		PeriodicTaskToStoreFinishedGamesAndEmptyQueue.gameInstanceService = gameInstanceService;
+		this.gameInstanceService = gameInstanceService;
 	}
 	
 	public void run() {
@@ -40,8 +44,7 @@ public class PeriodicTaskToStoreFinishedGamesAndEmptyQueue implements Runnable {
 				log.info("No of Loosers "
 						+ gameInstance.getLooserPlayers().size());
 				gameInstance.getPlayers().putAll(
-						gameInstance.getLooserPlayers());
-				// gameInstance.markGameWinner();
+						gameInstance.getLooserPlayers());				
 				gameInstanceService.saveOrUpdate(gameInstance);
 				GameQueueManager.gameResponseLog.remove(gameInstanceId);
 			}

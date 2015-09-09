@@ -1,17 +1,20 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.MoveFromWaitingToReadyqueueService;
 
-
-public class PeriodicTaskToMoveFromWaitingToReadyqueue implements Runnable {
+@Service("moveFromWaitingToReadyqueueService")
+public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingToReadyqueueService  {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToMoveFromWaitingToReadyqueue.class);
+			.getLogger(MoveFromWaitingToReadyqueueServiceImpl.class);
 	public void run() {
 
 		log.info("1) periodicTaskToMoveFromWaitingToReadyqueue");

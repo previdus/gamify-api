@@ -97,7 +97,7 @@ public class LmsGameController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView selectRoom(
 			@RequestParam("examSection") String examSection,
-			HttpServletRequest request, Model model) {
+			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		
 
 		GameInstance gi = null;
@@ -115,6 +115,9 @@ public class LmsGameController {
 					return new ModelAndView("account/rooms");
 
 				} else {
+					if(result == null){
+						response.sendRedirect("login");
+					}
 					GamePageResult gpr = apiLmsGameController.selectRoom(
 							result.getUserToken(), examSection);
 				

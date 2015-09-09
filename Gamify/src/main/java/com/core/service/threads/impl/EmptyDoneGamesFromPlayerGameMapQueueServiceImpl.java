@@ -1,15 +1,20 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.EmptyDoneGamesFromPlayerGameMapQueueService;
 
-public class PeriodicTaskToEmptyDoneGamesFromPlayerGameMapQueue implements Runnable {
+@Service("emptyDoneGamesFromPlayerGameMapQueueService")
+public class EmptyDoneGamesFromPlayerGameMapQueueServiceImpl 
+implements Runnable,EmptyDoneGamesFromPlayerGameMapQueueService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToEmptyDoneGamesFromPlayerGameMapQueue.class);
+			.getLogger(EmptyDoneGamesFromPlayerGameMapQueueServiceImpl.class);
 	public void run() {
 
 		// Empty done games. IN real implementation the done games list will

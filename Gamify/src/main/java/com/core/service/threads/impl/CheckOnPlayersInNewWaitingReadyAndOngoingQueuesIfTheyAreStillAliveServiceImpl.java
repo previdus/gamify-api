@@ -1,18 +1,22 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService;
 
-public class PeriodicTaskToCheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAlive
-		implements Runnable {
+@Service("checkOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService")
+public class CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveServiceImpl
+		implements CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToCheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAlive.class);
+			.getLogger(CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveServiceImpl.class);
 	public void run() {
 
 		// new games

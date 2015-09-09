@@ -264,7 +264,10 @@ public class GameInstance implements Serializable {
 	public void setCurrentQuestion(Question currentQuestion, AnswerKey key, long timeAtWhichCurrentQuestionWasAttached) {
 		log.info("attaching question with id:" + currentQuestion.getId());
 		this.currentQuestion = currentQuestion;
-		this.bang = key.getOptionId();
+		if(key!=null){
+			this.bang = key.getOptionId();
+		}
+	
 		this.timeAtWhichCurrentQuestionWasAttached = timeAtWhichCurrentQuestionWasAttached;
 	}
 
