@@ -47,9 +47,7 @@ public class LoginController {
 	@Autowired
 	private ApiLoginController apiLoginController;
 	
-	@Autowired
-	private PeriodicTasksService periodicTasksService;
-
+	
 	private GenericValidator validator;
 
 	@Autowired
@@ -60,7 +58,7 @@ public class LoginController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
-		periodicTasksService.startDaemonQueueManager();
+		
 		model.addAttribute(new User());	
 		
 		return new ModelAndView("account/LoginPage");

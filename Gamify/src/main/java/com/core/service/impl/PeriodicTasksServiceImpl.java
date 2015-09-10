@@ -1,6 +1,7 @@
 package com.core.service.impl;
 
 import java.util.concurrent.Executors;
+import javax.annotation.PostConstruct;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -72,6 +73,7 @@ public class PeriodicTasksServiceImpl implements PeriodicTasksService {
 
 	
 
+	@PostConstruct
 	public  void startDaemonQueueManager() {
 		if (threadStarted)
 			return;
