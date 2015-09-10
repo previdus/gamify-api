@@ -18,7 +18,7 @@
 		<script>
 		$(document).ready(function() {
 			            
-		     $("#status").html("${error}"); 
+		     $("#status").html("${status}"); 
 		});
 		function signup(){
 			var userName = $( "#userName" ).val();
@@ -232,8 +232,9 @@
 				<form:form modelAttribute="user" action="login" method="post" class="form-inline custom-form">
 							<form:input path="name" placeholder="Username" class="form-control"/><form:errors path="name" />
 							<form:input type="password"  placeholder="Password" class="form-control" path="pwd" /><form:errors path="pwd" />
-							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>
+							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>							
 				</form:form>
+				Need help signing in? Click <a href="#">here</a>
 				<br/><br/>
 				<div id="status"></div>
 				<div class="social-links">

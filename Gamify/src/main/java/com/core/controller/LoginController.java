@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.core.api.beans.ApiResult;
 import com.core.api.controller.ApiLoginController;
 import com.core.constants.GameConstants;
@@ -68,8 +70,10 @@ public class LoginController {
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		
-		
+		if(areAnyLoginFieldsBlank(userFromView)){
+			model.addAttribute("status", "Need help signing in? Click the 'help' link below the login button!");
+			return login( model);
+		}
 		User userFromRepository = userService.getUser(userFromView.getName(),
 				userFromView.getPwd());
 		if (userFromRepository != null) {
@@ -85,16 +89,29 @@ public class LoginController {
 						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT,
 						apiResult);
 				response.sendRedirect("rooms");
+				model.addAttribute("status", "Successful login!");
+				return login( model);
 				
 			} catch (IOException ioe) {
 				log.info("Exception while redirecting to rooms "
 						+ ioe);
+				model.addAttribute("status", "Sorry! There is an internal error in the system while trying to log you in");
+				return login( model);
 			}
 			
 		}
-		model.addAttribute("error", "Invalid login. User does not exist in the system or the password is incorrect!");
+		
+        if(userService.doesUserExist(userFromView.getName())){
+        	model.addAttribute("status", "Invalid login. Looks like your password is incorrect. Click the 'help' link below the login button!");
+    		return login( model);
+		}
+		model.addAttribute("status", "Invalid login. User does not exist in the system or the password is incorrect!");
 		return login( model);
 		
+	}
+
+	private boolean areAnyLoginFieldsBlank(User userFromView) {
+		return userFromView == null || StringUtils.isEmpty(userFromView.getName()) || StringUtils.isEmpty(userFromView.getPwd());
 	}
 
 	@RequestMapping(value = "/facebookLogin", method = RequestMethod.POST)
