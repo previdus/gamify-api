@@ -1,6 +1,8 @@
 package com.core.api.controller;
 
 import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.core.api.beans.GamePageResult;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
@@ -37,7 +40,7 @@ public class ApiLmsGameController {
 		GameInstance gi = null;
 		GamePageResult gp = new GamePageResult();
 		gp.setUserToken(userToken);
-		if (examSection != null && examSection.length() > 0) {
+		if (!StringUtils.isEmpty(examSection)) {
 
 			User user = UserManager.userTokenMap.get(userToken);
 
@@ -55,6 +58,14 @@ public class ApiLmsGameController {
 					ExamSection es = examSectionService
 							.getExamSection(new Long(examSection));
 					if (es != null) {
+						//encryot some fields of user here since it does not need to be displayed anywhere else
+						try{
+							user.encodeSensitiveData();
+						}
+						catch(Exception ex){
+							log.error(ex.getMessage());
+						}
+						
 						gi = GameQueueManager.createGameInstance(es, user);
 						gp.setGi(gi);
 						gp.setStatus(1);
