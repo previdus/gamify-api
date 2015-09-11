@@ -291,9 +291,9 @@
 				<div class="light-bg"></div>
 				<div>
 				
-					<h2 class="heading">Become a member and start playing! </h2>
+					<h2 class="heading">Become a member and play! </h2>
 					<form class="custom-form">
-					<input id="memberFullName" type="text" placeholder="Your Full Name" class="form-control inputbox clearfix">
+					<input id="memberFullName" type="text" placeholder="Full Name" class="form-control inputbox clearfix">
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"><span class = "gender"> Male</span>
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"><span class="gender"> Female</span>
 						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
