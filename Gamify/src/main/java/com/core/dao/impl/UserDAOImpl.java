@@ -27,6 +27,16 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 		return null;
 
 	}
+	
+	public boolean doesUserExist(String userName){
+		Query qry = getSession().createQuery("from User where name = :uname")
+				.setParameter("uname", userName);
+		List<User> userList = qry.list();
+		if (userList != null && userList.size() > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public User getUser(Long userId) {
 

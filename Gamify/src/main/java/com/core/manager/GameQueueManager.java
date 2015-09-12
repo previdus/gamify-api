@@ -232,23 +232,28 @@ public class GameQueueManager {
 				
 				
 				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
-					log.info("debug Game Done !!!");
-					QuestionManager.savePreviousQuestionLog(gi);
-					gi.setStateToDone();
-					gi.markGameWinner();
-					GameQueueManager.finishedGames.put(gi.getId(), gi);
-					GameQueueManager.ongoingGames.remove(gi.getId());
-					return;
-
+					endGame(gi);
+					
 				}
+				else {
 
 				QuestionManager.savePreviousQuestionLog(gi);
 				gi.resetCurrentQuestionWinnerAndBestTime();
 				QuestionManager.attachQuestionToGameInstance(gi);
 				log.info("----- New Question attached is -----------"
 						+ gi.getCurrentQuestion().getId().toString());
+				}
 
 			}
 		}
+	}
+
+	public static void endGame(GameInstance gi) {
+		log.info("debug Game Done !!!");
+		QuestionManager.savePreviousQuestionLog(gi);
+		gi.setStateToDone();
+		gi.markGameWinner();
+		GameQueueManager.finishedGames.put(gi.getId(), gi);
+		GameQueueManager.ongoingGames.remove(gi.getId());
 	}
 }

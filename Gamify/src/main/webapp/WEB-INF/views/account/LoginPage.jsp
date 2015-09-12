@@ -16,6 +16,10 @@
   <script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 		
 		<script>
+		$(document).ready(function() {
+			            
+		     $("#status").html("${status}"); 
+		});
 		function signup(){
 			var userName = $( "#userName" ).val();
 			var memberName = $( "#memberFullName" ).val();
@@ -228,8 +232,9 @@
 				<form:form modelAttribute="user" action="login" method="post" class="form-inline custom-form">
 							<form:input path="name" placeholder="Username" class="form-control"/><form:errors path="name" />
 							<form:input type="password"  placeholder="Password" class="form-control" path="pwd" /><form:errors path="pwd" />
-							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>
+							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>							
 				</form:form>
+				Need help signing in? Click <a href="#">here</a>
 				<br/><br/>
 				<div id="status"></div>
 				<div class="social-links">
@@ -286,9 +291,9 @@
 				<div class="light-bg"></div>
 				<div>
 				
-					<h2 class="heading">Become a member and start playing! </h2>
+					<h2 class="heading">Become a member and play! </h2>
 					<form class="custom-form">
-					<input id="memberFullName" type="text" placeholder="Your Full Name" class="form-control inputbox clearfix">
+					<input id="memberFullName" type="text" placeholder="Full Name" class="form-control inputbox clearfix">
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"><span class = "gender"> Male</span>
 						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"><span class="gender"> Female</span>
 						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">

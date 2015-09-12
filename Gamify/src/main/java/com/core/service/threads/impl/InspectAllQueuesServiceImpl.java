@@ -1,16 +1,21 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.InspectAllQueuesService;
 
-public class PeriodicTaskToInspectAllQueues implements Runnable {
+@Service("inspectAllQueuesService")
+public class InspectAllQueuesServiceImpl 
+implements InspectAllQueuesService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToInspectAllQueues.class);
+			.getLogger(InspectAllQueuesServiceImpl.class);
 	public void run() {
 		try {
 			// new games

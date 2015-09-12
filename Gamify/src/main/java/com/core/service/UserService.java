@@ -15,5 +15,7 @@ public interface UserService {
 	public User getUserByFacebookId(String facebookId);
 	
 	public User saveUser(User user);
+	
+	public boolean doesUserExist(String userName);
 
 }

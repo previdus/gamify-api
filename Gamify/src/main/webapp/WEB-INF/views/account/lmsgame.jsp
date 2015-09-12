@@ -53,7 +53,7 @@ var userId;
 var timerInterval = null;
 //This variable is also used in the backedn in GameConstants.java
 //It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays
-var timeNeededToWaitBeforeAutoRespondTowrongAnswer = 50000;
+var timeNeededToWaitBeforeAutoRespondTowrongAnswer;
 var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
 var cookieToStoreKeyForUserGameQuestionTime = "LMSuserGameQuestion"
@@ -86,7 +86,7 @@ $(document).ready(function() {
 			$.getJSON( "play/pollGame?userId="+userId, function( data ) {
                 if(!data){
 					
- 					 return showFinalMessage('looks like you are still in an expired game. Redirecting you to the main room<br/>',false);
+ 					 return showFinalMessage('looks like you are still in an expired game<br/>',false);
  					 
                 }
                 			  
@@ -120,7 +120,7 @@ function renderHtml(obj,fromAjax){
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
 if(obj.state == "EXPIRED"){
 	
-	return showFinalMessage('looks like everyone has left the game. Redirecting you to the main room <br/>',false);
+	return showFinalMessage('looks like everyone has left the game<br/>',false);
 }
 
 if(obj.state == "WAITING" || obj.state == "NEW"){	
@@ -183,7 +183,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
     if(obj.currentQuestion != null){    
 	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
 	    	
-	    	 
+	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer =  obj.currentQuestion.maxTimeToAnswerInSeconds*1000;
 	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
 	    	
 	    	questionHtml +="<div id = \"options\"><br/>";
@@ -262,20 +262,19 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
 
    	    
    	    
-   	    var reviewGameMessage = "";
+   	    var reviewGameMessage = "<br/>";
+   	    
    	    if(reviewGame)
    	   	{
    	    	reviewGameMessage = "Review the game <a href=\"#\">here</a><br/>";
    	   	}
    	    
-    	var finalMessage = message+
-    	+reviewGameMessage+
+    	var finalMessage = message +reviewGameMessage+
     	"Go back to the <a  href=\"#\" onClick=\"$(\'#backToMainRoom\').submit()\">Main room</a><br/>";
     	$('#questionSection').hide();
     	$("#timer").hide();
-    	$("#finalMessageSection").html(finalMessage);
-    	$("#finalMessageSection").show();
-    	$("#finalMessageSection").addClass('final-message');
+    	$("#timer").html(finalMessage);
+    	$("#timer").show();    	
     	clearInterval(pollGameInstance);
    	    clearInterval(timerInterval);
      	 return;
@@ -439,7 +438,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 		<!-- /timer -->
 		<br/>
 		<br/>
-		 <div id="finalMessageSection"></div>
+		 
 		 <div id="questionSection"></div> 
 		 
 	</div>

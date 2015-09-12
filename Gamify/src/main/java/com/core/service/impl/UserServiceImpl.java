@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserService {
 	public User getUser(String userName, String pwd) {
 		return userDAO.getUser(userName, pwd);
 	}
+	
+	public boolean doesUserExist(String userName){
+		return userDAO.doesUserExist(userName);
+	}
 
 	public User getUser(Long userId) {
 		return userDAO.getUser(userId);

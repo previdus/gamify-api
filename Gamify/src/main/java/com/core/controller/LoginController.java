@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.core.api.beans.ApiResult;
 import com.core.api.controller.ApiLoginController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-import com.core.manager.ThreadManager;
+import com.core.service.PeriodicTasksService;
 import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
@@ -44,35 +46,31 @@ public class LoginController {
 
 	@Autowired
 	private ApiLoginController apiLoginController;
-
+	
+	
 	private GenericValidator validator;
 
 	@Autowired
 	public LoginController(GenericValidator validator) {
 		this.validator = validator;
-		ThreadManager.startDaemonQueueManager();
+		
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
-		model.addAttribute(new User());
-		List<String> recepients = new LinkedList<String>();
-		recepients.add("ricky.rungta@gmail.com");
-		recepients.add("gopal.yami@gmail.com");
-		// EmailNotificationSender.sendResetPasswordMail(null, recepients,
-		// "Test Mail For LMS System");
-
-		return new ModelAndView("account/LoginPage");// , "command", new
-														// User());
+		
+		model.addAttribute(new User());	
+		
+		return new ModelAndView("account/LoginPage");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		if (userFromView.getName().equals("mock")) {
-			generateDummyDataInDatabase.generateData();
+			HttpServletResponse response, Model model) {
+		if(areAnyLoginFieldsBlank(userFromView)){
+			model.addAttribute("status", "Need help signing in? Click the 'help' link below the login button!");
+			return login( model);
 		}
 		User userFromRepository = userService.getUser(userFromView.getName(),
 				userFromView.getPwd());
@@ -89,15 +87,29 @@ public class LoginController {
 						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT,
 						apiResult);
 				response.sendRedirect("rooms");
+				model.addAttribute("status", "Successful login!");
+				return login( model);
 				
 			} catch (IOException ioe) {
 				log.info("Exception while redirecting to rooms "
 						+ ioe);
+				model.addAttribute("status", "Sorry! There is an internal error in the system while trying to log you in");
+				return login( model);
 			}
 			
 		}
-		return null;
 		
+        if(userService.doesUserExist(userFromView.getName())){
+        	model.addAttribute("status", "Invalid login. Looks like your password is incorrect. Click the 'help' link below the login button!");
+    		return login( model);
+		}
+		model.addAttribute("status", "Invalid login. User does not exist in the system or the password is incorrect!");
+		return login( model);
+		
+	}
+
+	private boolean areAnyLoginFieldsBlank(User userFromView) {
+		return userFromView == null || StringUtils.isEmpty(userFromView.getName()) || StringUtils.isEmpty(userFromView.getPwd());
 	}
 
 	@RequestMapping(value = "/facebookLogin", method = RequestMethod.POST)

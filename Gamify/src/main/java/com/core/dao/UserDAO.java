@@ -14,4 +14,6 @@ public interface UserDAO extends GenericRepository<User, Serializable> {
 	public User getUserByEmail(String email);
 
 	public User getUserByFacebookId(String facebookId);
+	
+	public boolean doesUserExist(String userName);
 }

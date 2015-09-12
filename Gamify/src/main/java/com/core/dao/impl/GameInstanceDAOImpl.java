@@ -26,6 +26,14 @@ public class GameInstanceDAOImpl extends
 		List<Object[]> listResult = query.list();
 		 List<TotalNumberOfGameWonByAUser> winningUsers = new LinkedList<TotalNumberOfGameWonByAUser>();
 		for (Object[] aRow : listResult) {
+			//encode sensitive user information here
+			try{
+				((User)aRow[0]).encodeSensitiveData();
+			}
+			catch (Exception ex){
+				ex.printStackTrace();
+			}
+			
 			winningUsers.add(new TotalNumberOfGameWonByAUser((User)aRow[0], (Long)aRow[1]));
 		}
 		releaseSession(session);

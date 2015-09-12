@@ -1,17 +1,22 @@
-package com.core.threads;
+package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.manager.GameQueueManager;
+import com.core.service.threads.FlushStaleGamesFromQueuesService;
 
-public class PeriodicTaskToFlushStaleGamesFromQueues implements Runnable {
+@Service("flushStaleGamesFromQueuesService")
+public class FlushStaleGamesFromQueuesServiceImpl 
+implements FlushStaleGamesFromQueuesService {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(PeriodicTaskToFlushStaleGamesFromQueues.class);
+			.getLogger(FlushStaleGamesFromQueuesServiceImpl.class);
 	public void run() {
 		try {
 			log.info("5) periodicTaskToFlushStaleGamesFromQueues");
