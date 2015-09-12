@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
+import com.core.constants.UserAccountStatus;
 import com.core.domain.User;
 import com.core.service.UserService;
 import com.core.util.GenericUtil;
@@ -63,7 +64,6 @@ public class ApiRegistrationController {
 		//only validate these if not coming from facebook
 		if(StringUtils.isEmpty(facebookId))
 		{
-		
 				// email format validation
 				if (!StringUtils.isEmpty(parentsEmail) && !validator.emailValidate(parentsEmail)) {
 					log.info("invalid parents email format");
@@ -109,8 +109,13 @@ public class ApiRegistrationController {
 		String imageUrl = (facebookId != null && facebookId.trim().length() > 0)? GenericUtil.generateFacebookProfileSmallImageUrl(facebookId):"";
 
 		log.info("imageUrl is:"+imageUrl);
+		UserAccountStatus accountStatus;
+		if(facebookId != null)
+			accountStatus = UserAccountStatus.ACTIVE;
+		else 
+			accountStatus = UserAccountStatus.EMAIL_VERIFICATION_PENDING;
 		User user = new User(userName, password, email, displayName,
-				resolveGender(gender), facebookId,imageUrl);
+				resolveGender(gender), facebookId,imageUrl, accountStatus);
 		try{
 			log.info("before saving/registering user");
 		    user = userService.saveUser(user);

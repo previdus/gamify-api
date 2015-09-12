@@ -1,12 +1,17 @@
 package com.core.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.core.constants.UserAccountStatus;
 
 @Entity
 @Table(name = "user")
@@ -22,6 +27,10 @@ public class User implements Serializable {
 	private String emailId;
 	@Column(name = "phone_no")
 	private String phoneNo;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name= "account_status")
+	private UserAccountStatus userAccountStatus;
 
 	public String getFacebookId() {
 		return facebookId;
@@ -47,15 +56,15 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public User(String userName, String password, String email) {
-		super();
-		this.name = userName;
-		this.pwd = password;
-		this.emailId = email;
-	}
+//	public User(String userName, String password, String email) {
+//		super();
+//		this.name = userName;
+//		this.pwd = password;
+//		this.emailId = email;
+//	}
 
 	public User(String userName, String password, String email,
-			String displayName, String gender, String facebookId) {
+			String displayName, String gender, String facebookId, UserAccountStatus accountStatus) {
 		super();
 		this.name = userName;
 		this.pwd = password;
@@ -63,11 +72,15 @@ public class User implements Serializable {
 		this.displayName = displayName;
 		this.gender = gender;
 		this.facebookId = facebookId;
+		this.userAccountStatus = accountStatus;
 	}
+	
+	
+	
 
 	public User(String userName, String password, String email,
 			String displayName, String gender, String facebookId,
-			String imageUrl) {
+			String imageUrl, UserAccountStatus accountStatus) {
 		super();
 		this.name = userName;
 		this.pwd = password;
@@ -76,6 +89,7 @@ public class User implements Serializable {
 		this.gender = gender;
 		this.facebookId = facebookId;
 		this.imageUrl = imageUrl;
+		this.userAccountStatus = accountStatus;
 	}
 
 	public Long getId() {
@@ -132,6 +146,15 @@ public class User implements Serializable {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	
+
+	public UserAccountStatus getUserAccountStatus() {
+		return userAccountStatus;
+	}
+
+	public void setUserAccountStatus(UserAccountStatus userAccountStatus) {
+		this.userAccountStatus = userAccountStatus;
 	}
 
 	public String getImageUrl() {
