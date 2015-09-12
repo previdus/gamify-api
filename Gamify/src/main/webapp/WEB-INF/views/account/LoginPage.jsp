@@ -18,7 +18,7 @@
 		<script>
 		$(document).ready(function() {
 			            
-		     $("#status").html("${status}"); 
+		     $("#status").html("${loginStatus}"); 
 		});
 		function signup(){
 			var userName = $( "#userName" ).val();

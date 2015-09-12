@@ -17,6 +17,5 @@
         <mapping class="com.core.domain.knockout.Player" />
         <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
         <mapping class="com.core.domain.knockout.PlayerResponseLog" />
-        <mapping class="com.core.domain.EmailVerification"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,6 +1,7 @@
 package emailTemplates;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,6 +19,12 @@ public class EmailNotificationSender {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(LmsGameController.class);
+	
+	public static void main(String[] args) {
+		List<String> recp = new LinkedList<String>();
+		recp.add("ricky.rungta@gmail.com");
+		EmailNotificationSender.sendResetPasswordMail(null,recp , null);
+	}
 
 	public static void sendResetPasswordMail(final Object[] args,
 			final List<String> recipients, final String template) {
@@ -26,11 +33,11 @@ public class EmailNotificationSender {
 			@Override
 			public void run() {
 
-				String strLine = template;
-				File file = new File(template);
-				System.out
-						.println(" ***************************************************  "
-								+ file.getAbsolutePath());
+				//String strLine = template;
+				//File file = new File(template);
+//				System.out
+//						.println(" ***************************************************  "
+//								+ file.getAbsolutePath());
 				final String body = template;
 				final String subject = "LMS Credentials";
 

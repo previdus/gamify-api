@@ -39,9 +39,7 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 	}
 
 	public User getUser(Long userId) {
-
 		return findObjectById(userId);
-
 	}
 
 	public User getUserByName(String userName) {
@@ -68,6 +66,9 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 		}
 		return null;
 	}
+	
+	
+	
 
 	public User getUserByFacebookId(String facebookId) {
 		User user = null;

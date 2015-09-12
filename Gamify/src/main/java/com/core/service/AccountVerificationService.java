@@ -3,7 +3,7 @@ package com.core.service;
 
 public interface AccountVerificationService {
 
-	public boolean verifyEmail(long userId, String verificationCode);
-
-
+	public boolean verifyUserEmail(String verificationCode);
+	public boolean verifyParentEmail(String userCode, String verificationCode);
+	
 }

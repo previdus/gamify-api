@@ -3,6 +3,8 @@ package com.core.api.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
-import com.core.controller.LoginController;
+import com.core.constants.UserAccountStatus;
 import com.core.domain.User;
 import com.core.manager.UserManager;
+import com.core.service.EmailNotificationService;
 import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
@@ -27,17 +30,16 @@ import emailTemplates.EmailNotificationSender;
 @RequestMapping(value = "/api/login")
 public class ApiLoginController {
 	
-	private static final Logger log = LoggerFactory
-			.getLogger(ApiLoginController.class);
+	private static final Logger log = LoggerFactory.getLogger(ApiLoginController.class);
 
 	@Autowired
 	private RoomService roomService;
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
-	private GenerateDummyDataInDatabase generateDummyDataInDatabase;
+	private EmailNotificationService emailNotificationService;
 
 	@Autowired
 	private ApiRegistrationController apiRegistrationController;
@@ -45,14 +47,24 @@ public class ApiLoginController {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ApiResult loginPost(@RequestParam("userName") String userName,
-			@RequestParam("password") String password) {
+			@RequestParam("password") String password, HttpServletRequest request) throws Exception {
 		ApiResult apr = new ApiResult();
-
-		if (userName.equals("mock")) {
-			generateDummyDataInDatabase.generateData();
-		}
 		User userFromRepository = userService.getUser(userName, password);
-		if (userFromRepository != null) {
+		if(userFromRepository == null)
+		{
+			apr.setMessage("user not found");
+			apr.setRedirectLink("");
+			apr.setStatus(-1);
+			return apr;
+		}
+		if(!UserAccountStatus.ACTIVE.equals(userFromRepository.getUserAccountStatus())){
+			//emailNotificationService.sendAccountActivationEmail(request.getServerName(), userFromRepository.getEmailId());
+			apr.setMessage("Email Verification Needed");
+			apr.setRedirectLink("");
+			apr.setStatus(0);
+			return apr;
+			}
+			
 			String userToken = (UserManager.generateUserToken()).toString();
 			UserManager.userTokenMap.put(userToken, userFromRepository);
 			apr.setMessage("successfully logged in");
@@ -61,13 +73,7 @@ public class ApiLoginController {
 			apr.setStatus(1);
 			apr.setUser(userFromRepository);
 			apr.setUserToken(userToken);
-			// response.addHeader("userToken", userToken.toString());
-		} else {
-			apr.setMessage("user not found");
-			apr.setRedirectLink("");
-			// TODO: Set a particular status
-			apr.setStatus(-1);
-		}
+		
 		return apr;
 
 	}
@@ -78,7 +84,7 @@ public class ApiLoginController {
 			@RequestParam("facebookName") String facebookName,
 			@RequestParam("gender") String gender,
 			@RequestParam("facebookEmail") String facebookEmail,
-			@RequestParam("facebookId") String facebookId) {
+			@RequestParam("facebookId") String facebookId, HttpServletRequest request) throws Exception {
 
 		User userFromRepository = userService.getUserByFacebookId(facebookId);
 		if (userFromRepository == null) {
@@ -92,7 +98,7 @@ public class ApiLoginController {
 		}
 		if (userFromRepository != null) {
 			return loginPost(userFromRepository.getName(),
-					userFromRepository.getPwd());
+					userFromRepository.getPwd(), request);
 		} else {
 			log.info("before generating temp password");
 			String tempPassword = GenericUtil
@@ -100,7 +106,7 @@ public class ApiLoginController {
 			log.info("before registering user");
 			ApiResult apr = apiRegistrationController.registerPost(
 					facebookEmail, tempPassword, facebookEmail,"", facebookName,
-					gender, facebookId);
+					gender, facebookId, request );
 			if (apr.getStatus() == 1) {
 				log.info("successfully created user with his facebook credentials");
 				List<String> recepients = new LinkedList<String>();

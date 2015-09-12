@@ -1,8 +1,6 @@
 package com.core.controller;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +22,6 @@ import com.core.api.beans.ApiResult;
 import com.core.api.controller.ApiLoginController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-import com.core.service.PeriodicTasksService;
-import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
 import com.core.validator.GenericValidator;
@@ -41,8 +37,7 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private GenerateDummyDataInDatabase generateDummyDataInDatabase;
+	
 
 	@Autowired
 	private ApiLoginController apiLoginController;
@@ -67,43 +62,31 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+			HttpServletResponse response, Model model) throws Exception {
 		if(areAnyLoginFieldsBlank(userFromView)){
-			model.addAttribute("status", "Need help signing in? Click the 'help' link below the login button!");
+			model.addAttribute("loginStatus", "Please provide login id and password! ");
 			return login( model);
 		}
-		User userFromRepository = userService.getUser(userFromView.getName(),
-				userFromView.getPwd());
-		if (userFromRepository != null) {
-			try {
-				ApiResult apiResult = apiLoginController.loginPost(
-						userFromView.getName(), userFromView.getPwd());
-				log.info("user Token ------------------**********************  "
-						+ apiResult.getUserToken());
-				request.getSession().setAttribute(
-						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER,
-						userFromRepository);
-				request.getSession().setAttribute(
-						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT,
-						apiResult);
+		 ApiResult apiResult = apiLoginController.loginPost(userFromView.getName(), userFromView.getPwd(), request);		
+		log.debug("user Token ------------------**********************  "+ apiResult.getUserToken());
+		if(apiResult.getStatus() == 1){
+				request.getSession().setAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER,apiResult.getUser());
+				request.getSession().setAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT,apiResult);
 				response.sendRedirect("rooms");
-				model.addAttribute("status", "Successful login!");
+				model.addAttribute("loginStatus", "Successful login!");
 				return login( model);
-				
-			} catch (IOException ioe) {
-				log.info("Exception while redirecting to rooms "
-						+ ioe);
-				model.addAttribute("status", "Sorry! There is an internal error in the system while trying to log you in");
-				return login( model);
-			}
-			
+		}
+		if(apiResult.getStatus() == 0){
+			model.addAttribute("loginStatus", "Email Verification Pending! A verification link has been sent to you on your registerd email address " +  apiResult.getUser().getEmailId());
+			return login( model);
 		}
 		
         if(userService.doesUserExist(userFromView.getName())){
-        	model.addAttribute("status", "Invalid login. Looks like your password is incorrect. Click the 'help' link below the login button!");
+        	model.addAttribute("loginStatus", "Invalid login. Looks like your password is incorrect. Click the 'help' link below the login button!");
     		return login( model);
 		}
-		model.addAttribute("status", "Invalid login. User does not exist in the system or the password is incorrect!");
+        
+		model.addAttribute("loginStatus", "Invalid login. User does not exist in the system or the password is incorrect!");
 		return login( model);
 		
 	}
@@ -125,7 +108,7 @@ public class LoginController {
 		log.info("facebookId::" + facebookId);
 		try {
 			ApiResult apiResult = apiLoginController.facebookLoginPost(
-					facebookName, gender, facebookEmail, facebookId);
+					facebookName, gender, facebookEmail, facebookId, request);
 			if (apiResult.getStatus() == 1) {
 				log.info("user Token ------------------**********************  "
 						+ apiResult.getUserToken());

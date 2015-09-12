@@ -1,7 +1,6 @@
 package com.core.domain;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-
 import com.core.constants.UserAccountStatus;
 import com.core.util.StringEncryptionDecryptionUtil;
 
@@ -30,6 +27,17 @@ public class User implements Serializable {
 	@Column(name = "phone_no")
 	private String phoneNo;
 	
+	private String pwd;
+	private String gender;
+	@Column(name = "image_url")
+	private String imageUrl;
+	@Column(name = "facebook_id")
+	private String facebookId;
+	
+	@Column(name = "parent_email_id")
+	private String parentEmailId;
+	
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name= "account_status")
 	private UserAccountStatus userAccountStatus;
@@ -42,12 +50,7 @@ public class User implements Serializable {
 		this.facebookId = facebookId;
 	}
 
-	private String pwd;
-	private String gender;
-	@Column(name = "image_url")
-	private String imageUrl;
-	@Column(name = "facebook_id")
-	private String facebookId;
+	
 
 	public User() {
 		super();
@@ -77,6 +80,21 @@ public class User implements Serializable {
 		this.userAccountStatus = accountStatus;
 	}
 	
+	
+	public User(String userName, String password, String email,
+			String displayName, String gender, String facebookId,
+			String imageUrl, String parentEmailAddress, UserAccountStatus accountStatus) {
+		super();
+		this.name = userName;
+		this.pwd = password;
+		this.emailId = email;
+		this.displayName = displayName;
+		this.gender = gender;
+		this.facebookId = facebookId;
+		this.imageUrl = imageUrl;
+		this.parentEmailId = parentEmailAddress;
+		this.userAccountStatus = accountStatus;
+	}
 	
 	
 
@@ -112,6 +130,14 @@ public class User implements Serializable {
 
 	public String getDisplayName() {
 		return displayName;
+	}
+	
+	public String getParentEmailId() {
+		return parentEmailId;
+	}
+
+	public void setParentEmailId(String parentEmailId) {
+		this.parentEmailId = parentEmailId;
 	}
 
 	public void setDisplayName(String displayName) {

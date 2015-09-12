@@ -3,6 +3,8 @@ package com.core.api.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +53,7 @@ public class ApiRegistrationController {
 			@RequestParam(value="parentsEmail", required=false) String parentsEmail, 
 			@RequestParam("displayName") String displayName,
 			@RequestParam("gender") String gender,
-			@RequestParam(value="facebookId", required = false) String facebookId) {
+			@RequestParam(value="facebookId", required = false) String facebookId, HttpServletRequest request) throws Exception {
 
 		// validation
 		log.info("before validating all fields before registering");
@@ -115,7 +117,7 @@ public class ApiRegistrationController {
 		else 
 			accountStatus = UserAccountStatus.EMAIL_VERIFICATION_PENDING;
 		User user = new User(userName, password, email, displayName,
-				resolveGender(gender), facebookId,imageUrl, accountStatus);
+				resolveGender(gender), facebookId,imageUrl,parentsEmail, accountStatus);
 		try{
 			log.info("before saving/registering user");
 		    user = userService.saveUser(user);
@@ -132,7 +134,7 @@ public class ApiRegistrationController {
 					"there was a problem registering the user");
 		}
 		// successful registration so autologin
-		ApiResult apr = apiLoginController.loginPost(userName, password);
+		ApiResult apr = apiLoginController.loginPost(userName, password, request);
 		sendWelcomeEmail(userName, email);
 		apr.setMessage("Registration successful. An email verification link has been sent to your email id " + email + " Kindly verify it to access the account. " + apr.getMessage());
 		return apr;
