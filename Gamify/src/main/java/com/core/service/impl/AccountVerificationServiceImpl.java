@@ -13,7 +13,7 @@ import com.core.domain.User;
 import com.core.service.AccountVerificationService;
 import com.core.service.OptionService;
 
-@Service("answerKeyService")
+@Service("accountVerificationService")
 public class AccountVerificationServiceImpl implements AccountVerificationService {
 
 	private static final Logger log = LoggerFactory
