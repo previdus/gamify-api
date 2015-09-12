@@ -165,8 +165,7 @@ public class GameQueueManager {
 			Long userId, Long questionId, Long optionId,
 			long secondsTakenToRespond) {
 		GameInstance gi = playerGameMap.get(userId);
-		if (gi != null && gi.getCurrentQuestion() != null
-				&& gi.getCurrentQuestion().getId().equals(questionId)) {
+		if (isTheResponseForCurrentQuestion(questionId, gi)) {
 			PlayerResponseLog prl = new PlayerResponseLog(gi.getPlayers().get(
 					userId), new User(userId), new Option(optionId),
 					secondsTakenToRespond);
@@ -175,15 +174,33 @@ public class GameQueueManager {
 					+ questionId);
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
 			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
-				if (gi.getCurrentQuestionWinner() == null
-						|| secondsTakenToRespond < gi
-								.getBestTimeForCurrentQuestion()) {
+				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
+						secondsTakenToRespond, gi)) {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 				}
 			}
+			
+			if(gi.haveAllPlayersResponded()){
+				calculateScoresForPlayers(gi);
+			}
 		}
 		return gi;
+	}
+
+	
+
+	private static boolean isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
+			long secondsTakenToRespond, GameInstance gi) {
+		return gi.getCurrentQuestionWinner() == null
+				|| secondsTakenToRespond < gi
+						.getBestTimeForCurrentQuestion();
+	}
+
+	private static boolean isTheResponseForCurrentQuestion(Long questionId,
+			GameInstance gi) {
+		return gi != null && gi.getCurrentQuestion() != null
+				&& gi.getCurrentQuestion().getId().equals(questionId);
 	}
 
 	public static synchronized void decreaseLife(GameInstance gi, long userId) {

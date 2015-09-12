@@ -16,10 +16,7 @@
   <script type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 		
 		<script>
-		$(document).ready(function() {
-			            
-		     $("#status").html("${status}"); 
-		});
+		
 		function signup(){
 			var userName = $( "#userName" ).val();
 			var memberName = $( "#memberFullName" ).val();
@@ -58,6 +55,7 @@
 			}
 		 
 		$(document).ready(function() {
+		     $("#status").html("${status}");
 			$("#signup").click(function(){
 				signup();
 		    });

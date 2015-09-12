@@ -248,7 +248,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
       }		
     if(obj.state == "DONE"){
         
-    	if(obj.currentQuestionWinner != null){
+    	if(obj.gameWinner.id == userId){
     	 return showFinalMessage( 'Congrats!! You are the last man standing<br/>',true);
     	}
     	else
