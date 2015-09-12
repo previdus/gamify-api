@@ -29,6 +29,8 @@ public class LogoutController {
 					.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 			request.getSession().removeAttribute(
 					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
+			request.getSession().removeAttribute(
+					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT);
 
 		} catch (Throwable theException) {
 

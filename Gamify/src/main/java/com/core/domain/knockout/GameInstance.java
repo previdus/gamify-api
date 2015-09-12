@@ -308,5 +308,9 @@ public class GameInstance implements Serializable {
 		pql.setGameInstance(this);
 		this.previousQuestionLogs.add(pql);
 	}
+	
+	public boolean haveAllPlayersResponded(){
+		return this.getPlayers().size() == this.getPlayerResponsesToCurrentQuestion().size();
+	}
 
 }
