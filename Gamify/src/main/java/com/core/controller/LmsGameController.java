@@ -124,7 +124,7 @@ public class LmsGameController {
 					ModelAndView mav = new ModelAndView("account/lmsgame");
 					mav.addObject("userId", user.getId());
 				
-					mav.addObject("gi", new GameInstance());
+					mav.addObject("gi", gpr.getGi());
 					mav.addObject("token", result.getUserToken());
 					return mav;
 				}
