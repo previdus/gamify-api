@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -27,6 +28,18 @@ public class Player  implements Serializable{
 	private User user;
 	@Column(name="no_of_life")
 	private int noOfLife;
+	
+	@OneToOne(optional=true)
+    @JoinColumn(name="player_rating_id")
+	private PlayerEloRating playerEloRating;
+	
+	public PlayerEloRating getPlayerEloRating() {
+		return playerEloRating;
+	}
+	public void setPlayerEloRating(PlayerEloRating playerEloRating) {
+		this.playerEloRating = playerEloRating;
+	}
+
 	private transient long playerJoinTime;
 	private transient int noOfPollsSoFar;
 	

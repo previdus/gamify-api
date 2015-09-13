@@ -43,5 +43,11 @@ public class GameConstants {
 	public static final long MILLISECONDS_EVERY_QUESTION_IS_TIMED_FOR = 120000 * CONSTANT_MULTIPLIER;
 	
 	public static final int  EXTRA_TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION = 10;
+	
+	public static final int PROVISIONAL_GAMES_LIMIT_FOR_ELO_RATING = 25;
+	
+	public final static double KVALUE_FOR_ELO_RATING = 32;
+	
+	public static final int INITIAL_ELO_RATING = 1000;
 
 }
