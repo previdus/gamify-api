@@ -77,6 +77,7 @@ $(document).ready(function() {
      var json = '<%= request.getAttribute("gi") %>';     
     // var gi = $.parseJSON(json);
 	// renderHtml(gi,false);
+	$("#timer").html("Please wait for a moment as we prepare the game");
 	 $.ajaxSetup({ cache: false });
 	 pollGameInstance = function pollGameInstance()
 		{
