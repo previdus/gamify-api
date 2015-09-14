@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
 import com.core.service.GameInstanceService;
+import com.core.service.PlayerRatingService;
 import com.core.service.threads.StoreFinishedGamesAndEmptyQueueService;
 
 @Service("storeFinishedGamesAndEmptyQueueService")
@@ -24,6 +25,14 @@ implements StoreFinishedGamesAndEmptyQueueService {
 	public void setGameInstanceService(GameInstanceService gameInstanceService) {
 		this.gameInstanceService = gameInstanceService;
 	}
+	
+//	private  PlayerRatingService playerRatingService;
+//
+//	@Autowired(required = true)
+//	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
+//		this.playerRatingService = playerRatingService;
+//	}
+//	
 	
 	public void run() {
 		log.info("*********************storeFinishedGamesAndEmptyQueue***********************");
@@ -44,7 +53,8 @@ implements StoreFinishedGamesAndEmptyQueueService {
 				log.info("No of Loosers "
 						+ gameInstance.getLooserPlayers().size());
 				gameInstance.getPlayers().putAll(
-						gameInstance.getLooserPlayers());				
+						gameInstance.getLooserPlayers());		
+				//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gameInstance);
 				gameInstanceService.saveOrUpdate(gameInstance);
 				GameQueueManager.gameResponseLog.remove(gameInstanceId);
 			}
@@ -53,5 +63,7 @@ implements StoreFinishedGamesAndEmptyQueueService {
 			ex.printStackTrace();
 		}
 	}
+	
+	
 
 }

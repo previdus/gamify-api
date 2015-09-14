@@ -117,15 +117,15 @@ public class LmsGameController {
 				} else {
 					if(result == null){
 						response.sendRedirect("login");
+						return null;
 					}
 					GamePageResult gpr = apiLmsGameController.selectRoom(
 							result.getUserToken(), examSection);
 				
 					ModelAndView mav = new ModelAndView("account/lmsgame");
 					mav.addObject("userId", user.getId());
-				
-					mav.addObject("gi", gpr.getGi());
-					mav.addObject("token", result.getUserToken());
+					mav.addObject("gameId", gpr.getGi().getId());
+					
 					return mav;
 				}
 

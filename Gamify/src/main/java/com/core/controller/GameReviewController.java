@@ -33,11 +33,7 @@ public class GameReviewController {
 	public ModelAndView reviewGame( 
 			@PathVariable("gameId") long gameId,
 			Model model, HttpServletRequest request) throws IOException {
-//		ApiResult apiResult = (ApiResult) request.getSession().getAttribute(
-//				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT);
-//		GamePageResult gamePageResult = apiLmsGameController.pollGameInstance(apiResult.getUserToken());
-//		GameInstance gi = gamePageResult.getGi();
-//		if(gi == null)
+
 		GameInstance	gi = gameInstanceService.getGameInstance(gameId);
 		return new ModelAndView("account/game-review", "gi", gi);
 	}

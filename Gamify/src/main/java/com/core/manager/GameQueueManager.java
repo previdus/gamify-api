@@ -21,6 +21,7 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
+import com.core.service.PlayerRatingService;
 
 @Component
 public class GameQueueManager {
@@ -53,6 +54,19 @@ public class GameQueueManager {
 	public void setAnswerKeyService(AnswerKeyService answerKeyService) {
 		GameQueueManager.answerKeyService = answerKeyService;
 	}
+	
+//	private static PlayerRatingService playerRatingService;
+//
+//	/**
+//	 * Sets the playerRatingService This method should never be called except by
+//	 * Spring
+//	 * 
+//	 * 
+//	 */
+//	@Autowired(required = true)
+//	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
+//		GameQueueManager.playerRatingService = playerRatingService;
+//	}
 
 	private static GameInstanceService gameInstanceService;
 
@@ -249,8 +263,7 @@ public class GameQueueManager {
 				
 				
 				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
-					endGame(gi);
-					
+					endGame(gi);					
 				}
 				else {
 
@@ -272,5 +285,6 @@ public class GameQueueManager {
 		gi.markGameWinner();
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
 		GameQueueManager.ongoingGames.remove(gi.getId());
+		//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
 	}
 }
