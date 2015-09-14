@@ -65,7 +65,20 @@
  <!-- Collect the nav links, forms, and other content for toggling -->
  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
-        
+        <li><a class="clearTimeInterval" href="#" onClick="$('#backToMainRoom').submit()"><span class="leave-game">Leave Game</span></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <span id="displayUserName"></span> 
+          <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
+            <li><a  href="#menu-toggle" id="menu-toggle"><i class="glyphicon glyphicon-indent-left" >&nbsp;Toggle Pane</i></a></li>
+            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
+            <li role="separator" class="divider"></li>
+            <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
+          </ul>
+        </li>
       </ul>
   </div><!-- /.navbar-collapse -->    
 </div><!-- /.container-fluid -->
@@ -73,12 +86,6 @@
 
 <form id="backToMainRoom"  action="${pageContext.request.contextPath}/rooms/changeroom"></form>
 <form id="logoutform"  action="${pageContext.request.contextPath}/logout"></form>
-
-
-<div id="wrapper">
-    <div id="sidebar-wrapper">
-    </div>
-</div>
 <div id="page-content-wrapper">
    <div class="container-fluid">
 		<!-- timer -->
@@ -86,18 +93,38 @@
 			 <div class="col-lg-12">
 			 <div class="col-md-offset-2 col-md-8">
 				<div class="timer">
-				<form:label path="gi.id">${gi.id}</form:label>
-					
+					<div class="clock-wrapper">
+
+					</div>
+					<div id="timer" class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text"></div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 space"></div>
 				</div>
 			</div>
 		</div>
+		<!-- /timer -->
 		<br/>
 		<br/>
 		 
-		 <div id="questionSection"></div> 
-	</div>	 
+		 <div id="questionSection">
+          <c:forEach items="${gi.previousQuestionLogs}" var="questionLog">
+          Question Id : <c:out value="${questionLog.question.questionText}"></c:out>
+          <br/>
+           <c:forEach items="${questionLog.question.options}" var="option">
+          Option: <c:out value="${option.text}"></c:out><br/>
+          </c:forEach>
+          <c:forEach items="${questionLog.playersResponses}" var="playerResponse">
+          Player: <c:out value="${playerResponse.user.name}"></c:out><br/>
+          Response: <c:out value="${playerResponse.response.text}"></c:out><br/>
+          Time Taken: <c:out value="${playerResponse.timeTakenToAnswer}"></c:out><br/>
+          Rank: <c:out value="${playerResponse.rank}"></c:out><br/>
+          
+          </c:forEach>
+          </c:forEach>
+
+</div> 
+		 
 	</div>
 </div> 
- 
+ <div id="jsonresponse"></div>
 </body>
 </html>

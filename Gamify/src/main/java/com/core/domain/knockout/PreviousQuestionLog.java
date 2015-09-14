@@ -29,7 +29,7 @@ public class PreviousQuestionLog implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id")
 	private Question question;
 
@@ -43,6 +43,11 @@ public class PreviousQuestionLog implements Serializable {
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "winner_user_id")
 	private User winner;
+	
+	@JsonIgnore
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "game_instance_id")
+	private GameInstance gameInstance;
 
 	// private transient AnswerKey answerKey;
 
@@ -53,11 +58,6 @@ public class PreviousQuestionLog implements Serializable {
 	public void setGameInstance(GameInstance gameInstance) {
 		this.gameInstance = gameInstance;
 	}
-
-	@JsonIgnore
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "game_instance_id")
-	private GameInstance gameInstance;
 
 	public PreviousQuestionLog() {
 		super();
