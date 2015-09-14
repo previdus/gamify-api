@@ -19,7 +19,6 @@ import com.core.constants.UserAccountStatus;
 import com.core.domain.User;
 import com.core.manager.UserManager;
 import com.core.service.EmailNotificationService;
-import com.core.service.GenerateDummyDataInDatabase;
 import com.core.service.RoomService;
 import com.core.service.UserService;
 import com.core.util.GenericUtil;

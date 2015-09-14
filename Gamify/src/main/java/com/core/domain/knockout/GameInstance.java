@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,14 +47,6 @@ public class GameInstance implements Serializable {
 	private transient User currentQuestionWinner;
 	private transient List<Question> preLoadedQuestions;
 
-	public List<Question> fetchPreLoadedQuestions() {
-		return preLoadedQuestions;
-	}
-
-	public void setPreLoadedQuestions(List<Question> preLoadedQuestions) {
-		this.preLoadedQuestions = preLoadedQuestions;
-	}
-
 	private transient Map<Long, PlayerResponseLog> playerResponsesToCurrentQuestion = new HashMap<Long, PlayerResponseLog>();
 	
 	private transient Question currentQuestion;
@@ -62,14 +57,6 @@ public class GameInstance implements Serializable {
 	//the game instance object is visible in the frontend for every ajax poll and the player can easily figure out 
 	//what the answer key to the question is if it is named the obvious
 	private transient Long  bang;
-
-	public Long getBang() {
-		return bang;
-	}
-
-	public void setBang(Long bang) {
-		this.bang = bang;
-	}
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "exam_section_id")
@@ -88,16 +75,30 @@ public class GameInstance implements Serializable {
 	@JoinColumn(name = "winner_user_id")
 	private User gameWinner;
 
-	@OneToMany(mappedBy = "gameInstance", cascade = { javax.persistence.CascadeType.ALL })
+	@OneToMany(mappedBy = "gameInstance", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
 	@OrderBy(clause = "noOfLife desc")
+	@Fetch(value = FetchMode.SUBSELECT)
+	@javax.persistence.MapKey(name = "user")
 	private Map<Long, Player> players = new HashMap<Long, Player>();
 
-	@OneToMany(mappedBy = "gameInstance", cascade = { javax.persistence.CascadeType.ALL })
+	@OneToMany(mappedBy = "gameInstance", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
 
+	
+	
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 
+	public Long getBang() {
+		return bang;
+	}
+
+	public void setBang(Long bang) {
+		this.bang = bang;
+	}
+	
+	
 	public long getBestTimeForCurrentQuestion() {
 		return bestTimeForCurrentQuestion;
 	}
@@ -128,6 +129,14 @@ public class GameInstance implements Serializable {
 			player.incrementPollCount();
 		}
 
+	}
+	
+	public List<Question> fetchPreLoadedQuestions() {
+		return preLoadedQuestions;
+	}
+
+	public void setPreLoadedQuestions(List<Question> preLoadedQuestions) {
+		this.preLoadedQuestions = preLoadedQuestions;
 	}
 
 	public void addPlayer(User user) {

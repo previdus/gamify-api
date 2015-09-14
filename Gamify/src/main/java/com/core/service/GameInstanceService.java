@@ -6,4 +6,6 @@ public interface GameInstanceService {
 
 	public GameInstance saveOrUpdate(GameInstance gi);
 
+	public GameInstance getGameInstance(long gameId);
+
 }

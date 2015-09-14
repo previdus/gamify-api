@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.core.domain.Question;
 import com.core.domain.User;
@@ -30,7 +33,8 @@ public class PreviousQuestionLog implements Serializable {
 	@JoinColumn(name = "question_id")
 	private Question question;
 
-	@OneToMany(mappedBy = "previousQuestionLog", cascade = { javax.persistence.CascadeType.ALL })
+	@OneToMany(mappedBy = "previousQuestionLog", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PlayerResponseLog> playersResponses;
 
 	@Column(name = "best_time")

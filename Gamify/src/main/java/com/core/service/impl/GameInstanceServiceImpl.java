@@ -17,4 +17,8 @@ public class GameInstanceServiceImpl implements GameInstanceService {
 		return gameInstanceDAO.saveOrUpdate(gi);
 	}
 
+	public GameInstance getGameInstance(long gameId) {
+		return gameInstanceDAO.findObjectByIdImmediate(gameId);
+	}
+
 }
