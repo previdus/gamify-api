@@ -70,14 +70,12 @@ $(document).ready(function() {
 		  });
     var navbarHeight = $('.navbar').height();
 	$("#wrapper").css("margin", navbarHeight);
+
 	 
      userId = "${userId}";           
      $("#displayUserName").html(userId); 
-     var uToken = '<%= request.getAttribute("token") %>'; 
-     var json = '<%= request.getAttribute("gi") %>';     
-    // var gi = $.parseJSON(json);
-	// renderHtml(gi,false);
-	$("#timer").html("Please wait for a moment as we prepare the game");
+
+	$("#timer").html("Please wait for a moment while  we prepare the game");
 	 $.ajaxSetup({ cache: false });
 	 pollGameInstance = function pollGameInstance()
 		{
@@ -267,7 +265,7 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
    	    
    	    if(reviewGame)
    	   	{
-   	    	reviewGameMessage = "Review the game <a href=\"#\">here</a><br/>";
+   	    	reviewGameMessage = "Review the game <a href=\"#\" onClick=\"$(\'#reviewPage\').submit()\">here</a><br/>";
    	   	}
    	    
     	var finalMessage = message +reviewGameMessage+
@@ -415,7 +413,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 <form id="backToMainRoom"  action="${pageContext.request.contextPath}/rooms/changeroom"></form>
 <form id="logoutform"  action="${pageContext.request.contextPath}/logout"></form>
-
+<form id="reviewPage"  action="${pageContext.request.contextPath}/review-game/${gameId}"></form>
 
 <div id="wrapper">
     <div id="sidebar-wrapper">
