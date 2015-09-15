@@ -62,20 +62,29 @@ var timeToUpdateTimerDivAndTimerCookie = 1000;
 var messageToDisplayWhenWaitingForOtherPlayersToRespond = "You have already responded. Waiting for other players to respond";
 var messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond = "Sorry, time has elapsed. Loading next question after all other players have responded";
 
-
-$(document).ready(function() {
+function handleMenuAndWrapper(){
 	$("#menu-toggle").click(function(e) {
 	      e.preventDefault();
 	      $("#wrapper").toggleClass("toggled");
 		  });
-    var navbarHeight = $('.navbar').height();
+  var navbarHeight = $('.navbar').height();
 	$("#wrapper").css("margin", navbarHeight);
+}
 
-	 
-     userId = "${userId}";           
+function setAndDisplayUser(){
+	 userId = "${userId}";           
      $("#displayUserName").html(userId); 
+}
 
+function displayInitialMessageBeforeTheGameLoads(){
 	$("#timer").html("Please wait for a moment while  we prepare the game");
+}
+
+$(document).ready(function() {
+	handleMenuAndWrapper();
+	setAndDisplayUser(); 
+	displayInitialMessageBeforeTheGameLoads();
+	
 	 $.ajaxSetup({ cache: false });
 	 pollGameInstance = function pollGameInstance()
 		{
@@ -173,10 +182,12 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
  		});
 
 
- 	var totalPlayerHtml = "<ul class=\"sidebar-nav\"><li class=\"sidebar-headline col-md-12\">Total Players: "+playerCount+"</li>"+playerHtml+"</ul>";
+ 	var totalPlayerHtml = "<ul class=\"sidebar-nav\"><li class=\"sidebar-headline col-md-12\">Total Players: "+playerCount+"</li>"+playerHtml+"</ul>";	
  	
-
  	$("#sidebar-wrapper").html(totalPlayerHtml);
+
+
+ 	
  	var questionHtml = "";
     timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
     if(obj.currentQuestion != null){    
@@ -281,34 +292,34 @@ if(obj.state == "WAITING" || obj.state == "NEW"){
     
 }
 
-function handleRefreshPage(obj){
-	 //delete and replace previous question timer cookie only if currentQuestion Is Not same as Previous Question
-    if(userId+obj.id+obj.currentQuestion.id != $.cookie(cookieToStoreKeyForUserGameQuestionTime)){
+// function handleRefreshPage(obj){
+// 	 //delete and replace previous question timer cookie only if currentQuestion Is Not same as Previous Question
+//     if(userId+obj.id+obj.currentQuestion.id != $.cookie(cookieToStoreKeyForUserGameQuestionTime)){
 
         
 
-    	$.removeCookie($.cookie(cookieToStoreKeyForUserGameQuestionTime), { path: '/Gamify/' });
-    	$.cookie(cookieToStoreKeyForUserGameQuestionTime,userId+obj.id+obj.currentQuestion.id);
-     }
-    //else since this page has been refreshed set the variable timeNeededToWaitBeforeAutoRespondTowrongAnswer
-    //to the value from that cookie
-    else
-    {
+//     	$.removeCookie($.cookie(cookieToStoreKeyForUserGameQuestionTime), { path: '/Gamify/' });
+//     	$.cookie(cookieToStoreKeyForUserGameQuestionTime,userId+obj.id+obj.currentQuestion.id);
+//      }
+//     //else since this page has been refreshed set the variable timeNeededToWaitBeforeAutoRespondTowrongAnswer
+//     //to the value from that cookie
+//     else
+//     {
         
-        if($.cookie(userId+obj.id+obj.currentQuestion.id) != null 
-                && $.cookie(userId+obj.id+obj.currentQuestion.id) != 'undefined')
+//         if($.cookie(userId+obj.id+obj.currentQuestion.id) != null 
+//                 && $.cookie(userId+obj.id+obj.currentQuestion.id) != 'undefined')
                     
-        {
-        	timeNeededToWaitBeforeAutoRespondTowrongAnswer = $.cookie(userId+obj.id+obj.currentQuestion.id);
-            if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){
-            	timeNeededToWaitBeforeAutoRespondTowrongAnswer *= 1000;
-            }
+//         {
+//         	timeNeededToWaitBeforeAutoRespondTowrongAnswer = $.cookie(userId+obj.id+obj.currentQuestion.id);
+//             if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){
+//             	timeNeededToWaitBeforeAutoRespondTowrongAnswer *= 1000;
+//             }
             
         	
-        }
+//         }
     	
-    }
-}
+//     }
+// }
 
 function submitOptionWhenTimeElapsed(questionId){
   	

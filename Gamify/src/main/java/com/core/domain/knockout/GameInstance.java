@@ -70,6 +70,15 @@ public class GameInstance implements Serializable {
 	private GAME_STATE state;
 
 	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
+	private transient Map<Long, Player> quittingPlayers = new HashMap<Long, Player>();
+
+	public Map<Long, Player> getQuittingPlayers() {
+		return quittingPlayers;
+	}
+
+	public void setQuittingPlayers(Map<Long, Player> quittingPlayers) {
+		this.quittingPlayers = quittingPlayers;
+	}
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "winner_user_id")
@@ -155,11 +164,16 @@ public class GameInstance implements Serializable {
 		this.players.put(player.getUser().getId(), player);
 	}
 
-	public void removePlayer(User user) {
+	public void removePlayer(User user, boolean playerLost) {
 		System.out
 				.println("Looser Player *************************************"
 						+ user.getId());
-		losingPlayers.put(user.getId(), this.players.get(user.getId()));
+		if(playerLost){
+			losingPlayers.put(user.getId(), this.players.get(user.getId()));
+		}
+		else{
+			quittingPlayers.put(user.getId(), this.players.get(user.getId()));
+		}
 		this.players.remove(user.getId());
 	}
 
@@ -320,6 +334,10 @@ public class GameInstance implements Serializable {
 	
 	public boolean haveAllPlayersResponded(){
 		return this.getPlayers().size() == this.getPlayerResponsesToCurrentQuestion().size();
+	}
+
+	public boolean hasPlayerLostTheGame(Long userId) {
+		return this.losingPlayers.get(userId) != null;
 	}
 
 }

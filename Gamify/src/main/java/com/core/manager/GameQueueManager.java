@@ -167,7 +167,7 @@ public class GameQueueManager {
 		if(user != null){
 			GameInstance gi = playerGameMap.get(user.getId());
 			if (gi != null) {
-				gi.removePlayer(user);
+				gi.removePlayer(user,false);
 				playerGameMap.remove(user.getId());
 			}
 	
@@ -223,7 +223,7 @@ public class GameQueueManager {
 		log.info(" Life decreased for userId " + userId + "  Life : "
 				+ gi.getPlayers().get(userId).getNoOfLife());
 		if (gi.getPlayers().get(userId).getNoOfLife() <= 0) {
-			gi.removePlayer(new User(userId));
+			gi.removePlayer(new User(userId),true);
 		}
 	}
 
