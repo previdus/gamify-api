@@ -48,11 +48,11 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 			if(isCurrentQuestionExceedingItsTimeLimit(gi)){
 				responses = initalizeResponsesIfEmpty(responses);
 				log.info("automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime - before for loop");
-				for(Long playerId: players.keySet()){
-					if(noResponsesReceivedOrPlayerHasntRespondedYet(responses,
-							playerId)){
+				for(Long userId: players.keySet()){
+					if(gi.hasPlayerLostTheGame(userId) && noResponsesReceivedOrPlayerHasntRespondedYet(responses,
+							userId)){
 						Player player = players.get(
-								playerId);
+								userId);
 						log.info("recording response since its timed out");
 						GameQueueManager.recordPlayerResponseToQuestion(player.getUser().getId(),
 								gi.getCurrentQuestion().getId(), -1L, 0L);

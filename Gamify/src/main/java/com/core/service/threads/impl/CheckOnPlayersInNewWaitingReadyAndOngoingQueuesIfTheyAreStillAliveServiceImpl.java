@@ -48,11 +48,11 @@ public class CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveS
 			for (Player player : gi.getPlayers().values()) {
 				log.info("player currently in the game is:"+player.getUser().getDisplayName());
 				long numOfExpectedPollsSincePlayerJoined = (System
-						.currentTimeMillis() - player.getPlayerJoinTime()) / 5000;
+						.currentTimeMillis() - player.getPlayerJoinTime()) / GameConstants.PLAYER_IN_GAME_POLL_TIME;
 				player.setNumOfExpectedPollsSincePlayerJoined(numOfExpectedPollsSincePlayerJoined);
 				log.info("numOfExpectedPollsSincePlayerJoined is :"+numOfExpectedPollsSincePlayerJoined);
 				if (getNumberOfMissedPolls(player, numOfExpectedPollsSincePlayerJoined) > GameConstants.MINIMUM_NUMBER_OF_POLLS_MISSED_BY_PLAYER_BEFORE_DECIDING_TO_REMOVE_PLAYER_FROM_GAME) {
-					gi.removePlayer(player.getUser());
+					gi.removePlayer(player.getUser(),false);
 					GameQueueManager.playerGameMap.remove(player.getUser().getId());
 				}
 			}
