@@ -32,8 +32,7 @@ public class Emailer {
 	private String dispatcherUserName;
 	private String dispatcherPassword;
 	private final List<String> recipients;
-	private static final ExecutorService emailThPool = Executors
-			.newFixedThreadPool(2);
+	private static final ExecutorService emailThPool = Executors.newFixedThreadPool(2);
 
 	// protected static Logger logger = Logger.getLogger(Emailer.class);
 

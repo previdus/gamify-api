@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
+import com.core.dao.GameInstanceDAO;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
@@ -21,7 +22,6 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
-import com.core.service.PlayerRatingService;
 
 @Component
 public class GameQueueManager {
@@ -42,7 +42,9 @@ public class GameQueueManager {
 			.getLogger(GameQueueManager.class);
 
 	private static AnswerKeyService answerKeyService;
-
+	
+	private static GameInstanceService gameInstanceService;
+	
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
 	 * Spring
@@ -68,7 +70,7 @@ public class GameQueueManager {
 //		GameQueueManager.playerRatingService = playerRatingService;
 //	}
 
-	private static GameInstanceService gameInstanceService;
+	
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by

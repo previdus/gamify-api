@@ -19,7 +19,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService{
 		emailBody.append(AESCrypto.encrypt(userEmail));
 		LinkedList<String> recipients = new LinkedList<String>();
 		recipients.add(userEmail);
-		new Emailer(null, null,EMAIL_ACCOUNT_VERIFICATION_EMAIL_SUBJECT ,emailBody.toString() , recipients);
+		Emailer emailer = new Emailer(null, null,EMAIL_ACCOUNT_VERIFICATION_EMAIL_SUBJECT ,emailBody.toString() , recipients);
+		emailer.sendEmail();
 		return true;
 	}
 

@@ -112,8 +112,7 @@ public class ApiLoginController {
 				recepients.add(facebookEmail);
 				String emailBody = "You have been assigned a temporary user id and password to login. You can change these later from the edit profile page of our application Your user Id is "
 						+ facebookEmail + ". Your password is " + tempPassword;
-				EmailNotificationSender.sendResetPasswordMail(null, recepients,
-						emailBody);
+				EmailNotificationSender.sendResetPasswordMail(null, recepients,emailBody);
 				apr.setMessage("You have been registered to our application. Your temporary user id is "
 						+ facebookEmail
 						+ " and password is "

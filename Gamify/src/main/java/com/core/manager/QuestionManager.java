@@ -17,6 +17,7 @@ import com.core.domain.knockout.PlayerResponseLog;
 import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
+import com.core.service.GameInstanceService;
 import com.core.service.QuestionService;
 
 @Component
@@ -24,10 +25,24 @@ public class QuestionManager {
 
 	private static Random random = new Random();
 
-	private static final Logger log = LoggerFactory
-			.getLogger(QuestionManager.class);
+	private static final Logger log = LoggerFactory.getLogger(QuestionManager.class);
 
 	private static AnswerKeyService answerKeyService;
+	
+	private static QuestionService questionService;
+	
+	
+	private static GameInstanceService gameInstanceService;
+	
+	
+	
+	
+	@Autowired(required = true)
+	public void setGameInstanceService(GameInstanceService gameInstanceService) {
+		QuestionManager.gameInstanceService = gameInstanceService;
+	}
+
+
 
 	/**
 	 * Sets the answerKeyService This method should never be called except by
@@ -41,7 +56,7 @@ public class QuestionManager {
 		QuestionManager.answerKeyService = answerKeyService;
 	}
 
-	private static QuestionService questionService;
+	
 
 	/**
 	 * Sets the questionService This method should never be called except by
@@ -58,10 +73,7 @@ public class QuestionManager {
 	public static void savePreviousQuestionLog(GameInstance gi) {
 		// save previous question log
 		try {
-			// AnswerKey answerKey =
-			// answerKeyService.getAnswerKey(gi.getCurrentQuestion());
 			PreviousQuestionLog pql = new PreviousQuestionLog();
-			// pql.setAnswerKey(answerKey);
 			pql.setQuestion(gi.getCurrentQuestion());
 			pql.setGameInstance(gi);
 			pql.setPlayersResponses(new ArrayList<PlayerResponseLog>(gi
@@ -75,6 +87,8 @@ public class QuestionManager {
 				logs = new LinkedList<PreviousQuestionLog>();
 			logs.add(pql);
 			GameQueueManager.gameResponseLog.put(gi.getId(), logs);
+			gi.setPreviousQuestionLogs(logs);
+			gameInstanceService.saveOrUpdate(gi);
 			log.info("Prev Question Log Size after adding "
 					+ GameQueueManager.gameResponseLog.get(gi.getId()).size());
 

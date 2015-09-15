@@ -22,6 +22,7 @@ import com.core.api.beans.ApiResult;
 import com.core.api.controller.ApiLoginController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
+import com.core.service.EmailNotificationService;
 import com.core.service.RoomService;
 import com.core.service.UserService;
 import com.core.validator.GenericValidator;
@@ -37,7 +38,8 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 
-	
+	@Autowired
+	private EmailNotificationService emailNotificationService;    
 
 	@Autowired
 	private ApiLoginController apiLoginController;
@@ -52,8 +54,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView login(Model model) {
-		
+	public ModelAndView login(Model model) throws Exception {
+		//emailNotificationService.sendAccountActivationEmail("localhost:", "ricky.rungta@gmail.com");
 		model.addAttribute(new User());	
 		
 		return new ModelAndView("account/LoginPage");
@@ -63,6 +65,7 @@ public class LoginController {
 	public ModelAndView create(@ModelAttribute("user") User userFromView,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
+		//emailNotificationService.sendAccountActivationEmail("localhost:", "ricky.rungta@gmail.com");
 		if(areAnyLoginFieldsBlank(userFromView)){
 			model.addAttribute("loginStatus", "Please provide login id and password! ");
 			return login( model);
