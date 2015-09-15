@@ -18,6 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.User;
 
@@ -32,6 +33,10 @@ public class PreviousQuestionLog implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id")
 	private Question question;
+	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "question_id", insertable = false, updatable = false)
+	private AnswerKey answerKey;
 
 	@OneToMany(mappedBy = "previousQuestionLog", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -127,4 +132,14 @@ public class PreviousQuestionLog implements Serializable {
 	 * setAnswerKey(AnswerKey answerKey) { this.answerKey = answerKey; }
 	 */
 
+	public AnswerKey getAnswerKey() {
+		return answerKey;
+	}
+
+	public void setAnswerKey(AnswerKey answerKey) {
+		this.answerKey = answerKey;
+	}
+
+	
+	
 }

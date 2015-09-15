@@ -104,12 +104,21 @@
 		<!-- /timer -->
 		<br/>
 		<br/>
-		 
+		Exam Section <c:out value="${gi.examSection.name}"></c:out>
+		<br/>
+		<c:if test="${not empty gi}">
+		<c:if test="${not empty gi.gameWinner}">
+    			Winner is <c:out value="${gi.gameWinner.name}"></c:out>
+			</c:if>
+			</c:if> 
 		 <div id="questionSection">
           <c:forEach items="${gi.previousQuestionLogs}" var="questionLog">
-          Question Id : <c:out value="${questionLog.question.questionText}"></c:out>
+          Question: <c:out value="${questionLog.question.questionText}"></c:out>
           <br/>
            <c:forEach items="${questionLog.question.options}" var="option">
+           <c:if test="${option.id == questionLog.answerKey.optionId}">
+           Correct 
+           </c:if>
           Option: <c:out value="${option.text}"></c:out><br/>
           </c:forEach>
           <c:forEach items="${questionLog.playersResponses}" var="playerResponse">
