@@ -71,7 +71,7 @@ public class GameInstance implements Serializable {
 	private GAME_STATE state;
 	
 	@Column(name = "game_creation_time")
-	private long gameCreationTime;
+	private long gameCreationTime = 0;
 
 	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
 	private transient Map<Long, Player> quittingPlayers = new HashMap<Long, Player>();
