@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
+import com.core.domain.lms.ExamSection;
 import com.core.manager.GameQueueManager;
 import com.core.service.threads.FlushStaleGamesFromQueuesService;
 
@@ -62,8 +63,13 @@ implements FlushStaleGamesFromQueuesService {
 						GameInstance gameAlreadyReadyForThisPlayer = GameQueueManager.readyGames
 								.get(gi.getId());
 						if (gameAlreadyReadyForThisPlayer == null) {
-							GameQueueManager.createGameInstance(
-									gi.getExamSection(), player.getUser());
+							ExamSection es = null;
+							if (player != null) {
+								GameQueueManager.createGameInstance(
+										gi.getExamSection(), player.getUser());
+							}
+							
+							
 						} else {
 							GameQueueManager.playerGameMap.put(player
 									.getUser().getId(),
