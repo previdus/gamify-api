@@ -100,7 +100,7 @@ public class GameInstance implements Serializable {
 
 
 
-	private transient Player gameWinnerPlayerObject;
+	
 
 	
 	public Player getGameWinnerPlayerObject() {
