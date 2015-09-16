@@ -94,8 +94,12 @@ public class GameInstance implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
 
+	private transient Player gameWinnerPlayerObject;
 	
-	
+	public Player getGameWinnerPlayerObject() {
+		return this.players.get(this.gameWinner.getId());
+	}
+
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 

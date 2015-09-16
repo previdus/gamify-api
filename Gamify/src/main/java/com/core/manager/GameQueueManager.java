@@ -21,7 +21,6 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
-import com.core.service.PlayerRatingService;
 
 @Component
 public class GameQueueManager {
@@ -42,7 +41,9 @@ public class GameQueueManager {
 			.getLogger(GameQueueManager.class);
 
 	private static AnswerKeyService answerKeyService;
-
+	
+	private static GameInstanceService gameInstanceService;
+	
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
 	 * Spring
@@ -68,7 +69,7 @@ public class GameQueueManager {
 //		GameQueueManager.playerRatingService = playerRatingService;
 //	}
 
-	private static GameInstanceService gameInstanceService;
+	
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -166,8 +167,8 @@ public class GameQueueManager {
 			User user) {
 		if(user != null){
 			GameInstance gi = playerGameMap.get(user.getId());
-			if (gi != null) {
-				gi.removePlayer(user,false);
+			if (gi != null ) {
+				gi.removePlayer(user,gi.hasPlayerLostTheGame(user.getId()));
 				playerGameMap.remove(user.getId());
 			}
 	
@@ -182,16 +183,19 @@ public class GameQueueManager {
 		if (isTheResponseForCurrentQuestion(questionId, gi)) {
 			PlayerResponseLog prl = new PlayerResponseLog(gi.getPlayers().get(
 					userId), new User(userId), new Option(optionId),
-					secondsTakenToRespond);
+					secondsTakenToRespond, questionId);
 			log.info("just before setting the option id:" + optionId
 					+ " for player:" + userId + " for question with id:"
 					+ questionId);
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
 			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
+				prl.setResponseCorrect(true);
 				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
 						secondsTakenToRespond, gi)) {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
+					prl.setQuestionWinner(true);
+					
 				}
 			}
 			

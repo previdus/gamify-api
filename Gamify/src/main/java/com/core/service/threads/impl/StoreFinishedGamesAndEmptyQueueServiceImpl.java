@@ -54,7 +54,7 @@ implements StoreFinishedGamesAndEmptyQueueService {
 						+ gameInstance.getLooserPlayers().size());
 				gameInstance.getPlayers().putAll(
 						gameInstance.getLooserPlayers());		
-				//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gameInstance);
+			
 				gameInstanceService.saveOrUpdate(gameInstance);
 				GameQueueManager.gameResponseLog.remove(gameInstanceId);
 			}
