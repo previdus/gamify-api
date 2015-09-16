@@ -184,16 +184,19 @@ public class GameQueueManager {
 		if (isTheResponseForCurrentQuestion(questionId, gi)) {
 			PlayerResponseLog prl = new PlayerResponseLog(gi.getPlayers().get(
 					userId), new User(userId), new Option(optionId),
-					secondsTakenToRespond);
+					secondsTakenToRespond, questionId);
 			log.info("just before setting the option id:" + optionId
 					+ " for player:" + userId + " for question with id:"
 					+ questionId);
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
 			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
+				prl.setResponseCorrect(true);
 				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
 						secondsTakenToRespond, gi)) {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
+					prl.setQuestionWinner(true);
+					
 				}
 			}
 			
