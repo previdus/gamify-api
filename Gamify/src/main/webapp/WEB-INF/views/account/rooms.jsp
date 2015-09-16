@@ -30,40 +30,7 @@ $(document).ready(function() {
 
      userId = "${userId}";           
      $("#displayUserName").html(userId); 
-     var uToken = '<%= request.getAttribute("token") %>'; 
-     var json = '<%= request.getAttribute("gi") %>';     
-    // var gi = $.parseJSON(json);
-    // renderHtml(gi,false);
-     $.ajaxSetup({ cache: false });
-     pollGameInstance = function pollGameInstance()
-        {
-
-            //$("#game").html("");
-
-            $.getJSON( "play/pollGame?userId="+userId, function( data ) {
-                if(!data){
-                    alert('looks like you are still in an expired game. Redirecting you to the main room');
-                     clearInterval(pollGameInstance);                    
-                     $('#backToMainRoom').submit();
-                     return;
-                }
-
-                  renderHtml(data,true);
-                  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-                });
-         }
-     setInterval(pollGameInstance,timeNeededToWaitBeforePollingForGame);
-     //$('a').live('click', function() { clearInterval(pollGameInstance); });
-
-     //TODO: verify that this clearInterval actually works
-     $('ul.dropdown-menu').on("click", "li.clearTimeInterval", function(){
-         clearInterval(pollGameInstance);
-     });     
-
-     $(window).bind("beforeunload", function() { 
-         clearInterval(pollGameInstance); 
-     });
-
+     
 
 
 });</script>

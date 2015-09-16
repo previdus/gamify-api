@@ -22,7 +22,10 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
+
 import com.core.service.UserService;
+
+
 
 @Component
 public class GameQueueManager {
@@ -46,6 +49,7 @@ public class GameQueueManager {
 	
 	private static GameInstanceService gameInstanceService;
 	
+
 	private static UserService userService;
 	
 	
@@ -53,6 +57,7 @@ public class GameQueueManager {
 	public void setUserService(UserService userService) {
 		GameQueueManager.userService = userService;
 	}
+
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -178,8 +183,8 @@ public class GameQueueManager {
 			User user) {
 		if(user != null){
 			GameInstance gi = playerGameMap.get(user.getId());
-			if (gi != null) {
-				gi.removePlayer(user,false);
+			if (gi != null ) {
+				gi.removePlayer(user,gi.hasPlayerLostTheGame(user.getId()));
 				playerGameMap.remove(user.getId());
 			}
 	
@@ -206,6 +211,7 @@ public class GameQueueManager {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setQuestionWinner(true);
+					
 				}
 			}
 			

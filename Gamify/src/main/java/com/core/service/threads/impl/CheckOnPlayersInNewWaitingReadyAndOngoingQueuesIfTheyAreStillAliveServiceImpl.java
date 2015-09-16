@@ -52,7 +52,7 @@ public class CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveS
 				player.setNumOfExpectedPollsSincePlayerJoined(numOfExpectedPollsSincePlayerJoined);
 				log.info("numOfExpectedPollsSincePlayerJoined is :"+numOfExpectedPollsSincePlayerJoined);
 				if (getNumberOfMissedPolls(player, numOfExpectedPollsSincePlayerJoined) > GameConstants.MINIMUM_NUMBER_OF_POLLS_MISSED_BY_PLAYER_BEFORE_DECIDING_TO_REMOVE_PLAYER_FROM_GAME) {
-					gi.removePlayer(player.getUser(),false);
+					gi.removePlayer(player.getUser(),gi.hasPlayerLostTheGame(player.getUser().getId()));
 					GameQueueManager.playerGameMap.remove(player.getUser().getId());
 				}
 			}

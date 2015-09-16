@@ -97,8 +97,16 @@ public class GameInstance implements Serializable {
 	@OneToMany(mappedBy = "gameInstance", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
+
+
+
+	private transient Player gameWinnerPlayerObject;
+
 	
-	
+	public Player getGameWinnerPlayerObject() {
+		return this.players.get(this.gameWinner.getId());
+	}
+
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 
