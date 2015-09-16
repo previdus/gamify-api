@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
-import com.core.dao.GameInstanceDAO;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
@@ -22,10 +21,8 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
-
+import com.core.service.PlayerRatingService;
 import com.core.service.UserService;
-
-
 
 @Component
 public class GameQueueManager {
@@ -46,18 +43,6 @@ public class GameQueueManager {
 			.getLogger(GameQueueManager.class);
 
 	private static AnswerKeyService answerKeyService;
-	
-	private static GameInstanceService gameInstanceService;
-	
-
-	private static UserService userService;
-	
-	
-	@Autowired(required = true)
-	public void setUserService(UserService userService) {
-		GameQueueManager.userService = userService;
-	}
-
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -70,6 +55,15 @@ public class GameQueueManager {
 	public void setAnswerKeyService(AnswerKeyService answerKeyService) {
 		GameQueueManager.answerKeyService = answerKeyService;
 	}
+	
+private static UserService userService;
+	
+	
+	@Autowired(required = true)
+	public void setUserService(UserService userService) {
+		GameQueueManager.userService = userService;
+	}
+
 	
 //	private static PlayerRatingService playerRatingService;
 //
@@ -84,7 +78,7 @@ public class GameQueueManager {
 //		GameQueueManager.playerRatingService = playerRatingService;
 //	}
 
-	
+	private static GameInstanceService gameInstanceService;
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -160,7 +154,6 @@ public class GameQueueManager {
 			gi = new GameInstance();
 			gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
 			gi.addPlayer(user);
-			gi.setGameCreationTime(System.currentTimeMillis());
 			gi.setExamSection(examSection);
 			gi.setState(GameConstants.GAME_STATE.NEW);
 			gi = gameInstanceService.saveOrUpdate(gi);
@@ -183,8 +176,8 @@ public class GameQueueManager {
 			User user) {
 		if(user != null){
 			GameInstance gi = playerGameMap.get(user.getId());
-			if (gi != null ) {
-				gi.removePlayer(user,gi.hasPlayerLostTheGame(user.getId()));
+			if (gi != null) {
+				gi.removePlayer(user,false);
 				playerGameMap.remove(user.getId());
 			}
 	
@@ -205,13 +198,10 @@ public class GameQueueManager {
 					+ questionId);
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
 			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
-				prl.setResponseCorrect(true);
 				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
 						secondsTakenToRespond, gi)) {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
-					prl.setQuestionWinner(true);
-					
 				}
 			}
 			
@@ -307,7 +297,7 @@ public class GameQueueManager {
 		GameQueueManager.ongoingGames.remove(gi.getId());
 		//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
 	}
-
+	
 	public static void addBoutUser(long examSectionId) {
 		User bautUser = userService.getBautUser();
 		if(bautUser == null){

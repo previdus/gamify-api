@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
-import com.core.constants.UserCategory;
 import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.User;
@@ -42,7 +41,20 @@ public class GameInstance implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private transient long startTime;
+	@Column(name = "game_creation_time")
+	private long startTime = 0;
+	public long getStartTime() {
+		return this.startTime;
+	}
+
+	
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+
+
 	private transient long startWaitTime;
 	private transient long bestTimeForCurrentQuestion;
 	private transient User currentQuestionWinner;
@@ -69,9 +81,6 @@ public class GameInstance implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state")
 	private GAME_STATE state;
-	
-	@Column(name = "game_creation_time")
-	private long gameCreationTime = 0;
 
 	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
 	private transient Map<Long, Player> quittingPlayers = new HashMap<Long, Player>();
@@ -98,15 +107,8 @@ public class GameInstance implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
 
-
-
 	
-
 	
-	public Player getGameWinnerPlayerObject() {
-		return this.players.get(this.gameWinner.getId());
-	}
-
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 
@@ -165,8 +167,6 @@ public class GameInstance implements Serializable {
 		player.setNoOfLife(GameConstants.NUM_OF_LIVES);
 		player.setPlayerJoinTime(System.currentTimeMillis());
 		player.setGameInstance(this);
-		if(UserCategory.B.equals(user.getCategory()))
-				player.setNoOfPollsSoFar(50000);
 		this.players.put(user.getId(), player);
 	}
 
@@ -261,13 +261,9 @@ public class GameInstance implements Serializable {
 		this.id = id;
 	}
 
-	public long getStartTime() {
-		return startTime;
-	}
+	
 
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
+
 
 	public int getNumOfPlayers() {
 		return this.players.size();
@@ -351,17 +347,6 @@ public class GameInstance implements Serializable {
 
 	public boolean hasPlayerLostTheGame(Long userId) {
 		return this.losingPlayers.get(userId) != null;
-	}
-
-	
-	
-	public long getGameCreationTime() {
-		return gameCreationTime;
-	}
-
-	public void setGameCreationTime(long gameCreationTime) {
-		 this.gameCreationTime = gameCreationTime;
-		
 	}
 
 }
