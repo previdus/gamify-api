@@ -22,6 +22,7 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
+import com.core.service.UserService;
 
 @Component
 public class GameQueueManager {
@@ -45,6 +46,14 @@ public class GameQueueManager {
 	
 	private static GameInstanceService gameInstanceService;
 	
+	private static UserService userService;
+	
+	
+	@Autowired(required = true)
+	public void setUserService(UserService userService) {
+		GameQueueManager.userService = userService;
+	}
+
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
 	 * Spring
@@ -146,6 +155,7 @@ public class GameQueueManager {
 			gi = new GameInstance();
 			gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
 			gi.addPlayer(user);
+			gi.setGameCreationTime(System.currentTimeMillis());
 			gi.setExamSection(examSection);
 			gi.setState(GameConstants.GAME_STATE.NEW);
 			gi = gameInstanceService.saveOrUpdate(gi);
@@ -196,7 +206,6 @@ public class GameQueueManager {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setQuestionWinner(true);
-					
 				}
 			}
 			
@@ -291,5 +300,14 @@ public class GameQueueManager {
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
 		GameQueueManager.ongoingGames.remove(gi.getId());
 		//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
+	}
+
+	public static void addBoutUser(long examSectionId) {
+		User bautUser = userService.getBautUser();
+		if(bautUser == null){
+			// do not add - no bout user found
+			return;
+		}
+		createGameInstance(new ExamSection(examSectionId), bautUser);
 	}
 }

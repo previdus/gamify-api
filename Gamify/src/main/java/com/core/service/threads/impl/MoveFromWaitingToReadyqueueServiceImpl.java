@@ -2,7 +2,6 @@ package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
@@ -21,6 +20,7 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 
 		// move from waiting to ready
 		try {
+			moveNewGamesToWaitingGames();
 			for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
 					.keySet()) {
 
@@ -42,5 +42,24 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 			e.printStackTrace();
 		}
 	}
-
+	
+	private void moveNewGamesToWaitingGames(){
+		try{
+			if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS <= 0)
+				return;
+			for (Long examSectionId : GameQueueManager.newGames.keySet()) {
+				GameInstance gi = GameQueueManager.newGames.get(examSectionId);
+				if(gi != null && gi.getGameCreationTime() == 0){
+					gi.setGameCreationTime(System.currentTimeMillis());
+				}
+				else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
+					GameQueueManager.addBoutUser(examSectionId);
+				}
+			}
+			
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 }

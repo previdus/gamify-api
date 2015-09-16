@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
+import com.core.constants.UserCategory;
 import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.User;
@@ -68,6 +69,9 @@ public class GameInstance implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state")
 	private GAME_STATE state;
+	
+	@Column(name = "game_creation_time")
+	private long gameCreationTime;
 
 	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
 	private transient Map<Long, Player> quittingPlayers = new HashMap<Long, Player>();
@@ -93,7 +97,6 @@ public class GameInstance implements Serializable {
 	@OneToMany(mappedBy = "gameInstance", fetch = FetchType.EAGER, cascade = { javax.persistence.CascadeType.ALL })
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
-
 	
 	
 	private static transient final Logger log = LoggerFactory
@@ -154,6 +157,8 @@ public class GameInstance implements Serializable {
 		player.setNoOfLife(GameConstants.NUM_OF_LIVES);
 		player.setPlayerJoinTime(System.currentTimeMillis());
 		player.setGameInstance(this);
+		if(UserCategory.B.equals(user.getCategory()))
+				player.setNoOfPollsSoFar(50000);
 		this.players.put(user.getId(), player);
 	}
 
@@ -338,6 +343,17 @@ public class GameInstance implements Serializable {
 
 	public boolean hasPlayerLostTheGame(Long userId) {
 		return this.losingPlayers.get(userId) != null;
+	}
+
+	
+	
+	public long getGameCreationTime() {
+		return gameCreationTime;
+	}
+
+	public void setGameCreationTime(long gameCreationTime) {
+		 this.gameCreationTime = gameCreationTime;
+		
 	}
 
 }
