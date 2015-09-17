@@ -49,5 +49,8 @@ public class GameConstants {
 	public final static double KVALUE_FOR_ELO_RATING = 32;
 	
 	public static final int INITIAL_ELO_RATING = 1000;
+	
+	// keep -1 if you dont want baut to be added
+	public static final int ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS = 20000;
 
 }

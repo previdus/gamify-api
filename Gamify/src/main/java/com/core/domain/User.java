@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.core.constants.UserAccountStatus;
+import com.core.constants.UserCategory;
 import com.core.util.AESCrypto;
 
 @Entity
@@ -44,6 +45,10 @@ public class User implements Serializable {
 	@Column(name= "account_status")
 	private UserAccountStatus userAccountStatus;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name= "category" , columnDefinition="char(20) default 'STUDENT'")
+	private UserCategory category;
+	
 	public String getFacebookId() {
 		return facebookId;
 	}
@@ -195,6 +200,14 @@ public class User implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 	
+	public UserCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(UserCategory category) {
+		this.category = category;
+	}
+
 	public void encodeSensitiveData() throws Exception{
 		if(this.emailId!= null) this.emailId = AESCrypto.encrypt(this.emailId);
 		if(this.facebookId!= null)this.facebookId = AESCrypto.encrypt(this.facebookId);

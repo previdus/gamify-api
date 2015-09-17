@@ -17,5 +17,7 @@ public interface UserService {
 	public User saveUser(User user);
 	
 	public boolean doesUserExist(String userName);
+	
+	public User getBautUser();
 
 }

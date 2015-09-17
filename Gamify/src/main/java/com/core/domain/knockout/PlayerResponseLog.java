@@ -37,6 +37,15 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
     private Long timeTakenToAnswer;
 	private Integer rank;
 	
+	@Column(name="question_id")
+	private long questionId;
+	
+	@Column(name="is_response_correct", columnDefinition="boolean default false")
+	private boolean responseCorrect;
+		
+	@Column(name="is_question_winner", columnDefinition="boolean default false")
+	private boolean questionWinner;
+	
 	@JsonIgnore
 	@ManyToOne(optional=false)
 	@JoinColumn(name="previous_question_log_id")
@@ -50,12 +59,13 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	
 	
 	public PlayerResponseLog(Player player, User user, Option response,
-			Long timeTakenToAnswer) {
+			Long timeTakenToAnswer,  long questionId) {
 		super();
 		this.player = player;
 		this.user = user;
 		this.response = response;
 		this.timeTakenToAnswer = timeTakenToAnswer;
+		this.questionId = questionId;
 		markResponse(response);
 	}
 
@@ -68,6 +78,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 		this.response = response;
 		this.timeTakenToAnswer = timeTakenToAnswer;
 		this.rank = rank;
+		
 		markResponse(response);
 	}
 	
@@ -133,5 +144,44 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 			return 0;
 		}
 	}
+
+
+
+	public long getQuestionId() {
+		return questionId;
+	}
+
+
+
+	public void setQuestionId(long questionId) {
+		this.questionId = questionId;
+	}
+
+
+
+	public boolean isResponseCorrect() {
+		return responseCorrect;
+	}
+
+
+
+	public void setResponseCorrect(boolean responseCorrect) {
+		this.responseCorrect = responseCorrect;
+	}
+
+
+
+	public boolean isQuestionWinner() {
+		return questionWinner;
+	}
+
+
+
+	public void setQuestionWinner(boolean questionWinner) {
+		this.questionWinner = questionWinner;
+	}
+	
+	
+	
 
 }

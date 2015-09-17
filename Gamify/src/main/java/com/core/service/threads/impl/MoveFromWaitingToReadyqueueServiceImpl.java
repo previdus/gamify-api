@@ -21,6 +21,7 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 
 		// move from waiting to ready
 		try {
+			moveNewGamesToWaitingGames();
 			for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
 					.keySet()) {
 
@@ -42,5 +43,25 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 			e.printStackTrace();
 		}
 	}
+	
+	private void moveNewGamesToWaitingGames(){
+				try{
+					if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS <= 0)
+						return;
+					for (Long examSectionId : GameQueueManager.newGames.keySet()) {
+						GameInstance gi = GameQueueManager.newGames.get(examSectionId);
+						if(gi != null && gi.getStartTime() == 0){
+							gi.setStartTime(System.currentTimeMillis());
+						}
+						else if(System.currentTimeMillis() - gi.getStartTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
+							GameQueueManager.addBoutUser(examSectionId);
+						}
+					}
+					
+					
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
 
 }

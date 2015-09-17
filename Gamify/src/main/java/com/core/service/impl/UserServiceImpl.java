@@ -54,5 +54,9 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
+	
+	public User getBautUser() {
+				return userDAO.getBautUser();
+			}
 
 }
