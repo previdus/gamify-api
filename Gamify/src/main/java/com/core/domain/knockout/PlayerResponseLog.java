@@ -37,8 +37,8 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
     private Long timeTakenToAnswer;
 	private Integer rank;
 	
-	@Column(name="question_id")
-	private long questionId;
+	//@Column(name="question_id")
+	//private long questionId;
 	
 	@Column(name="is_response_correct", columnDefinition="boolean default false")
 	private boolean responseCorrect;
@@ -65,7 +65,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 		this.user = user;
 		this.response = response;
 		this.timeTakenToAnswer = timeTakenToAnswer;
-		this.questionId = questionId;
+		//this.questionId = questionId;
 		markResponse(response);
 	}
 
@@ -147,14 +147,14 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 
 
-	public long getQuestionId() {
-		return questionId;
-	}
+//	public long getQuestionId() {
+//		return questionId;
+//	}
 
 
 
 	public void setQuestionId(long questionId) {
-		this.questionId = questionId;
+		//this.questionId = questionId;
 	}
 
 
