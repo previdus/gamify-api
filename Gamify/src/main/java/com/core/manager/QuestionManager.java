@@ -17,6 +17,7 @@ import com.core.domain.knockout.PlayerResponseLog;
 import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
+import com.core.service.GameInstanceService;
 import com.core.service.QuestionService;
 
 @Component
@@ -28,6 +29,8 @@ public class QuestionManager {
 			.getLogger(QuestionManager.class);
 
 	private static AnswerKeyService answerKeyService;
+	
+	
 
 	/**
 	 * Sets the answerKeyService This method should never be called except by
@@ -40,6 +43,13 @@ public class QuestionManager {
 	public void setAnswerKeyService(AnswerKeyService answerKeyService) {
 		QuestionManager.answerKeyService = answerKeyService;
 	}
+	
+	private static GameInstanceService gameInstanceService;
+		
+		@Autowired(required = true)
+		public void setGameInstanceService(GameInstanceService gameInstanceService) {
+			QuestionManager.gameInstanceService = gameInstanceService;
+		}
 
 	private static QuestionService questionService;
 
@@ -75,6 +85,8 @@ public class QuestionManager {
 				logs = new LinkedList<PreviousQuestionLog>();
 			logs.add(pql);
 			GameQueueManager.gameResponseLog.put(gi.getId(), logs);
+			gi.setPreviousQuestionLogs(logs);
+						gameInstanceService.saveOrUpdate(gi);
 			log.info("Prev Question Log Size after adding "
 					+ GameQueueManager.gameResponseLog.get(gi.getId()).size());
 
