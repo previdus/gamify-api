@@ -14,12 +14,11 @@ import com.core.service.threads.InspectAllQueuesService;
 public class InspectAllQueuesServiceImpl 
 implements InspectAllQueuesService {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(InspectAllQueuesServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(InspectAllQueuesServiceImpl.class);
 	public void run() {
 		try {
 			// new games
-			log.info("New games");
+			log.info("Naya games");
 			for (Long examSectionId : GameQueueManager.newGames.keySet()) {
 				log.info(examSectionId + ",");
 			}

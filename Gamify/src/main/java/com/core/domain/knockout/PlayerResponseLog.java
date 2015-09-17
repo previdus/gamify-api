@@ -153,6 +153,10 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 		return responseCorrect;
 	}
 
+	
+	public boolean getResponseCorrect() {
+		return responseCorrect;
+	}
 
 
 	public void setResponseCorrect(boolean responseCorrect) {
@@ -164,7 +168,11 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	public boolean isQuestionWinner() {
 		return questionWinner;
 	}
-
+	
+	
+	public boolean getQuestionWinner() {
+		return questionWinner;
+	}
 
 
 	public void setQuestionWinner(boolean questionWinner) {
