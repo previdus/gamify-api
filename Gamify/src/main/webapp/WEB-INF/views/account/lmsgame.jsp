@@ -314,14 +314,7 @@ function renderHtml(obj,fromAjax){
  	
 
       
-    if(!currentUserExistsInTheGame){
-        return showFinalMessage(sorryMessageForTheLoser,true);
-        
-                 
-     }		
-    else{
-    	loadQuestionHtml(obj);
-     }
+   
     if(obj.state == "DONE"){
         
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
@@ -333,6 +326,15 @@ function renderHtml(obj,fromAjax){
         }
     	 
     }
+    if(!currentUserExistsInTheGame){
+        return showFinalMessage(sorryMessageForTheLoser,true);
+        
+                 
+     }		
+    else{
+    	loadQuestionHtml(obj);
+     }
+}
 
     function loadQuestionHtml(obj){
     	var questionHtml = "";
@@ -420,7 +422,7 @@ function renderHtml(obj,fromAjax){
      	 return;
     }
     
-}
+
 
 // function handleRefreshPage(obj){
 // 	 //delete and replace previous question timer cookie only if currentQuestion Is Not same as Previous Question
