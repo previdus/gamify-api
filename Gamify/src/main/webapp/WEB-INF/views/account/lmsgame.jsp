@@ -61,7 +61,10 @@ var countDown;
 var timeToUpdateTimerDivAndTimerCookie = 1000;
 var messageToDisplayWhenWaitingForOtherPlayersToRespond = "You have already responded. Waiting for other players to respond";
 var messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond = "Sorry, time has elapsed. Loading next question after all other players have responded";
-
+var sorryMessageForTheLoser = "Sorry dude! You ain't the last man standing. Good luck next time.<br/>";
+var winnerMessage = 'Congrats!! You are the last man standing<br/>';
+var waitingForOtherPlayersToJoinMessage = "Waiting for  other players to join";
+var currentUserExistsInTheGame = false;
 function handleMenuAndWrapper(){
 	$("#menu-toggle").click(function(e) {
 	      e.preventDefault();
@@ -120,153 +123,280 @@ $(document).ready(function() {
 
 
 
+function loadPlayersHtml(players,  checkForCurrentUser){	
+    var playerHtml = "";
+	  	$(players).each(function(index , element) {
+	 	 
+		$.each(element, function(index1, element1) 
+		 {
+	 		 
+ 			 playerHtml += loadOnePlayerHtmlAtATime(element1,checkForCurrentUser);   
+	        
 
+		 });
+			    
+		});
+
+	return playerHtml;
+}
+
+function loadOnePlayerHtmlAtATime(element1, checkForCurrentUser){
+	if(checkForCurrentUser && element1.user.id == userId)
+ 	 {
+		currentUserExistsInTheGame = true;
+		currentUserClass = "highlight-current-user ";
+ 	 }
+	 else{
+		currentUserClass = "";
+ 	 }
+	 		 
+     
+
+
+   playerHtml = "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
+
+	"<li class=\""+currentUserClass+"sidebar-user-info col-md-12\">"+
+	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
+	    	"<i class=\"glyphicon glyphicon-user\"></i>"+
+	    "</div>"+
+	    "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
+		 		"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+              	
+	    "</div>"+
+	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
+	    	"<i class=\"glyphicon glyphicon-heart\"></i>"+
+	    "</div>"+
+	    "<div class=\"col-xs-1 col-sm-1 col-md-1 col-lg-1 life-count\">"+
+	    	"<span>"+element1.noOfLife+"</span>"+
+	    "</div>"+
+	"</li>";
+	return playerHtml;	
+ }
+
+function isArrayEmpty(x) {
+	   for(var i in x) {
+	       return false;
+	   }
+	   return true;
+	}
 
 
 function renderHtml(obj,fromAjax){
 	
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
-if(obj.state == "EXPIRED"){
+	if(obj.state == "EXPIRED"){
+		
+		return showFinalMessage('looks like everyone has left the game<br/>',false);
+	}
 	
-	return showFinalMessage('looks like everyone has left the game<br/>',false);
-}
+	if(obj.state == "WAITING" || obj.state == "NEW"){	
+		$("#timer").html(waitingForOtherPlayersToJoinMessage);
+	}
 
-if(obj.state == "WAITING" || obj.state == "NEW"){	
-	$("#timer").html("Waiting for  other players to join");
-}
-
+	currentUserExistsInTheGame = false;
 	
+	
+    var playerHtml = "";
+	  	$(players).each(function(index , element) {
+	 	 
+		$.each(element, function(index1, element1) 
+		 {
+	 		 
+ 			 playerHtml += loadOnePlayerHtmlAtATime(element1,checkForCurrentUser);   
+	        
 
-	 var playerHtml = "";
-	 
-	 var playerCount = 0;
-     var currentUserExistsInTheGame = false;
-    
- 	  	$(obj.players).each(function(index , element) {
- 	 	 
- 		$.each(element, function(index1, element1) 
- 		 {
- 	 		 if(element1.user.id == userId)
- 	 	 	 {
- 	 			currentUserExistsInTheGame = true;
- 	 			currentUserClass = "highlight-current-user ";
- 	 	 	 }
- 	 		 else{
- 	 			currentUserClass = "";
- 	 	 		 }
- 	 		 		 
-        playerCount++;  
-          
-
-        playerHtml += "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
-
-          "<li class=\""+currentUserClass+"sidebar-user-info col-md-12\">"+
-              "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
-              	"<i class=\"glyphicon glyphicon-user\"></i>"+
-              "</div>"+
-              "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
-	  	 		"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+              	
-              "</div>"+
-              "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
-              	"<i class=\"glyphicon glyphicon-heart\"></i>"+
-              "</div>"+
-              "<div class=\"col-xs-1 col-sm-1 col-md-1 col-lg-1 life-count\">"+
-              	"<span>"+element1.noOfLife+"</span>"+
-              "</div>"+
-          "</li>";
-  			    
- 	        
-
- 		    });
+		 });
 			    
- 		});
+		});
+
+	return playerHtml;
+}
+
+function loadOnePlayerHtmlAtATime(element1, checkForCurrentUser){
+	if(checkForCurrentUser && element1.user.id == userId)
+ 	 {
+		currentUserExistsInTheGame = true;
+		currentUserClass = "highlight-current-user ";
+ 	 }
+	 else{
+		currentUserClass = "";
+ 	 }
+	 		 
+     
 
 
- 	var totalPlayerHtml = "<ul class=\"sidebar-nav\"><li class=\"sidebar-headline col-md-12\">Total Players: "+playerCount+"</li>"+playerHtml+"</ul>";	
+   playerHtml = "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
+
+	"<li class=\""+currentUserClass+"sidebar-user-info col-md-12\">"+
+	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
+	    	"<i class=\"glyphicon glyphicon-user\"></i>"+
+	    "</div>"+
+	    "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
+		 		"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+              	
+	    "</div>"+
+	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
+	    	"<i class=\"glyphicon glyphicon-heart\"></i>"+
+	    "</div>"+
+	    "<div class=\"col-xs-1 col-sm-1 col-md-1 col-lg-1 life-count\">"+
+	    	"<span>"+element1.noOfLife+"</span>"+
+	    "</div>"+
+	"</li>";
+	return playerHtml;	
+ }
+
+function loadWinnerHtml(gameWinner){
+	 winnerHtml = "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
+
+		"<li class=\"sidebar-user-info col-md-12\">"+
+		    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
+		    	"<i class=\"glyphicon glyphicon-user\"></i>"+
+		    "</div>"+
+		    "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
+			 		"<span class=\"sidebar-user-name\">"+gameWinner.displayName+"</span>"+              	
+		    "</div>"+
+		"</li>";
+	return winnerHtml;
+}
+
+function isArrayEmpty(x) {
+	   for(var i in x) {
+	       return false;
+	   }
+	   return true;
+	}
+
+
+function renderHtml(obj,fromAjax){
+	
+	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
+	if(obj.state == "EXPIRED"){
+		
+		return showFinalMessage('looks like everyone has left the game<br/>',false);
+	}
+	
+	if(obj.state == "WAITING" || obj.state == "NEW"){	
+		$("#timer").html(waitingForOtherPlayersToJoinMessage);
+	}
+
+	currentUserExistsInTheGame = false;
+	console.log(obj.state);
+	console.log(obj.gameWinnerPlayerObject);
+	console.log(playerHtml);
+
+	var winnerPlayerHtml = "";
+	var playerHtml = "";
+	var loserPlayerHtml = "";
+	var quitPlayerHtml = "";
+
+	if(obj.gameWinnerPlayerObject != null)winnerPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Winner</li>"+loadOnePlayerHtmlAtATime(obj.gameWinnerPlayerObject,true);
+	if(obj.state !="DONE" && obj.state != "EXPIRED")playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
+	if(!isArrayEmpty(obj.looserPlayers))loserPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Lost</li>"+loadPlayersHtml(obj.looserPlayers,  false);
+	if(!isArrayEmpty(obj.quittingPlayers))quitPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Quit, timed out, or inactive</li>"+ loadPlayersHtml(obj.quittingPlayers, false);
+
+//	if(obj.gameWinnerPlayerObject != null)winnerPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Winner</li>"+loadOnePlayerHtmlAtATime(obj.gameWinnerPlayerObject,true);
+	if(obj.state !="DONE" && obj.state != "EXPIRED"){
+		playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
+	}
+	else{
+		if(!isArrayEmpty(obj.players) && obj.gameWinner != null){
+			playerHtml="<li class=\"sidebar-headline col-md-12\">Winner</li>"+loadWinnerHtml(obj.gameWinner);
+		}
+	}
+	if(!isArrayEmpty(obj.looserPlayers))loserPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Lost</li>"+loadPlayersHtml(obj.looserPlayers,  false);
+	if(!isArrayEmpty(obj.quittingPlayers))quitPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Quit, timed out, or inactive</li>"+ loadPlayersHtml(obj.quittingPlayers, false);
+	
+
+ 	var totalPlayerHtml = "<ul class=\"sidebar-nav\">"+winnerPlayerHtml+playerHtml+loserPlayerHtml+quitPlayerHtml+"</ul>";	
  	
  	$("#sidebar-wrapper").html(totalPlayerHtml);
 
 
  	
- 	var questionHtml = "";
-    timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
-    if(obj.currentQuestion != null){    
-	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
-	    	
-	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer =  obj.currentQuestion.maxTimeToAnswerInSeconds*1000;
-	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
-	    	
-	    	questionHtml +="<div id = \"options\"><br/>";
- 	    	$(obj.currentQuestion.options).each( function(index,element)
- 	    	{
-                  questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
-                  "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
-                  +element.id+"\">"+element.text+"<span id=\"optionCorrect"+element.id+"\" style=\"display:none\">&nbsp;&nbsp;Correct</span><span id=\"optionWrong"
-                  +element.id+"\"  style=\"display:none\">&nbsp;&nbsp;Wrong</span></input><br/>";
-	    		   
- 	    	});
- 	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\""+ 
- 	 	    	" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+","+obj.bang+")\"></input><br/>";
- 	    	questionHtml +="</div>";
-
- 	    	$("#questionSection").addClass("question-active");	 
- 	    	$("#questionSection").html(questionHtml);
- 	    	$("#submitOption").attr("disabled", "disabled");
-
- 	    	//if(!fromAjax)handleRefreshPage(obj);
-           
-             
- 	    	
- 	    	
- 	    	//start the timer for 2 minutes and then when the time elapses submit the question with -1 as the chosen option to indicate that the player did not answer within
- 	    	//the stipulated time
- 	    	//Do this only if the user has not yet responded to the question
- 	    	if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){
- 	    	    countDown = timeAtWhichQuestionWasDisplayedToTheUser;
- 	    	    
-
- 	    	}
- 	    	else
- 	 	    {
- 	 	 	    
- 	    		jQuery("input[name='option']").attr('disabled',true);
-
- 	    		
- 	    		if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -1){
- 	    			$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
- 	 	    	}
- 	    		else if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -2){
- 	    			$("#timer").html(messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond);
- 	 	    	}
- 	 	    }
-
-            if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){ 	    	
- 	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id, obj.currentQuestion.maxTimeToAnswerInSeconds);},timeToUpdateTimerDivAndTimerCookie);
-            } 	    	
-
-		}
-    }
-    else{
-    	$("#questionSection").html(questionHtml);
-    }
+ 	
 
       
     if(!currentUserExistsInTheGame){
-        return showFinalMessage("Sorry dude! You ain't the last man standing. Good luck next time.<br/>",true);
+        return showFinalMessage(sorryMessageForTheLoser,true);
         
                  
-      }		
+     }		
+    else{
+    	loadQuestionHtml(obj);
+     }
     if(obj.state == "DONE"){
         
-    	if(obj.gameWinner.id == userId){
-    	 return showFinalMessage( 'Congrats!! You are the last man standing<br/>',true);
+    	if( obj.gameWinner != null && obj.gameWinner.id == userId){
+    	 return showFinalMessage( winnerMessage,true);
     	}
     	else
         {
-    		return showFinalMessage( 'Game ended. No winners in this game!<br/>',true);
+    		return showFinalMessage( sorryMessageForTheLoser,true);
         }
     	 
     }
+
+    function loadQuestionHtml(obj){
+    	var questionHtml = "";
+        timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
+        if(obj.currentQuestion != null){    
+    	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
+    	    	
+    	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer =  obj.currentQuestion.maxTimeToAnswerInSeconds*1000;
+    	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
+    	    	
+    	    	questionHtml +="<div id = \"options\"><br/>";
+     	    	$(obj.currentQuestion.options).each( function(index,element)
+     	    	{
+                      questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
+                      "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
+                      +element.id+"\">"+element.text+"<span id=\"optionCorrect"+element.id+"\" style=\"display:none\">&nbsp;&nbsp;Correct</span><span id=\"optionWrong"
+                      +element.id+"\"  style=\"display:none\">&nbsp;&nbsp;Wrong</span></input><br/>";
+    	    		   
+     	    	});
+     	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\""+ 
+     	 	    	" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+","+obj.bang+")\"></input><br/>";
+     	    	questionHtml +="</div>";
+
+     	    	$("#questionSection").addClass("question-active");	 
+     	    	$("#questionSection").html(questionHtml);
+     	    	$("#submitOption").attr("disabled", "disabled");
+     	    	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+     	    	//if(!fromAjax)handleRefreshPage(obj);
+               
+                 
+     	    	
+     	    	
+     	    	//start the timer for 2 minutes and then when the time elapses submit the question with -1 as the chosen option to indicate that the player did not answer within
+     	    	//the stipulated time
+     	    	//Do this only if the user has not yet responded to the question
+     	    	if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){
+     	    	    countDown = timeAtWhichQuestionWasDisplayedToTheUser;
+     	    	    
+
+     	    	}
+     	    	else
+     	 	    {
+     	 	 	    
+     	    		jQuery("input[name='option']").attr('disabled',true);
+
+     	    		
+     	    		if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -1){
+     	    			$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
+     	 	    	}
+     	    		else if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -2){
+     	    			$("#timer").html(messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond);
+     	 	    	}
+     	 	    }
+
+                if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){ 	    	
+     	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id, obj.currentQuestion.maxTimeToAnswerInSeconds);},timeToUpdateTimerDivAndTimerCookie);
+                } 	    	
+
+    		}
+        }
+        else{
+        	$("#questionSection").html(questionHtml);
+        }
+     }
 
     function showFinalMessage(message, reviewGame){
 
@@ -339,6 +469,8 @@ function submitOptionWhenTimeElapsed(questionId){
 function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 	maxTimeAllocatedToRespond = maxTimeAllocatedToRespond *1000;
 	var internalCountDown = Math.round((maxTimeAllocatedToRespond - ($.now() - countDown))/1000);
+	if(internalCountDown < 0) return;
+	
 	if(internalCountDown > 0){
 		
            $("#timer").html(internalCountDown + " seconds remaining to respond!!");
@@ -353,8 +485,8 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 		}      
           
 	}
-	else{
-		
+	else {
+		console.log(internalCountDown);
 		submitOptionWhenTimeElapsed(currentQuestionId);
 		
 	}		
