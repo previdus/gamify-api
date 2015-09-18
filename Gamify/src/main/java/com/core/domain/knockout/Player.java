@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.core.constants.GameConstants;
 import com.core.domain.User;
 
 @Entity
@@ -29,15 +30,25 @@ public class Player  implements Serializable{
 	@Column(name="no_of_life")
 	private int noOfLife;
 	
-	@OneToOne(optional=true)
-    @JoinColumn(name="player_rating_id")
-	private PlayerEloRating playerEloRating;
+	@Column(name="no_of_questions_answered", nullable = false, columnDefinition="int default 0")
+	private int noOfQuestionsAnswered;
 	
-	public PlayerEloRating getPlayerEloRating() {
-		return playerEloRating;
+	@Column(name="elo_rating", columnDefinition="int default 1000")
+	private int eloRating;
+	
+	
+	
+	public int getNoOfQuestionsAnswered() {
+		return noOfQuestionsAnswered;
 	}
-	public void setPlayerEloRating(PlayerEloRating playerEloRating) {
-		this.playerEloRating = playerEloRating;
+	public void setNoOfQuestionsAnswered(int noOfQuestionsAnswered) {
+		this.noOfQuestionsAnswered = noOfQuestionsAnswered;
+	}
+	public int getEloRating() {
+		return eloRating;
+	}
+	public void setEloRating(int eloRating) {
+		this.eloRating = eloRating;
 	}
 
 	private transient long playerJoinTime;
@@ -57,6 +68,9 @@ public class Player  implements Serializable{
 	@ManyToOne(optional=false)
 	@JoinColumn(name="game_instance_id")
 	private GameInstance gameInstance;
+	
+	
+	
 	
 	public long getPlayerJoinTime() {
 		return playerJoinTime;
@@ -105,5 +119,8 @@ public class Player  implements Serializable{
 		noOfPollsSoFar = 0;
 	}
 	
+	public boolean isProvisional(){
+		return this.noOfQuestionsAnswered <= GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING;
+	}
 	
 }

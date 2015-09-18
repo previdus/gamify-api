@@ -8,7 +8,6 @@ import com.core.constants.GameConstants;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
-import com.core.domain.knockout.PlayerEloRating;
 import com.core.service.PlayerRatingService;
 
 @Service("playerRatingService")
@@ -20,53 +19,24 @@ public class PlayerRatingServiceImpl implements PlayerRatingService {
     
     public void  calulateRatingAndNumberOfGamesPlayed(GameInstance gameInstance)
     {   
-    	User gameWinner = gameInstance.getGameWinner();
+    	User gameWinner = gameInstance.getCurrentQuestionWinner();
     	Map<Long,Player> players = gameInstance.getPlayers();      
         int numberOfPlayers = players.size();
-        createNewPlayerRatingIfItDoesNotExist(players);
+       
         for(Player player: players.values())
         {
-            //losing case
-            if(thereAreNoWinnersOrThisPlayerIsNotTheWinner(gameWinner, player))
-            {
-            	
-                int playerScore = (int) Math.round(player.getPlayerEloRating().getRating() + 
-                        calcRatingHelperLose(player, numberOfPlayers, calcAverage(players, player)));
-                
-                player.getPlayerEloRating().setRating(playerScore);               
-               
-            }
-            //winning case
-            else
-            {
-            	int playerScore =  (int) Math.round(player.getPlayerEloRating().getRating() +
-                        calcRatingHelperWin(player, numberOfPlayers, calcAverage(players, player)));
-               
-            	 player.getPlayerEloRating().setRating(playerScore);  
-               
-               
-            }
-            
+                        
+            double rating = (thereAreNoWinnersOrThisPlayerIsNotTheWinner(gameWinner, player))?
+            		calcRatingHelperLose(player, numberOfPlayers, calcAverage(players, player)):
+            			calcRatingHelperWin(player, numberOfPlayers, calcAverage(players, player));
+            int playerScore =  (int)( Math.round(player.getEloRating() + rating));
+           
+            player.setEloRating(playerScore);
+            player.setNoOfQuestionsAnswered(player.getNoOfQuestionsAnswered() + 1);
         }
         
         
     }
-
-
-
-	private static void createNewPlayerRatingIfItDoesNotExist(Map<Long,Player> players) {
-		for(Player player:players.values()){
-			if(player.getPlayerEloRating() == null){
-				PlayerEloRating per = new PlayerEloRating();
-				per.setNoOfGamesPlayed(1);
-				per.setRating(GameConstants.INITIAL_ELO_RATING);
-				per.setPlayer(player);
-				player.setPlayerEloRating(per);
-			}
-		}
-	}
-
-
 
 	private static boolean thereAreNoWinnersOrThisPlayerIsNotTheWinner(
 			User gameWinner, Player player) {
@@ -78,21 +48,21 @@ public class PlayerRatingServiceImpl implements PlayerRatingService {
         int avgRating = 0;
         for(Player player: players.values())
         {
-            avgRating += player.getPlayerEloRating().getRating();
+            avgRating += player.getEloRating();
         }
-        avgRating -= currentPlayer.getPlayerEloRating().getRating();
+        avgRating -= currentPlayer.getEloRating();
         avgRating = avgRating / (players.size() - 1);
         return avgRating;
     }
     
     private static double calcRatingHelperWin(Player player, int numPlayers, int avgRating)
     {
-        int rating = player.getPlayerEloRating().getRating();
+        int rating = player.getEloRating();
         
         double exponent = -1 * (rating - avgRating) / 400.0;
         double denominator = Math.pow(10, exponent) + 1;
         double expectancy = (1.0 / denominator) * (2.0 / numPlayers);
-        if(player.getPlayerEloRating().isProvisional())
+        if(player.isProvisional())
         {
             return (2 * GameConstants.KVALUE_FOR_ELO_RATING * (1 - expectancy));
         }
@@ -101,12 +71,12 @@ public class PlayerRatingServiceImpl implements PlayerRatingService {
     
     private static double calcRatingHelperLose(Player player, int numPlayers, int avgRating)
     {
-        int rating = player.getPlayerEloRating().getRating();
+        int rating = player.getEloRating();
         
         double exponent = -1 * (rating - avgRating) / 400.0;
         double denominator = Math.pow(10, exponent) + 1;
         double expectancy = (1.0 / denominator) * (2.0 / numPlayers);
-        if(player.getPlayerEloRating().isProvisional())
+        if(player.isProvisional())
         {
             return (2 * GameConstants.KVALUE_FOR_ELO_RATING * (0 - expectancy));
         }

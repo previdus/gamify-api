@@ -21,6 +21,7 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
+import com.core.service.PlayerRatingService;
 import com.core.service.UserService;
 
 @Component
@@ -63,18 +64,18 @@ public class GameQueueManager {
 		GameQueueManager.answerKeyService = answerKeyService;
 	}
 	
-//	private static PlayerRatingService playerRatingService;
-//
-//	/**
-//	 * Sets the playerRatingService This method should never be called except by
-//	 * Spring
-//	 * 
-//	 * 
-//	 */
-//	@Autowired(required = true)
-//	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
-//		GameQueueManager.playerRatingService = playerRatingService;
-//	}
+	private static PlayerRatingService playerRatingService;
+
+	/**
+	 * Sets the playerRatingService This method should never be called except by
+	 * Spring
+	 * 
+	 * 
+	 */
+	@Autowired(required = true)
+	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
+		GameQueueManager.playerRatingService = playerRatingService;
+	}
 
 	private static GameInstanceService gameInstanceService;
 
@@ -279,6 +280,7 @@ public class GameQueueManager {
 				else {
 
 				QuestionManager.savePreviousQuestionLog(gi);
+				playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
 				gi.resetCurrentQuestionWinnerAndBestTime();
 				QuestionManager.attachQuestionToGameInstance(gi);
 				log.info("----- New Question attached is -----------"
@@ -296,7 +298,7 @@ public class GameQueueManager {
 		gi.markGameWinner();
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
 		GameQueueManager.ongoingGames.remove(gi.getId());
-		//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
+		
 	}
 	
 	public static void addBoutUser(long examSectionId) {

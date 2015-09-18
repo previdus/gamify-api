@@ -44,13 +44,13 @@ public class GameConstants {
 	
 	public static final int  EXTRA_TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION = 10;
 	
-	public static final int PROVISIONAL_GAMES_LIMIT_FOR_ELO_RATING = 25;
+	public static final int PROVISIONAL_LIMIT_FOR_ELO_RATING = 25;
 	
 	public final static double KVALUE_FOR_ELO_RATING = 32;
 	
 	public static final int INITIAL_ELO_RATING = 1000;
 	
 	// keep -1 if you dont want baut to be added
-	public static final int ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS = 20000;
+	public static final int ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS = -1;
 
 }
