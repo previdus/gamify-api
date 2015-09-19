@@ -30,27 +30,33 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 
 	public User getUser(String userName, String pwd) {
 		User user = null;
-		Query qry = getSession().createQuery("from User where name = :uname")
+		Session session = getSession();
+		Query qry = session.createQuery("from User where name = :uname")
 				.setParameter("uname", userName);
 		List<User> userList = qry.list();
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
 			if (pwd.equals(user.getPwd())) {
 
+				releaseSession(session);
 				return user;
 			}
 		}
+		releaseSession(session);
 		return null;
 
 	}
 	
 	public boolean doesUserExist(String userName){
-		Query qry = getSession().createQuery("from User where name = :uname")
+		Session session = getSession();
+		Query qry = session.createQuery("from User where name = :uname")
 				.setParameter("uname", userName);
 		List<User> userList = qry.list();
 		if (userList != null && userList.size() > 0) {
+			releaseSession(session);
 			return true;
 		}
+		releaseSession(session);
 		return false;
 	}
 
@@ -60,26 +66,32 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 
 	public User getUserByName(String userName) {
 		User user = null;
-		Query qry = getSession().createQuery("from User where name = :uname")
+		Session session = getSession();
+		Query qry =session.createQuery("from User where name = :uname")
 				.setParameter("uname", userName);
 		List<User> userList = qry.list();
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
+			releaseSession(session);
 			return user;
 		}
+		releaseSession(session);
 		return null;
 	}
 
 	public User getUserByEmail(String email) {
 		User user = null;
-		Query qry = getSession()
+		Session session = getSession();
+		Query qry =session
 				.createQuery("from User where emailId = :email").setParameter(
 						"email", email);
 		List<User> userList = qry.list();
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
+			releaseSession(session);
 			return user;
 		}
+		releaseSession(session);
 		return null;
 	}
 	
@@ -88,14 +100,17 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 
 	public User getUserByFacebookId(String facebookId) {
 		User user = null;
-		Query qry = getSession().createQuery(
+		Session session =  getSession();
+		Query qry = session.createQuery(
 				"from User where facebook_id = :facebookId").setParameter(
 				"facebookId", facebookId);
 		List<User> userList = qry.list();
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
+			releaseSession(session);
 			return user;
 		}
+		releaseSession(session);
 		return null;
 	}
 

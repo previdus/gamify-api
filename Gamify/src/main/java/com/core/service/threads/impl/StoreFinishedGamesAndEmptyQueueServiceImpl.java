@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.GameQueueManager;
 import com.core.service.GameInstanceService;
-import com.core.service.PlayerRatingService;
+import com.core.service.UserEloRatingService;
 import com.core.service.threads.StoreFinishedGamesAndEmptyQueueService;
 
 @Service("storeFinishedGamesAndEmptyQueueService")

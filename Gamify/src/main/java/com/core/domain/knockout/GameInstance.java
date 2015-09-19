@@ -192,14 +192,18 @@ public class GameInstance implements Serializable {
 
 	public void markGameWinner() {
 		log.info("Marking Game Winner");
-		if (this.getGameWinner() == null && this.getPlayers() != null
-				&& this.getPlayers().size() == 1) {
+		if (whenNoWinnerInTheGameYetAndOnlyOneActivePlayerAndThereIsAtLeastOneLoser()) {
 			Player player = new LinkedList<Player>(this.getPlayers().values()).get(0);
 			if(player.getNoOfLife() > 0){
 			this.setGameWinner(player.getUser());
 			log.info("Game Winner Is " + player.getUser().getId());
 			}
 		}
+	}
+
+	private boolean whenNoWinnerInTheGameYetAndOnlyOneActivePlayerAndThereIsAtLeastOneLoser() {
+		return this.getGameWinner() == null && this.getPlayers() != null
+				&& this.getPlayers().size() == 1 && (this.getLooserPlayers() != null && this.getLooserPlayers().size() > 0 );
 	}
 
 	public Map<Long, PlayerResponseLog> getPlayerResponsesToCurrentQuestion() {

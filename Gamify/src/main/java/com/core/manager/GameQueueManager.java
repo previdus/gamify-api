@@ -21,7 +21,7 @@ import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
-import com.core.service.PlayerRatingService;
+import com.core.service.UserEloRatingService;
 import com.core.service.UserService;
 
 @Component
@@ -51,6 +51,14 @@ public class GameQueueManager {
 		public void setUserService(UserService userService) {
 			GameQueueManager.userService = userService;
 		}
+		
+    private static UserEloRatingService userEloRatingService;
+	
+		
+		@Autowired(required = true)
+		public void setUserEloRatingService(UserEloRatingService userEloRatingService) {
+			GameQueueManager.userEloRatingService = userEloRatingService;
+		}
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -64,18 +72,7 @@ public class GameQueueManager {
 		GameQueueManager.answerKeyService = answerKeyService;
 	}
 	
-	private static PlayerRatingService playerRatingService;
-
-	/**
-	 * Sets the playerRatingService This method should never be called except by
-	 * Spring
-	 * 
-	 * 
-	 */
-	@Autowired(required = true)
-	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
-		GameQueueManager.playerRatingService = playerRatingService;
-	}
+	
 
 	private static GameInstanceService gameInstanceService;
 
@@ -270,25 +267,27 @@ public class GameQueueManager {
 					+ gi.getPlayerResponsesToCurrentQuestion().size());
 			if (gi.getPlayers().size() <= gi
 					.getPlayerResponsesToCurrentQuestion().size()) {
+				userEloRatingService.calulateUserEloRating(gi);
 				manageLife(gi);
-				log.info("debug 8");
-				
-				
+				QuestionManager.savePreviousQuestionLog(gi);
 				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
 					endGame(gi);					
 				}
-				else {
-
-				QuestionManager.savePreviousQuestionLog(gi);
-				playerRatingService.calulateRatingAndNumberOfGamesPlayed(gi);
-				gi.resetCurrentQuestionWinnerAndBestTime();
-				QuestionManager.attachQuestionToGameInstance(gi);
-				log.info("----- New Question attached is -----------"
-						+ gi.getCurrentQuestion().getId().toString());
+				else 
+				{
+					
+					loadNextQuestion(gi);
 				}
 
 			}
 		}
+	}
+
+	private static void loadNextQuestion(GameInstance gi) {
+		gi.resetCurrentQuestionWinnerAndBestTime();
+		QuestionManager.attachQuestionToGameInstance(gi);
+		log.info("----- New Question attached is -----------"
+				+ gi.getCurrentQuestion().getId().toString());
 	}
 
 	public static void endGame(GameInstance gi) {

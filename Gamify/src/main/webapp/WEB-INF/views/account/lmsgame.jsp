@@ -180,68 +180,6 @@ function isArrayEmpty(x) {
 	}
 
 
-function renderHtml(obj,fromAjax){
-	
-	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
-	if(obj.state == "EXPIRED"){
-		
-		return showFinalMessage('looks like everyone has left the game<br/>',false);
-	}
-	
-	if(obj.state == "WAITING" || obj.state == "NEW"){	
-		$("#timer").html(waitingForOtherPlayersToJoinMessage);
-	}
-
-	currentUserExistsInTheGame = false;
-	
-	
-    var playerHtml = "";
-	  	$(players).each(function(index , element) {
-	 	 
-		$.each(element, function(index1, element1) 
-		 {
-	 		 
- 			 playerHtml += loadOnePlayerHtmlAtATime(element1,checkForCurrentUser);   
-	        
-
-		 });
-			    
-		});
-
-	return playerHtml;
-}
-
-function loadOnePlayerHtmlAtATime(element1, checkForCurrentUser){
-	if(checkForCurrentUser && element1.user.id == userId)
- 	 {
-		currentUserExistsInTheGame = true;
-		currentUserClass = "highlight-current-user ";
- 	 }
-	 else{
-		currentUserClass = "";
- 	 }
-	 		 
-     
-
-
-   playerHtml = "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
-
-	"<li class=\""+currentUserClass+"sidebar-user-info col-md-12\">"+
-	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 sidebar-user-picture\">"+
-	    	"<i class=\"glyphicon glyphicon-user\"></i>"+
-	    "</div>"+
-	    "<div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6 sidebar-user-name\">"+
-		 		"<span class=\"sidebar-user-name\">"+element1.user.displayName+"</span>"+              	
-	    "</div>"+
-	    "<div class=\"col-xs-2 col-sm-2 col-md-2 col-lg-2 heart\">"+
-	    	"<i class=\"glyphicon glyphicon-heart\"></i>"+
-	    "</div>"+
-	    "<div class=\"col-xs-1 col-sm-1 col-md-1 col-lg-1 life-count\">"+
-	    	"<span>"+element1.noOfLife+"</span>"+
-	    "</div>"+
-	"</li>";
-	return playerHtml;	
- }
 
 function loadWinnerHtml(gameWinner){
 	 winnerHtml = "<hr class=\"sidebar-hr col-md-9 col-md-offset-1\"></hr>"+
@@ -268,31 +206,20 @@ function isArrayEmpty(x) {
 function renderHtml(obj,fromAjax){
 	
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
-	if(obj.state == "EXPIRED"){
-		
-		return showFinalMessage('looks like everyone has left the game<br/>',false);
-	}
-	
 	if(obj.state == "WAITING" || obj.state == "NEW"){	
 		$("#timer").html(waitingForOtherPlayersToJoinMessage);
 	}
 
 	currentUserExistsInTheGame = false;
 	console.log(obj.state);
-	console.log(obj.gameWinnerPlayerObject);
-	console.log(playerHtml);
+	console.log(obj.gameWinner);
+	
 
 	var winnerPlayerHtml = "";
 	var playerHtml = "";
 	var loserPlayerHtml = "";
 	var quitPlayerHtml = "";
 
-	if(obj.gameWinnerPlayerObject != null)winnerPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Winner</li>"+loadOnePlayerHtmlAtATime(obj.gameWinnerPlayerObject,true);
-	if(obj.state !="DONE" && obj.state != "EXPIRED")playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
-	if(!isArrayEmpty(obj.looserPlayers))loserPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Lost</li>"+loadPlayersHtml(obj.looserPlayers,  false);
-	if(!isArrayEmpty(obj.quittingPlayers))quitPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Quit, timed out, or inactive</li>"+ loadPlayersHtml(obj.quittingPlayers, false);
-
-//	if(obj.gameWinnerPlayerObject != null)winnerPlayerHtml = "<li class=\"sidebar-headline col-md-12\">Winner</li>"+loadOnePlayerHtmlAtATime(obj.gameWinnerPlayerObject,true);
 	if(obj.state !="DONE" && obj.state != "EXPIRED"){
 		playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
 	}
@@ -309,13 +236,12 @@ function renderHtml(obj,fromAjax){
  	
  	$("#sidebar-wrapper").html(totalPlayerHtml);
 
+   if(obj.state == "EXPIRED"){
+		
+		return showFinalMessage('This game is over and there are no players currently active<br/>',false);
+	} 
 
- 	
- 	
-
-      
-   
-    if(obj.state == "DONE"){
+	if(obj.state == "DONE"){
         
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
     	 return showFinalMessage( winnerMessage,true);
@@ -325,7 +251,8 @@ function renderHtml(obj,fromAjax){
     		return showFinalMessage( sorryMessageForTheLoser,true);
         }
     	 
-    }
+    }    
+     
     if(!currentUserExistsInTheGame){
         return showFinalMessage(sorryMessageForTheLoser,true);
         
@@ -334,6 +261,8 @@ function renderHtml(obj,fromAjax){
     else{
     	loadQuestionHtml(obj);
      }
+
+    
 }
 
     function loadQuestionHtml(obj){

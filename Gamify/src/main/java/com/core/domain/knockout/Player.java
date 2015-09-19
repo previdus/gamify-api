@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -30,26 +29,13 @@ public class Player  implements Serializable{
 	@Column(name="no_of_life")
 	private int noOfLife;
 	
-	@Column(name="no_of_questions_answered", nullable = false, columnDefinition="int default 0")
-	private int noOfQuestionsAnswered;
-	
-	@Column(name="elo_rating", columnDefinition="int default 1000")
-	private int eloRating;
 	
 	
 	
-	public int getNoOfQuestionsAnswered() {
-		return noOfQuestionsAnswered;
-	}
-	public void setNoOfQuestionsAnswered(int noOfQuestionsAnswered) {
-		this.noOfQuestionsAnswered = noOfQuestionsAnswered;
-	}
-	public int getEloRating() {
-		return eloRating;
-	}
-	public void setEloRating(int eloRating) {
-		this.eloRating = eloRating;
-	}
+	
+	
+	
+
 
 	private transient long playerJoinTime;
 	private transient int noOfPollsSoFar;
@@ -119,8 +105,6 @@ public class Player  implements Serializable{
 		noOfPollsSoFar = 0;
 	}
 	
-	public boolean isProvisional(){
-		return this.noOfQuestionsAnswered <= GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING;
-	}
+	
 	
 }

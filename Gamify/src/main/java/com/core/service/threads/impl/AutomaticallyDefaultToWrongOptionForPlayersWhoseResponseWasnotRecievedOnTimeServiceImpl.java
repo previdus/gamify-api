@@ -49,7 +49,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 				responses = initalizeResponsesIfEmpty(responses);
 				log.info("automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime - before for loop");
 				for(Long userId: players.keySet()){
-					if(gi.hasPlayerLostTheGame(userId) && noResponsesReceivedOrPlayerHasntRespondedYet(responses,
+					if(!gi.hasPlayerLostTheGame(userId) && noResponsesReceivedOrPlayerHasntRespondedYet(responses,
 							userId)){
 						Player player = players.get(
 								userId);

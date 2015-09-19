@@ -14,7 +14,8 @@
         <mapping class="com.core.domain.lms.ExamSection" />
         <mapping class="com.core.domain.lms.Topic" />
         <mapping class="com.core.domain.knockout.GameInstance" />  
-        <mapping class="com.core.domain.knockout.Player" />        
+        <mapping class="com.core.domain.knockout.Player" />
+        <mapping class="com.core.domain.knockout.UserEloRating" />        
         <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
         <mapping class="com.core.domain.knockout.PlayerResponseLog" />
     </session-factory>
