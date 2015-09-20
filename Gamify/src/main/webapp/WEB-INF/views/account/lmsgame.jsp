@@ -47,26 +47,35 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>
 <script id="mathjax" type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 <script  type="text/javascript">
+
+//CONSTANTS
+var TIME_NEEDED_TO_WAIT_BEFORE_POLLING = 5000;
+var COOKIE_QUESTION_TIME_KEY = "LMSuserGameQuestion";
+var TIME_TO_UPDATE_TIMER = 1000;
+var WAITING_FOR_OTHER_PLAYERS_TO_RESPON_MESSAGE = "You have already responded. Waiting for other players to respond";
+var TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE = "Sorry, time has elapsed. Loading next question after all other players have responded";
+var LOSER_SORRY_MESSAGE = "Sorry dude! You ain't the last man standing. Good luck next time.<br/>";
+var WINNER_MESSAGE = 'Congrats!! You are the last man standing<br/>';
+var WAITING_FOR_OTHER_PLAYERS_TO_JOIN_MESSAGE = "Waiting for  other players to join";
+var EXPIRED_GAME_MESSAGE = 'looks like you are in an expired game where others have quit or got disconnected and the game cannot be completed<br/>';
+var WAIT_UNTIL_WE_PREPARE_THE_GAME_MESSAGE = "Please wait for a moment while  we prepare the game";
+var BACKEND_SERVER_ERROR_MESSAGE = "We apologise for the inconvenience. The game has abruptly stopped due to an error in the server<br/>";
+var LIMIT_FOR_NUMBER_OF_CONSECUTIVE_TIMES_POLL_HAS_FAILED = 3;
+
+//variables
 var pollGameInstance;
 var userId;
-
 var timerInterval = null;
-//This variable is also used in the backedn in GameConstants.java
-//It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays
+/*This variable is also used in the backedn in GameConstants.java
+It is called as TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION. And it is 10 seconds more than this value to allow some network delays*/
 var timeNeededToWaitBeforeAutoRespondTowrongAnswer;
-var timeNeededToWaitBeforePollingForGame = 5000;
 var timeAtWhichQuestionWasDisplayedToTheUser;
-var cookieToStoreKeyForUserGameQuestionTime = "LMSuserGameQuestion"
 var countDown;
-var timeToUpdateTimerDivAndTimerCookie = 1000;
-var messageToDisplayWhenWaitingForOtherPlayersToRespond = "You have already responded. Waiting for other players to respond";
-var messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond = "Sorry, time has elapsed. Loading next question after all other players have responded";
-var sorryMessageForTheLoser = "Sorry dude! You ain't the last man standing. Good luck next time.<br/>";
-var winnerMessage = 'Congrats!! You are the last man standing<br/>';
-var waitingForOtherPlayersToJoinMessage = "Waiting for  other players to join";
-var expiredGameMessage = 'looks like you are in an expired game where others have quit or got disconnected and the game cannot be completed<br/>';
-var initialGamePageLoadMessage = "Please wait for a moment while  we prepare the game";
 var currentUserExistsInTheGame = false;
+var numberOfConsecutiveTimesPollGameFailed = 0;
+
+
+
 function handleMenuAndWrapper(){
 	$("#menu-toggle").click(function(e) {
 	      e.preventDefault();
@@ -82,7 +91,7 @@ function setAndDisplayUser(){
 }
 
 function displayInitialMessageBeforeTheGameLoads(){
-	$("#timer").html(initialGamePageLoadMessage);
+	$("#timer").html(WAIT_UNTIL_WE_PREPARE_THE_GAME_MESSAGE);
 }
 
 $(document).ready(function() {
@@ -99,15 +108,21 @@ $(document).ready(function() {
 			$.getJSON( "play/pollGame?userId="+userId, function( data ) {
                 if(!data){
 					
- 					 return showFinalMessage(expiredGameMessage,false);
+ 					 return showFinalMessage(EXPIRED_GAME_MESSAGE,false);
  					 
-                }
-                			  
-				  renderHtml(data,true);
-				  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                }            
+                numberOfConsecutiveTimesPollGameFailed = 0;  			  
+			  renderHtml(data,true);
+			  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+			}).error(function(){
+				numberOfConsecutiveTimesPollGameFailed++;
+				if(numberOfConsecutiveTimesPollGameFailed == LIMIT_FOR_NUMBER_OF_CONSECUTIVE_TIMES_POLL_HAS_FAILED)
+					{
+					return showFinalMessage(BACKEND_SERVER_ERROR_MESSAGE,false);  				
+					}
 				});
 		 }
-	 setInterval(pollGameInstance,timeNeededToWaitBeforePollingForGame);
+	 setInterval(pollGameInstance,TIME_NEEDED_TO_WAIT_BEFORE_POLLING);
 	 //$('a').live('click', function() { clearInterval(pollGameInstance); });
 
 	 //TODO: verify that this clearInterval actually works
@@ -209,7 +224,7 @@ function renderHtml(obj,fromAjax){
 	
 	$("#jsonresponse").html(JSON.stringify(obj, undefined, 2));
 	if(obj.state == "WAITING" || obj.state == "NEW"){	
-		$("#timer").html(waitingForOtherPlayersToJoinMessage);
+		$("#timer").html(WAITING_FOR_OTHER_PLAYERS_TO_JOIN_MESSAGE);
 	}
 
 	currentUserExistsInTheGame = false;
@@ -246,20 +261,20 @@ function renderHtml(obj,fromAjax){
 	if(obj.state == "DONE"){
         
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
-    	 return showFinalMessage( winnerMessage,true);
+    	 return showFinalMessage( WINNER_MESSAGE,true);
     	}
     	else if(obj.gameWinner == null)
         {
-    		return showFinalMessage( expiredGameMessage,true);
+    		return showFinalMessage( EXPIRED_GAME_MESSAGE,true);
         }
     	else{
-    		return showFinalMessage( sorryMessageForTheLoser,true);
+    		return showFinalMessage( LOSER_SORRY_MESSAGE,true);
         }
     	 
     }    
      
     if(!currentUserExistsInTheGame){
-        return showFinalMessage(sorryMessageForTheLoser,true);
+        return showFinalMessage(LOSER_SORRY_MESSAGE,true);
         
                  
      }		
@@ -315,16 +330,16 @@ function renderHtml(obj,fromAjax){
      	    		jQuery("input[name='option']").attr('disabled',true);
 
      	    		
-     	    		if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -1){
-     	    			$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
+     	    		if($.cookie($.cookie(COOKIE_QUESTION_TIME_KEY)) == -1){
+     	    			$("#timer").html(WAITING_FOR_OTHER_PLAYERS_TO_RESPON_MESSAGE);
      	 	    	}
-     	    		else if($.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime)) == -2){
-     	    			$("#timer").html(messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond);
+     	    		else if($.cookie($.cookie(COOKIE_QUESTION_TIME_KEY)) == -2){
+     	    			$("#timer").html(TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE);
      	 	    	}
      	 	    }
 
                 if(timeNeededToWaitBeforeAutoRespondTowrongAnswer > 0){ 	    	
-     	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id, obj.currentQuestion.maxTimeToAnswerInSeconds);},timeToUpdateTimerDivAndTimerCookie);
+     	    	     timerInterval = setInterval(function(){updateTimerDiv(obj.id,obj.currentQuestion.id, obj.currentQuestion.maxTimeToAnswerInSeconds);},TIME_TO_UPDATE_TIMER);
                 } 	    	
 
     		}
@@ -360,12 +375,12 @@ function renderHtml(obj,fromAjax){
 
 // function handleRefreshPage(obj){
 // 	 //delete and replace previous question timer cookie only if currentQuestion Is Not same as Previous Question
-//     if(userId+obj.id+obj.currentQuestion.id != $.cookie(cookieToStoreKeyForUserGameQuestionTime)){
+//     if(userId+obj.id+obj.currentQuestion.id != $.cookie(COOKIE_QUESTION_TIME_KEY)){
 
         
 
-//     	$.removeCookie($.cookie(cookieToStoreKeyForUserGameQuestionTime), { path: '/Gamify/' });
-//     	$.cookie(cookieToStoreKeyForUserGameQuestionTime,userId+obj.id+obj.currentQuestion.id);
+//     	$.removeCookie($.cookie(COOKIE_QUESTION_TIME_KEY), { path: '/Gamify/' });
+//     	$.cookie(COOKIE_QUESTION_TIME_KEY,userId+obj.id+obj.currentQuestion.id);
 //      }
 //     //else since this page has been refreshed set the variable timeNeededToWaitBeforeAutoRespondTowrongAnswer
 //     //to the value from that cookie
@@ -392,10 +407,10 @@ function submitOptionWhenTimeElapsed(questionId){
 	
   	$.ajaxSetup({ cache: false });  	
   	jQuery("input[name='option']").attr('disabled',true);  	
-  	//$.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime),-2);
+  	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-2);
  	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId=-1&timeTakenToRespond=0", function( data ) {	    	
 
-	    	$("#timer").html(messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond);
+	    	$("#timer").html(TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE);
 	    	clearInterval(timerInterval);	    	
 		    
 	     });
@@ -431,10 +446,10 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUser,bang){
 	
 	var selectedOptionId = $("input[name='option']:checked").val();
-	//$.cookie($.cookie(cookieToStoreKeyForUserGameQuestionTime),-1);
+	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-1);
 	$("#submitOption").attr("disabled", "disabled");
 	clearInterval(timerInterval);
-	$("#timer").html(messageToDisplayWhenWaitingForOtherPlayersToRespond);
+	$("#timer").html(WAITING_FOR_OTHER_PLAYERS_TO_RESPON_MESSAGE);
   	jQuery("input[name='option']").attr('disabled',true);
 
   	//selected option red
