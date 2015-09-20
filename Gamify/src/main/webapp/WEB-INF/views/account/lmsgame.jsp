@@ -74,26 +74,6 @@ var countDown;
 var currentUserExistsInTheGame = false;
 var numberOfConsecutiveTimesPollGameFailed = 0;
 
-
-
-function handleMenuAndWrapper(){
-	$("#menu-toggle").click(function(e) {
-	      e.preventDefault();
-	      $("#wrapper").toggleClass("toggled");
-		  });
-  var navbarHeight = $('.navbar').height();
-	$("#wrapper").css("margin", navbarHeight);
-}
-
-function setAndDisplayUser(){
-	 userId = "${userId}";           
-     $("#displayUserName").html(userId); 
-}
-
-function displayInitialMessageBeforeTheGameLoads(){
-	$("#timer").html(WAIT_UNTIL_WE_PREPARE_THE_GAME_MESSAGE);
-}
-
 $(document).ready(function() {
 	handleMenuAndWrapper();
 	setAndDisplayUser(); 
@@ -137,6 +117,27 @@ $(document).ready(function() {
 	 
 
 });
+
+
+
+function handleMenuAndWrapper(){
+	$("#menu-toggle").click(function(e) {
+	      e.preventDefault();
+	      $("#wrapper").toggleClass("toggled");
+		  });
+  var navbarHeight = $('.navbar').height();
+	$("#wrapper").css("margin", navbarHeight);
+}
+
+function setAndDisplayUser(){
+	 userId = "${userId}";           
+     $("#displayUserName").html(userId); 
+}
+
+function displayInitialMessageBeforeTheGameLoads(){
+	$("#timer").html(WAIT_UNTIL_WE_PREPARE_THE_GAME_MESSAGE);
+}
+
 
 
 

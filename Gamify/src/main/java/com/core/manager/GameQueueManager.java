@@ -126,12 +126,19 @@ public class GameQueueManager {
 				if(setStartWaitTime)gi.setStartWaitTime(System.currentTimeMillis());
 				gi.setState(stateToWhichGameNeedsToBeSet);
 				queueToWhereGameNeedsToBeMoved.put(gi.getId(), gi);
-				queueFromWhereGameNeedsToBeMoved
-						.remove(examSectionId);
+				queueFromWhereGameNeedsToBeMoved.remove(examSectionId);				
+				removePlayerFromQuittingQueueIfHeHasTimedOut(gi, currentUser);
 
 			}
 		}
 		return gi;
+	}
+
+	private static void removePlayerFromQuittingQueueIfHeHasTimedOut(
+			GameInstance gi, User currentUser) {
+		if(gi.getQuittingPlayers() != null && gi.getQuittingPlayers().size() > 0 && gi.getQuittingPlayers().containsKey(currentUser.getId())){
+			gi.getQuittingPlayers().remove(currentUser.getId());
+		}
 	}
 
 	public static synchronized GameInstance createGameInstance(
