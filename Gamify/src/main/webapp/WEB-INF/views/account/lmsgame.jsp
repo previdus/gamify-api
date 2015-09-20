@@ -64,6 +64,8 @@ var messageToDsisplayWhenTimeHasElapsedAndWaitingForOtherPlayersToRespond = "Sor
 var sorryMessageForTheLoser = "Sorry dude! You ain't the last man standing. Good luck next time.<br/>";
 var winnerMessage = 'Congrats!! You are the last man standing<br/>';
 var waitingForOtherPlayersToJoinMessage = "Waiting for  other players to join";
+var expiredGameMessage = 'looks like you are in an expired game where others have quit or got disconnected and the game cannot be completed<br/>';
+var initialGamePageLoadMessage = "Please wait for a moment while  we prepare the game";
 var currentUserExistsInTheGame = false;
 function handleMenuAndWrapper(){
 	$("#menu-toggle").click(function(e) {
@@ -80,7 +82,7 @@ function setAndDisplayUser(){
 }
 
 function displayInitialMessageBeforeTheGameLoads(){
-	$("#timer").html("Please wait for a moment while  we prepare the game");
+	$("#timer").html(initialGamePageLoadMessage);
 }
 
 $(document).ready(function() {
@@ -97,7 +99,7 @@ $(document).ready(function() {
 			$.getJSON( "play/pollGame?userId="+userId, function( data ) {
                 if(!data){
 					
- 					 return showFinalMessage('looks like you are still in an expired game<br/>',false);
+ 					 return showFinalMessage(expiredGameMessage,false);
  					 
                 }
                 			  
@@ -220,7 +222,7 @@ function renderHtml(obj,fromAjax){
 	var loserPlayerHtml = "";
 	var quitPlayerHtml = "";
 
-	if(obj.state !="DONE" && obj.state != "EXPIRED"){
+	if((obj.state !="DONE" && obj.state != "EXPIRED")|| obj.gameWinner == null){
 		playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
 	}
 	else{
@@ -246,8 +248,11 @@ function renderHtml(obj,fromAjax){
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
     	 return showFinalMessage( winnerMessage,true);
     	}
-    	else
+    	else if(obj.gameWinner == null)
         {
+    		return showFinalMessage( expiredGameMessage,true);
+        }
+    	else{
     		return showFinalMessage( sorryMessageForTheLoser,true);
         }
     	 
