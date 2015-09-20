@@ -348,4 +348,9 @@ public class GameInstance implements Serializable {
 		return this.losingPlayers.get(userId) != null;
 	}
 
+	public boolean isGameStillActive() {
+		return !this.state.equals(GAME_STATE.DONE)
+				&& !this.state.equals(GAME_STATE.EXPIRED); 
+	}
+
 }

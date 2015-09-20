@@ -32,12 +32,10 @@ public class GameQueueManager {
 	public static Map<Long, GameInstance> readyGames = new ConcurrentHashMap<Long, GameInstance>();
 	public static Map<Long, GameInstance> ongoingGames = new ConcurrentHashMap<Long, GameInstance>();
 	public static Map<Long, GameInstance> finishedGames = new ConcurrentHashMap<Long, GameInstance>();
-
 	public static Map<Long, GameInstance> expriredGames = new ConcurrentHashMap<Long, GameInstance>();
-
 	public static Map<Long, GameInstance> playerGameMap = new ConcurrentHashMap<Long, GameInstance>();
-
 	public static Map<Long, List<PreviousQuestionLog>> gameResponseLog = new ConcurrentHashMap<Long, List<PreviousQuestionLog>>();
+	
 
 	private static final Logger log = LoggerFactory
 			.getLogger(GameQueueManager.class);
@@ -91,16 +89,19 @@ public class GameQueueManager {
 	public static GameInstance getGameInstanceForPlayer(Long playerId) {
 		return playerGameMap.get(playerId);
 	}
+	
+	/*
+	 * This method is not being called y any other method. Investigate its use. If not delete it
+	 */
 
 	public static synchronized GameInstance joinGameInstanceIfUserAlreadyInGame(
-			User user) {
-		for (Long playerId : playerGameMap.keySet()) {
+			User currentUser) {
+		for (Long userId : playerGameMap.keySet()) {
 
-			if (playerId.equals(user.getId())) {
-				GameInstance gi = playerGameMap.get(playerId);
-				if (!gi.getState().equals(GAME_STATE.DONE)
-						&& !gi.getState().equals(GAME_STATE.EXPIRED)) {
-					return playerGameMap.get(playerId);
+			if (userId.equals(currentUser.getId())) {
+				GameInstance gi = playerGameMap.get(userId);
+				if (gi.isGameStillActive()) {
+					return playerGameMap.get(userId);
 				}
 
 			}
@@ -108,56 +109,73 @@ public class GameQueueManager {
 		}
 		return null;
 	}
+	
+	private static GameInstance joinAnAlreadyExistingGame(GameInstance gi,
+			Long examSectionId, 
+			User currentUser, 
+			Map<Long,GameInstance> queueFromWhereGameNeedsToBeMoved, 
+			Map<Long,GameInstance> queueToWhereGameNeedsToBeMoved, 
+			GAME_STATE stateToWhichGameNeedsToBeSet,
+			boolean setStartWaitTime,
+			int numOfPlayersToCheckBeforeChangingState){
+		
+		if (!gi.isPlayerInGame(currentUser.getId())) {
+			gi.addPlayer(currentUser);
+			playerGameMap.put(currentUser.getId(), gi);
+			if (gi.getNumOfPlayers() == numOfPlayersToCheckBeforeChangingState) {
+				if(setStartWaitTime)gi.setStartWaitTime(System.currentTimeMillis());
+				gi.setState(stateToWhichGameNeedsToBeSet);
+				queueToWhereGameNeedsToBeMoved.put(gi.getId(), gi);
+				queueFromWhereGameNeedsToBeMoved
+						.remove(examSectionId);
+
+			}
+		}
+		return gi;
+	}
 
 	public static synchronized GameInstance createGameInstance(
-			ExamSection examSection, User user) {
+			ExamSection examSection, User currentUser) {
 		GameInstance gi = null;
-		if (waitingForMorePlayersToJoinGames.get(examSection.getId()) != null) {
-			gi = waitingForMorePlayersToJoinGames.get(examSection.getId());
-			if (!gi.isPlayerInGame(user.getId())) {
-				gi.addPlayer(user);
-				playerGameMap.put(user.getId(), gi);
-				if (gi.getNumOfPlayers() == GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED) {
-					gi.setState(GameConstants.GAME_STATE.READY);
-					readyGames.put(gi.getId(), gi);
-					waitingForMorePlayersToJoinGames
-							.remove(examSection.getId());
+		if ((gi = waitingForMorePlayersToJoinGames.get(examSection.getId())) != null) {
+			
+			return joinAnAlreadyExistingGame(gi,examSection.getId(),
+					currentUser,
+					waitingForMorePlayersToJoinGames,
+					readyGames,
+					GameConstants.GAME_STATE.READY, 
+					false,
+					GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED);
 
-				}
-			}
-			return gi;
-
-		} else if (newGames.get(examSection.getId()) != null) {
-			gi = GameQueueManager.newGames.get(examSection.getId());
-			if (!gi.isPlayerInGame(user.getId())) {
-				gi.addPlayer(user);
-
-				// log.info("((((((((((((((((((((((((((BEFORE PUTTING USER TO PLAYER GAME MAP))))))))))))))))))))))))"+user.getId());;
-				playerGameMap.put(user.getId(), gi);
-				if (gi.getNumOfPlayers() == GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
-					gi.setStartWaitTime(System.currentTimeMillis());
-					gi.setState(GameConstants.GAME_STATE.WAITING);
-					waitingForMorePlayersToJoinGames.put(examSection.getId(),
-							gi);
-					newGames.remove(examSection.getId());
-				}
-			}
-			return gi;
+		} else if ((gi = newGames.get(examSection.getId())) != null) {
+			
+			return joinAnAlreadyExistingGame(gi,examSection.getId(),
+					currentUser,
+					newGames,
+					waitingForMorePlayersToJoinGames,
+					GameConstants.GAME_STATE.WAITING, 
+					true,
+					GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED);
 
 		}
-
 		else {
-			gi = new GameInstance();
-			gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
-			gi.addPlayer(user);
-			gi.setExamSection(examSection);
-			gi.setState(GameConstants.GAME_STATE.NEW);
-			gi.setStartTime(System.currentTimeMillis());
-			gi = gameInstanceService.saveOrUpdate(gi);
-			newGames.put(examSection.getId(), gi);
-			playerGameMap.put(user.getId(), gi);
-			return gi;
+			return createNewGame(examSection, currentUser);
 		}
+	}
+
+	private static GameInstance createNewGame(ExamSection examSection,
+			User currentUser) {
+		GameInstance gi;
+		gi = new GameInstance();
+		gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
+		gi.addPlayer(currentUser);
+		gi.setExamSection(examSection);
+		gi.setState(GameConstants.GAME_STATE.NEW);
+		gi.setStartTime(System.currentTimeMillis());
+		gi = gameInstanceService.saveOrUpdate(gi);
+		newGames.put(examSection.getId(), gi);
+		playerGameMap.put(currentUser.getId(), gi);
+		return gi;
 	}
 
 	public static synchronized boolean checkIfPlayerAlreadyInGame(User user) {

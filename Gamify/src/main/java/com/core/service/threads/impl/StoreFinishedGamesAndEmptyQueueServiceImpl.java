@@ -26,13 +26,7 @@ implements StoreFinishedGamesAndEmptyQueueService {
 		this.gameInstanceService = gameInstanceService;
 	}
 	
-//	private  PlayerRatingService playerRatingService;
-//
-//	@Autowired(required = true)
-//	public void setPlayerRatingService(PlayerRatingService playerRatingService) {
-//		this.playerRatingService = playerRatingService;
-//	}
-//	
+	
 	
 	public void run() {
 		log.info("*********************storeFinishedGamesAndEmptyQueue***********************");
