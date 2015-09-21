@@ -59,7 +59,8 @@ var WINNER_MESSAGE = 'Congrats!! You are the last man standing<br/>';
 var WAITING_FOR_OTHER_PLAYERS_TO_JOIN_MESSAGE = "Waiting for  other players to join";
 var EXPIRED_GAME_MESSAGE = 'looks like you are in an expired game where others have quit or got disconnected and the game cannot be completed<br/>';
 var WAIT_UNTIL_WE_PREPARE_THE_GAME_MESSAGE = "Please wait for a moment while  we prepare the game";
-var BACKEND_SERVER_ERROR_MESSAGE = "We apologise for the inconvenience. The game has abruptly stopped due to an error in the server<br/>";
+var BACKEND_SERVER_ERROR_MESSAGE = "We apologise for the inconvenience. The game has abruptly stopped due to an internal error at the server<br/>";
+var GAME_IS_OVER_EXPIRED_MESSAGE = 'This game is over and there are no players currently active<br/>';
 var LIMIT_FOR_NUMBER_OF_CONSECUTIVE_TIMES_POLL_HAS_FAILED = 3;
 
 //variables
@@ -238,7 +239,7 @@ function renderHtml(obj,fromAjax){
 	var loserPlayerHtml = "";
 	var quitPlayerHtml = "";
 
-	if((obj.state !="DONE" && obj.state != "EXPIRED")|| obj.gameWinner == null){
+	if((obj.state !="DONE" && obj.state != "EXPIRED")){
 		playerHtml="<li class=\"sidebar-headline col-md-12\">Active Players</li>"+loadPlayersHtml(obj.players, true);
 	}
 	else{
@@ -254,19 +255,16 @@ function renderHtml(obj,fromAjax){
  	
  	$("#sidebar-wrapper").html(totalPlayerHtml);
 
-   if(obj.state == "EXPIRED"){
-		
-		return showFinalMessage('This game is over and there are no players currently active<br/>',false);
-	} 
+  
 
-	if(obj.state == "DONE"){
+	if(obj.state == "DONE" || obj.state == "EXPIRED"){
         
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
     	 return showFinalMessage( WINNER_MESSAGE,true);
     	}
     	else if(obj.gameWinner == null)
         {
-    		return showFinalMessage( EXPIRED_GAME_MESSAGE,true);
+    		return showFinalMessage( GAME_IS_OVER_EXPIRED_MESSAGE,true);
         }
     	else{
     		return showFinalMessage( LOSER_SORRY_MESSAGE,true);
@@ -471,7 +469,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 
 </script>
-<body>
+<body onkeydown="return (event.keyCode == 154)">
 <!-- navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="container-fluid lms">
