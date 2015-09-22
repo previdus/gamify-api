@@ -10,8 +10,16 @@ public class LeaderBoardResult extends ApiResult{
 	
 	
 	private List<TotalNumberOfGameWonByAUser> topUsers = new LinkedList<TotalNumberOfGameWonByAUser>();
+	private List<UserEloRatingDTO> topRatedUsers = new LinkedList<UserEloRatingDTO>();
 	
-	
+
+	public List<UserEloRatingDTO> getTopRatedUsers() {
+		return topRatedUsers;
+	}
+
+	public void setTopRatedUsers(List<UserEloRatingDTO> topRatedUsers) {
+		this.topRatedUsers = topRatedUsers;
+	}
 
 	public List<TotalNumberOfGameWonByAUser> getTopUsers() {
 		return topUsers;

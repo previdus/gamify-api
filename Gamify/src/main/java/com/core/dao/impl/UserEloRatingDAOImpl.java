@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.core.constants.GameConstants;
 import com.core.dao.UserEloRatingDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.User;
@@ -29,6 +30,18 @@ implements UserEloRatingDAO {
 		}
 		releaseSession(session);
 		return null;
+
+	}
+	
+	public List<UserEloRating> getTopUserEloRatings(Integer noOfPlayersToShow, boolean excludeProvisional) {
+		List<UserEloRating> userEloRatingList = null;
+		Session session = getSession();
+		Query qry = session.createQuery("from UserEloRating "
+		+((excludeProvisional)?(" where noOfQuestionsAttempted > "+GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING):"") +
+		"order by eloRating desc limit "+noOfPlayersToShow);				
+		userEloRatingList = qry.list();		
+		releaseSession(session);
+		return userEloRatingList;
 
 	}
 	

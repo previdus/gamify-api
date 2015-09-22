@@ -24,7 +24,9 @@ public class UserEloRatingServiceImpl implements UserEloRatingService {
 	@Autowired
 	public UserEloRatingDAO userEloRatingDAO;
 	
-    
+	public List<UserEloRating> getTopUserEloRatings(Integer noOfPlayersToShow, boolean excludeProvisional){
+		return userEloRatingDAO.getTopUserEloRatings(noOfPlayersToShow, excludeProvisional);
+	}
     
     public void  calulateUserEloRating(GameInstance gameInstance)
     {   
