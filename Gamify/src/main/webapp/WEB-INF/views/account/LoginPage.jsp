@@ -59,7 +59,15 @@
 		 
 		$(document).ready(function() {
 		     $("#status").html("${status}");
-		     $("#status").html("${loginStatus}"); 
+		     var loginStatus = "${loginStatus}";
+		     if(loginStatus != null){
+		    	 $("#status").html(loginStatus +"<br/>");
+		    	 $("#status").css("background-color","red");
+		    	 $("#status").css("color","white");
+			 }
+		      
+             
+		     
 			$("#signup").click(function(){
 				signup();
 		    });
@@ -240,7 +248,7 @@
 				<br/><br/>
 				<div id="status"></div>
 				<div class="social-links">
-          <fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
+                <br/><br/><fb:login-button scope="public_profile,email"  onlogin="checkLoginState();"></fb:login-button>
 	        <!-- <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
 	        <a href="javascript:void(0)"><i class="fa fa-twitter-square"></i></a>
 	        <a href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>-->
