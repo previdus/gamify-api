@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
 	public User getUserByEmail(String email) {
 		return userDAO.getUserByEmail(email);
 	}
+	
+	public User getUserByParentsEmail(String parentsEmail){
+		return userDAO.getUserByParentsEmail(parentsEmail);
+	}
 
 	public User getUserByFacebookId(String facebookId) {
 		return userDAO.getUserByFacebookId(facebookId);

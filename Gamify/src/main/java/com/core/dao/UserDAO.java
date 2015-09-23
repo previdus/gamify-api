@@ -13,6 +13,8 @@ public interface UserDAO extends GenericRepository<User, Serializable> {
 	public User getUserByName(String userName);
 
 	public User getUserByEmail(String email);
+	
+	public User getUserByParentsEmail(String parentsEmail);
 
 	public User getUserByFacebookId(String facebookId);
 	

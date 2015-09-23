@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GenericValidator {
 
-	private Pattern emailPattern, userNamePattern, passwordPattern,
+	private Pattern emailPattern, userNamePattern, fullNamePattern, passwordPattern,
 			phoneNumPattern;
 	private Matcher matcher;
 
@@ -29,11 +29,19 @@ public class GenericValidator {
 	 */
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	
+	private static final String NEW_EMAIL_PATTERN = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"+
+	"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|"+
+	"biz|info|mobi|name|aero|asia|jobs|museum)\b";
+	
+	private static final String SIMPLE_EMAIL_PATTERN = "/@/";
 
 	/*
 	 * any character sequence containing at least 3 and up to 30
 	 */
 	private static final String USERNAME_PATTERN = "(.{3,30})";
+	
+	private static final String FULLNAME_PATTERN = "(.{3,50})";
 
 	/*
 	 * ( # Start of group (?=.*\d) # must contains one digit from 0-9
@@ -52,8 +60,9 @@ public class GenericValidator {
 	private static final String PHONENUM_PATTERN = "^(([(]?(\\d{2,4})[)]?)|(\\d{2,4})|([+1-9]+\\d{1,2}))?[-\\s]?(\\d{2,3})?[-\\s]?((\\d{7,8})|(\\d{3,4}[-\\s]\\d{3,4}))$";
 
 	public GenericValidator() {
-		emailPattern = Pattern.compile(EMAIL_PATTERN);
+		emailPattern = Pattern.compile(SIMPLE_EMAIL_PATTERN);
 		userNamePattern = Pattern.compile(USERNAME_PATTERN);
+		fullNamePattern = Pattern.compile(FULLNAME_PATTERN);
 		passwordPattern = Pattern.compile(PASSWORD_PATTERN);
 		phoneNumPattern = Pattern.compile(PHONENUM_PATTERN);
 	}
@@ -74,6 +83,11 @@ public class GenericValidator {
 		matcher = userNamePattern.matcher(userName);
 		return matcher.matches();
 	}
+	
+	public boolean fullNameValidate(final String fullName) {
+		matcher = fullNamePattern.matcher(fullName);
+		return matcher.matches();
+	}
 
 	public boolean passwordValidate(final String password) {
 		matcher = passwordPattern.matcher(password);
@@ -83,5 +97,9 @@ public class GenericValidator {
 	public boolean phoneNumValidate(final String phoneNum) {
 		matcher = phoneNumPattern.matcher(phoneNum);
 		return matcher.matches();
+	}
+	
+	public boolean passwordMatchValidate(String password, String cpassword){
+		return password.equals(cpassword);
 	}
 }

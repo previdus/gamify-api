@@ -95,6 +95,21 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 		return null;
 	}
 	
+	public User getUserByParentsEmail(String parentsEmail) {
+		User user = null;
+		Session session = getSession();
+		Query qry =session
+				.createQuery("from User where parentEmailId = :parentsEmail").setParameter(
+						"parentsEmail", parentsEmail);
+		List<User> userList = qry.list();
+		if (userList != null && userList.size() > 0) {
+			user = userList.get(0);
+			releaseSession(session);
+			return user;
+		}
+		releaseSession(session);
+		return null;
+	}
 	
 	
 

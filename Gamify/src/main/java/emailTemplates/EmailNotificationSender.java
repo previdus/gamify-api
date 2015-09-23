@@ -18,11 +18,12 @@ import com.core.util.Emailer;
 public class EmailNotificationSender {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(LmsGameController.class);
+			.getLogger(EmailNotificationSender.class);
 	
 	public static void main(String[] args) {
 		List<String> recp = new LinkedList<String>();
 		recp.add("ricky.rungta@gmail.com");
+		
 		EmailNotificationSender.sendResetPasswordMail(null,recp , null);
 	}
 
@@ -33,24 +34,15 @@ public class EmailNotificationSender {
 			@Override
 			public void run() {
 
-				//String strLine = template;
-				//File file = new File(template);
-//				System.out
-//						.println(" ***************************************************  "
-//								+ file.getAbsolutePath());
-				final String body = template;
-				final String subject = "LMS Credentials";
-
-				final Emailer emailer = new Emailer(null, null, subject, body,
-						recipients);
-				try {
-					emailer.sendEmail();
-
-				} catch (final Exception e) {
-					log.error("Error Sending E-Mail : ", e);
-
+				try{
+				    EmailNotificationSender.sendEmail(recipients, template);
+				}catch(Exception e){
+					log.error("Exception while trying to asynchronously send email "+e);
 				}
+				
 			}
+
+			
 		};
 
 		final Timer timer = new Timer();
@@ -58,4 +50,22 @@ public class EmailNotificationSender {
 
 	}
 
+	
+	public static void sendEmail(final List<String> recipients,
+			final String template) throws Exception{
+		//String strLine = template;
+		//File file = new File(template);
+//		System.out
+//				.println(" ***************************************************  "
+//						+ file.getAbsolutePath());
+		final String body = template;
+		final String subject = "LMS Credentials";
+
+		final Emailer emailer = new Emailer(null, null, subject, body,
+				recipients);
+		
+		emailer.sendEmail();
+
+
+	}
 }

@@ -12,6 +12,8 @@ public interface UserService {
 	
 	public User getUserByEmail(String email);
 	
+	public User getUserByParentsEmail(String parentsEmail);
+	
 	public User getUserByFacebookId(String facebookId);
 	
 	public User saveUser(User user);

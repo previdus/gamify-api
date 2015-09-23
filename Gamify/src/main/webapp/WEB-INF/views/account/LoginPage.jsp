@@ -34,18 +34,57 @@
 			}
 			$.ajax({
 			    url: "api/register",
-			    data: {displayName:memberName,gender:selectedGen,userName:userName,password:mpassword,parentsEmail:parentsEmail,email:memberEmail},
+			    data: {displayName:memberName,gender:selectedGen,userName:userName,password:mpassword,cpassword:cpassword,parentsEmail:parentsEmail,email:memberEmail},
 			    type: "POST",
 			    dataType : "json",
 			    success: function( json ) {
 			    	if(json != null){ 
+				    	console.log('post registration');
+				    	console.log(json.status);
 				    	
+				    	$(".errorColor").css("background-color","");
+			    		$("#registrationStatus").css("background-color","");
+			    		$("#registrationStatus").css("color","");
 				    	if(json.status == 1){
 					    	// section for successfully signup.
 					    	// display json.message 
-					    	}else{
-						    	// validation failure// show error in red
+				    		$("#registrationStatus").css("background-color","orange");
+				    		$("#registrationStatus").css("color","white");
+				    		
+					    	
+					    	}
+				    	else{
+					    		
+					    		$("#registrationStatus").css("background-color","red");
+					    		$("#registrationStatus").css("color","white");
+					    		
+					    		
+					    		if(json.status == -1){
+						    		$("#memberFullName").css("background-color","red");
 						    	}
+					    		else if(json.status == -2){
+					    			$(".radioButton").css("background-color","red");
+					    		}
+					    		else if(json.status == -3){
+					    			$("#userName").css("background-color","red");
+					    		}
+					    		else if(json.status == -4){
+					    			$("#mpassword").css("background-color","red");
+					    		}
+					    		else if(json.status == -5){
+					    			$("#cpassword").css("background-color","red");
+						    		
+					    		}else if(json.status == -6){
+					    			$("#memberEmail").css("background-color","red");						    		
+					    		}
+					    		else if(json.status == -7){
+					    			$("#parentsEmail").css("background-color","red");
+					    		}
+					    		
+					    		
+						    	// validation failure// show error in red
+						    }
+				    	$("#registrationStatus").html(json.message);
 			    	}
 			    },
 			    error: function( xhr, status, errorThrown ) {
@@ -60,7 +99,7 @@
 		$(document).ready(function() {
 		     $("#status").html("${status}");
 		     var loginStatus = "${loginStatus}";
-		     if(loginStatus != null){
+		     if(loginStatus != null && loginStatus.length != 0){
 		    	 $("#status").html(loginStatus +"<br/>");
 		    	 $("#status").css("background-color","red");
 		    	 $("#status").css("color","white");
@@ -303,17 +342,20 @@
 				
 					<h2 class="heading">Become a member and play! </h2>
 					<form class="custom-form">
-					<input id="memberFullName" type="text" placeholder="Full Name" class="form-control inputbox clearfix">
-						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix"><span class = "gender"> Male</span>
-						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix"><span class="gender"> Female</span>
-						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix">
-						<input id="mpassword"  type="password" placeholder="password" class="form-control inputbox clearfix">
-						<input id="cpassword" type="password" placeholder="confirm password" class="form-control inputbox pull-left">
-						<input id="memberEmail" type="email" placeholder="Email" class="form-control inputbox clearfix">
-						<input id ="parentsEmail" type="email" placeholder="Parent's email" class="form-control inputbox clearfix">
-						<input id="signup" name="signup" type="button" value="Sign up" class="btn btn-primary pull-left">
+					<input id="memberFullName" type="text" placeholder="Full Name" class="form-control inputbox clearfix errorColor">
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Male" class="form-control inputbox clearfix errorColor"><span class = "gender"> Male</span>
+						<input  class="radioButton" type="radio" placeholder="gender" name="gendergrp" value="Female" class="form-control inputbox clearfix errorColor"><span class="gender"> Female</span>
+						<input id="userName" type="text" placeholder="username" class="form-control inputbox clearfix errorColor">
+						<input id="mpassword"  type="password" placeholder="password" class="form-control inputbox clearfix errorColor">
+						<input id="cpassword" type="password" placeholder="confirm password" class="form-control inputbox pull-left errorColor">
+						<input id="memberEmail" type="email" placeholder="Email" class="form-control inputbox clearfix errorColor">
+						<input id ="parentsEmail" type="email" placeholder="Parent's email" class="form-control inputbox clearfix errorColor">
+						<input id="signup" name="signup" type="button" value="Sign up" class="btn btn-primary pull-left errorColor">				
+						
 					</form>
 				</div>
+				<br/><br/><br/><br/>
+				<div id="registrationStatus"></div>
 
 			</div>
 		</section>
