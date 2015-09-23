@@ -17,10 +17,6 @@
 		
 		<script>
 
-		$(document).ready(function() {
-			            
-		     $("#status").html("${loginStatus}"); 
-		});
 
 		
 
@@ -63,6 +59,7 @@
 		 
 		$(document).ready(function() {
 		     $("#status").html("${status}");
+		     $("#status").html("${loginStatus}"); 
 			$("#signup").click(function(){
 				signup();
 		    });
