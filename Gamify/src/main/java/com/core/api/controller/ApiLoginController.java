@@ -104,7 +104,7 @@ public class ApiLoginController {
 					.generateTemporaryPasswordBasedOnUserName(facebookName);
 			log.info("before registering user");
 			ApiResult apr = apiRegistrationController.registerPost(
-					facebookEmail, tempPassword, facebookEmail,"", facebookName,
+					facebookEmail, tempPassword,tempPassword, facebookEmail,"", facebookName,
 					gender, facebookId, request );
 			if (apr.getStatus() == 1) {
 				log.info("successfully created user with his facebook credentials");
