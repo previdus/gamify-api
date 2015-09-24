@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
+import com.core.constants.GameConstants;
 import com.core.constants.UserAccountStatus;
 import com.core.domain.User;
 import com.core.service.UserService;
@@ -84,9 +85,6 @@ public class ApiRegistrationController {
 			accountStatus = UserAccountStatus.ACTIVE;
 		else 
 			accountStatus = UserAccountStatus.EMAIL_VERIFICATION_PENDING;
-		
-		
-		
 			try{
 				user = new User(userName, password, email, displayName,
 						resolveGender(gender), facebookId,imageUrl,parentsEmail, accountStatus);
@@ -98,14 +96,16 @@ public class ApiRegistrationController {
 			    }catch(Exception e){
 			    	return createApiResult(-8,"Registration failed. Unable to verify the email "+email+" due to "+e.getMessage());
 			    }
+			    if(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY)
 			    return createApiResult(1, "Registration successful. An email verification link "
 						+ "has been sent to your email id " + email + " Kindly verify it to access the account. ");
+			    else
+			    	 return createApiResult(1, "Registration successful. ");
 			}
 			catch(Exception ex){
 				log.info(ex.getMessage());
 				return createApiResult(-8, "There was an internal problem registering the user. Unable to save the user in the system");
 			}
-		
 	}
 
 	private ApiResult validateFieldsInTheSystem(String userName, String email,
