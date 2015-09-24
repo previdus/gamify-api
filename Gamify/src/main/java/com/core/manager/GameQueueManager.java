@@ -295,6 +295,7 @@ public class GameQueueManager {
 				userEloRatingService.calulateUserEloRating(gi);
 				manageLife(gi);
 				QuestionManager.savePreviousQuestionLog(gi);
+				gameInstanceService.saveOrUpdate(gi);
 				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
 					endGame(gi);					
 				}
@@ -316,10 +317,10 @@ public class GameQueueManager {
 	}
 
 	public static void endGame(GameInstance gi) {
-		log.info("debug Game Done !!!");
-		
+		log.info("debug Game Done !!!");		
 		gi.setStateToDone();
 		gi.markGameWinner();
+		gameInstanceService.saveOrUpdate(gi);
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
 		GameQueueManager.ongoingGames.remove(gi.getId());
 		

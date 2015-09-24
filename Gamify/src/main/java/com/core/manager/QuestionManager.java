@@ -44,12 +44,7 @@ public class QuestionManager {
 		QuestionManager.answerKeyService = answerKeyService;
 	}
 	
-	private static GameInstanceService gameInstanceService;
-		
-		@Autowired(required = true)
-		public void setGameInstanceService(GameInstanceService gameInstanceService) {
-			QuestionManager.gameInstanceService = gameInstanceService;
-		}
+
 
 	private static QuestionService questionService;
 
@@ -85,8 +80,7 @@ public class QuestionManager {
 				logs = new LinkedList<PreviousQuestionLog>();
 			logs.add(pql);
 			GameQueueManager.gameResponseLog.put(gi.getId(), logs);
-			gi.setPreviousQuestionLogs(logs);
-			gameInstanceService.saveOrUpdate(gi);
+			gi.setPreviousQuestionLogs(logs);			
 			log.info("Prev Question Log Size after adding "
 					+ GameQueueManager.gameResponseLog.get(gi.getId()).size());
 
