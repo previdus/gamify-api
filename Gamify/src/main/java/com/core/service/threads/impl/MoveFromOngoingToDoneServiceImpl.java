@@ -24,7 +24,7 @@ public class MoveFromOngoingToDoneServiceImpl implements  MoveFromOngoingToDoneS
 					.keySet()) {
 				GameInstance gi = GameQueueManager.ongoingGames
 						.get(gameInstanceId);
-				if (hasGameEnded(gi)) {
+				if (areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(gi)) {
 					GameQueueManager.endGame(gi);
 				}
 
@@ -33,7 +33,7 @@ public class MoveFromOngoingToDoneServiceImpl implements  MoveFromOngoingToDoneS
 			e.printStackTrace();
 		}
 	}
-	private boolean hasGameEnded(GameInstance gi) {
+	private boolean areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(GameInstance gi) {
 		
 		return gi.getPlayers().size() <= 1 || (gi.getGameWinner() != null);
 	}

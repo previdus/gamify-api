@@ -86,7 +86,7 @@ public class QuestionManager {
 			logs.add(pql);
 			GameQueueManager.gameResponseLog.put(gi.getId(), logs);
 			gi.setPreviousQuestionLogs(logs);
-						gameInstanceService.saveOrUpdate(gi);
+			gameInstanceService.saveOrUpdate(gi);
 			log.info("Prev Question Log Size after adding "
 					+ GameQueueManager.gameResponseLog.get(gi.getId()).size());
 

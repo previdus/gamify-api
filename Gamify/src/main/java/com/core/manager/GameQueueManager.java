@@ -317,7 +317,7 @@ public class GameQueueManager {
 
 	public static void endGame(GameInstance gi) {
 		log.info("debug Game Done !!!");
-		QuestionManager.savePreviousQuestionLog(gi);
+		
 		gi.setStateToDone();
 		gi.markGameWinner();
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
