@@ -51,6 +51,28 @@ public class EmailNotificationSender {
 	}
 
 	
+	public static void sendEmailAsync(final List<String> recipients,
+			final String template) throws Exception{
+		final TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+
+				try{
+				    EmailNotificationSender.sendEmail(recipients, template);
+				}catch(Exception e){
+					log.error("Exception while trying to asynchronously send email "+e);
+				}
+				
+			}
+		};
+
+		final Timer timer = new Timer();
+		timer.schedule(task, 0);
+
+
+	}
+	
+	
 	public static void sendEmail(final List<String> recipients,
 			final String template) throws Exception{
 		//String strLine = template;

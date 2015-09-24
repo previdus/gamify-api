@@ -59,5 +59,9 @@ public class GameConstants {
 	// keep -1 if you dont want baut to be added
 	public static final int ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS = 20000;
 	
+	public static final boolean IS_EMAIL_VERIFICATION_MANDATORY = false;
+	
+	public static final boolean SEND_EMAIL_VERIFICATION_EMAIL_ON_LOGIN = true;
+	
 
 }
