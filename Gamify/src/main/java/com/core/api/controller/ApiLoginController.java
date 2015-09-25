@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
+import com.core.constants.GameConstants;
 import com.core.constants.UserAccountStatus;
 import com.core.domain.User;
 import com.core.manager.UserManager;
@@ -56,7 +57,7 @@ public class ApiLoginController {
 			apr.setStatus(-1);
 			return apr;
 		}
-		if(!UserAccountStatus.ACTIVE.equals(userFromRepository.getUserAccountStatus())){
+		if(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY && !UserAccountStatus.ACTIVE.equals(userFromRepository.getUserAccountStatus())){
 			//emailNotificationService.sendAccountActivationEmail(request.getServerName(), userFromRepository.getEmailId());
 			apr.setMessage("Email Verification Needed");
 			apr.setRedirectLink("");
