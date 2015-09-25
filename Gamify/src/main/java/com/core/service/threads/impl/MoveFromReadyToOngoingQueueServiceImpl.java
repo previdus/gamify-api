@@ -28,8 +28,12 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 				GameInstance gi = GameQueueManager.readyGames
 						.get(gameInstanceId);
 				gi.setState(GameConstants.GAME_STATE.ONGOING);
-				gi.setStartTime(System.currentTimeMillis());
+
+				//gi.setStartTime(System.currentTimeMillis());
 				gi.setNoOfPlayersBeaten(gi.getPlayers().size() - 1);
+
+				gi.setGameCreationTime(System.currentTimeMillis());
+
 				log.info("before moving from ready to ongoing game+s");
 				QuestionManager.attachQuestionToGameInstance(gi);
 				GameQueueManager.ongoingGames.put(gi.getId(), gi);
