@@ -62,6 +62,9 @@ public class GameInstance implements Serializable {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "exam_section_id")
 	private ExamSection examSection;
+	
+	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
+    private int noOfPlayersBeaten;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "game_difficulty_level")
@@ -195,6 +198,7 @@ public class GameInstance implements Serializable {
 		if (whenNoWinnerInTheGameYetAndOnlyOneActivePlayerAndThereIsAtLeastOneLoser()) {
 			Player player = new LinkedList<Player>(this.getPlayers().values()).get(0);
 			if(player.getNoOfLife() > 0){
+				player.addPoints(player.getPointsWon() * noOfPlayersBeaten);
 			this.setGameWinner(player.getUser());
 			log.info("Game Winner Is " + player.getUser().getId());
 			}
@@ -352,5 +356,15 @@ public class GameInstance implements Serializable {
 		return !this.state.equals(GAME_STATE.DONE)
 				&& !this.state.equals(GAME_STATE.EXPIRED); 
 	}
+
+	public int getNoOfPlayersBeaten() {
+		return noOfPlayersBeaten;
+	}
+
+	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
+		this.noOfPlayersBeaten = noOfPlayersBeaten;
+	}
+	
+	
 
 }

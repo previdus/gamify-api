@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.core.constants.GameConstants;
 import com.core.domain.User;
 
 @Entity
@@ -29,13 +28,8 @@ public class Player  implements Serializable{
 	@Column(name="no_of_life")
 	private int noOfLife;
 	
-	
-	
-	
-	
-	
-	
-
+	@Column(name="points_won")
+	private Integer pointsWon;
 
 	private transient long playerJoinTime;
 	private transient int noOfPollsSoFar;
@@ -54,9 +48,6 @@ public class Player  implements Serializable{
 	@ManyToOne(optional=false)
 	@JoinColumn(name="game_instance_id")
 	private GameInstance gameInstance;
-	
-	
-	
 	
 	public long getPlayerJoinTime() {
 		return playerJoinTime;
@@ -104,6 +95,22 @@ public class Player  implements Serializable{
 	public void resetPollCount(){
 		noOfPollsSoFar = 0;
 	}
+	
+	
+	public int getPointsWon() {
+		return pointsWon;
+	}
+	public void setPointsWon(int pointsWon) {
+		this.pointsWon = pointsWon;
+	}
+	
+	public void addPoints(int pointsWon) {
+		this.pointsWon = this.pointsWon + pointsWon;
+	}
+	
+	
+	
+	
 	
 	
 	

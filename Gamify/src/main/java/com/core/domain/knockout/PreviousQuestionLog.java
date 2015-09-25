@@ -49,6 +49,9 @@ public class PreviousQuestionLog implements Serializable {
 	@JoinColumn(name = "winner_user_id")
 	private User winner;
 	
+	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
+	private int noOfPlayersBeaten;;
+	
 	@JsonIgnore
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "game_instance_id")
@@ -130,6 +133,14 @@ public class PreviousQuestionLog implements Serializable {
 
 	public User getWinner() {
 		return winner;
+	}
+
+	public int getNoOfPlayersBeaten() {
+		return noOfPlayersBeaten;
+	}
+
+	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
+		this.noOfPlayersBeaten = noOfPlayersBeaten;
 	}
 
 	public void setWinner(User winner) {

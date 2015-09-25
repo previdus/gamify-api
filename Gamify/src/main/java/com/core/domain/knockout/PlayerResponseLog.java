@@ -35,10 +35,18 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	
 	@Column(name="time_taken_to_answer")
     private Long timeTakenToAnswer;
+	
 	private Integer rank;
 	
-	//@Column(name="question_id")
-	//private long questionId;
+	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
+    private int noOfPlayersBeaten;
+	
+	
+	@Column(name="points_earned",columnDefinition="int default 0")
+	private int pointsEarned;
+	
+	@Column(name="question_id", columnDefinition="int default 1")
+	private long questionId;
 	
 	@Column(name="is_response_correct", columnDefinition="boolean default false")
 	private boolean responseCorrect;
@@ -65,7 +73,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 		this.user = user;
 		this.response = response;
 		this.timeTakenToAnswer = timeTakenToAnswer;
-		//this.questionId = questionId;
+		this.questionId = questionId;
 		markResponse(response);
 	}
 
@@ -82,11 +90,25 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 		markResponse(response);
 	}
 	
+	
+	
 	private void markResponse(Option response){
 		if(response != null && response.getId() == -1)
 			this.response = null;
 	}
 	
+	public int getPointsEarned() {
+		return pointsEarned;
+	}
+
+
+
+	public void setPointsEarned(int pointsEarned) {
+		this.pointsEarned = pointsEarned;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -147,14 +169,14 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 
 
-//	public long getQuestionId() {
-//		return questionId;
-//	}
+	public long getQuestionId() {
+		return questionId;
+	}
 
 
 
 	public void setQuestionId(long questionId) {
-		//this.questionId = questionId;
+		this.questionId = questionId;
 	}
 
 
@@ -167,6 +189,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 	public void setResponseCorrect(boolean responseCorrect) {
 		this.responseCorrect = responseCorrect;
+		this.pointsEarned = this.pointsEarned + 100;
 	}
 
 
@@ -180,8 +203,23 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	public void setQuestionWinner(boolean questionWinner) {
 		this.questionWinner = questionWinner;
 	}
-	
-	
-	
 
+
+
+	public int getNoOfPlayersBeaten() {
+		return noOfPlayersBeaten;
+	}
+
+
+
+	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
+		this.noOfPlayersBeaten = noOfPlayersBeaten;
+		this.pointsEarned = this.pointsEarned + (noOfPlayersBeaten * 100);
+	}
+
+
+	public PreviousQuestionLog getPreviousQuestionLog() {
+		return previousQuestionLog;
+	}
+	
 }

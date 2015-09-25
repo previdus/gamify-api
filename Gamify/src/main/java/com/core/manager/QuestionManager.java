@@ -71,9 +71,9 @@ public class QuestionManager {
 			pql.setGameInstance(gi);
 			pql.setPlayersResponses(new ArrayList<PlayerResponseLog>(gi
 					.getPlayerResponsesToCurrentQuestion().values()));
-			pql.setBestTime(new Long(gi.getBestTimeForCurrentQuestion())
-					.toString());
+			pql.setBestTime(new Long(gi.getBestTimeForCurrentQuestion()).toString());
 			pql.setWinner(gi.getCurrentQuestionWinner());
+			pql.setNoOfPlayersBeaten(gi.getNumOfPlayers());
 			List<PreviousQuestionLog> logs = GameQueueManager.gameResponseLog
 					.get(gi.getId());
 			if (logs == null)

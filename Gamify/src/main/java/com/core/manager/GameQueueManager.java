@@ -218,17 +218,21 @@ public class GameQueueManager {
 			log.info("just before setting the option id:" + optionId
 					+ " for player:" + userId + " for question with id:"
 					+ questionId);
+			
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
 			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
 				prl.setResponseCorrect(true);
 				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
 						secondsTakenToRespond, gi)) {
+					int noOfPlayers = 0;
+					if(gi.getPlayers() != null)
+						noOfPlayers = gi.getPlayers().size();
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setQuestionWinner(true);
 				}
 			}
-			
+			gi.getPlayers().get(userId).setPointsWon(prl.getPointsEarned()); 
 			if(gi.haveAllPlayersResponded()){
 				calculateScoresForPlayers(gi);
 			}
