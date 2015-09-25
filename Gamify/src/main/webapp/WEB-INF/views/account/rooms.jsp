@@ -30,8 +30,14 @@ $(document).ready(function() {
 
      userId = "${userId}";           
      $("#displayUserName").html(userId); 
-     
+     $(".room-category").css("padding-left","0px");
+     $(".row").css("background-color", "#FF7043");
+     $(".row").css("font-weight", "bold");
 
+     $(".each-room").css("margin", "1.5em -125px");
+     $("#submitForm").css("margin-left","0px");
+     $("#waitMessage").css("margin-left","-120px");
+     		
 
 });</script>
 <html>
@@ -44,7 +50,45 @@ $(document).ready(function() {
                 $('.examSectionDropDown').attr('name','');
                 $('#examSection'+examId).attr('name','examSection');
                 $("#examSection"+examId).show();
-                $("#submitForm").show();
+                
+            }
+
+            function showRatedPlayersForTheChosenTopic(){
+            	$("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the chosen topic. Then you can play a game on the chosen topic");
+            	var topicId = $('.examSectionDropDown').val();
+            	$.ajax({
+        		    url: "api/topic_elo",
+        		    data: {topic:topicId},
+        		    type: "GET",
+        		    dataType : "json",
+        		    success: function( json ) {
+        		    	if(json != null){ 
+        		    		$("#leaderboard").show();
+        		        	$(json.topRatedUsers).each( function(index,element)
+        		     	    	{
+        		     	    	     index = +index + +1;
+        		        		     var leaderboardid = "leaderboardpos" + index;
+        		        		     var leaderBoardName ='#'+ leaderboardid + " #" +leaderboardid +"name";
+        		        		     var leaderBoardWins ='#'+ leaderboardid + " #" +leaderboardid +"wins";
+        		        		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
+        		        		     $('#' +leaderboardid).show();
+        		        		     $(leaderBoardName).text(element.displayName);
+        		        		     $(leaderBoardWins).text(" ( " + element.eloRating + " Elo Rating ) ");
+        		        		     if(element.imageUrl != null)
+        		        		     	$(leaderBoardImage).attr("src",element.imageUrl);
+        		     	    	});
+        		    	}
+        		    },
+        		    error: function( xhr, status, errorThrown ) {
+        		    },
+        		    // Code to run regardless of success or failure
+        		    complete: function( xhr, status ) {
+        		    	$("#submitForm").show(); 
+        		    	$("#waitMessage").hide();
+        		    }
+        		});
+            	
+            	     
             }
         </script>
     </head>
@@ -92,36 +136,90 @@ $(document).ready(function() {
 </form>
 </div>
         <div class="container sub-container">
-        	<br><br>
-            <form:form modelAttribute="room" action="play" method="post">
+        <section class="row">
+			<div class="col-md-5 pull-left sign-up">
+				
+				<div id="leaderboard" class="" style="display:none">
+					<h2 class="heading">Rated Players!</h2>
+					<form class="custom-form">
+						<div id="leaderboardpos1" hidden="true" style="display: none; margin-bottom: 1em;">
+  						<span class="col-md-1">1</span>
+					    <img id="leaderboardpos1img" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/73.jpg" style=" border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					    <span id="leaderboardpos1name" >Gopal</span>
+					    <span id="leaderboardpos1Wins"></span>
+						</div>    
+					  <div id="leaderboardpos2" hidden="true" style="display: none; margin-bottom: 1em;">
+					  	<span class="col-md-1">2</span>
+					  	<img id="leaderboardpos2img" src="https://s3.amazonaws.com/uifaces/faces/twitter/sauro/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<span id="leaderboardpos2name">Kariappa</span>
+					  	<span id="leaderboardpos2Wins"></span>
+						</div>
+						<div id="leaderboardpos3" hidden="true" style="display: none; margin-bottom: 1em;">    
+					  	<span class="col-md-1">3</span>
+					  	<img id="leaderboardpos3img" src="https://s3.amazonaws.com/uifaces/faces/twitter/tomaslau/73.jpg" style="border-radius: 50%; border: 3px solid #FFF; opacity: 1;">
+					  	<span id="leaderboardpos3name">Ruchi</span>
+					  	<span id="leaderboardpos3Wins"></span>
+					  </div>
+					  <div id="leaderboardpos4" hidden="true" style="display: none; margin-bottom: 1em;">
+					  	<span class="col-md-1">4</span>
+					  	<img id="leaderboardpos4img" src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
+					  	<span id="leaderboardpos4name">Piyush</span>
+					  	<span id="leaderboardpos4Wins"></span>
+					  </div>
+					  <div id="leaderboardpos5" hidden="true" style="display: none; margin-bottom: 1em;">
+					  	<span class="col-md-1">5</span>
+					  	<img id="leaderboardpos5img" src="https://s3.amazonaws.com/uifaces/faces/twitter/vladarbatov/73.jpg" style="border-radius: 50%; border: 3px solid #FFF;opacity: 1;">
+					  	<span id="leaderboardpos5name">Sumit</span>
+					  	<span id="leaderboardpos5Wins"></span>
+					  </div>
+					</form>
+				</div>
 
-            <div class="span-12 last room-category">    
-                <c:out value="${room.roomName}"></c:out><br/>
+			</div>
+		
+			<div class="col-md-5 sign-up">
+				
+				<div>
+				
+					<form:form modelAttribute="room" action="play" method="post">
 
-
-                    <c:forEach var="exam" items="${room.exams}" step="1"> 
-                           <div class="each-room">            
-                         <input type="radio" class="exam-category" id="exam-id${exam.id}" name="exam-id" value="${exam.id}" onclick="enableCurrentDropDown(${exam.id})">
-                          <label>  <c:out value="${exam.examName}"></c:out></label>
-                         <select id="examSection${exam.id}" class="examSectionDropDown" style="display:none">
-                         <c:forEach var="examSection" items="${exam.examSections}" step="1">
-                             <option value="${examSection.id}">${examSection.name}</option>
-                         </c:forEach>
-                         </select>
-                         <br/>    <br>  
-                         </div>             
-                   </c:forEach>
-
-             </div>
-  
+		            <div class="span-12 last room-category">    
+		                <c:out value="${room.roomName}"></c:out><br/>
+		
+		
+		                    <c:forEach var="exam" items="${room.exams}" step="1"> 
+		                           <div class="each-room">            
+		                         <input type="radio" class="exam-category" id="exam-id${exam.id}" name="exam-id" value="${exam.id}" onclick="enableCurrentDropDown(${exam.id})">
+		                          <label>  <c:out value="${exam.examName}"></c:out></label>
+		                         <select id="examSection${exam.id}" class="examSectionDropDown"  onchange="showRatedPlayersForTheChosenTopic()"  style="display:none" >
+		                         <option selected="selected" disabled="disabled">Select a topic</option>
+		                         <c:forEach var="examSection" items="${exam.examSections}" step="1">
+		                             <option value="${examSection.id}">${examSection.name}</option>
+		                         </c:forEach>
+		                         </select>
+		                         <br/>    <br>  
+		                         </div>             
+		                   </c:forEach>
+		                   <div id="waitMessage"></div>
+		                   <input id="submitForm" type="submit" value="Play a game on this topic" style="display:none"> 
+		             </div>
+		  
                     <br>
                     <br/>
+		
+		                   
+		
+		          
+		            </form:form>
 
-            <input id="submitForm" type="submit" value="Submit" style="display:none">        
+				</div>
+				
 
-          
-            </form:form>
-            
-            </div>
+			</div>
+		</section>
+        
+        	
+                        
+      </div>
 
 </html>

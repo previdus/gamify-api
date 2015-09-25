@@ -229,10 +229,11 @@ public class GameQueueManager {
 						noOfPlayers = gi.getPlayers().size();
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
+					prl.setNoOfPlayersBeaten(gi.getPlayers().size() -1);
 					prl.setQuestionWinner(true);
 				}
 			}
-			gi.getPlayers().get(userId).setPointsWon(prl.getPointsEarned()); 
+			gi.getPlayers().get(userId).addPoints(prl.getPointsEarned()); 
 			if(gi.haveAllPlayersResponded()){
 				calculateScoresForPlayers(gi);
 			}

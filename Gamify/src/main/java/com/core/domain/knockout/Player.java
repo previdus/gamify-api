@@ -28,8 +28,8 @@ public class Player  implements Serializable{
 	@Column(name="no_of_life")
 	private int noOfLife;
 	
-	@Column(name="points_won")
-	private Integer pointsWon;
+	@Column(name="points_won" ,columnDefinition="int default 0")
+	private int pointsWon=0;
 
 	private transient long playerJoinTime;
 	private transient int noOfPollsSoFar;
@@ -55,7 +55,6 @@ public class Player  implements Serializable{
 	public void setPlayerJoinTime(long playerJoinTime) {
 		this.playerJoinTime = playerJoinTime;
 	}
-	
 	
 	public Long getId() {
 		return id;

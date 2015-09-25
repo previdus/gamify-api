@@ -214,7 +214,8 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
 		this.noOfPlayersBeaten = noOfPlayersBeaten;
-		this.pointsEarned = this.pointsEarned + (noOfPlayersBeaten * 100);
+		if(noOfPlayersBeaten > 0)
+			this.pointsEarned = this.pointsEarned + (noOfPlayersBeaten * 100);
 	}
 
 
