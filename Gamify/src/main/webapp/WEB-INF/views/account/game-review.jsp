@@ -8,6 +8,12 @@
 
 <html>
 <head>
+<style>
+.options-correct {
+  background-color: #D0F5A9;
+  border: 1px solid #213F00;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +34,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/sidebar.css"/>">
 	<link rel="stylesheet" href="<c:url value="/resources/css/login_page.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/css/page_four.css"/>">
+	<link rel="stylesheet" href="<c:url value="/resources/css/page_four.css"/>">
 	
 	<!-- custom styles -->
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/page_four.css"/>">
@@ -49,7 +55,30 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.cookie.js" /> "></script>
 <script id="mathjax" type="text/javascript" src="http://www.hostmath.com/Math/MathJax.js?config=OK"></script>
 
-<body>
+<script type="text/javascript">
+
+$(document).ready(function() {
+   
+               
+     //$("#gameReview").css("opacity","0.5"); 
+     function convertHex(hex,opacity){
+    	    hex = hex.replace('#','');
+    	    r = parseInt(hex.substring(0,2), 16);
+    	    g = parseInt(hex.substring(2,4), 16);
+    	    b = parseInt(hex.substring(4,6), 16);
+    	    result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+    	    return result;
+    	}
+
+    	$('#gameReview').css('background', convertHex('#A7D136',50));
+    	$('.label').css('font-weight', "900");
+    	$('.label').css('color', "blue");
+    	
+     
+
+
+});</script>
+<body id="gameReview">
 <!-- navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="container-fluid lms">
@@ -90,37 +119,57 @@
    <div class="container-fluid">
 		<!-- timer -->
 		<div class="row">
-			 <div class="col-lg-12">
-			 <div class="col-md-offset-2 col-md-8">
-				<div class="timer">
-					<div class="clock-wrapper">
-
-					</div>
-					<div id="timer" class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text"></div>
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 space"></div>
+			 <div class="col-lg-2">
+			 	<div class="col-md-offset-2 col-md-8">
+					
 				</div>
 			</div>
-		</div>
 		<!-- /timer -->
-		<br/>
-		<br/>
-		 
-		 <div id="questionSection">
-          <c:forEach items="${gi.previousQuestionLogs}" var="questionLog">
-          Question Id : <c:out value="${questionLog.question.questionText}"></c:out>
-          <br/>
-           <c:forEach items="${questionLog.question.options}" var="option">
-          Option: <c:out value="${option.text}"></c:out><br/>
+		<div>
+	<div>
+<div>				
+		 <div id="questionSection" class="col-xs-200 col-sm-200 col-md-80 col-lg-20">
+          	<c:forEach items="${gi.previousQuestionLogs}" var="questionLog">
+		 		<div>
+		 		<br/>
+          	<br/>
+          	<table>
+          				<tr><td></td></tr>
+  <tr>
+    <td colspan="5" class="question"><span class="label">Question:</span>  <c:out value="${questionLog.question.questionText}"></c:out> </td>
+  </tr>
+  
+          				<tr><td>
+          				
+          				</td>
+          				</tr>
+  <tr>
+  <td><span class="label">Options:</span> </td>  			
+     <c:forEach items="${questionLog.question.options}" var="option">
+     						<c:if test="${questionLog.answerKey.optionId == option.id}"><td  class="options-correct"><c:out value="${option.text}"></c:out></td></c:if>
+     						<c:if test="${questionLog.answerKey.optionId != option.id}"><td  class="option"><c:out value="${option.text}"></c:out></td></c:if>
+          					 
+          				</c:forEach>
+          				</tr>
+          				<tr>
+          					<td></td>
+          				</tr>
+         				<tr>
+          				<c:forEach items="${questionLog.playersResponses}" var="playerResponse">
+          					
+          					<td colspan="4" class="players">
+	    						 <div><i class="glyphicon glyphicon-user"></i> </div>
+	    					<div><c:out value="${playerResponse.user.name}"></c:out></div>
+	    						<div>Time Taken: <c:out value="${playerResponse.timeTakenToAnswer}"> milli seconds</c:out></div>
+	    						<div>Response Given: <c:out value="${playerResponse.response.text}"></c:out></div>
+	    					</td>
+	    					
+          				</c:forEach>
+          				</tr>
+          				</table>
+          		</div>
           </c:forEach>
-          <c:forEach items="${questionLog.playersResponses}" var="playerResponse">
-          Player: <c:out value="${playerResponse.user.name}"></c:out><br/>
-          Response: <c:out value="${playerResponse.response.text}"></c:out><br/>
-          Time Taken: <c:out value="${playerResponse.timeTakenToAnswer}"></c:out><br/>
-          Rank: <c:out value="${playerResponse.rank}"></c:out><br/>
-          
-          </c:forEach>
-          </c:forEach>
-
+	</div>
 </div> 
 		 
 	</div>
