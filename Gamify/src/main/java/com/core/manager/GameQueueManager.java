@@ -178,7 +178,7 @@ public class GameQueueManager {
 		gi.addPlayer(currentUser);
 		gi.setExamSection(examSection);
 		gi.setState(GameConstants.GAME_STATE.NEW);
-		gi.setStartTime(System.currentTimeMillis());
+		gi.setGameCreationTime(System.currentTimeMillis());
 		gi = gameInstanceService.saveOrUpdate(gi);
 		newGames.put(examSection.getId(), gi);
 		playerGameMap.put(currentUser.getId(), gi);

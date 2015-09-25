@@ -24,7 +24,7 @@ public class MoveFromOngoingToDoneServiceImpl implements  MoveFromOngoingToDoneS
 					.keySet()) {
 				GameInstance gi = GameQueueManager.ongoingGames
 						.get(gameInstanceId);
-				if (areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(gi)) {
+				if (areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(gi) && gi.isGameStillActive()) {
 					GameQueueManager.endGame(gi);
 				}
 

@@ -49,10 +49,10 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 					if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS > 0) {
 						for (Long examSectionId : GameQueueManager.newGames.keySet()) {
 							GameInstance gi = GameQueueManager.newGames.get(examSectionId);
-							if(gi != null && gi.getStartTime() == 0){
-								gi.setStartTime(System.currentTimeMillis());
+							if(gi != null && gi.getGameCreationTime() == 0){
+								gi.setGameCreationTime(System.currentTimeMillis());
 							}
-							else if(System.currentTimeMillis() - gi.getStartTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
+							else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
 								GameQueueManager.addBoutUser(examSectionId);
 							}
 						}

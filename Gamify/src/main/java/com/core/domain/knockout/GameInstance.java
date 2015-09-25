@@ -42,7 +42,10 @@ public class GameInstance implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private transient long startTime;
+	
+	@Column(name = "game_creation_time")
+	private long gameCreationTime;
+	
 	private transient long startWaitTime;
 	private transient long bestTimeForCurrentQuestion;
 	private transient User currentQuestionWinner;
@@ -256,12 +259,12 @@ public class GameInstance implements Serializable {
 		this.id = id;
 	}
 
-	public long getStartTime() {
-		return startTime;
+	public long getGameCreationTime() {
+		return gameCreationTime;
 	}
 
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
+	public void setGameCreationTime(long startTime) {
+		this.gameCreationTime = startTime;
 	}
 
 	public int getNumOfPlayers() {
