@@ -73,7 +73,7 @@ $(document).ready(function() {
         		        		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
         		        		     $('#' +leaderboardid).show();
         		        		     $(leaderBoardName).text(element.displayName);
-        		        		     $(leaderBoardWins).text(" ( " + element.percentile + " percentile ) ");
+        		        		     $(leaderBoardWins).text(" ( " + element.percentileDisplay + " percentile ) ");
         		        		     if(element.imageUrl != null)
         		        		     	$(leaderBoardImage).attr("src",element.imageUrl);
         		     	    	});

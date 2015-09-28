@@ -24,6 +24,25 @@ public class UserEloRatingDTO implements Serializable {
 	}
 	private String imageUrl;
 	private Double percentile;
+	private String percentileDisplay;
+	public String getPercentileDisplay() {
+		if(percentile%10 == 1)
+		{
+			percentileDisplay = percentile.intValue()+"st";
+		}
+		else if(percentile%10 == 2){
+			percentileDisplay = percentile.intValue()+"nd";
+		}
+		else if(percentile%10 == 2){
+			percentileDisplay = percentile.intValue()+"rd";
+		}
+		else {
+			percentileDisplay = percentile.intValue()+"th";
+		}
+		
+		return percentileDisplay;
+	}
+	
 	public Double getPercentile() {
 		return percentile;
 	}
