@@ -8,7 +8,28 @@ public class UserEloRatingDTO implements Serializable {
 	private String displayName;
 	private Integer eloRating;
 	private Integer numberOfQuestionsAttempted;
+	private Integer numberOfTopicsCovered;
+	private Integer numberOfExamSectionsCovered;
+	public Integer getNumberOfTopicsCovered() {
+		return numberOfTopicsCovered;
+	}
+	public void setNumberOfTopicsCovered(Integer numberOfTopicsCovered) {
+		this.numberOfTopicsCovered = numberOfTopicsCovered;
+	}
+	public Integer getNumberOfExamSectionsCovered() {
+		return numberOfExamSectionsCovered;
+	}
+	public void setNumberOfExamSectionsCovered(Integer numberOfExamSectionsCovered) {
+		this.numberOfExamSectionsCovered = numberOfExamSectionsCovered;
+	}
 	private String imageUrl;
+	private Double percentile;
+	public Double getPercentile() {
+		return percentile;
+	}
+	public void setPercentile(Double percentile) {
+		this.percentile = percentile;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}

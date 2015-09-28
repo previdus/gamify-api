@@ -48,6 +48,7 @@ public class ApiUserEloRatingsPerTopicController {
 
 	private List<UserEloRatingDTO> createUserEloRatingDTOListPerTopic(List<UserEloRatingPerTopic> top) {
 		List<UserEloRatingDTO> dtoList = new LinkedList<UserEloRatingDTO>();
+		int index = 1;
 		for(UserEloRatingPerTopic uer : top){
 			UserEloRatingDTO uerDTO = new UserEloRatingDTO();
 			uerDTO.setUserId(uer.getUserTopic().getUser().getId());
@@ -55,6 +56,9 @@ public class ApiUserEloRatingsPerTopicController {
 			uerDTO.setNumberOfQuestionsAttempted(uer.getNoOfQuestionsAttempted());
 			uerDTO.setEloRating(uer.getEloRating());
 			uerDTO.setImageUrl(uer.getUserTopic().getUser().getImageUrl());
+			double percentile = (top.size() - index)*100/top.size();
+			uerDTO.setPercentile(percentile);
+			index++;
 			dtoList.add(uerDTO);
 		}
 		
