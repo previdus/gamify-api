@@ -42,28 +42,31 @@ public class UserEloRatingServiceImpl implements UserEloRatingService {
     
     public void  calulateUserEloRating(GameInstance gameInstance)
     {   
-    	User gameWinner = gameInstance.getCurrentQuestionWinner();
-    	Map<Long,Player> players = gameInstance.getPlayers();      
-        int numberOfPlayers = players.size();
-        Topic currentTopic = gameInstance.getCurrentQuestion().fetchTopic();
-        List<UserEloRatingPerTopic> userEloRatingsPerTopic = new LinkedList<UserEloRatingPerTopic>();
-        populateUserEloRatingsPerTopic(userEloRatingsPerTopic, gameInstance.getPlayers().values(), currentTopic);
-        for(UserEloRatingPerTopic userEloRating: userEloRatingsPerTopic)
-        {
-        	
-            		
-            int numberFromWhichExpectancyWillBeSubtracted =  (thereAreNoWinnersOrThisPlayerIsNotTheWinnerForTheTopic(gameWinner, userEloRating))?
-            		                                        GameConstants.LOSER_NUMBER_FROM_WHICH_EXPECTANCY_WILL_BE_SUBTRACTED_FOR_ELO_RATING:
-            		                                        GameConstants.WINNER_NUMBER_FROM_WHICH_EXPECTANCY_WILL_BE_SUBTRACTED_FOR_ELO_RATING;	
-            		
-            double rating = calcRatingHelper(userEloRating.getEloRating(), numberOfPlayers, calcAverageRatingsPerTopic(userEloRatingsPerTopic, userEloRating), 
-            		numberFromWhichExpectancyWillBeSubtracted, userEloRating.isUserRatingProvisional());
-            int playerScore =  (int)( Math.round(userEloRating.getEloRating() + rating));
-           
-            userEloRating.setEloRating(playerScore);
-            userEloRating.incrementNoOfQuestionsAttempted();
-            userEloRatingPerTopicDAO.saveOrUpdate(userEloRating);
-        }        
+    	
+        if(gameInstance.getCurrentQuestion() != null){
+        	User gameWinner = gameInstance.getCurrentQuestionWinner();
+        	Map<Long,Player> players = gameInstance.getPlayers();      
+            int numberOfPlayers = players.size();
+	        Topic currentTopic = gameInstance.getCurrentQuestion().fetchTopic();
+	        List<UserEloRatingPerTopic> userEloRatingsPerTopic = new LinkedList<UserEloRatingPerTopic>();
+	        populateUserEloRatingsPerTopic(userEloRatingsPerTopic, gameInstance.getPlayers().values(), currentTopic);
+	        for(UserEloRatingPerTopic userEloRating: userEloRatingsPerTopic)
+	        {
+	        	
+	            		
+	            int numberFromWhichExpectancyWillBeSubtracted =  (thereAreNoWinnersOrThisPlayerIsNotTheWinnerForTheTopic(gameWinner, userEloRating))?
+	            		                                        GameConstants.LOSER_NUMBER_FROM_WHICH_EXPECTANCY_WILL_BE_SUBTRACTED_FOR_ELO_RATING:
+	            		                                        GameConstants.WINNER_NUMBER_FROM_WHICH_EXPECTANCY_WILL_BE_SUBTRACTED_FOR_ELO_RATING;	
+	            		
+	            double rating = calcRatingHelper(userEloRating.getEloRating(), numberOfPlayers, calcAverageRatingsPerTopic(userEloRatingsPerTopic, userEloRating), 
+	            		numberFromWhichExpectancyWillBeSubtracted, userEloRating.isUserRatingProvisional());
+	            int playerScore =  (int)( Math.round(userEloRating.getEloRating() + rating));
+	           
+	            userEloRating.setEloRating(playerScore);
+	            userEloRating.incrementNoOfQuestionsAttempted();
+	            userEloRatingPerTopicDAO.saveOrUpdate(userEloRating);
+	        }    
+        }
     }
     
     private void populateUserEloRatingsPerTopic(List<UserEloRatingPerTopic> userEloRatings, Collection<Player> players, Topic currentTopic){
