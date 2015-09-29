@@ -74,6 +74,8 @@ $(document).ready(function() {
     	$('.label').css('font-weight', "900");
     	$('.label').css('color', "blue");
     	
+    	$('.showDivision').css('border-bottom', "1px solid #000");
+    	
      
 
 
@@ -133,16 +135,13 @@ $(document).ready(function() {
 		 		<div>
 		 		<br/>
           	<br/>
-          	<table>
-          				<tr><td></td></tr>
+          	<table  class="showDivision">
+          				
   <tr>
     <td colspan="5" class="question"><span class="label">Question:</span>  <c:out value="${questionLog.question.questionText}"></c:out> </td>
   </tr>
   
-          				<tr><td>
           				
-          				</td>
-          				</tr>
   <tr>
   <td><span class="label">Options:</span> </td>  			
      <c:forEach items="${questionLog.question.options}" var="option">
@@ -151,9 +150,7 @@ $(document).ready(function() {
           					 
           				</c:forEach>
           				</tr>
-          				<tr>
-          					<td></td>
-          				</tr>
+          				
          				<tr>
           				<c:forEach items="${questionLog.playersResponses}" var="playerResponse">
           					
