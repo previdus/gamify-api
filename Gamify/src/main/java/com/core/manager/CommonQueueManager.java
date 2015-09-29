@@ -1,7 +1,6 @@
 package com.core.manager;
 
 
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -304,4 +303,3 @@ public class CommonQueueManager {
 
 
 }
->>>>>>> 9e298fd8e0f11e6201d56ed194cf32a0b197222a
