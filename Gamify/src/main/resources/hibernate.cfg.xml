@@ -2,22 +2,27 @@
 <!DOCTYPE hibernate-configuration PUBLIC
     "-//Hibernate/Hibernate Configuration DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
- 
+
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.enable_lazy_load_no_trans">false</property>
-        <mapping class="com.core.domain.Question" />
-        <mapping class="com.core.domain.Option" />
-        <mapping class="com.core.domain.User" />
-        <mapping class="com.core.domain.AnswerKey" />
-        <mapping class="com.core.domain.lms.Exam" />
-        <mapping class="com.core.domain.lms.ExamSection" />
-        <mapping class="com.core.domain.lms.Topic" />
-        <mapping class="com.core.domain.knockout.GameInstance" />  
-        <mapping class="com.core.domain.knockout.Player" />
-        <mapping class="com.core.domain.knockout.UserEloRatingPerTopic" />              
-        <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
-        <mapping class="com.core.domain.knockout.PlayerResponseLog" />
-        <mapping class="com.core.domain.UserPoints" />
-    </session-factory>
+	<session-factory>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.timeout">300</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
+		<property name="hibernate.enable_lazy_load_no_trans">false</property>
+		<mapping class="com.core.domain.Question" />
+		<mapping class="com.core.domain.Option" />
+		<mapping class="com.core.domain.User" />
+		<mapping class="com.core.domain.AnswerKey" />
+		<mapping class="com.core.domain.lms.Exam" />
+		<mapping class="com.core.domain.lms.ExamSection" />
+		<mapping class="com.core.domain.lms.Topic" />
+		<mapping class="com.core.domain.knockout.GameInstance" />
+		<mapping class="com.core.domain.knockout.Player" />
+		<mapping class="com.core.domain.knockout.UserEloRatingPerTopic" />
+		<mapping class="com.core.domain.knockout.PreviousQuestionLog" />
+		<mapping class="com.core.domain.knockout.PlayerResponseLog" />
+		<mapping class="com.core.domain.UserPoints" />
+	</session-factory>
 </hibernate-configuration>

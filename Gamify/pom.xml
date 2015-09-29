@@ -309,11 +309,12 @@
 		<version>2.3</version>
 	</dependency>
 	
+		<!-- Hibernate c3p0 connection pool -->
 		<dependency>
-	  <groupId>commons-dbcp</groupId>
-	  <artifactId>commons-dbcp</artifactId>
-	  <version>1.4</version>
-	</dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>3.6.3.Final</version>
+		</dependency>
         
    <dependency>
 	    <groupId>mysql</groupId>
