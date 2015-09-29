@@ -18,10 +18,15 @@ private static final Logger log = LoggerFactory.getLogger(UserPointsDAOImpl.clas
 
 public void addPoints(long userId, int points) {
   org.hibernate.Session session =  getSession();
+  UserPoints userPoints = (UserPoints) session.load(UserPoints.class, userId);
+  if(userPoints == null)
+	  session.saveOrUpdate(new UserPoints(userId, points));
+  else{
 	Query qry = session.createQuery(
 			"update UserPoints set  lmsPoints = lmsPoints + :points where userId = :userId").setParameter(
 			"points", points).setParameter("userId", userId);
 			qry.list();
+  }
 			releaseSession(session);
 }
 

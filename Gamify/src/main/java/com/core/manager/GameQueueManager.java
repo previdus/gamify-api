@@ -22,6 +22,7 @@ import com.core.domain.lms.ExamSection;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
 import com.core.service.UserEloRatingService;
+import com.core.service.UserPointsService;
 import com.core.service.UserService;
 
 @Component
@@ -44,11 +45,18 @@ public class GameQueueManager {
 	
 	private static UserService userService;
 	
-		
+	private static UserPointsService userPointsService;
+	
+	
+	    @Autowired(required = true)
+		public void setUserPointsService(UserPointsService userPointsService) {
+		GameQueueManager.userPointsService = userPointsService;
+	    	}
+
 		@Autowired(required = true)
 		public void setUserService(UserService userService) {
 			GameQueueManager.userService = userService;
-		}
+			}
 		
     private static UserEloRatingService userEloRatingService;
 	
@@ -234,6 +242,8 @@ public class GameQueueManager {
 				}
 			}
 			gi.getPlayers().get(userId).addPoints(prl.getPointsEarned()); 
+			if(prl.getPointsEarned() != 0)
+				userPointsService.addPoints(userId, prl.getPointsEarned());
 			if(gi.haveAllPlayersResponded()){
 				calculateScoresForPlayers(gi);
 			}
@@ -324,7 +334,9 @@ public class GameQueueManager {
 	public static void endGame(GameInstance gi) {
 		log.info("debug Game Done !!!");		
 		gi.setStateToDone();
-		gi.markGameWinner();
+		User winnerUser = gi.markGameWinner();
+		if(winnerUser != null)
+			userPointsService.addPoints(winnerUser.getId(), gi.getGameWinningPoints());
 		gameInstanceService.saveOrUpdate(gi);
 		GameQueueManager.finishedGames.put(gi.getId(), gi);
 		GameQueueManager.ongoingGames.remove(gi.getId());

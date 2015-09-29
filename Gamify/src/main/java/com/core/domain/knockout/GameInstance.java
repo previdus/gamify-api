@@ -67,7 +67,10 @@ public class GameInstance implements Serializable {
 	private ExamSection examSection;
 	
 	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
-    private int noOfPlayersBeaten;
+    private int noOfPlayersBeaten = 0;
+	
+	@Column(name="game_winning_points" ,columnDefinition="int default 0")
+    private int gameWinningPoints = 0;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "game_difficulty_level")
@@ -196,16 +199,19 @@ public class GameInstance implements Serializable {
 		}
 	}
 
-	public void markGameWinner() {
+	public User markGameWinner() {
 		log.info("Marking Game Winner");
 		if (whenNoWinnerInTheGameYetAndOnlyOneActivePlayerAndThereIsAtLeastOneLoser()) {
 			Player player = new LinkedList<Player>(this.getPlayers().values()).get(0);
 			if(player.getNoOfLife() > 0){
-				player.addPoints(player.getPointsWon() * noOfPlayersBeaten);
-			this.setGameWinner(player.getUser());
+				this.gameWinningPoints = player.getPointsWon() * noOfPlayersBeaten;
+				player.addPoints(this.gameWinningPoints);
+				this.setGameWinner(player.getUser());
 			log.info("Game Winner Is " + player.getUser().getId());
+			return player.getUser();
 			}
 		}
+		return null;
 	}
 
 	private boolean whenNoWinnerInTheGameYetAndOnlyOneActivePlayerAndThereIsAtLeastOneLoser() {
@@ -366,6 +372,14 @@ public class GameInstance implements Serializable {
 
 	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
 		this.noOfPlayersBeaten = noOfPlayersBeaten;
+	}
+
+	public int getGameWinningPoints() {
+		return gameWinningPoints;
+	}
+
+	public void setGameWinningPoints(int gameWinningPoints) {
+		this.gameWinningPoints = gameWinningPoints;
 	}
 	
 	

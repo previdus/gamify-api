@@ -12,7 +12,7 @@ public class UserPoints {
 	@Id
 	@Column(name = "user_id", unique = true, nullable = false)
 	private long userId;
-	@Column(name = "user_id",columnDefinition="int default 0")
+	@Column(name = "lms_points",columnDefinition="int default 0")
 	private long lmsPoints = 0;
 	
 	
