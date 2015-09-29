@@ -103,34 +103,17 @@ public class QuestionManager {
 	private static void attachNextQuestionToGameInstanceFromPrefetchedQuestions(
 			GameInstance gi, List<Question> questions) {
 		if (questions.size() > 0) {
-			log.info("*************** Attaching ***************");
+			
 			gi.setPreLoadedQuestions(questions);
 			gi.getPlayerResponsesToCurrentQuestion().clear();
-
-			Question newCurrentQuestion = null;
-			if (gi.getCurrentQuestion() == null) {
-
-				Question question = questions.get(random.nextInt(questions.size()));
-				AnswerKey answerKey = answerKeyService.getAnswerKey(question);
-				gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
-			} else {
-
-				while (true) {
-					newCurrentQuestion = questions.get(random.nextInt(questions
-							.size()));
-					if (!newCurrentQuestion.getId().equals(
-							gi.getCurrentQuestion().getId())) {
-						// attach new question
-						log.info("*****************************ATTACHING QUESTION*****************************************");
-						
-						AnswerKey answerKey = answerKeyService.getAnswerKey(newCurrentQuestion);
-						gi.setCurrentQuestion(newCurrentQuestion, answerKey, System.currentTimeMillis());
-						break;
-					} else {
-						log.info("ALARM***************************************DUPLICATE QUESTION GENERATED******************************");
-					}
-				}
-			}
+			Question question = questions.get(gi.getCurrentQuestionIndex());
+			log.info("*************** Attaching ***************questionId: "+ question.getId()+"*********questionFrequency: "+question.getQuestionFrequency());
+			gi.incrementCurrentQuestionIndex();
+			AnswerKey answerKey = answerKeyService.getAnswerKey(question);
+			gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
+			question.incrementQuestionFrequency();
+			questionService.saveQuestion(question);
+			
 
 		}
 	}

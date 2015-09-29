@@ -28,7 +28,7 @@ public class QuestionDAOImpl extends
 		log.info("getting questions for topic");
 		Session session = this.getSession();
 		Query qry = session.createQuery(
-				"from Question where topic = :selectedtopic order by id desc").setParameter(
+				"from Question where topic = :selectedtopic order by questionFrequency asc").setParameter(
 				"selectedtopic", topic);
 		log.info("before");
 		List<Question> questions = qry.list();

@@ -101,8 +101,12 @@ public class GameInstance implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PreviousQuestionLog> previousQuestionLogs = new ArrayList<PreviousQuestionLog>();
 
+	private transient int currentQuestionIndex = 0;
 	
-	
+	public int getCurrentQuestionIndex() {
+		return currentQuestionIndex;
+	}
+
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 
@@ -301,7 +305,7 @@ public class GameInstance implements Serializable {
 
 	public void setCurrentQuestion(Question currentQuestion, AnswerKey key, long timeAtWhichCurrentQuestionWasAttached) {
 		log.info("attaching question with id:" + currentQuestion.getId());
-		this.currentQuestion = currentQuestion;
+		this.currentQuestion = currentQuestion;		
 		if(key!=null){
 			this.bang = key.getOptionId();
 		}
@@ -368,6 +372,10 @@ public class GameInstance implements Serializable {
 		this.noOfPlayersBeaten = noOfPlayersBeaten;
 	}
 	
+	
+	public void incrementCurrentQuestionIndex(){
+		this.currentQuestionIndex++;
+	}
 	
 	
 	
