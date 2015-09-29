@@ -2,11 +2,11 @@ package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.ExamSectionGameQueueManager;
+import com.core.manager.CommonQueueManager;
+
 import com.core.service.threads.MoveFromOngoingToDoneService;
 
 @Service("moveFromOngoingToDoneService")
@@ -20,12 +20,12 @@ public class MoveFromOngoingToDoneServiceImpl implements  MoveFromOngoingToDoneS
 
 		// from ongoing to done
 		try {
-			for (Long gameInstanceId : ExamSectionGameQueueManager.ongoingGames
+			for (Long gameInstanceId : CommonQueueManager.ongoingGames
 					.keySet()) {
-				GameInstance gi = ExamSectionGameQueueManager.ongoingGames
+				GameInstance gi = CommonQueueManager.ongoingGames
 						.get(gameInstanceId);
 				if (areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(gi) && gi.isGameStillActive()) {
-					ExamSectionGameQueueManager.endGame(gi);
+					CommonQueueManager.endGame(gi);
 				}
 
 			}

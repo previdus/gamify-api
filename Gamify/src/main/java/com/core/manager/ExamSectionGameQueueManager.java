@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.core.constants.GameConstants;
-import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.lms.ExamSection;
@@ -51,24 +50,11 @@ public class ExamSectionGameQueueManager extends CommonQueueManager
 
 		}
 		else {
-			return createNewGame(examSection, currentUser);
+			return createNewGame(examSection, null, examSection.getId(), currentUser,newExamSectionGames);
 		}
 	}
 
-	private static GameInstance createNewGame(ExamSection examSection,
-			User currentUser) {
-		GameInstance gi;
-		gi = new GameInstance();
-		gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
-		gi.addPlayer(currentUser);
-		gi.setExamSection(examSection);
-		gi.setState(GameConstants.GAME_STATE.NEW);
-		gi.setGameCreationTime(System.currentTimeMillis());
-		gi = gameInstanceService.saveOrUpdate(gi);
-		newExamSectionGames.put(examSection.getId(), gi);
-		playerGameMap.put(currentUser.getId(), gi);
-		return gi;
-	}
+	
 	
 	
 	

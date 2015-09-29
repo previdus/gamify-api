@@ -2,13 +2,14 @@ package com.core.service.threads.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
+import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
+import com.core.manager.TopicGameQueueManager;
 import com.core.service.threads.CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService;
 
 @Service("checkOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService")
@@ -19,24 +20,40 @@ public class CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveS
 			.getLogger(CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveServiceImpl.class);
 	public void run() {
 
-		// new games
+		// new exam section games
 		for (GameInstance gi : ExamSectionGameQueueManager.newExamSectionGames.values()) {
 			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
 		}
 
-		// waiting games
+		// waiting exam section games
 		for (GameInstance gi : ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 				.values()) {
 			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
 		}
 
-		// ready games
+		// ready exam section games
 		for (GameInstance gi : ExamSectionGameQueueManager.readyExamSectionGames.values()) {
+			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
+		}
+		
+		// new topic games
+		for (GameInstance gi : TopicGameQueueManager.newTopicGames.values()) {
+			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
+		}
+
+		// waiting topic games
+		for (GameInstance gi : TopicGameQueueManager.waitingForMorePlayersToJoinTopicGames
+				.values()) {
+			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
+		}
+
+		// ready topic games
+		for (GameInstance gi : TopicGameQueueManager.readyTopicGames.values()) {
 			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
 		}
 
 		// ongoing games
-		for (GameInstance gi : ExamSectionGameQueueManager.ongoingGames.values()) {
+		for (GameInstance gi : CommonQueueManager.ongoingGames.values()) {
 			removePlayerFromGameIfHisPollsAreMissedForALongTime(gi);
 		}
 	}
@@ -53,7 +70,7 @@ public class CheckOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveS
 				log.info("numOfExpectedPollsSincePlayerJoined is :"+numOfExpectedPollsSincePlayerJoined);
 				if (getNumberOfMissedPolls(player, numOfExpectedPollsSincePlayerJoined) > GameConstants.MINIMUM_NUMBER_OF_POLLS_MISSED_BY_PLAYER_BEFORE_DECIDING_TO_REMOVE_PLAYER_FROM_GAME) {
 					gi.removePlayer(player.getUser(),false);
-					ExamSectionGameQueueManager.playerGameMap.remove(player.getUser().getId());
+					CommonQueueManager.playerGameMap.remove(player.getUser().getId());
 				}
 			}
 		}

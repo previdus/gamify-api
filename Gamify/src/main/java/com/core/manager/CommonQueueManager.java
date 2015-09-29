@@ -6,18 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.PlayerResponseLog;
 import com.core.domain.knockout.PreviousQuestionLog;
+import com.core.domain.lms.ExamSection;
+import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
 import com.core.service.UserEloRatingService;
@@ -130,6 +131,23 @@ public class CommonQueueManager {
 		}
 		return gi;
 	}
+	
+	protected static GameInstance createNewGame(ExamSection es, Topic topic, Long keyForNewGameQueue,
+			User currentUser, Map<Long,GameInstance> newGameQueue) {
+		GameInstance gi;
+		gi = new GameInstance();
+		gi.setDifficultyLevel(GAME_DIFFICULTY_LEVEL.EASY);
+		gi.addPlayer(currentUser);
+		gi.setExamSection(es);
+		gi.setTopic(topic);
+		gi.setState(GameConstants.GAME_STATE.NEW);
+		gi.setGameCreationTime(System.currentTimeMillis());
+		gi = gameInstanceService.saveOrUpdate(gi);
+		newGameQueue.put(keyForNewGameQueue, gi);
+		playerGameMap.put(currentUser.getId(), gi);
+		return gi;
+	}
+	
 
 	private static void removePlayerFromQuittingQueueIfHeHasTimedOut(
 			GameInstance gi, User currentUser) {
@@ -247,7 +265,7 @@ public class CommonQueueManager {
 				+ gi.getPlayers().get(userId).getNoOfLife());
 		if (gi.getPlayers().get(userId).getNoOfLife() <= 0) {
 			gi.removePlayer(new User(userId),true);
-		}
+		} 	
 	}
 	
 	public static synchronized GameInstance recordPlayerResponseToQuestion(
@@ -286,3 +304,4 @@ public class CommonQueueManager {
 
 
 }
+>>>>>>> 9e298fd8e0f11e6201d56ed194cf32a0b197222a

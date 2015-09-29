@@ -33,6 +33,7 @@ import com.core.domain.AnswerKey;
 import com.core.domain.Question;
 import com.core.domain.User;
 import com.core.domain.lms.ExamSection;
+import com.core.domain.lms.Topic;
 import com.core.manager.QuestionManager;
 
 @Entity
@@ -62,16 +63,29 @@ public class GameInstance implements Serializable {
 	//what the answer key to the question is if it is named the obvious
 	private transient Long  bang;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "exam_section_id")
 	private ExamSection examSection;
 	
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "topic_id")
+	private Topic topic;
+	
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
 	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
     private int noOfPlayersBeaten = 0;
-	
+
+
 	@Column(name="game_winning_points" ,columnDefinition="int default 0")
     private int gameWinningPoints = 0;
-
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "game_difficulty_level")
 	private GAME_DIFFICULTY_LEVEL difficultyLevel;
@@ -169,7 +183,7 @@ public class GameInstance implements Serializable {
 		player.setPlayerJoinTime(System.currentTimeMillis());
 		player.setGameInstance(this);
 		// this is to give a baut user so many poll count that he is not thrown out of game
-		if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS > 0 && UserCategory.B.equals(user.getCategory()))
+		if(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS > 0 && UserCategory.B.equals(user.getCategory()))
 				player.setNoOfPollsSoFar(50000);
 		this.players.put(user.getId(), player);
 	}
@@ -377,7 +391,7 @@ public class GameInstance implements Serializable {
 	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
 		this.noOfPlayersBeaten = noOfPlayersBeaten;
 	}
-
+	
 	public int getGameWinningPoints() {
 		return gameWinningPoints;
 	}
