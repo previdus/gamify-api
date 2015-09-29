@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.MoveFromOngoingToDoneService;
 
 @Service("moveFromOngoingToDoneService")
@@ -20,12 +20,12 @@ public class MoveFromOngoingToDoneServiceImpl implements  MoveFromOngoingToDoneS
 
 		// from ongoing to done
 		try {
-			for (Long gameInstanceId : GameQueueManager.ongoingGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.ongoingGames
 					.keySet()) {
-				GameInstance gi = GameQueueManager.ongoingGames
+				GameInstance gi = ExamSectionGameQueueManager.ongoingGames
 						.get(gameInstanceId);
 				if (areThereNoPlayersLeftInTheGameOrThereIsAGameWinner(gi) && gi.isGameStillActive()) {
-					GameQueueManager.endGame(gi);
+					ExamSectionGameQueueManager.endGame(gi);
 				}
 
 			}

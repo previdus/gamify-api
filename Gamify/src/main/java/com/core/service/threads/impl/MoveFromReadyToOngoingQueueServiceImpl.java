@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.QuestionManager;
 import com.core.service.threads.MoveFromReadyToOngoingQueueService;
 
@@ -23,9 +23,9 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 		log.info("2) running the periodicTaskToMoveFromReadyToOngoingqueue thread");
 		// from ready to ongoing
 		try {
-			for (Long gameInstanceId : GameQueueManager.readyGames.keySet()) {
+			for (Long gameInstanceId : ExamSectionGameQueueManager.readyExamSectionGames.keySet()) {
 
-				GameInstance gi = GameQueueManager.readyGames
+				GameInstance gi = ExamSectionGameQueueManager.readyExamSectionGames
 						.get(gameInstanceId);
 				gi.setState(GameConstants.GAME_STATE.ONGOING);
 
@@ -36,8 +36,8 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 
 				log.info("before moving from ready to ongoing game+s");
 				QuestionManager.attachQuestionToGameInstance(gi);
-				GameQueueManager.ongoingGames.put(gi.getId(), gi);
-				GameQueueManager.readyGames.remove(gameInstanceId);
+				ExamSectionGameQueueManager.ongoingGames.put(gi.getId(), gi);
+				ExamSectionGameQueueManager.readyExamSectionGames.remove(gameInstanceId);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

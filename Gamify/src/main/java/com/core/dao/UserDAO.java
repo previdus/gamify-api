@@ -20,6 +20,6 @@ public interface UserDAO extends GenericRepository<User, Serializable> {
 	
 	public boolean doesUserExist(String userName);
 	
-	public User getBautUser();
+	public User getBotUser();
 	
 }

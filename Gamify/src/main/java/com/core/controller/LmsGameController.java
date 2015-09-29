@@ -21,7 +21,7 @@ import com.core.api.controller.ApiLmsGameController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.ExamSectionService;
 import com.core.service.RoomService;
 
@@ -108,8 +108,8 @@ public class LmsGameController {
 			ApiResult result = (ApiResult) request.getSession().getAttribute(
 					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT);
 			if (user != null) {
-				if (GameQueueManager.checkIfPlayerAlreadyInGame(user)) {
-					GameQueueManager
+				if (ExamSectionGameQueueManager.checkIfPlayerAlreadyInGame(user)) {
+					ExamSectionGameQueueManager
 							.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 					model.addAttribute(roomService.getRoom());
 					return new ModelAndView("account/rooms");

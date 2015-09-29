@@ -15,9 +15,7 @@
         <mapping class="com.core.domain.lms.Topic" />
         <mapping class="com.core.domain.knockout.GameInstance" />  
         <mapping class="com.core.domain.knockout.Player" />
-        <mapping class="com.core.domain.knockout.UserEloRatingPerTopic" />
-        <mapping class="com.core.domain.knockout.UserEloRatingPerExamSection" />
-        <mapping class="com.core.domain.knockout.UserEloRatingPerExam" />        
+        <mapping class="com.core.domain.knockout.UserEloRatingPerTopic" />              
         <mapping class="com.core.domain.knockout.PreviousQuestionLog" />
         <mapping class="com.core.domain.knockout.PlayerResponseLog" />
         <mapping class="com.core.domain.UserPoints" />

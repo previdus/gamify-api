@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.UserService;
 
 @Controller
@@ -25,7 +25,7 @@ public class LogoutController {
 		try {
 			user = (User) request.getSession().getAttribute(
 					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
-			GameQueueManager
+			ExamSectionGameQueueManager
 					.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 			request.getSession().removeAttribute(
 					GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.GameInstanceService;
 import com.core.service.UserEloRatingService;
 import com.core.service.threads.StoreFinishedGamesAndEmptyQueueService;
@@ -32,16 +32,16 @@ implements StoreFinishedGamesAndEmptyQueueService {
 		log.info("*********************storeFinishedGamesAndEmptyQueue***********************");
 		try {
 			GameInstance gameInstance = null;
-			for (Long gameInstanceId : GameQueueManager.finishedGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.finishedGames
 					.keySet()) {
-				gameInstance = GameQueueManager.finishedGames
+				gameInstance = ExamSectionGameQueueManager.finishedGames
 						.get(gameInstanceId);
 				// save in db
 				log.info("Prev Question Log Size "
-						+ GameQueueManager.gameResponseLog.get(
+						+ ExamSectionGameQueueManager.gameResponseLog.get(
 								gameInstanceId).size());
 				gameInstance
-						.setPreviousQuestionLogs(GameQueueManager.gameResponseLog
+						.setPreviousQuestionLogs(ExamSectionGameQueueManager.gameResponseLog
 								.get(gameInstanceId));
 
 				log.info("No of Loosers "
@@ -50,9 +50,9 @@ implements StoreFinishedGamesAndEmptyQueueService {
 						gameInstance.getLooserPlayers());		
 				//playerRatingService.calulateRatingAndNumberOfGamesPlayed(gameInstance);
 				gameInstanceService.saveOrUpdate(gameInstance);
-				GameQueueManager.gameResponseLog.remove(gameInstanceId);
+				ExamSectionGameQueueManager.gameResponseLog.remove(gameInstanceId);
 			}
-			GameQueueManager.finishedGames.clear();
+			ExamSectionGameQueueManager.finishedGames.clear();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

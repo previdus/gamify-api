@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.core.api.beans.RoomPageResult;
 import com.core.domain.User;
 import com.core.domain.lms.Room;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.UserManager;
 import com.core.service.RoomService;
 
@@ -45,7 +45,7 @@ public class ApiRoomController {
 		rpr.setUserToken(userToken);
 		User user = UserManager.userTokenMap.get(userToken);
 		if (user != null) {
-			GameQueueManager
+			ExamSectionGameQueueManager
 					.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 			rpr.setRedirectLink("/api/rooms/" + userToken);
 		} else {

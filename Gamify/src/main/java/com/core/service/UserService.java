@@ -20,6 +20,6 @@ public interface UserService {
 	
 	public boolean doesUserExist(String userName);
 	
-	public User getBautUser();
+	public User getBotUser();
 
 }

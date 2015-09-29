@@ -65,6 +65,19 @@ public class Question implements Serializable {
 	private byte difficultyLevel;
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
 	private String state;
+	
+	@Column(name = "question_frequency", columnDefinition="int default 0")
+	private int questionFrequency;
+	
+	
+	public int getQuestionFrequency() {
+		return questionFrequency;
+	}
+
+	public void setQuestionFrequency(int questionFrequency) {
+		this.questionFrequency = questionFrequency;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -165,6 +178,11 @@ public class Question implements Serializable {
 
 	public void setDifficultyLevel(byte difficultyLevel) {
 		this.difficultyLevel = difficultyLevel;
+	}
+
+	public void incrementQuestionFrequency() {
+		this.questionFrequency++;
+		
 	}
 
 }

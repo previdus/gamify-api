@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.InspectAllQueuesService;
 
 @Service("inspectAllQueuesService")
@@ -20,46 +20,46 @@ implements InspectAllQueuesService {
 		try {
 			// new games
 			log.info("New games");
-			for (Long examSectionId : GameQueueManager.newGames.keySet()) {
+			for (Long examSectionId : ExamSectionGameQueueManager.newExamSectionGames.keySet()) {
 				log.info(examSectionId + ",");
 			}
 
 			// waiting games
 			log.info("waiting games");
-			for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
+			for (Long examSectionId : ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 					.keySet()) {
 				log.info(examSectionId + ",");
 			}
 
 			// ready games
 			log.info("ready games");
-			for (Long examSectionId : GameQueueManager.readyGames.keySet()) {
+			for (Long examSectionId : ExamSectionGameQueueManager.readyExamSectionGames.keySet()) {
 				log.info(examSectionId + ",");
 			}
 			// ongoing games
 			log.info("Ongoing games");
-			for (Long gameInstanceId : GameQueueManager.ongoingGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.ongoingGames
 					.keySet()) {
 				log.info(gameInstanceId + ",");
 			}
 			// finished games
 			log.info("finished games");
-			for (Long gameInstanceId : GameQueueManager.finishedGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.finishedGames
 					.keySet()) {
 				log.info(gameInstanceId + ",");
 			}
 			// expired games
 			log.info("Expired games");
-			for (Long gameInstanceId : GameQueueManager.expriredGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.expiredGames
 					.keySet()) {
 				log.info(gameInstanceId + ",");
 			}
 			// playerMap queue
 
 			log.info("Player Game map");
-			for (Long playerId : GameQueueManager.playerGameMap.keySet()) {
+			for (Long playerId : ExamSectionGameQueueManager.playerGameMap.keySet()) {
 				log.info(playerId + ",");
-				GameInstance gi = GameQueueManager.playerGameMap
+				GameInstance gi = ExamSectionGameQueueManager.playerGameMap
 						.get(playerId);
 				log.info("num of players in gi with id:" + gi.getId()
 						+ " is [" + gi.getNumOfPlayers() + "]");

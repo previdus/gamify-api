@@ -3,7 +3,6 @@ package com.core.manager;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +16,12 @@ import com.core.domain.knockout.PlayerResponseLog;
 import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
-import com.core.service.GameInstanceService;
 import com.core.service.QuestionService;
 
 @Component
 public class QuestionManager {
 
-	private static Random random = new Random();
+	
 
 	private static final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
@@ -74,15 +72,15 @@ public class QuestionManager {
 			pql.setBestTime(new Long(gi.getBestTimeForCurrentQuestion()).toString());
 			pql.setWinner(gi.getCurrentQuestionWinner());
 			pql.setNoOfPlayersBeaten(gi.getNumOfPlayers());
-			List<PreviousQuestionLog> logs = GameQueueManager.gameResponseLog
+			List<PreviousQuestionLog> logs = ExamSectionGameQueueManager.gameResponseLog
 					.get(gi.getId());
 			if (logs == null)
 				logs = new LinkedList<PreviousQuestionLog>();
 			logs.add(pql);
-			GameQueueManager.gameResponseLog.put(gi.getId(), logs);
+			ExamSectionGameQueueManager.gameResponseLog.put(gi.getId(), logs);
 			gi.setPreviousQuestionLogs(logs);			
 			log.info("Prev Question Log Size after adding "
-					+ GameQueueManager.gameResponseLog.get(gi.getId()).size());
+					+ ExamSectionGameQueueManager.gameResponseLog.get(gi.getId()).size());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,34 +101,17 @@ public class QuestionManager {
 	private static void attachNextQuestionToGameInstanceFromPrefetchedQuestions(
 			GameInstance gi, List<Question> questions) {
 		if (questions.size() > 0) {
-			log.info("*************** Attaching ***************");
+			
 			gi.setPreLoadedQuestions(questions);
 			gi.getPlayerResponsesToCurrentQuestion().clear();
-
-			Question newCurrentQuestion = null;
-			if (gi.getCurrentQuestion() == null) {
-
-				Question question = questions.get(random.nextInt(questions.size()));
-				AnswerKey answerKey = answerKeyService.getAnswerKey(question);
-				gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
-			} else {
-
-				while (true) {
-					newCurrentQuestion = questions.get(random.nextInt(questions
-							.size()));
-					if (!newCurrentQuestion.getId().equals(
-							gi.getCurrentQuestion().getId())) {
-						// attach new question
-						log.info("*****************************ATTACHING QUESTION*****************************************");
-						
-						AnswerKey answerKey = answerKeyService.getAnswerKey(newCurrentQuestion);
-						gi.setCurrentQuestion(newCurrentQuestion, answerKey, System.currentTimeMillis());
-						break;
-					} else {
-						log.info("ALARM***************************************DUPLICATE QUESTION GENERATED******************************");
-					}
-				}
-			}
+			Question question = questions.get(gi.getCurrentQuestionIndex());
+			log.info("*************** Attaching ***************questionId: "+ question.getId()+"*********questionFrequency: "+question.getQuestionFrequency());
+			gi.incrementCurrentQuestionIndex();
+			AnswerKey answerKey = answerKeyService.getAnswerKey(question);
+			gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
+			question.incrementQuestionFrequency();
+			questionService.saveQuestion(question);
+			
 
 		}
 	}

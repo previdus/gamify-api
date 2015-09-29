@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.MoveFromWaitingToReadyqueueService;
 
 @Service("moveFromWaitingToReadyqueueService")
@@ -22,10 +22,10 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 		// move from waiting to ready
 		try {
 			moveNewGamesToWaitingGames();
-			for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
+			for (Long examSectionId : ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 					.keySet()) {
 
-				GameInstance gi = GameQueueManager.waitingForMorePlayersToJoinGames
+				GameInstance gi = ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 						.get(examSectionId);
 				if (gi.getStartWaitTime() == 0) {
 					gi.setStartWaitTime(System.currentTimeMillis());
@@ -33,8 +33,8 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 					if ((System.currentTimeMillis() - gi.getStartWaitTime()) / 1000 >= GameConstants.SECONDS_TO_WAIT_FOR_PLAYERS_BEFORE_BEGINNING_GAME) {
 						gi.setState(GameConstants.GAME_STATE.READY);
 						log.info("before moving to ready games");
-						GameQueueManager.readyGames.put(gi.getId(), gi);
-						GameQueueManager.waitingForMorePlayersToJoinGames
+						ExamSectionGameQueueManager.readyExamSectionGames.put(gi.getId(), gi);
+						ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 								.remove(examSectionId);
 					}
 				}
@@ -47,13 +47,13 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 	private void moveNewGamesToWaitingGames(){
 				try{
 					if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS > 0) {
-						for (Long examSectionId : GameQueueManager.newGames.keySet()) {
-							GameInstance gi = GameQueueManager.newGames.get(examSectionId);
+						for (Long examSectionId : ExamSectionGameQueueManager.newExamSectionGames.keySet()) {
+							GameInstance gi = ExamSectionGameQueueManager.newExamSectionGames.get(examSectionId);
 							if(gi != null && gi.getGameCreationTime() == 0){
 								gi.setGameCreationTime(System.currentTimeMillis());
 							}
 							else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
-								GameQueueManager.addBoutUser(examSectionId);
+								ExamSectionGameQueueManager.addBotUser(examSectionId);
 							}
 						}
 					}

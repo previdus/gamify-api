@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.FlushStaleGamesFromQueuesService;
 
 @Service("flushStaleGamesFromQueuesService")
@@ -37,35 +37,35 @@ implements FlushStaleGamesFromQueuesService {
 			 */
 
 			// for new games
-			for (Long examSectionId : GameQueueManager.newGames.keySet()) {
-				GameInstance gi = GameQueueManager.newGames
+			for (Long examSectionId : ExamSectionGameQueueManager.newExamSectionGames.keySet()) {
+				GameInstance gi = ExamSectionGameQueueManager.newExamSectionGames
 						.get(examSectionId);
 				if (gi.getPlayers() == null || gi.getPlayers().size() == 0) {
 					gi.setState(GameConstants.GAME_STATE.EXPIRED);
-					GameQueueManager.newGames.remove(examSectionId);
-					GameQueueManager.expriredGames.put(gi.getId(), gi);
+					ExamSectionGameQueueManager.newExamSectionGames.remove(examSectionId);
+					ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
 				}
 			}
 
 			// for waiting games
-			for (Long examSectionId : GameQueueManager.waitingForMorePlayersToJoinGames
+			for (Long examSectionId : ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 					.keySet()) {
-				GameInstance gi = GameQueueManager.waitingForMorePlayersToJoinGames
+				GameInstance gi = ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 						.get(examSectionId);
 				if (gi.getPlayers() != null) {
 					if (gi.getPlayers().size() == 1) {
 						Player player = gi.getPlayers().get(0);
-						GameQueueManager.waitingForMorePlayersToJoinGames
+						ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 								.remove(examSectionId);
 						gi.setState(GameConstants.GAME_STATE.EXPIRED);
-						GameQueueManager.expriredGames.put(gi.getId(), gi);
-						GameInstance gameAlreadyReadyForThisPlayer = GameQueueManager.readyGames
+						ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+						GameInstance gameAlreadyReadyForThisPlayer = ExamSectionGameQueueManager.readyExamSectionGames
 								.get(gi.getId());
 						if (gameAlreadyReadyForThisPlayer == null) {
-							GameQueueManager.createGameInstance(
+							ExamSectionGameQueueManager.createExamSectionGameInstance(
 									gi.getExamSection(), player.getUser());
 						} else {
-							GameQueueManager.playerGameMap.put(player
+							ExamSectionGameQueueManager.playerGameMap.put(player
 									.getUser().getId(),
 									gameAlreadyReadyForThisPlayer);
 							gameAlreadyReadyForThisPlayer
@@ -74,62 +74,62 @@ implements FlushStaleGamesFromQueuesService {
 
 					} else if (gi.getPlayers().size() == 0) {
 						gi.setState(GameConstants.GAME_STATE.EXPIRED);
-						GameQueueManager.expriredGames.put(gi.getId(), gi);
-						GameQueueManager.waitingForMorePlayersToJoinGames
+						ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+						ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 								.remove(examSectionId);
 					}
 
 				} else {
 					gi.setState(GameConstants.GAME_STATE.EXPIRED);
-					GameQueueManager.expriredGames.put(gi.getId(), gi);
-					GameQueueManager.waitingForMorePlayersToJoinGames
+					ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+					ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 							.remove(examSectionId);
 				}
 
 			}
 
 			// for ready games
-			for (Long gameInstanceId : GameQueueManager.readyGames.keySet()) {
-				GameInstance gi = GameQueueManager.readyGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.readyExamSectionGames.keySet()) {
+				GameInstance gi = ExamSectionGameQueueManager.readyExamSectionGames
 						.get(gameInstanceId);
 				if (gi.getPlayers() != null) {
 					if (gi.getPlayers().size() == 0) {
 						gi.setState(GameConstants.GAME_STATE.EXPIRED);
-						GameQueueManager.expriredGames.put(gi.getId(), gi);
-						GameQueueManager.readyGames.remove(gameInstanceId);
+						ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+						ExamSectionGameQueueManager.readyExamSectionGames.remove(gameInstanceId);
 					} else if (gi.getPlayers().size() < 2) {
 						gi.setState(GameConstants.GAME_STATE.WAITING);
-						GameQueueManager.waitingForMorePlayersToJoinGames
+						ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
 								.put(gi.getId(), gi);
-						GameQueueManager.readyGames.remove(gameInstanceId);
+						ExamSectionGameQueueManager.readyExamSectionGames.remove(gameInstanceId);
 					}
 				} else {
 					gi.setState(GameConstants.GAME_STATE.EXPIRED);
-					GameQueueManager.expriredGames.put(gi.getId(), gi);
-					GameQueueManager.readyGames.remove(gameInstanceId);
+					ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+					ExamSectionGameQueueManager.readyExamSectionGames.remove(gameInstanceId);
 				}
 			}
 
 			// for ongoing games
-			for (Long gameInstanceId : GameQueueManager.ongoingGames
+			for (Long gameInstanceId : ExamSectionGameQueueManager.ongoingGames
 					.keySet()) {
-				GameInstance gi = GameQueueManager.ongoingGames
+				GameInstance gi = ExamSectionGameQueueManager.ongoingGames
 						.get(gameInstanceId);
 				if (gi.getPlayers() != null) {
 					if (gi.getPlayers().size() == 1) {
 						Player player = gi.getPlayers().get(0);
-						GameQueueManager.ongoingGames
+						ExamSectionGameQueueManager.ongoingGames
 								.remove(gameInstanceId);
 						gi.setState(GameConstants.GAME_STATE.EXPIRED);
-						GameQueueManager.expriredGames.put(gameInstanceId,
+						ExamSectionGameQueueManager.expiredGames.put(gameInstanceId,
 								gi);
-						GameInstance gameAlreadyReadyForThisPlayer = GameQueueManager.readyGames
+						GameInstance gameAlreadyReadyForThisPlayer = ExamSectionGameQueueManager.readyExamSectionGames
 								.get(gi.getId());
 						if (gameAlreadyReadyForThisPlayer == null) {
-							GameQueueManager.createGameInstance(
+							ExamSectionGameQueueManager.createExamSectionGameInstance(
 									gi.getExamSection(), player.getUser());
 						} else {
-							GameQueueManager.playerGameMap.put(player
+							ExamSectionGameQueueManager.playerGameMap.put(player
 									.getUser().getId(),
 									gameAlreadyReadyForThisPlayer);
 							gameAlreadyReadyForThisPlayer
@@ -138,17 +138,17 @@ implements FlushStaleGamesFromQueuesService {
 
 					} else if (gi.getPlayers().size() == 0) {
 						gi.setState(GameConstants.GAME_STATE.EXPIRED);
-						GameQueueManager.expriredGames.put(gameInstanceId,
+						ExamSectionGameQueueManager.expiredGames.put(gameInstanceId,
 								gi);
-						GameQueueManager.ongoingGames
+						ExamSectionGameQueueManager.ongoingGames
 								.remove(gameInstanceId);
 
 					}
 
 				} else {
 					gi.setState(GameConstants.GAME_STATE.EXPIRED);
-					GameQueueManager.expriredGames.put(gi.getId(), gi);
-					GameQueueManager.ongoingGames.remove(gameInstanceId);
+					ExamSectionGameQueueManager.expiredGames.put(gi.getId(), gi);
+					ExamSectionGameQueueManager.ongoingGames.remove(gameInstanceId);
 				}
 
 			}

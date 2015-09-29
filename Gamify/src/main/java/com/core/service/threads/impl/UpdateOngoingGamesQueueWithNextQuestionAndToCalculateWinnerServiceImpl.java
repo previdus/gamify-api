@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.UpdateOngoingGamesQueueWithNextQuestionAndToCalculateWinnerService;
 
 @Service("updateOngoingGamesQueueWithNextQuestionAndToCalculateWinnerService")
@@ -18,9 +18,9 @@ public class UpdateOngoingGamesQueueWithNextQuestionAndToCalculateWinnerServiceI
 	public void run() {
 		log.info("3) periodicTaskToUpdateOngoingGamesQueueWithNextQuestionAndToCalculateWinner");
 		try {
-			for (GameInstance gi : GameQueueManager.ongoingGames.values()) {
+			for (GameInstance gi : ExamSectionGameQueueManager.ongoingGames.values()) {
 				try {
-					GameQueueManager.calculateScoresForPlayers(gi);
+					ExamSectionGameQueueManager.calculateScoresForPlayers(gi);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
