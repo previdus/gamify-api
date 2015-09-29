@@ -1,13 +1,15 @@
 package com.core.service.threads.impl;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.ExamSectionGameQueueManager;
+import com.core.manager.TopicGameQueueManager;
 import com.core.service.threads.MoveFromWaitingToReadyqueueService;
 
 @Service("moveFromWaitingToReadyqueueService")
@@ -19,23 +21,32 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 
 		log.info("1) periodicTaskToMoveFromWaitingToReadyqueue");
 
-		// move from waiting to ready
+		// move from waiting to ready for exam section games
+		processMoveGamesFromWaitingToReady(ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames, 
+				ExamSectionGameQueueManager.readyExamSectionGames, ExamSectionGameQueueManager.newExamSectionGames,true);
+		
+		//move from waiting to ready for topic games
+		processMoveGamesFromWaitingToReady(TopicGameQueueManager.waitingForMorePlayersToJoinTopicGames, 
+				TopicGameQueueManager.readyTopicGames, TopicGameQueueManager.newTopicGames,false);
+	}
+
+	private void processMoveGamesFromWaitingToReady(Map<Long, GameInstance> waitingGameQueue, Map<Long, GameInstance> readyGameQueue, Map<Long, GameInstance> newGameQueue, boolean atWhatLevelToAddBot) {
 		try {
-			moveNewGamesToWaitingGames();
-			for (Long examSectionId : ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
+			moveNewGamesToWaitingGames(newGameQueue, atWhatLevelToAddBot);
+			for (Long key : waitingGameQueue
 					.keySet()) {
 
-				GameInstance gi = ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
-						.get(examSectionId);
+				GameInstance gi = waitingGameQueue
+						.get(key);
 				if (gi.getStartWaitTime() == 0) {
 					gi.setStartWaitTime(System.currentTimeMillis());
 				} else {
 					if ((System.currentTimeMillis() - gi.getStartWaitTime()) / 1000 >= GameConstants.SECONDS_TO_WAIT_FOR_PLAYERS_BEFORE_BEGINNING_GAME) {
 						gi.setState(GameConstants.GAME_STATE.READY);
 						log.info("before moving to ready games");
-						ExamSectionGameQueueManager.readyExamSectionGames.put(gi.getId(), gi);
-						ExamSectionGameQueueManager.waitingForMorePlayersToJoinExamSectionGames
-								.remove(examSectionId);
+						readyGameQueue.put(key, gi);
+						waitingGameQueue
+								.remove(key);
 					}
 				}
 			}
@@ -44,24 +55,26 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 		}
 	}
 	
-	private void moveNewGamesToWaitingGames(){
-				try{
-					if(GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS > 0) {
-						for (Long examSectionId : ExamSectionGameQueueManager.newExamSectionGames.keySet()) {
-							GameInstance gi = ExamSectionGameQueueManager.newExamSectionGames.get(examSectionId);
-							if(gi != null && gi.getGameCreationTime() == 0){
-								gi.setGameCreationTime(System.currentTimeMillis());
-							}
-							else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS){
-								ExamSectionGameQueueManager.addBotUser(examSectionId);
-							}
-						}
+	private void moveNewGamesToWaitingGames(Map<Long, GameInstance> newGameQueue, boolean examSectionLevel){
+		
+		if(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS > 0) {
+			for (Long key : newGameQueue.keySet()) {
+				GameInstance gi = newGameQueue.get(key);
+				if(gi != null && gi.getGameCreationTime() == 0){
+					gi.setGameCreationTime(System.currentTimeMillis());
+				}
+				else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS){
+					if(examSectionLevel){
+						ExamSectionGameQueueManager.addBotUser(key);
 					}
-					
-					
-				}catch(Exception ex){
-					ex.printStackTrace();
+					else{
+						TopicGameQueueManager.addBotUser(key);
+					}
 				}
 			}
+		}
+		
+		
+	}
 
 }

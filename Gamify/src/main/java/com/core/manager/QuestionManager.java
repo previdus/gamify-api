@@ -89,10 +89,19 @@ public class QuestionManager {
 
 	public static void attachQuestionToGameInstance(GameInstance gi) {
 		log.info("***************ENTERED - attachQuestionToGameInstance()***************");
-		List<Topic> topics = gi.getExamSection().getTopics();
+		List<Topic> topics = null;
+		if( gi.getExamSection() != null){
+			topics = gi.getExamSection().getTopics();	
+		}
+		else{
+			Topic topic = gi.getTopic();
+			topics = new ArrayList<Topic>();
+			if(topic != null){
+				topics.add(topic);
+			}
+		}	
 
 		List<Question> questions = gi.fetchPreLoadedQuestions();
-
 		questions = fetchQuestionsIfEmpty(topics, questions);
 		attachNextQuestionToGameInstanceFromPrefetchedQuestions(gi, questions);
 

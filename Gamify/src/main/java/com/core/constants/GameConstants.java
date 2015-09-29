@@ -57,7 +57,7 @@ public class GameConstants {
 	public static final int DEFAULT_INITIAL_USER_ELO_RATING = 1000;
 	
 	// keep -1 if you dont want baut to be added
-	public static final int ADD_BOUT_USER_AFTER_WAITING_MILLISECONDS = 20000;
+	public static final int ADD_BOT_USER_AFTER_WAITING_MILLISECONDS = 20000;
 	
 	public static final boolean IS_EMAIL_VERIFICATION_MANDATORY = false;
 	

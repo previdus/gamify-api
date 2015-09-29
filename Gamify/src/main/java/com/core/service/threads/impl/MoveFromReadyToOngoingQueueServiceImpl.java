@@ -1,14 +1,17 @@
 package com.core.service.threads.impl;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
+import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.QuestionManager;
+import com.core.manager.TopicGameQueueManager;
 import com.core.service.threads.MoveFromReadyToOngoingQueueService;
 
 
@@ -21,12 +24,18 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 	
 	public void run() {
 		log.info("2) running the periodicTaskToMoveFromReadyToOngoingqueue thread");
-		// from ready to ongoing
-		try {
-			for (Long gameInstanceId : ExamSectionGameQueueManager.readyExamSectionGames.keySet()) {
+		// from ready to ongoing for exam section
+		processReadyGames( ExamSectionGameQueueManager.readyExamSectionGames);
+		//from ready to ongoing for topic
+		processReadyGames( TopicGameQueueManager.readyTopicGames);
+	}
 
-				GameInstance gi = ExamSectionGameQueueManager.readyExamSectionGames
-						.get(gameInstanceId);
+	private void processReadyGames(Map<Long, GameInstance> readyGames) {
+		try {
+			for (Long key : readyGames.keySet()) {
+
+				GameInstance gi = readyGames
+						.get(key);
 				gi.setState(GameConstants.GAME_STATE.ONGOING);
 
 				//gi.setStartTime(System.currentTimeMillis());
@@ -34,10 +43,10 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 
 				gi.setGameCreationTime(System.currentTimeMillis());
 
-				log.info("before moving from ready to ongoing game+s");
+				log.info("before moving from ready to ongoing games");
 				QuestionManager.attachQuestionToGameInstance(gi);
-				ExamSectionGameQueueManager.ongoingGames.put(gi.getId(), gi);
-				ExamSectionGameQueueManager.readyExamSectionGames.remove(gameInstanceId);
+				CommonQueueManager.ongoingGames.put(gi.getId(), gi);
+				readyGames.remove(key);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
