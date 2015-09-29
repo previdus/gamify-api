@@ -16,12 +16,12 @@ import com.core.domain.User;
 public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 		implements UserDAO {
 	
-	public User getBautUser() {
+	public User getBotUser() {
 				Session session = this.getSession();
 				Query qry = session
 						.createQuery(
-								"from User where category = :boutCategory order by rand() ")
-						.setParameter("boutCategory", UserCategory.B).setFetchSize(1);
+								"from User where category = :botCategory order by rand() ")
+						.setParameter("botCategory", UserCategory.B).setFetchSize(1);
 				List<User> users = qry.list();
 				releaseSession(session);
 				return (users == null) ? null : users.get(0);

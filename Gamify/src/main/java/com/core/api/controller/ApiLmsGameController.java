@@ -16,7 +16,7 @@ import com.core.api.beans.GamePageResult;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.lms.ExamSection;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.UserManager;
 import com.core.service.ExamSectionService;
 import com.core.service.RoomService;
@@ -45,8 +45,8 @@ public class ApiLmsGameController {
 			User user = UserManager.userTokenMap.get(userToken);
 
 			if (user != null) {
-				if (GameQueueManager.checkIfPlayerAlreadyInGame(user)) {
-					GameQueueManager
+				if (ExamSectionGameQueueManager.checkIfPlayerAlreadyInGame(user)) {
+					ExamSectionGameQueueManager
 							.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 					gp.setStatus(0);
 					gp.setMessage("Seems you are already in this game. Redirecting you to the main room");
@@ -66,7 +66,7 @@ public class ApiLmsGameController {
 							log.error(ex.getMessage());
 						}
 						
-						gi = GameQueueManager.createGameInstance(es, user);
+						gi = ExamSectionGameQueueManager.createExamSectionGameInstance(es, user);
 						gp.setGi(gi);
 						gp.setStatus(1);
 						gp.setMessage("Success");
@@ -97,7 +97,7 @@ public class ApiLmsGameController {
 		User user = UserManager.userTokenMap.get(userToken);
 		if (user != null) {
 
-			gi = GameQueueManager.getGameInstanceForPlayer(user.getId());
+			gi = ExamSectionGameQueueManager.getGameInstanceForPlayer(user.getId());
 			if (gi != null) {
 				if (gi.getCurrentQuestion() != null)
 					log.debug("----- Current Question Id is : "
@@ -136,7 +136,7 @@ public class ApiLmsGameController {
 		GamePageResult gp = new GamePageResult();
 		gp.setUserToken(userToken);
 		if (user != null) {
-			GameInstance gi = GameQueueManager.recordPlayerResponseToQuestion(
+			GameInstance gi = ExamSectionGameQueueManager.recordPlayerResponseToQuestion(
 					user.getId(), new Long(questionId), new Long(optionId),
 					new Long(timeTakenToRespond));
 			if (gi == null) {

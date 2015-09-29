@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.core.api.controller.ApiRegistrationController;
 import com.core.constants.GameConstants;
 import com.core.domain.User;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.RoomService;
 
 @Controller
@@ -57,7 +57,7 @@ public class RoomController {
 		roomService.getRoom().setRoomName("Main Room");
 		User user = (User) request.getSession().getAttribute(
 				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
-		GameQueueManager
+		ExamSectionGameQueueManager
 				.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 		return "redirect:/rooms";
 	}

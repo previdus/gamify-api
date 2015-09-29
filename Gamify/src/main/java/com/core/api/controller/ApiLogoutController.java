@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.core.api.beans.ApiResult;
 import com.core.domain.User;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.UserManager;
 import com.core.service.UserService;
 
@@ -30,7 +30,7 @@ public class ApiLogoutController {
 
 			user = UserManager.userTokenMap.get(userToken);
 			if (user != null) {
-				GameQueueManager
+				ExamSectionGameQueueManager
 						.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 				UserManager.userTokenMap.remove(userToken);
 				apr.setStatus(1);

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.EmptyDoneGamesFromPlayerGameMapQueueService;
 
 @Service("emptyDoneGamesFromPlayerGameMapQueueService")
@@ -19,8 +19,8 @@ implements Runnable,EmptyDoneGamesFromPlayerGameMapQueueService {
 
 		// Empty done games. IN real implementation the done games list will
 		// be stored in the database and then emptied from memory
-		for (Long userId : GameQueueManager.playerGameMap.keySet()) {
-			GameInstance gi = GameQueueManager.playerGameMap.get(userId);
+		for (Long userId : ExamSectionGameQueueManager.playerGameMap.keySet()) {
+			GameInstance gi = ExamSectionGameQueueManager.playerGameMap.get(userId);
 			/*
 			 * if(GameConstants.GAME_STATE.DONE.equals(gi.getState()) ||
 			 * GameConstants.GAME_STATE.EXPIRED.equals(gi.getState())){

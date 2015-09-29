@@ -12,7 +12,7 @@ import com.core.constants.GameConstants;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.domain.knockout.PlayerResponseLog;
-import com.core.manager.GameQueueManager;
+import com.core.manager.ExamSectionGameQueueManager;
 import com.core.service.threads.AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService;
 
 @Service("automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService")
@@ -27,7 +27,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 		
         log.info("runnning 9) periodicTaskToAutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime");
 		// ongoing games
-		for (GameInstance gi : GameQueueManager.ongoingGames.values()) {
+		for (GameInstance gi : ExamSectionGameQueueManager.ongoingGames.values()) {
 			if(gameNotDone(gi)) automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTime(gi);
 		}
 	}
@@ -54,7 +54,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 						Player player = players.get(
 								userId);
 						log.info("recording response since its timed out");
-						GameQueueManager.recordPlayerResponseToQuestion(player.getUser().getId(),
+						ExamSectionGameQueueManager.recordPlayerResponseToQuestion(player.getUser().getId(),
 								gi.getCurrentQuestion().getId(), -1L, 0L);
 						
 					}

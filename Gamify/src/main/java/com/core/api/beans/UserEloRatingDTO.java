@@ -10,6 +10,15 @@ public class UserEloRatingDTO implements Serializable {
 	private Integer numberOfQuestionsAttempted;
 	private Integer numberOfTopicsCovered;
 	private Integer numberOfExamSectionsCovered;
+	
+	private String ratedContext;
+	
+	public String getRatedContext() {
+		return ratedContext;
+	}
+	public void setRatedContext(String ratedContext) {
+		this.ratedContext = ratedContext;
+	}
 	public Integer getNumberOfTopicsCovered() {
 		return numberOfTopicsCovered;
 	}
