@@ -407,7 +407,7 @@ function submitOptionWhenTimeElapsed(questionId){
   	$.ajaxSetup({ cache: false });  	
   	jQuery("input[name='option']").attr('disabled',true);  	
   	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-2);
- 	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId=-1&timeTakenToRespond=0", function( data ) {	    	
+ 	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId=-1&timeTakenToRespond=0", function( data ) {	    	
 
 	    	$("#timer").html(TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE);
 	    	clearInterval(timerInterval);	    	
