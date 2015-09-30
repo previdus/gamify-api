@@ -118,7 +118,12 @@ public class QuestionManager {
 			log.info("questions.size() is :"+questions.size()+" and currentQuestionIndex is:"+gi.getCurrentQuestionIndex());
 			Question question = questions.get(gi.getCurrentQuestionIndex());
 			log.info("*************** Attaching ***************questionId: "+ question.getId()+"*********questionFrequency: "+question.getQuestionFrequency());
-			gi.incrementCurrentQuestionIndex();
+			if(gi.getCurrentQuestionIndex() < questions.size() - 1){
+			    gi.incrementCurrentQuestionIndex();
+			}
+			else{
+				gi.resetQuestionIndex();
+			}
 			AnswerKey answerKey = answerKeyService.getAnswerKey(question);
 			gi.setCurrentQuestion(question, answerKey, System.currentTimeMillis());
 			question.incrementQuestionFrequency();

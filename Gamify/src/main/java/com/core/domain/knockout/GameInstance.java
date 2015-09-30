@@ -404,6 +404,11 @@ public class GameInstance implements Serializable {
 	public void incrementCurrentQuestionIndex(){
 		this.currentQuestionIndex++;
 	}
+
+	public void resetQuestionIndex() {
+		this.currentQuestionIndex = 0;
+		
+	}
 	
 	
 	
