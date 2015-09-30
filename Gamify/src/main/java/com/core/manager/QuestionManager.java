@@ -63,24 +63,26 @@ public class QuestionManager {
 		try {
 			// AnswerKey answerKey =
 			// answerKeyService.getAnswerKey(gi.getCurrentQuestion());
-			PreviousQuestionLog pql = new PreviousQuestionLog();
-			// pql.setAnswerKey(answerKey);
-			pql.setQuestion(gi.getCurrentQuestion());
-			pql.setGameInstance(gi);
-			pql.setPlayersResponses(new ArrayList<PlayerResponseLog>(gi
-					.getPlayerResponsesToCurrentQuestion().values()));
-			pql.setBestTime(new Long(gi.getBestTimeForCurrentQuestion()).toString());
-			pql.setWinner(gi.getCurrentQuestionWinner());
-			pql.setNoOfPlayersBeaten(gi.getNumOfPlayers());
-			List<PreviousQuestionLog> logs = ExamSectionGameQueueManager.gameResponseLog
-					.get(gi.getId());
-			if (logs == null)
-				logs = new LinkedList<PreviousQuestionLog>();
-			logs.add(pql);
-			ExamSectionGameQueueManager.gameResponseLog.put(gi.getId(), logs);
-			gi.setPreviousQuestionLogs(logs);			
-			log.info("Prev Question Log Size after adding "
-					+ ExamSectionGameQueueManager.gameResponseLog.get(gi.getId()).size());
+			if(gi.getCurrentQuestion() != null){
+				PreviousQuestionLog pql = new PreviousQuestionLog();
+				// pql.setAnswerKey(answerKey);
+				pql.setQuestion(gi.getCurrentQuestion());
+				pql.setGameInstance(gi);
+				pql.setPlayersResponses(new ArrayList<PlayerResponseLog>(gi
+						.getPlayerResponsesToCurrentQuestion().values()));
+				pql.setBestTime(new Long(gi.getBestTimeForCurrentQuestion()).toString());
+				pql.setWinner(gi.getCurrentQuestionWinner());
+				pql.setNoOfPlayersBeaten(gi.getNumOfPlayers());
+				List<PreviousQuestionLog> logs = ExamSectionGameQueueManager.gameResponseLog
+						.get(gi.getId());
+				if (logs == null)
+					logs = new LinkedList<PreviousQuestionLog>();
+				logs.add(pql);
+				ExamSectionGameQueueManager.gameResponseLog.put(gi.getId(), logs);
+				gi.setPreviousQuestionLogs(logs);			
+				log.info("Prev Question Log Size after adding "
+						+ ExamSectionGameQueueManager.gameResponseLog.get(gi.getId()).size());
+		   }
 
 		} catch (Exception e) {
 			e.printStackTrace();

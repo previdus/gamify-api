@@ -460,7 +460,7 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
   	$("#optionCorrect"+bang).css("background-color","#7FFF00");
   	$("#optionCorrect"+bang).show();
   	
-	$.getJSON( "play/respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
+	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
 		
 		  renderHtml(data,true);
 	});
