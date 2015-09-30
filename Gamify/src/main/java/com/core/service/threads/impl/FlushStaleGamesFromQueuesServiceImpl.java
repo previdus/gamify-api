@@ -105,12 +105,14 @@ implements FlushStaleGamesFromQueuesService {
 			GameInstance gi = queueToBeProcessed
 					.get(key);
 			if (gi.getPlayers() == null || gi.getPlayers().size() == 0) {
+				
 				expireGame(queueToBeProcessed, key, gi);
 			}
 		}
 	}
 	private void expireGame(Map<Long, GameInstance> queueToBeProcessed,
 			Long key, GameInstance gi) {
+		log.info("expiring game-"+gi.getId());
 		gi.setState(GameConstants.GAME_STATE.EXPIRED);
 		queueToBeProcessed.remove(key);
 		CommonQueueManager.expiredGames.put(gi.getId(), gi);
