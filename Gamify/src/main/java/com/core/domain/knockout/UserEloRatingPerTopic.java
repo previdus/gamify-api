@@ -55,7 +55,7 @@ public class UserEloRatingPerTopic  implements Serializable{
 	}
 	
 	public boolean isUserRatingProvisional(){
-		return this.noOfQuestionsAttempted <= GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING;
+		return this.noOfQuestionsAttempted <= (Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING_KEY);
 	}
 	
 	public void incrementNoOfQuestionsAttempted(){

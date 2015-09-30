@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
@@ -28,7 +29,7 @@ implements FlushStaleGamesFromQueuesService {
 			// for(Long playerId: GameQueueManager.playerGameMap.keySet()){
 			// GameInstance gi =
 			// GameQueueManager.playerGameMap.get(playerId);
-			// if(gi.getState().equals(GameConstants.GAME_STATE.DONE)){
+			// if(gi.getState().equals(GameConstants.CONFIGURATION_MAP.get(GAME_STATE.DONE)){
 			// GameQueueManager.playerGameMap.remove(playerId);
 			// }
 			// }
@@ -87,7 +88,7 @@ implements FlushStaleGamesFromQueuesService {
 				if (gi.getPlayers().size() == 0) {
 					expireGame(readyGameQueue,key,gi);
 				} else if (gi.getPlayers().size() < 2) {
-					gi.setState(GameConstants.GAME_STATE.WAITING);
+					gi.setState(GAME_STATE.WAITING);
 					waitingGameQueue
 							.put(key, gi);
 					readyGameQueue.remove(key);
@@ -113,7 +114,7 @@ implements FlushStaleGamesFromQueuesService {
 	private void expireGame(Map<Long, GameInstance> queueToBeProcessed,
 			Long key, GameInstance gi) {
 		log.info("expiring game-"+gi.getId());
-		gi.setState(GameConstants.GAME_STATE.EXPIRED);
+		gi.setState(GAME_STATE.EXPIRED);
 		queueToBeProcessed.remove(key);
 		CommonQueueManager.expiredGames.put(gi.getId(), gi);
 	}

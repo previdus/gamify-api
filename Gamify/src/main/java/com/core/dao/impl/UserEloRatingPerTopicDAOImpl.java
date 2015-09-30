@@ -40,7 +40,7 @@ implements UserEloRatingPerTopicDAO {
 		Session session = getSession();
 		Query qry = session.createQuery("from UserEloRatingPerTopic t "+		
 		" where t.userTopic.topic.id = :topicId "
-		+((excludeProvisional)?(" and t.noOfQuestionsAttempted > "+GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING):"") 
+		+((excludeProvisional)?(" and t.noOfQuestionsAttempted > "+GameConstants.CONFIGURATION_MAP.get(GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING_KEY)):"") 
 		+" order by t.eloRating desc limit "+noOfPlayersToShow).setParameter("topicId", topicId);				
 		userEloRatingTopicList = qry.list();		
 		releaseSession(session);
@@ -59,7 +59,7 @@ implements UserEloRatingPerTopicDAO {
 				+ "where d.topicCount = e.idCount and e.exam_section_id = :examSectionId) f, (select id, display_name, image_url from user) h "
 				+ "where f.user_id = h.id order by f.elo desc limit "+noOfPlayersToShow)
 				.setParameter("examSectionId", examSectionId)
-				.setParameter("provisiional_limit", GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING);				
+				.setParameter("provisiional_limit", GameConstants.CONFIGURATION_MAP.get(GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING_KEY));				
 		List<Object[]>  objectList = qry.list();
 		int index = 1;
 		for(Object[] o: objectList){
@@ -97,7 +97,7 @@ implements UserEloRatingPerTopicDAO {
 				+ "and f.user_id = h.id order by f.elo desc "
 				+ "limit "+noOfPlayersToShow)
 				.setParameter("examId", examId)
-				.setParameter("provisiional_limit", GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING);				
+				.setParameter("provisiional_limit", GameConstants.CONFIGURATION_MAP.get(GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING_KEY));				
 		List<Object[]>  objectList = qry.list();
 		int index = 1;
 		for(Object[] o: objectList){

@@ -117,8 +117,8 @@ public class UserEloRatingServiceImpl implements UserEloRatingService {
         double denominator = Math.pow(10, exponent) + 1;
         double expectancy = (1.0 / denominator) * (2.0 / numPlayers);
       
-        return (isProvisional)?(2 * GameConstants.KVALUE_FOR_ELO_RATING * (numberFromWhichExpectancyWillBeSubtracted - expectancy))
-        		             :(GameConstants.KVALUE_FOR_ELO_RATING * (numberFromWhichExpectancyWillBeSubtracted - expectancy));
+        return (isProvisional)?(2 * (Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.KVALUE_FOR_ELO_RATING_KEY) * (numberFromWhichExpectancyWillBeSubtracted - expectancy))
+        		             :((Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.KVALUE_FOR_ELO_RATING_KEY) * (numberFromWhichExpectancyWillBeSubtracted - expectancy));
     }
 
 }

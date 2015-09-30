@@ -179,17 +179,17 @@ public class GameInstance implements Serializable {
 	public void addPlayer(User user) {
 		Player player = new Player();
 		player.setUser(user);
-		player.setNoOfLife(GameConstants.NUM_OF_LIVES);
+		player.setNoOfLife((Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.NUM_OF_LIVES_KEY));
 		player.setPlayerJoinTime(System.currentTimeMillis());
 		player.setGameInstance(this);
 		// this is to give a baut user so many poll count that he is not thrown out of game
-		if(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS > 0 && UserCategory.B.equals(user.getCategory()))
+		if((Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS_KEY) > 0 && UserCategory.B.equals(user.getCategory()))
 				player.setNoOfPollsSoFar(50000);
 		this.players.put(user.getId(), player);
 	}
 
 	public void addPlayerFromAnotherGame(Player player) {
-		player.setNoOfLife(GameConstants.NUM_OF_LIVES);
+		player.setNoOfLife((Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.NUM_OF_LIVES_KEY));
 		player.setPlayerJoinTime(System.currentTimeMillis());
 		player.resetPollCount();
 		this.players.put(player.getUser().getId(), player);
@@ -357,7 +357,7 @@ public class GameInstance implements Serializable {
 	}
 
 	public GameInstance() {
-		// id = GameConstants.GAME_INSTANCE_ID++;
+		// id = GameConstants.CONFIGURATION_MAP.get(GAME_INSTANCE_ID++;
 	}
 
 	public void resetCurrentQuestionWinnerAndBestTime() {

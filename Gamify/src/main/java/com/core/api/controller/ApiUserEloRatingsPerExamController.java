@@ -27,7 +27,7 @@ public class ApiUserEloRatingsPerExamController {
 	@RequestMapping(value="/exam_elo",method=RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public UserEloRatingResult topRatedUsersPerExam(@RequestParam("exam") Long examId) {
-		List<UserEloRatingDTO> top = userEloRatingService.getTopUserEloRatingsPerExam(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD,examId);		
+		List<UserEloRatingDTO> top = userEloRatingService.getTopUserEloRatingsPerExam((Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD_KEY),examId);		
 		UserEloRatingResult result = new UserEloRatingResult();
 		result.setTopRatedUsers(top);
 		return result;

@@ -33,7 +33,7 @@ public class ApiUserEloRatingsPerTopicController {
 	}
 
 	private UserEloRatingResult returnRatingResultForTopic(Long topicId, boolean excludeProvisional) {
-		List<UserEloRatingPerTopic> top = userEloRatingService.getTopUserEloRatingsPerTopic(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD,topicId, excludeProvisional);
+		List<UserEloRatingPerTopic> top = userEloRatingService.getTopUserEloRatingsPerTopic((Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD_KEY),topicId, excludeProvisional);
 		List<UserEloRatingDTO> dtoList = createUserEloRatingDTOListPerTopic(top);
 		UserEloRatingResult result = new UserEloRatingResult();
 		result.setTopRatedUsers(dtoList);

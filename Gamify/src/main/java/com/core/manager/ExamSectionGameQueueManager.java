@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.lms.ExamSection;
@@ -34,9 +35,9 @@ public class ExamSectionGameQueueManager extends CommonQueueManager
 					currentUser,
 					waitingForMorePlayersToJoinExamSectionGames,
 					readyExamSectionGames,
-					GameConstants.GAME_STATE.READY, 
+					GAME_STATE.READY, 
 					false,
-					GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED);
+					(Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED_KEY));
 
 		} else if ((gi = newExamSectionGames.get(examSection.getId())) != null) {
 			
@@ -44,9 +45,9 @@ public class ExamSectionGameQueueManager extends CommonQueueManager
 					currentUser,
 					newExamSectionGames,
 					waitingForMorePlayersToJoinExamSectionGames,
-					GameConstants.GAME_STATE.WAITING, 
+					GAME_STATE.WAITING, 
 					true,
-					GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED);
+					(Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED_KEY));
 
 		}
 		else {

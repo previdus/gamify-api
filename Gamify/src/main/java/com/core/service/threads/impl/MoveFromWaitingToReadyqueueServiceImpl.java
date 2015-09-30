@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.TopicGameQueueManager;
@@ -42,7 +43,7 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 					gi.setStartWaitTime(System.currentTimeMillis());
 				} else {
 					if ((System.currentTimeMillis() - gi.getStartWaitTime()) / 1000 >= GameConstants.SECONDS_TO_WAIT_FOR_PLAYERS_BEFORE_BEGINNING_GAME) {
-						gi.setState(GameConstants.GAME_STATE.READY);
+						gi.setState(GAME_STATE.READY);
 						log.info("before moving to ready games");
 						readyGameQueue.put(key, gi);
 						waitingGameQueue
@@ -57,13 +58,13 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 	
 	private void moveNewGamesToWaitingGames(Map<Long, GameInstance> newGameQueue, boolean examSectionLevel){
 		
-		if(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS > 0) {
+		if((Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS_KEY) > 0) {
 			for (Long key : newGameQueue.keySet()) {
 				GameInstance gi = newGameQueue.get(key);
 				if(gi != null && gi.getGameCreationTime() == 0){
 					gi.setGameCreationTime(System.currentTimeMillis());
 				}
-				else if(System.currentTimeMillis() - gi.getGameCreationTime() > GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS){
+				else if(System.currentTimeMillis() - gi.getGameCreationTime() > (Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS_KEY)){
 					if(examSectionLevel){
 						ExamSectionGameQueueManager.addBotUser(key);
 					}

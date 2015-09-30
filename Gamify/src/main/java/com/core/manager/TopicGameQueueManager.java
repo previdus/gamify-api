@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.lms.Topic;
@@ -34,9 +35,9 @@ public class TopicGameQueueManager extends CommonQueueManager
 					currentUser,
 					waitingForMorePlayersToJoinTopicGames,
 					readyTopicGames,
-					GameConstants.GAME_STATE.READY, 
+					GAME_STATE.READY, 
 					false,
-					GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED);
+					(Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MAXIMUM_NUM_OF_PLAYERS_NEEDED_KEY));
 
 		} else if ((gi = newTopicGames.get(topic.getId())) != null) {
 			
@@ -44,9 +45,9 @@ public class TopicGameQueueManager extends CommonQueueManager
 					currentUser,
 					newTopicGames,
 					waitingForMorePlayersToJoinTopicGames,
-					GameConstants.GAME_STATE.WAITING, 
+					GAME_STATE.WAITING, 
 					true,
-					GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED);
+					(Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED_KEY));
 
 		}
 		else {

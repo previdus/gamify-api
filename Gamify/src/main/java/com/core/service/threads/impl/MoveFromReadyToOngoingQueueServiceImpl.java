@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.knockout.GameInstance;
 import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
@@ -36,7 +37,7 @@ public class MoveFromReadyToOngoingQueueServiceImpl implements
 
 				GameInstance gi = readyGames
 						.get(key);
-				gi.setState(GameConstants.GAME_STATE.ONGOING);
+				gi.setState(GAME_STATE.ONGOING);
 
 				//gi.setStartTime(System.currentTimeMillis());
 				gi.setNoOfPlayersBeaten(gi.getPlayers().size() - 1);

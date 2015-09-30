@@ -96,7 +96,7 @@ public class ApiRegistrationController {
 			    }catch(Exception e){
 			    	return createApiResult(-8,"Registration failed. Unable to verify the email "+email+" due to "+e.getMessage());
 			    }
-			    if(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY)
+			    if((Boolean)GameConstants.CONFIGURATION_MAP.get(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY_KEY))
 			    return createApiResult(1, "Registration successful. An email verification link "
 						+ "has been sent to your email id " + email + " Kindly verify it to access the account. ");
 			    else

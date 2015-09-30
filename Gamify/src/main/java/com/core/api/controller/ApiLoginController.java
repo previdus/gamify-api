@@ -57,7 +57,7 @@ public class ApiLoginController {
 			apr.setStatus(-1);
 			return apr;
 		}
-		if(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY && !UserAccountStatus.ACTIVE.equals(userFromRepository.getUserAccountStatus())){
+		if((Boolean)GameConstants.CONFIGURATION_MAP.get(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY_KEY) && !UserAccountStatus.ACTIVE.equals(userFromRepository.getUserAccountStatus())){
 			//emailNotificationService.sendAccountActivationEmail(request.getServerName(), userFromRepository.getEmailId());
 			apr.setMessage("Email Verification Needed");
 			apr.setRedirectLink("");

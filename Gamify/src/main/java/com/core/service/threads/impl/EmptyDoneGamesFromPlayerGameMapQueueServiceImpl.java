@@ -21,8 +21,8 @@ implements Runnable,EmptyDoneGamesFromPlayerGameMapQueueService {
 		for (Long userId : CommonQueueManager.playerGameMap.keySet()) {
 			GameInstance gi = CommonQueueManager.playerGameMap.get(userId);
 			/*
-			 * if(GameConstants.GAME_STATE.DONE.equals(gi.getState()) ||
-			 * GameConstants.GAME_STATE.EXPIRED.equals(gi.getState())){
+			 * if(GameConstants.CONFIGURATION_MAP.get(GAME_STATE.DONE.equals(gi.getState()) ||
+			 * GameConstants.CONFIGURATION_MAP.get(GAME_STATE.EXPIRED.equals(gi.getState())){
 			 * 
 			 * GameQueueManager.playerGameMap.remove(userId); }
 			 */

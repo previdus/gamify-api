@@ -139,7 +139,7 @@ public class CommonQueueManager {
 		gi.addPlayer(currentUser);
 		gi.setExamSection(es);
 		gi.setTopic(topic);
-		gi.setState(GameConstants.GAME_STATE.NEW);
+		gi.setState(GAME_STATE.NEW);
 		gi.setGameCreationTime(System.currentTimeMillis());
 		gi = gameInstanceService.saveOrUpdate(gi);
 		newGameQueue.put(keyForNewGameQueue, gi);
@@ -158,7 +158,7 @@ public class CommonQueueManager {
 	public static synchronized boolean checkIfPlayerAlreadyInGame(User user) {
 		GameInstance gi = playerGameMap.get(user.getId());
 		if (gi != null
-				&& GameConstants.GAME_STATE.ONGOING.equals(gi.getState())) {
+				&& GAME_STATE.ONGOING.equals(gi.getState())) {
 			return true;
 		} else
 			return false;
@@ -193,7 +193,7 @@ public class CommonQueueManager {
 				manageLife(gi);
 				QuestionManager.savePreviousQuestionLog(gi);
 				gameInstanceService.saveOrUpdate(gi);
-				if (gi.getPlayers().size() < GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED) {
+				if (gi.getPlayers().size() < (Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED_KEY)) {
 					endGame(gi);					
 				}
 				else 

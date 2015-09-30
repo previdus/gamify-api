@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
+import com.core.constants.GameConstants.GAME_STATE;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.knockout.Player;
 import com.core.domain.knockout.PlayerResponseLog;
@@ -33,7 +34,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 
 
 	private boolean gameNotDone(GameInstance gi) {
-		return !gi.getState().equals(GameConstants.GAME_STATE.DONE);
+		return !gi.getState().equals(GAME_STATE.DONE);
 	}
 	
 
@@ -84,7 +85,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 			GameInstance gi) {
 		
 		log.info( "(System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 : "+(System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 );
-		return (System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 > (gi.getCurrentQuestion().getMaxTimeToAnswerInSeconds() + GameConstants.EXTRA_TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION);
+		return (System.currentTimeMillis() - gi.getTimeAtWhichCurrentQuestionWasAttached())/1000 > (gi.getCurrentQuestion().getMaxTimeToAnswerInSeconds() + (Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.EXTRA_TIME_NEEDED_TO_WAIT_BEFORE_AUTO_RESPOND_TO_UNANSWERED_QUESTION_KEY));
 	}
 
 }

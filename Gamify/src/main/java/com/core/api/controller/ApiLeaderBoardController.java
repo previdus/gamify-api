@@ -23,7 +23,7 @@ public class ApiLeaderBoardController {
 	@RequestMapping(value="/maxwin",method=RequestMethod.GET,produces="application/json")
 	@ResponseBody
 	public LeaderBoardResult topUsers() {
-		List<TotalNumberOfGameWonByAUser> topFive = leaderBoardService.getTopPersonWhoWonMaxGames(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD);
+		List<TotalNumberOfGameWonByAUser> topFive = leaderBoardService.getTopPersonWhoWonMaxGames((Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.NUM_OF_TOP_PLAYERS_TO_DISPLAY_ON_LEADERBOARD_KEY));
 		LeaderBoardResult result = new LeaderBoardResult();
 		result.setTopUsers(topFive);
 		return result;
