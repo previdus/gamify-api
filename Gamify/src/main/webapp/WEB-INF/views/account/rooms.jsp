@@ -42,7 +42,7 @@ $(document).ready(function() {
 });
 
 function showRatedPlayersForTheChosenExam(examId, examName){
-	$("#leaderBoard").hide();
+	$("#leaderboard").hide();
 	$('.topicDropDown').hide();
     $(".examSectionDropDown").hide();                
     $('.examSectionDropDown').attr('name','');
@@ -63,7 +63,7 @@ function showRatedPlayersForTheChosenExam(examId, examName){
 	    // Code to run regardless of success or failure
 	    complete: function( xhr, status ) {
 	    	$("#examSection"+examId).show();
-	    	$("#leaderBoard").show();
+	    	$("#leaderboard").show();
 	    	 $("#waitMessage").hide();
 	    }
 	});
@@ -76,10 +76,12 @@ function showRatedPlayersForTheChosenExamSection(){
 	
 	$("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the chosen subject section. " +  
         	" Then you can play a game on the chosen subject section or you can further choose a topic for the subject section");
-	$("#leaderBoard").hide();
+	
+	$("#leaderboard").hide();
 	$("#waitMessage").show();
 	var examSectionId = $('.examSectionDropDown').find(":selected").val();
 	var examSectionName = $('.examSectionDropDown').find(":selected").text();
+	$('#topic'+examSectionId).attr('name','topic');
 	$("#submitForm").attr("value","Play a game in "+examSectionName+' or chose one of its topics'); 
 	$.ajax({
 	    url: "api/exam_section_elo",
@@ -93,7 +95,7 @@ function showRatedPlayersForTheChosenExamSection(){
 	    },
 	    // Code to run regardless of success or failure
 	    complete: function( xhr, status ) {
-	    	$("#leaderBoard").show();
+	    	$("#leaderboard").show();
 	    	$("#submitForm").show(); 
 	    	$("#waitMessage").hide();        		    	
 	    	$("#topic"+examSectionId).show();
@@ -149,7 +151,7 @@ function showRatedPlayersForTheChosenTopic(){
 	    },
 	    // Code to run regardless of success or failure
 	    complete: function( xhr, status ) {
-		    $("#leaderBoard").show();
+		    $("#leaderboard").show();
 	    	$("#submitForm").show(); 
 	    	$("#waitMessage").hide();	    	
 	    }
