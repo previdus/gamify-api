@@ -1,5 +1,5 @@
 body {
-	background-image: url('../images/bg_gamify_yellow_blur.jpg');
+	background-image: url('../images/testLMS.jpg');
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -51,6 +51,7 @@ body {
 #sidebar-wrapper {
 	background: rgba(232,232,232,5);
 	font-family: 'Lato', sans-serif;
+	opacity: 0.7;
 }
 
 .sidebar-headline {
