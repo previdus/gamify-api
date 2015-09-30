@@ -48,7 +48,7 @@ public class GameConstants {
 	
 	public static final int PROVISIONAL_LIMIT_FOR_ELO_RATING = 25;
 	
-	public final static double KVALUE_FOR_ELO_RATING = 32;
+	public final static double KVALUE_FOR_ELO_RATING = 16;
 	
 	public static final int LOSER_NUMBER_FROM_WHICH_EXPECTANCY_WILL_BE_SUBTRACTED_FOR_ELO_RATING = 0;
 	

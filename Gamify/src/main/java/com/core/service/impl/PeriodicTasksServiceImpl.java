@@ -31,7 +31,7 @@ public class PeriodicTasksServiceImpl implements PeriodicTasksService {
 
 	private static Boolean threadStarted = false;
 
-	private static final int NUM_OF_EXECUTORS = 9;
+	private static final int NUM_OF_EXECUTORS = 8;
 
 	private static ScheduledExecutorService[] executors = new ScheduledExecutorService[NUM_OF_EXECUTORS];
 
@@ -100,38 +100,38 @@ public class PeriodicTasksServiceImpl implements PeriodicTasksService {
 						4,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_CHECKING_FOR_QUESTION_RESPONSES,
 						TimeUnit.SECONDS);
+//		executors[3]
+//				.scheduleAtFixedRate(
+//						flushStaleGamesFromQueuesService,
+//						6,
+//						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_FLUSHING_STALE_GAMES_TO_EXPIRED_GAMES_QUEUE,
+//						TimeUnit.SECONDS);
 		executors[3]
-				.scheduleAtFixedRate(
-						flushStaleGamesFromQueuesService,
-						6,
-						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_FLUSHING_STALE_GAMES_TO_EXPIRED_GAMES_QUEUE,
-						TimeUnit.SECONDS);
-		executors[4]
 				.scheduleAtFixedRate(
 						moveFromOngoingToDoneService,
 						8,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_UPDATING_THE_QUEUES,
 						TimeUnit.SECONDS);
-		executors[5]
+		executors[4]
 				.scheduleAtFixedRate(
 						checkOnPlayersInNewWaitingReadyAndOngoingQueuesIfTheyAreStillAliveService,
 						10,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_POLLING_ALL_QUEUES_FOR_PLAYERS_STILL_ALIVE,
 						TimeUnit.SECONDS);
-		executors[6]
+		executors[5]
 				.scheduleAtFixedRate(
 						inspectAllQueuesService,
 						0,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_POLLING_ALL_QUEUES,
 						TimeUnit.SECONDS);
-		executors[7]
+		executors[6]
 				.scheduleAtFixedRate(
 						storeFinishedGamesAndEmptyQueueService,
 						5,
 						GameConstants.SECONDS_THE_THREAD_SHOULD_WAIT_BEFORE_EMPTYING_FINISHED_GAMES_QUEUES,
 						TimeUnit.SECONDS);
 		
-		executors[8]
+		executors[7]
 				.scheduleAtFixedRate(
 						automaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecievedOnTimeService,
 						5,

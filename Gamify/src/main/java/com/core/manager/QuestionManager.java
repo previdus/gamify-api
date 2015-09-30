@@ -113,6 +113,7 @@ public class QuestionManager {
 			
 			gi.setPreLoadedQuestions(questions);
 			gi.getPlayerResponsesToCurrentQuestion().clear();
+			log.info("questions.size() is :"+questions.size()+" and currentQuestionIndex is:"+gi.getCurrentQuestionIndex());
 			Question question = questions.get(gi.getCurrentQuestionIndex());
 			log.info("*************** Attaching ***************questionId: "+ question.getId()+"*********questionFrequency: "+question.getQuestionFrequency());
 			gi.incrementCurrentQuestionIndex();

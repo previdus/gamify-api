@@ -1,11 +1,14 @@
 package com.core.service.threads.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.core.domain.knockout.GameInstance;
+import com.core.domain.knockout.PreviousQuestionLog;
 import com.core.manager.CommonQueueManager;
 import com.core.service.GameInstanceService;
 import com.core.service.threads.StoreFinishedGamesAndEmptyQueueService;
@@ -41,6 +44,20 @@ implements StoreFinishedGamesAndEmptyQueueService {
 				gameInstance
 						.setPreviousQuestionLogs(CommonQueueManager.gameResponseLog
 								.get(gameInstanceId));
+				for(Long key:CommonQueueManager.gameResponseLog.keySet()){
+					log.info("for key:"+key);
+					List<PreviousQuestionLog> pqlList = CommonQueueManager.gameResponseLog.get(key);
+					for(PreviousQuestionLog pql : pqlList){
+						if(pql.getQuestion() == null){
+							log.info("pql.getQuestion() is null");
+						}
+						else{
+							log.info("pql.getQuestion().getId():"+pql.getQuestion().getId());	
+						}
+						
+					}
+					
+				}
 
 				log.info("No of Loosers "
 						+ gameInstance.getLooserPlayers().size());
