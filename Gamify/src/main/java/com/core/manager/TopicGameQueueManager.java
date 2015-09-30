@@ -50,7 +50,7 @@ public class TopicGameQueueManager extends CommonQueueManager
 
 		}
 		else {
-			return createNewGame(null,topic, topic.getId(), currentUser,newTopicGames);
+			return createNewGame(topic.fetchExamSection(),topic, topic.getId(), currentUser,newTopicGames);
 		}
 	}
 
