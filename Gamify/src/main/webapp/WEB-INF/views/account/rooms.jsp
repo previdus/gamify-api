@@ -41,101 +41,127 @@ $(document).ready(function() {
 
 });
 
-function displayRatedPlayersForSubject(exam, examName){
-	
-	
+function showRatedPlayersForTheChosenExam(examId, examName){
+	$("#leaderBoard").hide();
+	$('.topicDropDown').hide();
+    $(".examSectionDropDown").hide();                
+    $('.examSectionDropDown').attr('name','');
+    $('#examSection'+examId).attr('name','examSection');
+    $("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the class " +  
+	" Then you can choose a subject");
+	$("#waitMessage").show();
 	$.ajax({
 	    url: "api/exam_elo",
-	    data: {exam:exam},
+	    data: {exam:examId},
 	    type: "GET",
 	    dataType : "json",
 	    success: function( json ) {
-	    	if(json != null){ 
-		    	$("#contextName").html(examName);
-	    		$("#leaderboard").show();
-	        	$(json.topRatedUsers).each( function(index,element)
-	     	    	{
-	     	    	     index = +index + +1;
-	        		     var leaderboardid = "leaderboardpos" + index;
-	        		     var leaderBoardName ='#'+ leaderboardid + " #" +leaderboardid +"name";
-	        		     var leaderBoardWins ='#'+ leaderboardid + " #" +leaderboardid +"wins";
-	        		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
-	        		     $('#' +leaderboardid).show();
-	        		     $(leaderBoardName).text(element.displayName);
-	        		     $(leaderBoardWins).text(" ( " + element.percentileDisplay + " percentile ) ");
-	        		     if(element.imageUrl != null)
-	        		     	$(leaderBoardImage).attr("src",element.imageUrl);
-	     	    	});
-	    	}
+	    	loadLeaderBoard(json,examName);
 	    },
 	    error: function( xhr, status, errorThrown ) {
 	    },
 	    // Code to run regardless of success or failure
 	    complete: function( xhr, status ) {
-	    	
+	    	$("#examSection"+examId).show();
+	    	$("#leaderBoard").show();
+	    	 $("#waitMessage").hide();
 	    }
 	});
 
 }
+
+
+function showRatedPlayersForTheChosenExamSection(){
+	$('.topicDropDown').hide();
+	
+	$("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the chosen subject section. " +  
+        	" Then you can play a game on the chosen subject section or you can further choose a topic for the subject section");
+	$("#leaderBoard").hide();
+	$("#waitMessage").show();
+	var examSectionId = $('.examSectionDropDown').find(":selected").val();
+	var examSectionName = $('.examSectionDropDown').find(":selected").text();
+	$("#submitForm").attr("value","Play a game in "+examSectionName+' or chose one of its topics'); 
+	$.ajax({
+	    url: "api/exam_section_elo",
+	    data: {examSection:examSectionId},
+	    type: "GET",
+	    dataType : "json",
+	    success: function( json ) {
+	    	loadLeaderBoard(json,examSectionName);
+	    },
+	    error: function( xhr, status, errorThrown ) {
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+	    	$("#leaderBoard").show();
+	    	$("#submitForm").show(); 
+	    	$("#waitMessage").hide();        		    	
+	    	$("#topic"+examSectionId).show();
+	    	$("#playGame").attr('action','play/examSection');
+	    }
+	});
+	
+	
+}
+
+function loadLeaderBoard(json, contextName){
+	if(json != null){ 
+    	$("#contextName").html(contextName);
+    	
+    	$(json.topRatedUsers).each( function(index,element)
+ 	    	{
+    		     index = +index + +1;
+    		     var leaderboardid = "leaderboardpos" + index;
+    		     var leaderBoardName ='#'+ leaderboardid + " #" +leaderboardid +"name";
+    		     var leaderBoardWins ='#'+ leaderboardid + " #" +leaderboardid +"wins";
+    		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
+    		     $('#' +leaderboardid).show();
+    		     $(leaderBoardName).text(element.displayName);
+    		     $(leaderBoardWins).text(" ( " + element.percentileDisplay + " percentile ) ");
+    		     if(element.imageUrl != null)
+    		     	$(leaderBoardImage).attr("src",element.imageUrl);
+ 	    	});
+    	$("#leaderboard").show();
+	}
+}
+
+function showRatedPlayersForTheChosenTopic(){
+
+	$("#leaderboard").hide();
+	$("#submitForm").hide(); 
+	$("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the chosen topic. " +  
+        	" Then you can play a game on the chosen topic");
+	$("#waitMessage").show();
+	var topicId = $('.topicDropDown').find(":selected").val();
+	var topicName = $('.topicDropDown').find(":selected").text();
+	$("#submitForm").attr("value","Play a game in "+topicName); 
+	$("#playGame").attr('action','play/topic');
+	
+	$.ajax({
+	    url: "api/topic_elo",
+	    data: {topic:topicId},
+	    type: "GET",
+	    dataType : "json",
+	    success: function( json ) {
+	    	loadLeaderBoard(json,topicName);
+	    },
+	    error: function( xhr, status, errorThrown ) {
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+		    $("#leaderBoard").show();
+	    	$("#submitForm").show(); 
+	    	$("#waitMessage").hide();	    	
+	    }
+	});
+    
+	
+}
+
 </script>
 <html>
     <head>
         <title>Choose A Exam Category</title>
-
-        <script type="text/javascript">
-            function enableCurrentDropDown(examId, examName){    
-                      
-                $(".examSectionDropDown").hide();                
-                $('.examSectionDropDown').attr('name','');
-                $('#examSection'+examId).attr('name','examSection');
-                $("#examSection"+examId).show();
-                displayRatedPlayersForSubject(examId, examName);
-                
-            }
-
-            function showRatedPlayersForTheChosenExamSection(){
-            	$("#waitMessage").html("Please wait for a few moments while we show you a list of rated players for the chosen subject section. " +  
-                    	" Then you can play a game on the chosen subject section or you can further choose a topic for the subject section");
-            	var examSectionId = $('.examSectionDropDown').find(":selected").val();
-            	var examSectionName = $('.examSectionDropDown').find(":selected").text();
-            	$("#submitForm").attr("value","Play a game in "+examSectionName+' or chose one of its topics'); 
-            	$.ajax({
-        		    url: "api/exam_section_elo",
-        		    data: {examSection:examSectionId},
-        		    type: "GET",
-        		    dataType : "json",
-        		    success: function( json ) {
-        		    	if(json != null){ 
-            		    	$("#contextName").html(examSectionName);
-        		    		$("#leaderboard").show();
-        		        	$(json.topRatedUsers).each( function(index,element)
-        		     	    	{
-        		     	    	     index = +index + +1;
-        		        		     var leaderboardid = "leaderboardpos" + index;
-        		        		     var leaderBoardName ='#'+ leaderboardid + " #" +leaderboardid +"name";
-        		        		     var leaderBoardWins ='#'+ leaderboardid + " #" +leaderboardid +"wins";
-        		        		     var leaderBoardImage ='#'+ leaderboardid + " #" +leaderboardid +"img";
-        		        		     $('#' +leaderboardid).show();
-        		        		     $(leaderBoardName).text(element.displayName);
-        		        		     $(leaderBoardWins).text(" ( " + element.percentileDisplay + " percentile ) ");
-        		        		     if(element.imageUrl != null)
-        		        		     	$(leaderBoardImage).attr("src",element.imageUrl);
-        		     	    	});
-        		    	}
-        		    },
-        		    error: function( xhr, status, errorThrown ) {
-        		    },
-        		    // Code to run regardless of success or failure
-        		    complete: function( xhr, status ) {
-        		    	$("#submitForm").show(); 
-        		    	$("#waitMessage").hide();
-        		    	$(".topicDropDown").show();
-        		    }
-        		});
-            	
-            	     
-            }
-        </script>
     </head>
     <body id="roomPage">
         <!-- navbar -->
@@ -235,17 +261,28 @@ function displayRatedPlayersForSubject(exam, examName){
 		                    <c:forEach var="exam" items="${room.exams}" step="1"> 
 		                           <div class="each-room">            
 		                         <input type="radio" class="exam-category" id="exam-id${exam.id}" name="exam-id" value="${exam.id}" 
-		                         onclick="enableCurrentDropDown('${exam.id}', '${exam.examName}')">
+		                         onclick="showRatedPlayersForTheChosenExam('${exam.id}', '${exam.examName}')">
 		                          <label>  <c:out value="${exam.examName}"></c:out></label>
+		                          <c:if test="${not empty exam.examSections}">
 		                         <select id="examSection${exam.id}" class="examSectionDropDown"  onchange="showRatedPlayersForTheChosenExamSection()"  style="display:none" >
 		                         <option selected="selected" disabled="disabled">Select a subject section</option>
 		                         <c:forEach var="examSection" items="${exam.examSections}" step="1">
 		                             <option value="${examSection.id}">${examSection.name}</option>
 		                         </c:forEach>
-		                         </select>&nbsp;&nbsp;&nbsp;
-		                         <select  class="topicDropDown"  onchange="showRatedPlayersForTheChosenTopic()"  style="display:none" >
-		                             <option selected="selected" disabled="disabled">Select a topic</option>		                         
 		                         </select>
+		                         </c:if>&nbsp;&nbsp;&nbsp;
+		                         <c:if test="${not empty exam.examSections}">
+		                         <c:forEach var="examSection" items="${exam.examSections}" step="1">
+		                             <c:if test="${not empty examSection.topics}">
+			                             <select id="topic${examSection.id}" class="topicDropDown"  onchange="showRatedPlayersForTheChosenTopic()"  style="display:none" >
+			                             <option selected="selected" disabled="disabled">Select a topic</option>
+		                                 <c:forEach var="topic" items="${examSection.topics}" step="1">
+				                             <option value="${topic.id}">${topic.name}</option>
+				                         </c:forEach>                       
+			                             </select>
+			                         </c:if>
+		                         </c:forEach>
+		                         </c:if>		                       
 		                         <br/>    <br>  
 		                         </div>             
 		                   </c:forEach>

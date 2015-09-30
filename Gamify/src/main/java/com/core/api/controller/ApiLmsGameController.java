@@ -16,10 +16,14 @@ import com.core.api.beans.GamePageResult;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
 import com.core.domain.lms.ExamSection;
+import com.core.domain.lms.Topic;
+import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
+import com.core.manager.TopicGameQueueManager;
 import com.core.manager.UserManager;
 import com.core.service.ExamSectionService;
 import com.core.service.RoomService;
+import com.core.service.TopicService;
 
 @Controller
 @RequestMapping(value = "/api/play")
@@ -30,10 +34,12 @@ public class ApiLmsGameController {
 	private RoomService roomService;
 	@Autowired
 	private ExamSectionService examSectionService;
+	@Autowired
+	private TopicService topicService;
 
-	@RequestMapping(value = "/{userToken}/{examSection}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/examSection/{userToken}/{examSection}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public GamePageResult selectRoom(
+	public GamePageResult selectExamSectionRoom(
 			@PathVariable("userToken") String userToken,
 			@PathVariable("examSection") String examSection) {
 
@@ -45,8 +51,8 @@ public class ApiLmsGameController {
 			User user = UserManager.userTokenMap.get(userToken);
 
 			if (user != null) {
-				if (ExamSectionGameQueueManager.checkIfPlayerAlreadyInGame(user)) {
-					ExamSectionGameQueueManager
+				if (CommonQueueManager.checkIfPlayerAlreadyInGame(user)) {
+					CommonQueueManager
 							.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 					gp.setStatus(0);
 					gp.setMessage("Seems you are already in this game. Redirecting you to the main room");
@@ -58,7 +64,7 @@ public class ApiLmsGameController {
 					ExamSection es = examSectionService
 							.getExamSection(new Long(examSection));
 					if (es != null) {
-						//encryot some fields of user here since it does not need to be displayed anywhere else
+						//encrypt some fields of user here since it does not need to be displayed anywhere else
 						try{
 							user.encodeSensitiveData();
 						}
@@ -75,6 +81,62 @@ public class ApiLmsGameController {
 					} else {
 						gp.setStatus(-1);
 						gp.setMessage("Invalid examSection specified");
+					}
+					gp.setRedirectLink("");
+					gp.setUser(user);
+				}
+
+			} else {
+				gp.handleNotLoggedInUser();
+			}
+		}
+		return gp;
+	}
+
+	@RequestMapping(value = "/topic/{userToken}/{topic}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public GamePageResult selectTopicRoom(
+			@PathVariable("userToken") String userToken,
+			@PathVariable("topic") String topicId) {
+
+		GameInstance gi = null;
+		GamePageResult gp = new GamePageResult();
+		gp.setUserToken(userToken);
+		if (!StringUtils.isEmpty(topicId)) {
+
+			User user = UserManager.userTokenMap.get(userToken);
+
+			if (user != null) {
+				if (CommonQueueManager.checkIfPlayerAlreadyInGame(user)) {
+					CommonQueueManager
+							.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
+					gp.setStatus(0);
+					gp.setMessage("Seems you are already in this game. Redirecting you to the main room");
+					// redirect to main room
+					gp.setRedirectLink("");
+					gp.setUser(user);
+
+				} else {
+					Topic topic = topicService.findById(new Long(topicId));
+							
+					if (topic != null) {
+						//encrypt some fields of user here since it does not need to be displayed anywhere else
+						try{
+							user.encodeSensitiveData();
+						}
+						catch(Exception ex){
+							log.error(ex.getMessage());
+						}
+						
+						gi = TopicGameQueueManager.createTopicGameInstance(topic, user);
+						gp.setGi(gi);
+						gp.setStatus(1);
+						gp.setMessage("Success");
+						// redirect link is blank in this case
+
+					} else {
+						gp.setStatus(-1);
+						gp.setMessage("Invalid topic specified");
 					}
 					gp.setRedirectLink("");
 					gp.setUser(user);

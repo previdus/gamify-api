@@ -56,9 +56,8 @@ implements UserEloRatingPerTopicDAO {
 				+ "( select a.user_id, a.elo_rating,a.topic_id from user_elo_rating_topic a, topic b "
 				+ "where a.topic_id = b.id and b.exam_section_id = :examSectionId and a.no_of_questions_attempted > :provisiional_limit) c"
 				+ " group by c.user_id)d, (select count(id) idCount, exam_section_id from topic group by exam_section_id) e "
-				+ "where d.topicCount = e.idCount and e.exam_section_id = :examSectionId) f, (select exam_section_id, count(id) as idCount "
-				+ "from topic group by exam_section_id) g ,(select id, display_name, image_url from user) h "
-				+ "where f.topicCount = g.idCount and g.exam_section_id = :examSectionId and f.user_id = h.id order by f.elo desc limit "+noOfPlayersToShow)
+				+ "where d.topicCount = e.idCount and e.exam_section_id = :examSectionId) f, (select id, display_name, image_url from user) h "
+				+ "where f.user_id = h.id order by f.elo desc limit "+noOfPlayersToShow)
 				.setParameter("examSectionId", examSectionId)
 				.setParameter("provisiional_limit", GameConstants.PROVISIONAL_LIMIT_FOR_ELO_RATING);				
 		List<Object[]>  objectList = qry.list();
@@ -92,7 +91,7 @@ implements UserEloRatingPerTopicDAO {
 				+ "( select a.user_id, a.elo_rating,a.topic_id, b.exam_section_id from user_elo_rating_topic a, topic b "
 				+ "where a.topic_id = b.id  and a.no_of_questions_attempted > :provisiional_limit) c "
 				+ "group by c.user_id)d, exam_section e where d.exam_section_id = e.id and e.exam_id = :examId "
-				+ "group by d.user_id) f, (select exam_id, count(id) as idCount from exam_section group by exam_id) g, "
+				+ "group by d.user_id) f, (select exam_id, count(id) as idCount from exam_section  group by exam_id) g, "
 				+ "(select id, display_name, image_url from user) h "
 				+ "where f.exam_id = g.exam_id and f.examSectionCount = g.idCount "
 				+ "and f.user_id = h.id order by f.elo desc "

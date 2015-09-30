@@ -86,7 +86,7 @@ $(document).ready(function() {
 			
 			//$("#game").html("");
 			
-			$.getJSON( "play/pollGame?userId="+userId, function( data ) {
+			$.getJSON( "pollGame?userId="+userId, function( data ) {
                 if(!data){
 					
  					 return showFinalMessage(EXPIRED_GAME_MESSAGE,false);
