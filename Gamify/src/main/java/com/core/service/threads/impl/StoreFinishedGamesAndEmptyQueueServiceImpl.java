@@ -38,25 +38,28 @@ implements StoreFinishedGamesAndEmptyQueueService {
 				gameInstance = CommonQueueManager.finishedGames
 						.get(gameInstanceId);
 				// save in db
-				log.info("Prev Question Log Size "
-						+ CommonQueueManager.gameResponseLog.get(
-								gameInstanceId).size());
-				gameInstance
-						.setPreviousQuestionLogs(CommonQueueManager.gameResponseLog
-								.get(gameInstanceId));
-				for(Long key:CommonQueueManager.gameResponseLog.keySet()){
-					log.info("for key:"+key);
-					List<PreviousQuestionLog> pqlList = CommonQueueManager.gameResponseLog.get(key);
-					for(PreviousQuestionLog pql : pqlList){
-						if(pql.getQuestion() == null){
-							log.info("pql.getQuestion() is null");
-						}
-						else{
-							log.info("pql.getQuestion().getId():"+pql.getQuestion().getId());	
+				 List<PreviousQuestionLog> pqlList = CommonQueueManager.gameResponseLog.get(
+							gameInstanceId);
+				if(pqlList != null && pqlList.size() > 0){
+					log.info("Prev Question Log Size "
+					
+							+ pqlList.size());
+					gameInstance
+							.setPreviousQuestionLogs(pqlList);
+					for(Long key:CommonQueueManager.gameResponseLog.keySet()){
+						log.info("for key:"+key);
+						
+						for(PreviousQuestionLog pql : CommonQueueManager.gameResponseLog.get(key)){
+							if(pql.getQuestion() == null){
+								log.info("pql.getQuestion() is null");
+							}
+							else{
+								log.info("pql.getQuestion().getId():"+pql.getQuestion().getId());	
+							}
+							
 						}
 						
 					}
-					
 				}
 
 				log.info("No of Loosers "

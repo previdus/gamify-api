@@ -92,8 +92,10 @@ public class QuestionManager {
 	public static void attachQuestionToGameInstance(GameInstance gi) {
 		log.info("***************ENTERED - attachQuestionToGameInstance()***************");
 		List<Topic> topics = null;
-		if( gi.getExamSection() != null){
-			topics = gi.getExamSection().getTopics();	
+		if( gi.getTopic() == null ){
+			if(gi.getExamSection() != null){
+			    topics = gi.getExamSection().getTopics();
+			}
 		}
 		else{
 			Topic topic = gi.getTopic();

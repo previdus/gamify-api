@@ -80,6 +80,7 @@ public class LmsGameController {
 			@RequestParam("userId") String userId,
 			@RequestParam("questionId") String questionId,
 			@RequestParam("optionId") String optionId,
+			@RequestParam(value="freeResponseText", required = false) String answer,
 			@RequestParam("timeTakenToRespond") String timeTakenToRespond,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -89,7 +90,7 @@ public class LmsGameController {
 	
 		if (result1 != null) {
 			GamePageResult result = apiLmsGameController.respondToQuestion(
-					result1.getUserToken(), questionId, optionId,
+					result1.getUserToken(), questionId, optionId,answer,
 					timeTakenToRespond);
 			if (result != null)
 				return result.getGi();

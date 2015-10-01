@@ -287,23 +287,36 @@ function renderHtml(obj,fromAjax){
     function loadQuestionHtml(obj){
     	var questionHtml = "";
         timeAtWhichQuestionWasDisplayedToTheUser = $.now();	
-        if(obj.currentQuestion != null){    
+        console.log("again 1");
+        if(obj.currentQuestion != null){
+        	console.log("again 2");    
     	    if($("#currentQuestion"+obj.currentQuestion.id).length == 0){
-    	    	
+    	    	console.log("again 3");
     	    	timeNeededToWaitBeforeAutoRespondTowrongAnswer =  obj.currentQuestion.maxTimeToAnswerInSeconds*1000;
     	    	questionHtml += "<div id=\"currentQuestion"+obj.currentQuestion.id+"\" class=\"question-number\">"+obj.currentQuestion.questionText+"</div><br/>";	    	
     	    	
     	    	questionHtml +="<div id = \"options\"><br/>";
-     	    	$(obj.currentQuestion.options).each( function(index,element)
-     	    	{
-                      questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
-                      "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
-                      +element.id+"\">"+element.text+"<span id=\"optionCorrect"+element.id+"\" style=\"display:none\">&nbsp;&nbsp;Correct</span><span id=\"optionWrong"
-                      +element.id+"\"  style=\"display:none\">&nbsp;&nbsp;Wrong</span></input><br/>";
-    	    		   
-     	    	});
+    	    	console.log("obj.currentQuestion.options.length:"+obj.currentQuestion.options.length);
+    	    	if(obj.currentQuestion.options.length > 1){
+	     	    	$(obj.currentQuestion.options).each( function(index,element)
+	     	    	{
+	                      questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 
+	                      "\" onClick=\"$('#submitOption').removeAttr('disabled')\" value=\""
+	                      +element.id+"\">"+element.text+"<span id=\"optionCorrect"+element.id+"\" style=\"display:none\">&nbsp;&nbsp;Correct</span><span id=\"optionWrong"
+	                      +element.id+"\"  style=\"display:none\">&nbsp;&nbsp;Wrong</span></input><br/>";
+	    	    		   
+	     	    	});
+    	    	}
+    	    	else {
+        	    	questionHtml += "<br/><input class=\"freeResponseText\" id=\"freeResponseText\" type=\"text\" name=\"freeResponseText\" onkeyup=\"test()\"></input><br/>";
+        	    	// Enable #x
+        	    	$( "#freeResponseText" ).val('test');
+        	    	
+        	    	
+        	    }
+     	    	
      	    	questionHtml += "<input type=\"submit\" class=\"btn answer answer-1\"name=\"submitOption\" id=\"submitOption\""+ 
-     	 	    	" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+","+obj.bang+")\"></input><br/>";
+     	 	    	" value=\"Submit\" onClick=\"submitOption("+obj.currentQuestion.id+","+userId+","+timeAtWhichQuestionWasDisplayedToTheUser+","+obj.bang+")\"/><br/>";
      	    	questionHtml +="</div>";
 
      	    	$("#questionSection").addClass("question-active");	 
@@ -348,6 +361,12 @@ function renderHtml(obj,fromAjax){
         }
      }
 
+    function test(){
+        console.log("onkeyup captured:"+$("#freeResponseText").val());
+        $("#submitOption").removeAttr("disabled");
+       
+        
+    }
     function showFinalMessage(message, reviewGame){
 
    	    
@@ -413,8 +432,9 @@ function submitOptionWhenTimeElapsed(questionId){
 	    	clearInterval(timerInterval);	    	
 		    
 	     });
+ 	$("#freeResponseText").attr("disabled","disabled");
  	
-	}
+}
 
 function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 	maxTimeAllocatedToRespond = maxTimeAllocatedToRespond *1000;
@@ -445,6 +465,7 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUser,bang){
 	
 	var selectedOptionId = $("input[name='option']:checked").val();
+	var freeResponseText = $("#freeResponseText").val();
 	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-1);
 	$("#submitOption").attr("disabled", "disabled");
 	clearInterval(timerInterval);
@@ -460,16 +481,19 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
   	$("#optionCorrect"+bang).css("background-color","#7FFF00");
   	$("#optionCorrect"+bang).show();
   	
-	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
+	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&freeResponseText="+freeResponseText+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
 		
 		  renderHtml(data,true);
 	});
+
+	$("#freeResponseText").attr("disabled","disabled");
 	
 }
 
 
 </script>
-<body onkeydown="return (event.keyCode == 154)">
+<!-- <body onkeydown="return (event.keyCode == 154)"> -->
+<body>
 <!-- navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="container-fluid lms">
