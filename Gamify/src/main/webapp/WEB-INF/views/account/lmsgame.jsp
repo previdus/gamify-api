@@ -425,13 +425,9 @@ function submitOptionWhenTimeElapsed(questionId){
 	
   	$.ajaxSetup({ cache: false });  	
   	jQuery("input[name='option']").attr('disabled',true);  	
-  	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-2);
- 	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId=-1&timeTakenToRespond=0", function( data ) {	    	
+  
 
-	    	$("#timer").html(TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE);
-	    	clearInterval(timerInterval);	    	
-		    
-	     });
+ 	respondToQuestion(userId,questionId,-1,"",0);
  	$("#freeResponseText").attr("disabled","disabled");
  	
 }
@@ -464,28 +460,76 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
 
 function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUser,bang){
 	
-	var selectedOptionId = $("input[name='option']:checked").val();
-	var freeResponseText = $("#freeResponseText").val();
+	var selectedOptionId = -1;
 	//$.cookie($.cookie(COOKIE_QUESTION_TIME_KEY),-1);
 	$("#submitOption").attr("disabled", "disabled");
 	clearInterval(timerInterval);
 	$("#timer").html(WAITING_FOR_OTHER_PLAYERS_TO_RESPON_MESSAGE);
-  	jQuery("input[name='option']").attr('disabled',true);
+	var freeResponseText = "";
+	if(!($("#freeResponseText").val() === undefined) && !($("#freeResponseText").val() === null)){
+		freeResponseText = $("#freeResponseText").val();
+	}
+	else{
+	
+		selectedOptionId = $("input[name='option']:checked").val();
+	
+	  	jQuery("input[name='option']").attr('disabled',true);
+	
+	  	//selected option red
+	  	if(bang != selectedOptionId){
+	  	     $("#optionWrong"+selectedOptionId).css("background-color","red");
+	  	   $("#optionWrong"+selectedOptionId).show();
+	    }
+	  	//  	
+	  	$("#optionCorrect"+bang).css("background-color","#7FFF00");
+	  	$("#optionCorrect"+bang).show();
+	}
 
-  	//selected option red
-  	if(bang != selectedOptionId){
-  	     $("#optionWrong"+selectedOptionId).css("background-color","red");
-  	   $("#optionWrong"+selectedOptionId).show();
-    }
-  	//  	
-  	$("#optionCorrect"+bang).css("background-color","#7FFF00");
-  	$("#optionCorrect"+bang).show();
-  	
-	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+(!(freeResponseText === undefined) && !(freeResponseText === null))?("&freeResponseText="+freeResponseText):""+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
-				  renderHtml(data,true);
-	});
+	var timeTakenToRespond = $.now() - timeAtWhichQuestionWasDisplayedToTheUser;
 
+	respondToQuestion(userId,questionId,selectedOptionId,freeResponseText,timeTakenToRespond);
 	$("#freeResponseText").attr("disabled","disabled");
+	
+}
+
+function respondToQuestion(userId, questionId,selectedOptionId,freeResponseText,timeTakenToRespond){
+	console.log('just before posting respondToQuestion');
+	console.log('userId:'+userId);
+	console.log('questionId:'+questionId);
+	console.log('optionId:'+selectedOptionId);
+	console.log('freeResponseText'+freeResponseText);
+	console.log('timeTakenToRespond:'+timeTakenToRespond);
+	$.ajax({
+	    url: "respondToQuestion",
+	    data: {userId:userId,questionId:questionId,optionId:selectedOptionId,freeResponseText:freeResponseText,timeTakenToRespond:timeTakenToRespond},
+	    type: "POST",
+	    dataType : "json",
+	    success: function( json ) {
+	    	if(json != null){ 
+		    	console.log('post respondtoquestion');
+		    	console.log(json.status);
+		    	
+		    	
+		    	if(json.status == 1){
+			    	
+		    		
+		    		console.log("json.status is 1");
+			    	}
+		    	else{
+			    		console.log("json.status is not 1");
+			    	
+				    }
+
+	    	}
+	    },
+	    error: function( xhr, status, errorThrown ) {
+		    // request cannot be served
+		    console.log('respondToQuestion failed');
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+	    }
+	})
 	
 }
 

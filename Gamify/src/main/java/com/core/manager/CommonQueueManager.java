@@ -192,6 +192,7 @@ public class CommonQueueManager {
 				userEloRatingService.calulateUserEloRating(gi);
 				manageLife(gi);
 				QuestionManager.savePreviousQuestionLog(gi);
+				
 				gameInstanceService.saveOrUpdate(gi);
 				if (gi.getPlayers().size() < (Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED_KEY)) {
 					endGame(gi);					
