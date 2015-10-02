@@ -481,9 +481,8 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
   	$("#optionCorrect"+bang).css("background-color","#7FFF00");
   	$("#optionCorrect"+bang).show();
   	
-	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+"&freeResponseText="+freeResponseText+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
-		
-		  renderHtml(data,true);
+	$.getJSON( "respondToQuestion?userId="+userId+"&questionId="+questionId+"&optionId="+selectedOptionId+(!(freeResponseText === undefined) && !(freeResponseText === null))?("&freeResponseText="+freeResponseText):""+"&timeTakenToRespond="+($.now() - timeAtWhichQuestionWasDisplayedToTheUser), function( data ) {
+				  renderHtml(data,true);
 	});
 
 	$("#freeResponseText").attr("disabled","disabled");

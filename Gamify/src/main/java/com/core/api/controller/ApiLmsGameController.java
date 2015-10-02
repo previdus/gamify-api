@@ -232,7 +232,7 @@ public class ApiLmsGameController {
 
 	private Long checkIfResponseIsFree(String questionId,
 			String optionIdString, String freeResponseAnswer, Long optionId) {
-		if(isFreeResponseNotNullAndNotUndefined(freeResponseAnswer)){
+		if(isThisAFreeResponseTypeOfQuestion(freeResponseAnswer)){
 		    List<Option> optionList = optionService.findByOptionTextAndQuestion(new Long(questionId), freeResponseAnswer);
 		    if(optionList != null && optionList.size() == 1){
 		    	Option option = optionList.get(0);
@@ -245,7 +245,7 @@ public class ApiLmsGameController {
 		return optionId;
 	}
 
-	private boolean isFreeResponseNotNullAndNotUndefined(
+	private boolean isThisAFreeResponseTypeOfQuestion(
 			String freeResponseAnswer) {
 		return freeResponseAnswer != null && !freeResponseAnswer.equals(GameConstants.JAVASCRIPT_STRING_FOR_REQUEST_PARAMETERS_UNDEFINED)&& freeResponseAnswer.length() > 0;
 	}
