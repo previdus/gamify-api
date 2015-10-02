@@ -247,7 +247,7 @@ public class ApiLmsGameController {
 
 	private boolean isThisAFreeResponseTypeOfQuestion(
 			String freeResponseAnswer) {
-		return freeResponseAnswer != null && !freeResponseAnswer.equals(GameConstants.JAVASCRIPT_STRING_FOR_REQUEST_PARAMETERS_UNDEFINED)&& freeResponseAnswer.length() > 0;
+		return freeResponseAnswer != null && freeResponseAnswer.length() > 0;
 	}
 
 }
