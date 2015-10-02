@@ -427,7 +427,7 @@ function submitOptionWhenTimeElapsed(questionId){
   	jQuery("input[name='option']").attr('disabled',true);  	
   
 
- 	respondToQuestion(userId,questionId,-1,"",0);
+ 	respondToQuestion(userId,questionId,-1,"",0,true);
  	$("#freeResponseText").attr("disabled","disabled");
  	
 }
@@ -487,12 +487,12 @@ function submitOption(questionId,userId, timeAtWhichQuestionWasDisplayedToTheUse
 
 	var timeTakenToRespond = $.now() - timeAtWhichQuestionWasDisplayedToTheUser;
 
-	respondToQuestion(userId,questionId,selectedOptionId,freeResponseText,timeTakenToRespond);
+	respondToQuestion(userId,questionId,selectedOptionId,freeResponseText,timeTakenToRespond,false);
 	$("#freeResponseText").attr("disabled","disabled");
 	
 }
 
-function respondToQuestion(userId, questionId,selectedOptionId,freeResponseText,timeTakenToRespond){
+function respondToQuestion(userId, questionId,selectedOptionId,freeResponseText,timeTakenToRespond, fromElapsed){
 	console.log('just before posting respondToQuestion');
 	console.log('userId:'+userId);
 	console.log('questionId:'+questionId);
@@ -507,18 +507,15 @@ function respondToQuestion(userId, questionId,selectedOptionId,freeResponseText,
 	    success: function( json ) {
 	    	if(json != null){ 
 		    	console.log('post respondtoquestion');
-		    	console.log(json.status);
-		    	
-		    	
-		    	if(json.status == 1){
-			    	
-		    		
-		    		console.log("json.status is 1");
-			    	}
+		    	console.log(json);		    			    	
+		    	if(fromElapsed){
+			    	$("#timer").html(TIME_ELAPSED_TO_ANSWER_QUESTION_MESSAGE);
+			    	clearInterval(timerInterval);	
+			    }    
 		    	else{
-			    		console.log("json.status is not 1");
-			    	
-				    }
+		    		renderHtml(json,true);
+			    }	
+		    	
 
 	    	}
 	    },
@@ -528,6 +525,7 @@ function respondToQuestion(userId, questionId,selectedOptionId,freeResponseText,
 	    },
 	    // Code to run regardless of success or failure
 	    complete: function( xhr, status ) {
+		    
 	    }
 	})
 	
