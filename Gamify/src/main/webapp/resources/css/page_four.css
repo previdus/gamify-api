@@ -220,4 +220,9 @@ hr {
 
 input{
     -webkit-user-select: auto;
+    color: black;
+}
+
+#freeResponseText{
+	color:black;
 }

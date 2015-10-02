@@ -36,7 +36,7 @@ $(document).ready(function() {
 
      $(".each-room").css("margin", "1.5em -125px");
      
-     $("#submitForm").css("margin-left","-125px");
+     $("#submitForm").css("margin-left","-25px");
      $("#waitMessage").css("margin-left","-120px");
 
 });
