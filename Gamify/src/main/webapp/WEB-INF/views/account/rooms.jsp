@@ -31,7 +31,7 @@ $(document).ready(function() {
      userId = "${userId}";           
      $("#displayUserName").html(userId); 
      $(".room-category").css("padding-left","0px");
-     $(".row").css("background-color", "#FF7043");
+     $(".row").css("background-color", "rgb(81, 255, 67)");
      $(".row").css("font-weight", "bold");
 
      $(".each-room").css("margin", "1.5em -125px");

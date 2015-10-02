@@ -17,8 +17,7 @@ background-size: 100% auto;
 
   .sub-container{
   	    width: 1435px !important;
-    height: 100%;
-    background-color: white;
+    height: 100%;   
     opacity: 0.7;
   }
 

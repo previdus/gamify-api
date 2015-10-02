@@ -95,7 +95,7 @@ body {
 
 .highlight-current-user{
 	
-	background-color:#FF7043;
+	background-color:rgb(81, 255, 67);
 }
 
 .sidebar-user-info .glyphicon.glyphicon-heart {
@@ -217,3 +217,7 @@ hr {
 .
 
 /* /page-content-wrapper */
+
+input{
+    -webkit-user-select: auto;
+}
