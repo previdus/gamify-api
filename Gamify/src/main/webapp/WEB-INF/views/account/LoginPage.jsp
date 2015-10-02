@@ -18,7 +18,7 @@
 		<script>
 
 
-		function handleRegistrationValidationErrors(){
+		function handleRegistrationValidationErrors(json){
 			$("#registrationStatus").css("background-color","red");
     		$("#registrationStatus").css("color","white");
     		
@@ -82,7 +82,7 @@
 					    	}
 				    	else{
 					    		
-					    		handleRegistrationValidationErrors();
+					    		handleRegistrationValidationErrors(json);
 					    		
 					    		
 						    	// validation failure// show error in red
