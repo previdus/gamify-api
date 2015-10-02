@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.GamePageResult;
+import com.core.constants.GameConstants;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
@@ -231,7 +232,7 @@ public class ApiLmsGameController {
 
 	private Long checkIfResponseIsFree(String questionId,
 			String optionIdString, String freeResponseAnswer, Long optionId) {
-		if(freeResponseAnswer != null && freeResponseAnswer.length() > 0){
+		if(isFreeResponseNotNullAndNotUndefined(freeResponseAnswer)){
 		    List<Option> optionList = optionService.findByOptionTextAndQuestion(new Long(questionId), freeResponseAnswer);
 		    if(optionList != null && optionList.size() == 1){
 		    	Option option = optionList.get(0);
@@ -242,6 +243,11 @@ public class ApiLmsGameController {
 			optionId = new Long(optionIdString);
 		}
 		return optionId;
+	}
+
+	private boolean isFreeResponseNotNullAndNotUndefined(
+			String freeResponseAnswer) {
+		return freeResponseAnswer != null && !freeResponseAnswer.equals(GameConstants.JAVASCRIPT_STRING_FOR_REQUEST_PARAMETERS_UNDEFINED)&& freeResponseAnswer.length() > 0;
 	}
 
 }
