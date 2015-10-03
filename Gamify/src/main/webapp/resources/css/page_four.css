@@ -143,7 +143,7 @@ hr {
 /* question-active */
 .question-active {
 	font-family: 'Lato', sans-serif;
-	width: 100%;
+	width: 820px;
 	min-height: 15vh;
 	background-color: #657982;
 	opacity: 0.8;
@@ -152,9 +152,11 @@ hr {
 	padding-bottom: 2.5em;
 	margin: 100px auto;	
     margin-right: 300px;
-    height: 100vh;
-  padding-top: 2.5em;
-  color: white;
+    height: 125vh;
+    overflow-x:auto;
+    overflow-y:auto;
+    padding-top: 2.5em;
+    color: white;
 }
 
 
