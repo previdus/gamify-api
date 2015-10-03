@@ -64,6 +64,9 @@ public class QuestionManager {
 			// AnswerKey answerKey =
 			// answerKeyService.getAnswerKey(gi.getCurrentQuestion());
 			if(gi.getCurrentQuestion() != null){
+				log.info("game_instance_id:"+gi.getId());
+				log.info("questionId:"+gi.getCurrentQuestion().getId());
+				
 				PreviousQuestionLog pql = new PreviousQuestionLog();
 				// pql.setAnswerKey(answerKey);
 				pql.setQuestion(gi.getCurrentQuestion());

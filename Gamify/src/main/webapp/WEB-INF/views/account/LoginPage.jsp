@@ -18,6 +18,33 @@
 		<script>
 
 
+		function handleRegistrationValidationErrors(json){
+			$("#registrationStatus").css("background-color","red");
+    		$("#registrationStatus").css("color","white");
+    		
+    		
+    		if(json.status == -1){
+	    		$("#memberFullName").css("background-color","red");
+	    	}
+    		else if(json.status == -2){
+    			$(".radioButton").css("background-color","red");
+    		}
+    		else if(json.status == -3){
+    			$("#userName").css("background-color","red");
+    		}
+    		else if(json.status == -4){
+    			$("#mpassword").css("background-color","red");
+    		}
+    		else if(json.status == -5){
+    			$("#cpassword").css("background-color","red");
+	    		
+    		}else if(json.status == -6){
+    			$("#memberEmail").css("background-color","red");						    		
+    		}
+    		else if(json.status == -7){
+    			$("#parentsEmail").css("background-color","red");
+    		}
+		}
 		
 
 		function signup(){
@@ -55,31 +82,7 @@
 					    	}
 				    	else{
 					    		
-					    		$("#registrationStatus").css("background-color","red");
-					    		$("#registrationStatus").css("color","white");
-					    		
-					    		
-					    		if(json.status == -1){
-						    		$("#memberFullName").css("background-color","red");
-						    	}
-					    		else if(json.status == -2){
-					    			$(".radioButton").css("background-color","red");
-					    		}
-					    		else if(json.status == -3){
-					    			$("#userName").css("background-color","red");
-					    		}
-					    		else if(json.status == -4){
-					    			$("#mpassword").css("background-color","red");
-					    		}
-					    		else if(json.status == -5){
-					    			$("#cpassword").css("background-color","red");
-						    		
-					    		}else if(json.status == -6){
-					    			$("#memberEmail").css("background-color","red");						    		
-					    		}
-					    		else if(json.status == -7){
-					    			$("#parentsEmail").css("background-color","red");
-					    		}
+					    		handleRegistrationValidationErrors(json);
 					    		
 					    		
 						    	// validation failure// show error in red

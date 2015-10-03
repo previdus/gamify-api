@@ -38,7 +38,7 @@ public class PreviousQuestionLog implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<PlayerResponseLog> playersResponses;
 	
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id", insertable = false, updatable = false)
 	private AnswerKey answerKey;
 
@@ -57,7 +57,7 @@ public class PreviousQuestionLog implements Serializable {
 	@JoinColumn(name = "game_instance_id")
 	private GameInstance gameInstance;
 
-	// private transient AnswerKey answerKey;
+
 	
 	public AnswerKey getAnswerKey() {
 				return answerKey;

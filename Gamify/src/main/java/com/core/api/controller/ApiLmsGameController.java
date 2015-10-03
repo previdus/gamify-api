@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.GamePageResult;
+import com.core.constants.GameConstants;
 import com.core.domain.Option;
 import com.core.domain.User;
 import com.core.domain.knockout.GameInstance;
@@ -191,14 +193,14 @@ public class ApiLmsGameController {
 		return gp;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/respondToQuestion/{userToken}/{questionId}/{optionId}/{answer}/{timeTakenToRespond}", produces = "application/json")
+	@RequestMapping(method = RequestMethod.POST, value = "/respondToQuestion", produces = "application/json")
 	@ResponseBody
 	public GamePageResult respondToQuestion(
-			@PathVariable("userToken") String userToken,
-			@PathVariable("questionId") String questionId,
-			@PathVariable("optionId") String optionIdString,
-			@PathVariable(value="freeResponseAnswer") String freeResponseAnswer,
-			@PathVariable("timeTakenToRespond") String timeTakenToRespond)
+			@RequestParam("userToken") String userToken,
+			@RequestParam("questionId") String questionId,
+			@RequestParam("optionId") String optionIdString,
+			@RequestParam(value="freeResponseAnswer") String freeResponseAnswer,
+			@RequestParam("timeTakenToRespond") String timeTakenToRespond)
 			throws IOException {
 		log.info("In respondToQuestion");
 		User user = UserManager.userTokenMap.get(userToken);
@@ -231,7 +233,7 @@ public class ApiLmsGameController {
 
 	private Long checkIfResponseIsFree(String questionId,
 			String optionIdString, String freeResponseAnswer, Long optionId) {
-		if(freeResponseAnswer != null && freeResponseAnswer.length() > 0){
+		if(isThisAFreeResponseTypeOfQuestion(freeResponseAnswer, optionId)){
 		    List<Option> optionList = optionService.findByOptionTextAndQuestion(new Long(questionId), freeResponseAnswer);
 		    if(optionList != null && optionList.size() == 1){
 		    	Option option = optionList.get(0);
@@ -242,6 +244,11 @@ public class ApiLmsGameController {
 			optionId = new Long(optionIdString);
 		}
 		return optionId;
+	}
+
+	private boolean isThisAFreeResponseTypeOfQuestion(
+			String freeResponseAnswer, Long optionId) {
+		return freeResponseAnswer != null && freeResponseAnswer.length() > 0 && optionId == -1;
 	}
 
 }

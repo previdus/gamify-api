@@ -75,7 +75,7 @@ public class LmsGameController {
 		return null;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/respondToQuestion", produces = "application/json")
+	@RequestMapping(method = RequestMethod.POST, value = "/respondToQuestion", produces = "application/json")
 	public @ResponseBody GameInstance respondToQuestion(
 			@RequestParam("userId") String userId,
 			@RequestParam("questionId") String questionId,
@@ -85,15 +85,15 @@ public class LmsGameController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		log.info("In respondToQuestion");
-		ApiResult result1 = (ApiResult) request.getSession().getAttribute(
+		ApiResult apiResult = (ApiResult) request.getSession().getAttribute(
 				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER_RESULT);
 	
-		if (result1 != null) {
-			GamePageResult result = apiLmsGameController.respondToQuestion(
-					result1.getUserToken(), questionId, optionId,answer,
+		if (apiResult != null) {
+			GamePageResult gamePageResult = apiLmsGameController.respondToQuestion(
+					apiResult.getUserToken(), questionId, optionId,answer,
 					timeTakenToRespond);
-			if (result != null)
-				return result.getGi();
+			if (gamePageResult != null)
+				return gamePageResult.getGi();
 		}
 		return null;
 		
