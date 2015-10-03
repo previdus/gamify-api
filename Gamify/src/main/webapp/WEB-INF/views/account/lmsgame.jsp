@@ -385,7 +385,7 @@ function renderHtml(obj,fromAjax){
     	$("#timer").html(finalMessage);
     	$("#timer").show();    	
     	clearInterval(pollGameInstance);
-   	    clearInterval(timerInterval);
+   	    clearInterval(timerInterval);   	    
      	 return;
     }
     
