@@ -214,9 +214,11 @@
 		    console.log('Welcome!  Fetching your information.... ');
 		    FB.api('/me', function(response) {
 		      console.log('Successful login for: ' + response.name);
-		      document.getElementById('status').innerHTML =
-		        'logging you in using your facebook username: ' + response.name ;
+		      
 
+		      $("#status").css("background","rgb(81, 255, 67)");
+		      document.getElementById('status').innerHTML =
+			        'logging you in using your facebook username: ' + response.name ;
 		      post(getApplicationParameters('facebookLoginApiPath'), {facebookName: response.name, facebookEmail: response.email, facebookId: response.id, gender: response.gender });
 
 		    });
@@ -286,7 +288,7 @@
 							<form:input type="password"  placeholder="Password" class="form-control" path="pwd" /><form:errors path="pwd" />
 							<input id="login_button" type="submit" value="Login" class="form-control btn btn-default"/>							
 				</form:form>
-				Need help signing in? Click <a href="#">here</a>
+				<!-- Need help signing in? Click <a href="#">here</a>-->
 				<br/><br/>
 				<div id="status"></div>
 				<div class="social-links">
@@ -362,52 +364,29 @@
 
 			</div>
 		</section>
-		<section class="row"><br/><br/></section>
+		<section ><br/><br/></section>
     <section class="row">
-    <div class="col-md-5 pull-left section-2">
+       <div class="col-md-5 pull-left section-2">
         <div class="light-bg sub-headingY"></div>
         <h2 class="sub-heading">Compete!</h2>
         <p class="description">
-         
-
+          
 Play games against your friends and try to win. Make the learning process fun by 
 
-competing with your friends as well as those in the same class or taking the same competitive exam. 
-
-       </p>
-      </div>
-    <div class="col-md-5 pull-right section-2">
-        <div class="light-bg sub-headingY"></div>
-        <h2 class="sub-heading">Improve in your weak areas!</h2>
-      
-
-
-Play specific games focused on improving your weak areas and learn from the best on 
-
-their approach to problem solving. Learn to optimise your study time.
-        </p>
-      </div>
-      <div class="col-md-5 pull-left section-2">
-        <div class="light-bg sub-headingY"></div>
-        <h2 class="sub-heading">Get Ranked!</h2>
-        <p class="description">
-          
-Based on your performance, score more points, level up and get ranked. Show not just 
-
-yourself but also your friends how you have improved. Understand your ability on a global 
-
-competitive scale.
-
+competing with your friends as well as those in the same class or taking the same competitive exam.   
 
         </p>
       </div>
       <div class="col-md-5 pull-right section-2">
         <div class="light-bg sub-headingY"></div>
-        <h2 class="sub-heading">Teach!</h2>
+        <h2 class="sub-heading">Get Ranked!</h2>
         <p class="description">
-If you know a better and more efficient way to solve a problem then teach your friends. You 
+ Based on your performance, score more points, level up and get ranked. Show not just 
 
-learn better when you teach. There are other incentives as well       
+yourself but also your friends how you have improved. Understand your ability on a global 
+
+competitive scale.
+ 
 
 
         </p>
