@@ -444,10 +444,14 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
         if(internalCountDown > 10)
 		{
 			$('#timer').css({"background":"#FF9000"});
+        	//$('#timer').css({"background":"background-color:rgb(81, 255, 67)"});
+        	//$("#page-content-wrapper").css("opacity","");
 		}
 		else
 		{
 			$('#timer').css({"background":"#FF0000"});
+			//$("#page-content-wrapper").css("background-color","#FF2000");
+		//	$("#page-content-wrapper").css("opacity","0.7");
 		}      
           
 	}

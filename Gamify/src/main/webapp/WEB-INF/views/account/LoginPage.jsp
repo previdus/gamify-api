@@ -98,8 +98,22 @@
 			    }
 			})
 			}
-		 
+
+		goalieposx = 150;
+		var bgMoving;
 		$(document).ready(function() {
+			bgMoving = setInterval(function (){
+					//this bit is in a method which is continiouly called nonstop
+					if (goalieposx > 85){
+						 goalieposx = goalieposx - 0.01;
+					}
+					else{
+						clearInterval(bgMoving);
+						}
+					console.log(goalieposx);
+				    $("#login").css("background-size",goalieposx+"%");
+			 },1);
+			    
 		     $("#status").html("${status}");
 		     var loginStatus = "${loginStatus}";
 		     if(loginStatus != null && loginStatus.length != 0){
