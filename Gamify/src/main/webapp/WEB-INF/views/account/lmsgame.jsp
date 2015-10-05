@@ -89,7 +89,7 @@ $(document).ready(function() {
 			$.getJSON( "pollGame?userId="+userId, function( data ) {
                 if(!data){
 					
- 					 return showFinalMessage(EXPIRED_GAME_MESSAGE,false);
+ 					 return showFinalMessage(EXPIRED_GAME_MESSAGE,false,false);
  					 
                 }            
                 numberOfConsecutiveTimesPollGameFailed = 0;  			  
@@ -99,7 +99,7 @@ $(document).ready(function() {
 				numberOfConsecutiveTimesPollGameFailed++;
 				if(numberOfConsecutiveTimesPollGameFailed == LIMIT_FOR_NUMBER_OF_CONSECUTIVE_TIMES_POLL_HAS_FAILED)
 					{
-					return showFinalMessage(BACKEND_SERVER_ERROR_MESSAGE,false);  				
+					return showFinalMessage(BACKEND_SERVER_ERROR_MESSAGE,false,false);  				
 					}
 				});
 		 }
@@ -260,20 +260,20 @@ function renderHtml(obj,fromAjax){
 	if(obj.state == "DONE" || obj.state == "EXPIRED"){
         
     	if( obj.gameWinner != null && obj.gameWinner.id == userId){
-    	 return showFinalMessage( WINNER_MESSAGE,true);
+    	 return showFinalMessage( WINNER_MESSAGE,true,true);
     	}
     	else if(obj.gameWinner == null)
         {
-    		return showFinalMessage( GAME_IS_OVER_EXPIRED_MESSAGE,true);
+    		return showFinalMessage( GAME_IS_OVER_EXPIRED_MESSAGE,true,false);
         }
     	else{
-    		return showFinalMessage( LOSER_SORRY_MESSAGE,true);
+    		return showFinalMessage( LOSER_SORRY_MESSAGE,true,false);
         }
     	 
     }    
      
     if(!currentUserExistsInTheGame){
-        return showFinalMessage(LOSER_SORRY_MESSAGE,true);
+        return showFinalMessage(LOSER_SORRY_MESSAGE,true,false);
         
                  
      }		
@@ -367,7 +367,7 @@ function renderHtml(obj,fromAjax){
        
         
     }
-    function showFinalMessage(message, reviewGame){
+    function showFinalMessage(message, reviewGame,timerCssGreen){
 
    	    
    	    
@@ -383,6 +383,7 @@ function renderHtml(obj,fromAjax){
     	$('#questionSection').hide();
     	$("#timer").hide();
     	$("#timer").html(finalMessage);
+    	if(timerCssGreen) $('#timer').css({"background":"background-color:rgb(81, 255, 67)"});
     	$("#timer").show();    	
     	clearInterval(pollGameInstance);
    	    clearInterval(timerInterval);   	    
