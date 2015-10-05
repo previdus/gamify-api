@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +41,7 @@ public class RoomController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView show(Model model, HttpServletRequest request) {
+	public ModelAndView show(Model model, HttpServletRequest request) throws IOException, Exception{
 		roomService.getRoom().setRoomName("Main Room");
 		log.info("in /rooms get request");
 		model.addAttribute(
@@ -53,7 +54,7 @@ public class RoomController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/changeroom")
 	public String changeRoom(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, Exception {
 		roomService.getRoom().setRoomName("Main Room");
 		User user = (User) request.getSession().getAttribute(
 				GameConstants.SESSION_VARIABLE_LOGGEDIN_USER);
@@ -61,11 +62,9 @@ public class RoomController {
 				.removePlayerFromGameIfQuitOrLoggedOutOrSessionExpired(user);
 		return "redirect:/rooms";
 	}
+	
+	
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView selectRoom(Long roomId) {
-
-		return null;
-	}
+	
 
 }
