@@ -47,8 +47,15 @@ public class GameInstance implements Serializable {
 	@Column(name = "game_creation_time")
 	private long gameCreationTime;
 	
+	@Column(name = "game_end_time", nullable=true)
+	private Long gameEndTime;
+	
 	private transient long startWaitTime;
 	private transient long bestTimeForCurrentQuestion;
+	public Long getGameEndTime() {
+		return gameEndTime;
+	}
+
 	private transient User currentQuestionWinner;
 	private transient List<Question> preLoadedQuestions;
 
@@ -354,6 +361,7 @@ public class GameInstance implements Serializable {
 		this.state = GameConstants.GAME_STATE.DONE;
 		this.currentQuestion = null;
 		this.playerResponsesToCurrentQuestion.clear();
+		this.gameEndTime = System.currentTimeMillis();
 	}
 
 	public GameInstance() {
