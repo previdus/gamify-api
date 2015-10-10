@@ -40,6 +40,10 @@ import com.core.manager.QuestionManager;
 @Table(name = "game_instance")
 public class GameInstance implements Serializable {
 
+	public void setGameEndTime(Long gameEndTime) {
+		this.gameEndTime = gameEndTime;
+	}
+
 	@Id
 	@GeneratedValue
 	private Long id;

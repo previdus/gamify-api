@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.core.constants.GameConstants;
@@ -12,6 +13,7 @@ import com.core.domain.knockout.GameInstance;
 import com.core.manager.CommonQueueManager;
 import com.core.manager.ExamSectionGameQueueManager;
 import com.core.manager.TopicGameQueueManager;
+import com.core.service.GameInstanceService;
 import com.core.service.threads.FlushStaleGamesFromQueuesService;
 
 @Service("flushStaleGamesFromQueuesService")
@@ -20,6 +22,12 @@ implements FlushStaleGamesFromQueuesService {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(FlushStaleGamesFromQueuesServiceImpl.class);
+	private  GameInstanceService gameInstanceService;
+
+	@Autowired(required = true)
+	public void setGameInstanceService(GameInstanceService gameInstanceService) {
+		this.gameInstanceService = gameInstanceService;
+	}
 	public void run() {
 		try {
 			log.info("5) periodicTaskToFlushStaleGamesFromQueues");
@@ -115,8 +123,12 @@ implements FlushStaleGamesFromQueuesService {
 			Long key, GameInstance gi) {
 		log.info("expiring game-"+gi.getId());
 		gi.setState(GAME_STATE.EXPIRED);
+		if(gi.getGameEndTime() == null){
+			gi.setGameEndTime(System.currentTimeMillis());
+		}
 		queueToBeProcessed.remove(key);
 		CommonQueueManager.expiredGames.put(gi.getId(), gi);
+		gameInstanceService.saveOrUpdate(gi);
 	}
 	
 	
