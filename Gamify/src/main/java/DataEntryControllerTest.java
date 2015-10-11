@@ -11,8 +11,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.admin.api.controller.ApiContentController;
 import com.core.api.beans.ApiResult;
-import com.core.api.controller.ApiContentController;
 import com.core.domain.lms.Exam;
 import com.core.service.ExamService;
 

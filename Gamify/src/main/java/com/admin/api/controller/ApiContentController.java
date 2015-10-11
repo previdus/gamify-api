@@ -1,4 +1,4 @@
-package com.core.api.controller;
+package com.admin.api.controller;
 
 import java.util.List;
 
