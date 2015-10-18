@@ -9,8 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.core.dao.AnswerKeyDAO;
 import com.core.dao.QuestionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Question;
@@ -23,12 +25,15 @@ public class QuestionDAOImpl extends
 
 	private static final Logger log = LoggerFactory
 			.getLogger(QuestionDAOImpl.class);
+	
+	
 
 	public List<Question> getQuestions(Topic topic) {
 		log.info("getting questions for topic");
 		Session session = this.getSession();
 		Query qry = session.createQuery(
-				"from Question where topic = :selectedtopic and maxTimeToAnswerInSeconds > 0 order by questionFrequency asc").setParameter(
+				"select quest from Question quest, AnswerKey answerKey  where quest.topic = :selectedtopic "
+				+ "and quest.id = answerKey.questionId and quest.maxTimeToAnswerInSeconds > 0 order by quest.questionFrequency asc").setParameter(
 				"selectedtopic", topic);
 		log.info("before");
 		List<Question> questions = qry.list();
