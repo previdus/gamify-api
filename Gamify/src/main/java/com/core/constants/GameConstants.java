@@ -116,5 +116,6 @@ public class GameConstants {
 	
 	
 	public static final String JAVASCRIPT_STRING_FOR_REQUEST_PARAMETERS_UNDEFINED = "undefined";
+	
 
 }

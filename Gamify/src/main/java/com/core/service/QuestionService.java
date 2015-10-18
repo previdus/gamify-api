@@ -6,7 +6,9 @@ import com.core.domain.Question;
 import com.core.domain.lms.Topic;
 
 public interface QuestionService {
-	public List<Question> getQuestions(Topic topic);
+	public List<Question> getEnabledQuestions(Topic topic);
+	public List<Question> getDisabledQuestions(Topic topic);
+	public List<Question> getAllQuestions(Topic topic);
 	public Question findById(long questionId);
 	public Question saveQuestion(Question question);
 

@@ -148,7 +148,7 @@ public class QuestionManager {
 					List<Question> thisTopicQuestions = null;
 					try {
 						thisTopicQuestions = questionService
-								.getQuestions(topic);
+								.getEnabledQuestions(topic);
 					} catch (Exception q) {
 						q.printStackTrace();
 					}
