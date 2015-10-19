@@ -25,9 +25,10 @@
 				
 		<ul class="pager">
     		<li class="previous"><a id="updateScreenPreviousSearchButton" href="#">&larr; Previous Question</a></li>
+    		<li class="previous"><label>Page No:</label></li>
+    		<li class="next"><input type="text" id="updateScreenPageNo" value="0"></input></li>
     		<li class="next"><a id="updateScreenNextSearchButton" href="#">Next Question&rarr;</a></li>
 		</ul>
-		<input type="hidden" id="updateScreenPageNo" value="0"></input>
 		<input type="hidden" id="updateScreenFetchSize" value="1"></input>		
 		</form>
 	    </div>

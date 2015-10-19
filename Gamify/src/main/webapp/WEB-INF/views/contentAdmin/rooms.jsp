@@ -11,35 +11,39 @@
         <title>Choose A Exam Category</title>
     </head>
     <body>
-    	<h1>Choose A Topic To Navigate to Content Entry Screen</h1>
-    	<table>
+    		</br></br>
+    	<h1>Choose A Topic To Navigate to Question Management Screen</h1>
+			</br></br></br></br>
+    	<div class="container-fluid">
+    	<table class="table" style="width:100%" draggable="true" border="1" >
 			<c:forEach var="exam" items="${room.exams}" step="1">
 			    <tr>
-			    	<td> 
+			    	<td align="center" valign="middle"> 
 		        		<label>  <c:out value="${exam.examName}"></c:out></label>
 		        	</td>
 		        	<td>
-		       			 <c:if test="${not empty exam.examSections}">
-		       			 	<table>
+		       			<c:if test="${not empty exam.examSections}">
+		       			    <table draggable="true" style="width:100%" border="1">
 		               			<c:forEach var="examSection" items="${exam.examSections}" step="1">
 		               			 	<tr>
-		                    			<td> <label>  <c:out value="${examSection.name}"></c:out></label></td>
+		                    			<td align="center" valign="middle"> <label>  <c:out value="${examSection.name}"></c:out></label></td>
 		                   				<c:if test="${not empty examSection.topics}">
-		                   					<table>
-		                           				<c:forEach var="topic" items="${examSection.topics}" step="1">
-				                                	<tr><td>   <label>  <c:out value="${topic.name}"></c:out></label></td></tr>
-				                    			</c:forEach>
-				                 			</table>                       
+											<td>
+												<table draggable="true" style="width:100%" border="1">
+													<c:forEach var="topic" items="${examSection.topics}" step="1">
+														<tr><td align="center" valign="middle" class="active">  <a href="../content/question/add/${topic.id}"> <label>  <c:out value="${topic.name}"> </c:out> ( Click Me )</label></a></td></tr>
+													</c:forEach>
+												</table>
+											</td>
 			                			</c:if>
 		              				</tr>
 		              			</c:forEach>
 		              		</table>
 		          		</c:if>		                       
-			</td>
-			</tr>
+					</td>
+				</tr>
 			</c:forEach>
-			</table>
-			</body>
-			
-				
+		</table>
+		</div>
+	</body>			
 </html>

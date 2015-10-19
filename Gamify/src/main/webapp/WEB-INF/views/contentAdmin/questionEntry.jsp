@@ -171,7 +171,7 @@ $(document).ready(function(){
         </li>
         <li><a data-toggle="tab" href="#sectionB">Update Question</a></li>
         <li><a data-toggle="tab" href="#sectionA">Latex Editor</a></li>
-        
+        <li><a href="../../../rooms/content"> Change Topic</a></li>
     </ul>
     <div class="tab-content">
 	<div id="dropdown1" class="tab-pane fade in active">
