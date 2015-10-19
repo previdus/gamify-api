@@ -140,12 +140,12 @@ public class GenerateDummyDataInDatabaseImpl implements
 //		question = new Question("Question " + topic.getName() + j, null,
 //				options, topic, (byte) 0);
 		question = questionDAO.saveNew(question);
-		for (int i = 0; i < 4; i++) {
-			options.add(optionDAO.saveNew(new Option("option" + i, null,
-					(i + 1), question)));
-		}
-		correctOption = optionDAO.saveNew(new Option("option" + 4, null,
-				(4 + 1), question));
+//		for (int i = 0; i < 4; i++) {
+//			options.add(optionDAO.saveNew(new Option("option" + i, null,
+//					(i + 1), question)));
+//		}
+//		correctOption = optionDAO.saveNew(new Option("option" + 4, null,
+//				(4 + 1), question));
 		options.add(correctOption);
 		answerKeyDAO.saveNew(new AnswerKey(question, correctOption));
 

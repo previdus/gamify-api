@@ -264,8 +264,7 @@ public class OptionsContentController {
 			error = "The option you are trying to disable doesn't exist in the system";
 		}
 		else{
-			
-			option.setState(state);
+			option.setState(EntityStateENUM.valueOf(state));
 			try{
 				   
 			   optionService.saveOption(option);

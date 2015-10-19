@@ -2,6 +2,7 @@ package com.core.controller;
 
 import java.util.List;
 
+import javax.persistence.EnumType;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validator;
 
@@ -232,7 +233,7 @@ public class QuestionsContentController {
 		}
 		else{
 			
-			question.setState(state);
+			question.setState(EntityStateENUM.valueOf(state));
 			try{
 				   
 			   questionService.saveQuestion(question);

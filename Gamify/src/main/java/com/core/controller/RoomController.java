@@ -50,6 +50,18 @@ public class RoomController {
 		model.addAttribute("room", roomService.getRoom());
 		return new ModelAndView("account/rooms");
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/content")
+	public ModelAndView showContent(Model model, HttpServletRequest request) {
+		roomService.getRoom().setRoomName("Main Room");
+		log.info("in /rooms get request");
+		model.addAttribute(
+				"user",
+				(User) request.getSession().getAttribute(
+						GameConstants.SESSION_VARIABLE_LOGGEDIN_USER));
+		model.addAttribute("room", roomService.getRoom());
+		return new ModelAndView("contentAdmin/rooms");
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/changeroom")
 	public String changeRoom(HttpServletRequest request,

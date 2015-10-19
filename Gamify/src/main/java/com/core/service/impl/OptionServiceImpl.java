@@ -39,11 +39,10 @@ public class OptionServiceImpl implements OptionService {
 		Question question = questionService.findById(questionId);
 		option.setQuestion(question);
 		option.setImageUrl(imageUrl);
-		option.setState(EntityStateENUM.INACTIVE.name());
+		option.setState(EntityStateENUM.INACTIVE);
 		option.setOrdr(order);
 		option.setText(optionText);
 		return optionDAO.saveOrUpdate(option);
-		
 	}
 	public Option editOptionText(long optionId, String optionText){
 		Option option = findById(optionId);	
@@ -69,6 +68,31 @@ public class OptionServiceImpl implements OptionService {
 	
 	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order){
 		return optionDAO.findActiveOptionByOrderAndQuestion(questionId, order);
+	}
+
+	public Option updateOptionText(Long optionId, String optionText) {
+		Option option = findById(optionId);
+		option.setText(optionText);
+		return optionDAO.saveOrUpdate(option);
+		
+	}
+
+	public Option enableOption(Long optionId) {
+		Option option = findById(optionId);
+		option.setState(EntityStateENUM.ACTIVE);
+		return optionDAO.saveOrUpdate(option);
+	}
+
+	public Option disableQuestion(Long optionId) {
+		Option option = findById(optionId);
+		option.setState(EntityStateENUM.INACTIVE);
+		return optionDAO.saveOrUpdate(option);
+	}
+
+	public Option softDelete(Long optionId) {
+		Option option = findById(optionId);
+		option.setState(EntityStateENUM.SOFT_DELETE);
+		return optionDAO.saveOrUpdate(option);
 	}
 
 }

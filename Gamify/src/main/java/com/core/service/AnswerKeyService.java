@@ -12,4 +12,6 @@ public interface AnswerKeyService {
 	
 	public AnswerKey saveAnswerKey(Long questionId, Long optionId);
 
+	public AnswerKey saveOrUpdateAnswerKey(Long questionId, Long correctOptionId);
+
 }

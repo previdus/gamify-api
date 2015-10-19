@@ -66,7 +66,7 @@ public  abstract class HibernateGenericRepository<T, ID extends Serializable>
 
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
-		List<T> find = getHibernateTemplate().find(
+		List<T> find = (List<T>) getHibernateTemplate().find(
 				"from " + persistentClass.getSimpleName());
 		return find;
 	}

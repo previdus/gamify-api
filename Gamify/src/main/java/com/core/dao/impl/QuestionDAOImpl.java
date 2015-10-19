@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.core.constants.EntityStateENUM;
 import com.core.dao.QuestionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Question;
@@ -69,5 +72,18 @@ public class QuestionDAOImpl extends
 		keyValueMap.put("topic.id", topicId);
         return findObjectsByKeyMap(Question.class,keyValueMap);
     }
+
+	public List<Question> findByTopicStatePageNo(long topicId,
+			EntityStateENUM state, int start, int end) {
+		Session session = getSession();
+		Criteria cr = session.createCriteria(Question.class);
+		cr.add(Restrictions.eq("topic.id", topicId));
+		cr.add(Restrictions.eq("state", state));
+		cr.setFirstResult(start);
+		cr.setMaxResults(end);
+		List results = cr.list();
+		releaseSession(session);
+		return results;
+	}
 
 }

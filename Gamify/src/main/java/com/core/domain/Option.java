@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +21,9 @@ import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
+import com.core.constants.EntityStateENUM;
+
+
 @Entity
 @Table(name = "question_option")
 @Proxy(lazy=false)
@@ -29,13 +35,27 @@ public class Option implements Serializable {
 	
 	public static final String OPTION_FILTER = "optionStateFilter";
 
-	public Option(String text, String imageUrl, Integer ordr, Question question) {
+//	public Option(String text, String imageUrl, Integer ordr, Question question) {
+//		super();
+//		this.text = text;
+//		this.imageUrl = imageUrl;
+//		this.ordr = ordr;
+//		this.question = question;
+//	}
+	
+	
+
+	public Option(String text, String imageUrl, Integer ordr,
+			Question question, EntityStateENUM state) {
 		super();
 		this.text = text;
 		this.imageUrl = imageUrl;
 		this.ordr = ordr;
 		this.question = question;
+		this.state = state;
 	}
+
+
 
 	/**
 	 * 
@@ -47,12 +67,15 @@ public class Option implements Serializable {
 		super();
 	}
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+
 	@Column(length=1000)
 	private String text;
+
 
 	@Column(name = "image_url")
 	private String imageUrl;
@@ -61,13 +84,16 @@ public class Option implements Serializable {
 	private Integer ordr;
 
 	@JsonIgnore
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false , fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	private Question question;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
-    private String state;
-	public String getState() {
+    private EntityStateENUM state;
+	
+	
+	public EntityStateENUM getState() {
 		return state;
 	}
 	
@@ -75,7 +101,7 @@ public class Option implements Serializable {
 		return question;
 	}
 
-	public void setState(String state) {
+	public void setState(EntityStateENUM state) {
 		this.state = state;
 	}
 
@@ -92,9 +118,8 @@ public class Option implements Serializable {
 		this.ordr = ordr;
 	}
 
-	/*
-	 * public Question getQuestion() { return question; }
-	 */
+	
+	
 	public void setQuestion(Question question) {
 		this.question = question;
 	}

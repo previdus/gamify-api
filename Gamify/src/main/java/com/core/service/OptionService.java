@@ -17,5 +17,9 @@ public interface OptionService {
 	public Option editOptionOrdr(long optionId, int order);	
 	public List<Option> findByOptionTextAndQuestion(long questionId, String optionName);
 	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order);
+	public Option updateOptionText(Long optionId, String optionText);
+	public Option enableOption(Long optionId);
+	public Option disableQuestion(Long optionId);
+	public Option softDelete(Long optionId);
 
 }

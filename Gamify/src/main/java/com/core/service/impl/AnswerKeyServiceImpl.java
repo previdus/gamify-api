@@ -55,4 +55,8 @@ public class AnswerKeyServiceImpl implements AnswerKeyService {
 	     
 	}
 
+	public AnswerKey saveOrUpdateAnswerKey(Long questionId, Long correctOptionId) {
+		return answerKeyDAO.saveOrUpdate(new AnswerKey(questionId, correctOptionId));
+	}
+
 }

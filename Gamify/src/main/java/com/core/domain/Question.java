@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,7 @@ import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
+import com.core.constants.EntityStateENUM;
 import com.core.domain.lms.Topic;
 
 @Entity
@@ -63,13 +66,16 @@ public class Question implements Serializable {
 	private Topic topic;
 	@Column(name = "difficulty_level")
 	private byte difficultyLevel;
+	
+	@Enumerated(EnumType.STRING)
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
-	private String state;
+	private EntityStateENUM state;
 	
 	@Column(name = "question_frequency", columnDefinition="int default 0")
 	private int questionFrequency;
 	
 	
+
 	public int getQuestionFrequency() {
 		return questionFrequency;
 	}
@@ -78,11 +84,11 @@ public class Question implements Serializable {
 		this.questionFrequency = questionFrequency;
 	}
 
-	public String getState() {
+	public EntityStateENUM getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(EntityStateENUM state) {
 		this.state = state;
 	}
 
@@ -111,10 +117,22 @@ public class Question implements Serializable {
 	public Long getId() {
 		return id;
 	}
+	
+	public Question(String questionText, String imageUrl,
+			int maxTimeToAnswerInSeconds, Topic topic,
+			byte difficultyLevel, EntityStateENUM state) {
+		super();
+		this.questionText = questionText;
+		this.imageUrl = imageUrl;
+		this.maxTimeToAnswerInSeconds = maxTimeToAnswerInSeconds;
+		this.topic = topic;
+		this.difficultyLevel = difficultyLevel;
+		this.state = state;
+	}
 
 	public Question(Long id, String questionText, String imageUrl,
 		int maxTimeToAnswerInSeconds, List<Option> options, Topic topic,
-		byte difficultyLevel, String state) {
+		byte difficultyLevel, EntityStateENUM state) {
 	super();
 	this.id = id;
 	this.questionText = questionText;
