@@ -1,4 +1,4 @@
-package com.core.controller;
+package com.admin.controller;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class QuestionsContentController {
 		model.addAttribute("success",success);	
 		model.addAttribute("user",(User)request.getSession().getAttribute(GameConstants.SESSION_VARIABLE_LOGGEDIN_USER)); 
 		Topic topic = topicService.findById(topicId);
-		List<Question> 	questions = questionService.getQuestions(topic);		
+		List<Question> 	questions = questionService.getAllQuestions(topic);		
 		model.addAttribute("questions", questions);	
 		model.addAttribute("topicId",topicId);
 		model.addAttribute("examSectionName", topic.fetchExamSection().getName());

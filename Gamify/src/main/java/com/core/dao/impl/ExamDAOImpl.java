@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.core.constants.EntityStateENUM;
+import com.core.constants.GameConstants;
 import com.core.dao.ExamDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Option;
@@ -35,13 +36,13 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 	public List<Exam> findActiveExams(){
 		Session session = getSession();
 		Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
-		filter.setParameter("activeState", "ACTIVE");
+		filter.setParameter("activeState", EntityStateENUM.ACTIVE.toString());
 		Query query = session.createQuery("from Exam");
 		List<Exam> exams = query.list();
 		session.disableFilter(Exam.ACTIVE_EXAMS);
 		releaseSession(session);
 		return exams;
-		//return findObjectsByKeys(Exam.class, "state", EntityStateENUM.ACTIVE.name());
+		//return findObjectsByKeys(Exam.class, "state", EntityStateENUM.ACTIVE.toString().name());
 	}
 	
 	public List<Exam> findInActiveExams(){
@@ -85,19 +86,19 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 
 	private void enableFilters(Session session) {
 		Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
-		filter.setParameter("state", "ACTIVE");
+		filter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		
 		Filter sectionFilter = session.enableFilter(ExamSection.ACTIVE_EXAM_SECTIONS);
-		sectionFilter.setParameter("state", "ACTIVE");
+		sectionFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		
 		Filter topicFilter = session.enableFilter(Topic.TOPIC_FILTER);
-		topicFilter.setParameter("state", "ACTIVE");
+		topicFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		
 		Filter questionFilter = session.enableFilter(Question.QUESTION_FILTER);
-		questionFilter.setParameter("state", "ACTIVE");
+		questionFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		
 		Filter optionFilter = session.enableFilter(Option.OPTION_FILTER);
-		optionFilter.setParameter("state", "ACTIVE");
+		optionFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 	}
 	
 	public List<Exam> findExamByState(String examState,String examSectionState,String topicState){

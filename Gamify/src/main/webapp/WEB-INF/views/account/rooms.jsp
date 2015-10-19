@@ -180,7 +180,7 @@ function showRatedPlayersForTheChosenTopic(examSectionId){
     </head>
     <body id="roomPage">
         <!-- navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top top-panel">
 <div class="container-fluid lms">
     <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -195,34 +195,36 @@ function showRatedPlayersForTheChosenTopic(examSectionId){
  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
           <li class="choose-category"><b>Choose Exam Category</b></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          <span id="displayUserName"></span> 
-          <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li>
-            <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li>
-            <li role="separator" class="divider"></li>
-            <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li>
-          </ul>
-        </li>
-      </ul>
+<!--         <li class="dropdown"> -->
+<!--           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> -->
+<!--           <span id="displayUserName"></span>  -->
+<!--           <span class="caret"></span> -->
+<!--           </a> -->
+<!--           <ul class="dropdown-menu"> -->
+<!--             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-user">&nbsp;Profile</i></a></li> -->
+<!--             <li class="clearTimeInterval"><a href="#"><i class="glyphicon glyphicon-cog">&nbsp;Settings</i></a></li> -->
+<!--             <li role="separator" class="divider"></li> -->
+<!--             <li class="clearTimeInterval"><a  href="#" onClick="$('#logoutform').submit()"><i class="glyphicon glyphicon-log-out">&nbsp;Logout</i></a></li> -->
+<!--           </ul> -->
+<!--         </li> -->
+      
+            <li id="logout_pane">
+				<form id="logoutform"  action="${pageContext.request.contextPath}/logout">
+				<a href="#" onClick="$('#logoutform').submit()">Logout</a>
+				</form>
+			</li>
+	</ul>
   </div><!-- /.navbar-collapse -->    
 </div><!-- /.container-fluid -->
 </nav>
-<form id="logoutform"  action="${pageContext.request.contextPath}/logout"></form>
+
 
 
     <div id="welcomeUser">Welcome ${user.displayName}&nbsp;&nbsp;&nbsp;<img src="${user.imageUrl}"></img></div>
     <div id="exams"></div> 
-<div id="logout_pane">
-<form id="logoutform"  action="${pageContext.request.contextPath}/logout">
-<a href="#" onClick="$('#logoutform').submit()">Logout</a>
-</form>
-</div>
+
         <div class="container sub-container">
-        <section class="row">
+        <section class="row content">
 			<div class="col-md-5 pull-left sign-up">
 				
 				<div id="leaderboard" class="" style="display:none">

@@ -36,6 +36,20 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	@Column(name="time_taken_to_answer")
     private Long timeTakenToAnswer;
 	
+	@Column(name="time_at_which_player_responded")
+    private Long timeAtWhichPlayerResponded = System.currentTimeMillis();
+	
+	public Long getTimeAtWhichPlayerResponded() {
+		return timeAtWhichPlayerResponded;
+	}
+
+
+
+	public void setTimeAtWhichPlayerResponded(Long timeAtWhichPlayerResponded) {
+		this.timeAtWhichPlayerResponded = timeAtWhichPlayerResponded;
+	}
+
+
 	private Integer rank;
 	
 	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")

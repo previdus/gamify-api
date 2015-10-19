@@ -50,7 +50,7 @@ public class LmsGameController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView show(Model model) {
+	public ModelAndView show(Model model) throws IOException, Exception{
 		model.addAttribute(roomService.getRoom());
 		return new ModelAndView("account/rooms");
 	}
@@ -102,7 +102,7 @@ public class LmsGameController {
 	@RequestMapping(method = RequestMethod.POST, value="/examSection")
 	public ModelAndView selectExamSectionRoom(
 			@RequestParam("examSection") String examSection,
-			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException,Exception {
 		
 
 		GameInstance gi = null;
@@ -145,7 +145,7 @@ public class LmsGameController {
 	@RequestMapping(method = RequestMethod.POST, value="/topic")
 	public ModelAndView selectTopicRoom(
 			@RequestParam("topic") String topicId,
-			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+			HttpServletRequest request, HttpServletResponse response, Model model) throws IOException, Exception {
 		
 
 		GameInstance gi = null;

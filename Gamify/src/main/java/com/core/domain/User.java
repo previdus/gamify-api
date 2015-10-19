@@ -48,6 +48,9 @@ public class User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name= "category" , columnDefinition="char(20) default 'STUDENT'")
 	private UserCategory category;
+
+	@Column(name="time_at_which_user_registered")
+    private Long timeAtWhichPlayerResponded;
 	
 	public String getFacebookId() {
 		return facebookId;
@@ -68,24 +71,6 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-//	public User(String userName, String password, String email) {
-//		super();
-//		this.name = userName;
-//		this.pwd = password;
-//		this.emailId = email;
-//	}
-
-	public User(String userName, String password, String email,
-			String displayName, String gender, String facebookId, UserAccountStatus accountStatus) {
-		super();
-		this.name = userName;
-		this.pwd = password;
-		this.emailId = email;
-		this.displayName = displayName;
-		this.gender = gender;
-		this.facebookId = facebookId;
-		this.userAccountStatus = accountStatus;
-	}
 	
 	
 	public User(String userName, String password, String email,
@@ -101,23 +86,11 @@ public class User implements Serializable {
 		this.imageUrl = imageUrl;
 		this.parentEmailId = parentEmailAddress;
 		this.userAccountStatus = accountStatus;
+		this.timeAtWhichPlayerResponded = System.currentTimeMillis();
 	}
 	
 	
 
-	public User(String userName, String password, String email,
-			String displayName, String gender, String facebookId,
-			String imageUrl, UserAccountStatus accountStatus) {
-		super();
-		this.name = userName;
-		this.pwd = password;
-		this.emailId = email;
-		this.displayName = displayName;
-		this.gender = gender;
-		this.facebookId = facebookId;
-		this.imageUrl = imageUrl;
-		this.userAccountStatus = accountStatus;
-	}
 
 	public Long getId() {
 		return id;

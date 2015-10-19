@@ -7,12 +7,28 @@ background-size: 100% auto;
 	font-family: 'Lato', sans-serif;
 	font-weight: 300;
 }
+
+#error{
+	margin-top: 150px;
+    margin-left: 300px;
+    background-color: #338000;
+    margin-right: 350px;
+    opacity: 0.7;
+    color: whitesmoke;
+    font-size: x-large;
+    padding-left: 20px;
+    align-content: center;
+}
 .choose-category
 {
     padding-top: 10px;
     color: rgb(66,165,245);
     font-size: 20px;
     padding-right: 27em;
+  }
+  
+  .content{
+  margin-top:50px;
   }
 
   .sub-container{
@@ -50,4 +66,8 @@ background-size: 100% auto;
 label{
 	    padding-left: 10px;
     padding-right: 15px;
+}
+
+.top-panel{
+	 background-color:rgb(81, 255, 67);
 }

@@ -33,8 +33,16 @@ public class QuestionServiceImpl implements QuestionService {
 	@Autowired
 	private OptionDAO optionDAO;
 
-	public List<Question> getQuestions(Topic topic) {
-		return questionDAO.getQuestions(topic);
+	public List<Question> getEnabledQuestions(Topic topic) {
+		return questionDAO.getEnabledQuestions(topic);
+	}
+	
+	public List<Question> getDisabledQuestions(Topic topic) {
+		return questionDAO.getDisabledQuestions(topic);
+	}
+	
+	public List<Question> getAllQuestions(Topic topic) {
+		return questionDAO.getAllQuestions(topic);
 	}
 
 	public Question saveQuestion(Question question){

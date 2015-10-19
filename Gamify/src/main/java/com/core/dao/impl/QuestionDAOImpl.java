@@ -26,13 +26,22 @@ public class QuestionDAOImpl extends
 
 	private static final Logger log = LoggerFactory
 			.getLogger(QuestionDAOImpl.class);
+	
+	
 
-	public List<Question> getQuestions(Topic topic) {
+	private List<Question> getQuestions(Topic topic, String state) {
 		log.info("getting questions for topic");
 		Session session = this.getSession();
 		Query qry = session.createQuery(
-				"from Question where topic = :selectedtopic and maxTimeToAnswerInSeconds > 0 order by questionFrequency asc").setParameter(
-				"selectedtopic", topic);
+				"select quest from Question quest, AnswerKey answerKey  where quest.topic = :selectedtopic "
+				+ "and quest.id = answerKey.questionId and quest.maxTimeToAnswerInSeconds > 0 "
+				+ ((state != null)?"and quest.state = :state ":"")
+				+ "order by quest.questionFrequency asc")
+				.setParameter("selectedtopic", topic);
+		if(state != null){
+			qry.setParameter("state", state);
+		}
+				
 		log.info("before");
 		List<Question> questions = qry.list();
 		log.info("got questions for topic");
@@ -45,6 +54,19 @@ public class QuestionDAOImpl extends
 		log.info(" questions.size() == 0 for topic");
 		return null;
 	}
+	
+	public List<Question> getEnabledQuestions(Topic topic) {
+		return this.getQuestions(topic, EntityStateENUM.ACTIVE.toString());
+	}
+	
+	public List<Question> getDisabledQuestions(Topic topic) {
+		return this.getQuestions(topic, EntityStateENUM.INACTIVE.toString());
+	}
+	
+	public List<Question> getAllQuestions(Topic topic) {
+		return this.getQuestions(topic, null);
+	}
+	
 
 	public Question getQuestion(Topic topic) {
 		log.info("getting questions for topic");

@@ -1,4 +1,4 @@
-package com.core.controller;
+package com.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validator;
