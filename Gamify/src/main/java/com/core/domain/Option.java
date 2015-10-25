@@ -27,7 +27,7 @@ import com.core.constants.EntityStateENUM;
 @Entity
 @Table(name = "question_option")
 @Proxy(lazy=false)
-@FilterDef(name = Option.OPTION_FILTER,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
+@FilterDef(name = Option.OPTION_FILTER,  parameters = @ParamDef(name = "state", type = "com.core.constants.EntityStateENUM"))
 @Filters( {
 @Filter(name=Option.OPTION_FILTER, condition="state = :state")
 } )
@@ -73,7 +73,7 @@ public class Option implements Serializable {
 	private Long id;
 	
 
-	@Column(length=1000)
+	@Column(name="text")
 	private String text;
 
 

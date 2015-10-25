@@ -32,7 +32,7 @@ import com.core.domain.lms.Topic;
 @Entity
 @Table(name = "question")
 @Proxy(lazy=false)
-@FilterDef(name = Question.QUESTION_FILTER,  parameters = @ParamDef(name = "state", type = "java.lang.String"))
+@FilterDef(name = Question.QUESTION_FILTER,  parameters = @ParamDef(name = "state", type = "com.core.constants.EntityStateENUM"))
 @Filters( {
 @Filter(name=Question.QUESTION_FILTER, condition="state = :state")
 } )
@@ -48,7 +48,7 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "question_text",length=1000)
+	@Column(name = "question_text")
 	private String questionText;
 	@Column(name = "image_url")
 	private String imageUrl;

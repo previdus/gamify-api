@@ -29,7 +29,7 @@ public class QuestionDAOImpl extends
 	
 	
 
-	private List<Question> getQuestions(Topic topic, String state) {
+	private List<Question> getQuestions(Topic topic, EntityStateENUM state) {
 		log.info("getting questions for topic");
 		Session session = this.getSession();
 		Query qry = session.createQuery(
@@ -56,11 +56,11 @@ public class QuestionDAOImpl extends
 	}
 	
 	public List<Question> getEnabledQuestions(Topic topic) {
-		return this.getQuestions(topic, EntityStateENUM.ACTIVE.toString());
+		return this.getQuestions(topic, EntityStateENUM.ACTIVE);
 	}
 	
 	public List<Question> getDisabledQuestions(Topic topic) {
-		return this.getQuestions(topic, EntityStateENUM.INACTIVE.toString());
+		return this.getQuestions(topic, EntityStateENUM.INACTIVE);
 	}
 	
 	public List<Question> getAllQuestions(Topic topic) {

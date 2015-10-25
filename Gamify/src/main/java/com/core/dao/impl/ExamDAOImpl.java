@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.core.constants.EntityStateENUM;
-import com.core.constants.GameConstants;
 import com.core.dao.ExamDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Option;
@@ -36,7 +35,7 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 	public List<Exam> findActiveExams(){
 		Session session = getSession();
 		Filter filter = session.enableFilter(Exam.ACTIVE_EXAMS);
-		filter.setParameter("activeState", EntityStateENUM.ACTIVE.toString());
+		filter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		Query query = session.createQuery("from Exam");
 		List<Exam> exams = query.list();
 		session.disableFilter(Exam.ACTIVE_EXAMS);
@@ -95,10 +94,10 @@ public class ExamDAOImpl extends HibernateGenericRepository<Exam, Serializable> 
 		topicFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
 		
 		Filter questionFilter = session.enableFilter(Question.QUESTION_FILTER);
-		questionFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
+		questionFilter.setParameter("state", EntityStateENUM.ACTIVE);
 		
 		Filter optionFilter = session.enableFilter(Option.OPTION_FILTER);
-		optionFilter.setParameter("state", EntityStateENUM.ACTIVE.toString());
+		optionFilter.setParameter("state", EntityStateENUM.ACTIVE);
 	}
 	
 	public List<Exam> findExamByState(String examState,String examSectionState,String topicState){

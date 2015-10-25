@@ -76,15 +76,15 @@
 <!-- 		<property name="password" value="last1man2standing3" /> -->
 		
 		<!-- This is the amazon aws database - staging instance -->
-	 	<property name="url" value="jdbc:mysql://52.11.192.38:3306/cb_lms-db" />
+	 	<!-- <property name="url" value="jdbc:mysql://52.11.192.38:3306/cb_lms-db" />
 		<property name="username" value="root" />
-		<property name="password" value="last1man2standing3" />
+		<property name="password" value="last1man2standing3" /> -->
 		 
 		
 		<!-- This is the amazon aws database - QA instance -->
-<!-- 	 	<property name="url" value="jdbc:mysql://lastmanstanding.cse0gpzwzndt.us-west-2.rds.amazonaws.com:3306/cb_lms-db" /> -->
-<!-- 		<property name="username" value="root" /> -->
-<!-- 		<property name="password" value="last1man2standing3" /> -->
+	 	<property name="url" value="jdbc:mysql://lastmanstanding.cse0gpzwzndt.us-west-2.rds.amazonaws.com:3306/cb_lms-db" /> 
+		<property name="username" value="root" /> 
+		<property name="password" value="last1man2standing3" /> 
 		 
 		<!-- This is the local database -->
 		     <!--<property name="url" value="jdbc:mysql://localhost:3306/cb_lms-db" /> 
@@ -117,8 +117,8 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                 <prop key="hibernate.hbm2ddl.auto">update</prop>  
+               <!--  <prop key="hibernate.show_sql">true</prop>
+                 <prop key="hibernate.hbm2ddl.auto">update</prop>   -->
             </props>
         </property>
     </bean>

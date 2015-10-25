@@ -16,7 +16,6 @@ import com.core.dao.OptionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.Option;
 import com.core.domain.Question;
-import com.core.domain.lms.Topic;
 
 @Repository("optionDAO")
 public class OptionDAOImpl extends
@@ -76,7 +75,7 @@ public class OptionDAOImpl extends
 		Map<String, Object> keyValueMap = new HashMap<String, Object>();
 		keyValueMap.put("ordr", order);
 		keyValueMap.put("question.id", questionId);
-		keyValueMap.put("state", EntityStateENUM.ACTIVE.toString());
+		keyValueMap.put("state", EntityStateENUM.ACTIVE);
         return findObjectsByKeyMap(Option.class,keyValueMap);
 	}
 }
