@@ -76,7 +76,7 @@ public class APINewQuestionController {
 				if (StringUtils.isEmpty(option2Text))
 					error = "Correct option provided is left empty!";
 				else{
-					correctOption = new Option(option2Text, null, 1 , question, newQuestionAdditionState);
+					correctOption = new Option(option2Text, null, 2 , question, newQuestionAdditionState);
 					option2Text = null;
 				}
 				break;
@@ -84,7 +84,7 @@ public class APINewQuestionController {
 				if (StringUtils.isEmpty(option3Text))
 					error = "Correct option provided is left empty!";
 				else{
-					correctOption = new Option(option3Text, null, 1 , question, newQuestionAdditionState);
+					correctOption = new Option(option3Text, null, 3 , question, newQuestionAdditionState);
 					option3Text = null;
 				}
 				break;
@@ -92,7 +92,7 @@ public class APINewQuestionController {
 				if (StringUtils.isEmpty(option4Text))
 					error = "Correct option provided is left empty!";
 				else{
-					correctOption = new Option(option4Text, null, 1 , question, newQuestionAdditionState);
+					correctOption = new Option(option4Text, null, 4 , question, newQuestionAdditionState);
 					option4Text = null;
 				}
 				break;
@@ -100,7 +100,7 @@ public class APINewQuestionController {
 				if (StringUtils.isEmpty(option5Text))
 					error = "Correct option provided is left empty!";
 				else{
-					correctOption = new Option(option5Text, null, 1 , question, newQuestionAdditionState);
+					correctOption = new Option(option5Text, null, 5 , question, newQuestionAdditionState);
 					option5Text = null;
 				}
 				break;
@@ -120,15 +120,15 @@ public class APINewQuestionController {
 				newQuestionAdditionState);
 		List<Option> options = new LinkedList<Option>();
 		if (!StringUtils.isEmpty(option1Text))
-			options.add(new Option(option1Text, null, order++, question,newQuestionAdditionState));
+			options.add(new Option(option1Text, null, 1, question,newQuestionAdditionState));
 		if (!StringUtils.isEmpty(option2Text))
-			options.add(new Option(option2Text, null, order++, question,newQuestionAdditionState));
+			options.add(new Option(option2Text, null, 2, question,newQuestionAdditionState));
 		if (!StringUtils.isEmpty(option3Text))
-			options.add(new Option(option3Text, null, order++, question,newQuestionAdditionState));
+			options.add(new Option(option3Text, null, 3, question,newQuestionAdditionState));
 		if (!StringUtils.isEmpty(option4Text))
-			options.add(new Option(option4Text, null, order++, question,newQuestionAdditionState));
+			options.add(new Option(option4Text, null, 4, question,newQuestionAdditionState));
 		if (!StringUtils.isEmpty(option5Text))
-			options.add(new Option(option5Text, null, order++, question,newQuestionAdditionState));
+			options.add(new Option(option5Text, null, 5, question,newQuestionAdditionState));
 		if (options.size() < 1) {
 			error = "There should be atleast two options for this question!";
 		}
