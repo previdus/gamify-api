@@ -383,7 +383,7 @@ function renderHtml(obj,fromAjax){
     	$('#questionSection').hide();
     	$("#timer").hide();
     	$("#timer").html(finalMessage);
-    	if(timerCssGreen) $('#timer').css({"background":"background-color:rgb(81, 255, 67)"});
+    	if(timerCssGreen) $('#timer').css({"background":"background-color:rgb(245, 245, 245)"});
     	$("#timer").show();    	
     	clearInterval(pollGameInstance);
    	    clearInterval(timerInterval);   	    
@@ -445,7 +445,7 @@ function updateTimerDiv(gameId,currentQuestionId, maxTimeAllocatedToRespond){
         if(internalCountDown > 10)
 		{
 			$('#timer').css({"background":"#FF9000"});
-        	//$('#timer').css({"background":"background-color:rgb(81, 255, 67)"});
+        	//$('#timer').css({"background":"background-color:rgb(245, 245, 245)"});
         	//$("#page-content-wrapper").css("opacity","");
 		}
 		else
