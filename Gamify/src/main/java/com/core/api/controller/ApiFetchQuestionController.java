@@ -21,6 +21,7 @@ import com.core.domain.Option;
 import com.core.domain.Question;
 import com.core.service.AnswerKeyService;
 import com.core.service.QuestionService;
+import com.google.gson.Gson;
 
 
 @Controller
@@ -78,7 +79,7 @@ public class ApiFetchQuestionController {
 	
 	@RequestMapping(value = "/search-paginated", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public SearchQuestionResult searchQuestion(
+	public String searchQuestion(
 			@RequestParam(value = "topicId", required = false) Long topicId,
 			@RequestParam(value = "state", required = false) String state,
 			@RequestParam(value = "pageNo", required = false) Integer pageNo,
@@ -87,15 +88,21 @@ public class ApiFetchQuestionController {
 	{
 		List<QuestionAnswerDTO> questionAnswerDTOs = new LinkedList<QuestionAnswerDTO>();
 		List<Question> questions = questionService.findByTopicStatePageNo(topicId, EntityStateENUM.valueOf(state), pageNo, limit);
+		Gson gson = new Gson();
 		if(questions == null || questions.size() == 0){
-			return new SearchQuestionResult(questionAnswerDTOs, -1, "No Result Available!");
+			return gson.toJson( new SearchQuestionResult(questionAnswerDTOs, -1, "No Result Available!"));
 		}
 		else{
 			for(Question question: questions){
 				makeItSerializable(question);
 				questionAnswerDTOs.add(new QuestionAnswerDTO(question, answerKeyService.getAnswerKey(question)));
 			}
-			return new SearchQuestionResult(questionAnswerDTOs, 1, " Successfully fetched " + questionAnswerDTOs.size() + " Questions! ");
+			
+			
+			SearchQuestionResult s =  new SearchQuestionResult(questionAnswerDTOs, 1, " Successfully fetched " + questionAnswerDTOs.size() + " Questions! ");
+			//System.out.println("--------------------------------------------------------------------------------");
+			//System.out.println(gson.toJson(s)); 
+			return gson.toJson(s);
 		}
 		
 	}
