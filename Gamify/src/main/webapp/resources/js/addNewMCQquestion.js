@@ -46,7 +46,7 @@ function addNewMCQQuestion(){
 		    	else{	
 		    		$("#mFormStatus").css("background-color","red");
 		    		$("#mFormStatus").css("color","white");
-		    		resetMCQQuestionForm();
+		    		//resetMCQQuestionForm();
 		    		}	
 	    	}    	
 	    },
