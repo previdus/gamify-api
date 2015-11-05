@@ -56,9 +56,6 @@ public class GameInstance implements Serializable {
 	
 	private transient long startWaitTime;
 	private transient long bestTimeForCurrentQuestion;
-	public Long getGameEndTime() {
-		return gameEndTime;
-	}
 
 	private transient User currentQuestionWinner;
 	private transient List<Question> preLoadedQuestions;
@@ -82,14 +79,6 @@ public class GameInstance implements Serializable {
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
 	
-	public Topic getTopic() {
-		return topic;
-	}
-
-	public void setTopic(Topic topic) {
-		this.topic = topic;
-	}
-
 	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
     private int noOfPlayersBeaten = 0;
 
@@ -106,14 +95,6 @@ public class GameInstance implements Serializable {
 
 	private transient Map<Long, Player> losingPlayers = new HashMap<Long, Player>();
 	private transient Map<Long, Player> quittingPlayers = new HashMap<Long, Player>();
-
-	public Map<Long, Player> getQuittingPlayers() {
-		return quittingPlayers;
-	}
-
-	public void setQuittingPlayers(Map<Long, Player> quittingPlayers) {
-		this.quittingPlayers = quittingPlayers;
-	}
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "winner_user_id")
@@ -138,6 +119,25 @@ public class GameInstance implements Serializable {
 	private static transient final Logger log = LoggerFactory
 			.getLogger(QuestionManager.class);
 
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public Long getGameEndTime() {
+		return gameEndTime;
+	}
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+	
+	public Map<Long, Player> getQuittingPlayers() {
+		return quittingPlayers;
+	}
+
+	public void setQuittingPlayers(Map<Long, Player> quittingPlayers) {
+		this.quittingPlayers = quittingPlayers;
+	}
+	
 	public Long getBang() {
 		return bang;
 	}

@@ -5,9 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
@@ -21,6 +23,7 @@ import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
 import com.core.service.UserEloRatingService;
+import com.core.service.UserPointsService;
 import com.core.service.UserService;
 
 public class CommonQueueManager {
@@ -67,9 +70,14 @@ public class CommonQueueManager {
 		CommonQueueManager.answerKeyService = answerKeyService;
 	}
 	
-	
-
 	protected static GameInstanceService gameInstanceService;
+
+	protected static UserPointsService userPointsService;
+	
+	@Autowired(required = true)
+	public void setUserPointsService(UserPointsService userPointsService) {
+		CommonQueueManager.userPointsService = userPointsService;
+	}
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -191,15 +199,14 @@ public class CommonQueueManager {
 					.getPlayerResponsesToCurrentQuestion().size()) {
 				userEloRatingService.calulateUserEloRating(gi);
 				manageLife(gi);
-				QuestionManager.savePreviousQuestionLog(gi);
+				QuestionManager.savePreviousQuestionLog(gi);				
 				
-				gameInstanceService.saveOrUpdate(gi);
 				if (gi.getPlayers().size() < (Short)GameConstants.CONFIGURATION_MAP.get(GameConstants.MINIMUM_NUM_OF_PLAYERS_NEEDED_KEY)) {
 					endGame(gi);					
 				}
 				else 
 				{
-					
+					gameInstanceService.saveOrUpdate(gi);
 					loadNextQuestion(gi);
 				}
 
@@ -210,11 +217,15 @@ public class CommonQueueManager {
 	public static void endGame(GameInstance gi) {
 		log.info("debug Game Done !!!");		
 		gi.setStateToDone();
-		gi.markGameWinner();
+		User user =  gi.markGameWinner();
+		if(user != null){
+			int winningPoints = gi.getGameWinningPoints();
+			gi.getPlayers().get(user.getId()).addPoints(winningPoints); 
+			userPointsService.addPoints(user.getId(), winningPoints);
+		}
 		gameInstanceService.saveOrUpdate(gi);
 		finishedGames.put(gi.getId(), gi);
 		ongoingGames.remove(gi.getId());
-		
 	}
 	
 	private static void loadNextQuestion(GameInstance gi) {
@@ -293,11 +304,14 @@ public class CommonQueueManager {
 					prl.setNoOfPlayersBeaten(gi.getPlayers().size() -1);
 					prl.setQuestionWinner(true);
 				}
+				prl.getPlayer().addPoints(prl.getPointsEarned());
+				userPointsService.addPoints(userId, prl.getPointsEarned());
 			}
-			gi.getPlayers().get(userId).addPoints(prl.getPointsEarned()); 
+			
 			if(gi.haveAllPlayersResponded()){
 				calculateScoresForPlayers(gi);
-			}
+				
+				}
 		}
 		return gi;
 	}

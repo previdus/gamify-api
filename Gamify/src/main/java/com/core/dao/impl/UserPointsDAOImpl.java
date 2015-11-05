@@ -1,10 +1,13 @@
 package com.core.dao.impl;
 
 import java.io.Serializable;
+
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
 import com.core.dao.UserPointsDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.UserPoints;
@@ -17,8 +20,8 @@ UserPointsDAO {
 private static final Logger log = LoggerFactory.getLogger(UserPointsDAOImpl.class);
 
 public void addPoints(long userId, int points) {
-  org.hibernate.Session session =  getSession();
-  UserPoints userPoints = (UserPoints) session.load(UserPoints.class, userId);
+  Session session =  getSession();
+  UserPoints userPoints = (UserPoints) session.get(UserPoints.class, userId);
   if(userPoints == null)
 	  session.saveOrUpdate(new UserPoints(userId, points));
   else{

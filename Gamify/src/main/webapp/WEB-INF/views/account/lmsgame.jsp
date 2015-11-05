@@ -13,9 +13,6 @@
 </head>
 <link rel="stylesheet" href="<c:url value="/resources/blueprint/screen.css" />" type="text/css" media="screen, projection">
 		<link rel="stylesheet" href="<c:url value="/resources/blueprint/print.css" />" type="text/css" media="print">
-		<!--[if lt IE 8]>
-			<link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
-		<![endif]-->
 		<link rel="stylesheet" href="<c:url value="/resources/css/popup.css" />" type="text/css" media="screen, projection">
 		<!-- vendor styles -->
 		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -129,8 +126,7 @@ function handleMenuAndWrapper(){
   var navbarHeight = $('.navbar').height();
 	$("#wrapper").css("margin", navbarHeight);
 }
-
-function setAndDisplayUser(){
+ function setAndDisplayUser(){
 	 userId = "${userId}";           
      $("#displayUserName").html(userId); 
 }

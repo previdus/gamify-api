@@ -182,7 +182,7 @@ $(document).ready(function(){
         </div>
         <div id="sectionB" class="tab-pane fade">
         <jsp:include page="searchQuestionFilter.jsp" flush="true"/>
-             <jsp:include page="updateQuestion.jsp" flush="true"/>
+        <jsp:include page="updateQuestion.jsp" flush="true"/>
         </div>
         <div id="sectionA" class="tab-pane fade">
             <iframe id="latex_iframe" src="http://www.hostmath.com" width="1000" height="800"></iframe><br/><br/>            
