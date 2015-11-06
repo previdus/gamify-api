@@ -293,7 +293,7 @@ function renderHtml(obj,fromAjax){
     	    	
     	    	questionHtml +="<div id = \"options\"><br/>";
     	    	console.log("obj.currentQuestion.options.length:"+obj.currentQuestion.options.length);
-    	    	if(obj.currentQuestion.options.length > 1){
+    	    	if(obj.currentQuestion.options.length > 1 && obj.isFreeText != 'true'){
 	     	    	$(obj.currentQuestion.options).each( function(index,element)
 	     	    	{
 	                      questionHtml += "<input type=\"radio\" name=\"option\" id=\"option" + element.id+ 

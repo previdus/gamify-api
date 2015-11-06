@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.core.constants.ExamModeENUM;
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
@@ -148,6 +149,7 @@ public class CommonQueueManager {
 		gi.setExamSection(es);
 		gi.setTopic(topic);
 		gi.setState(GAME_STATE.NEW);
+        gi.setFreeText(ExamModeENUM.FREETEXT.toString().equals(es.fetchAssociatedExam().getMode()));
 		gi.setGameCreationTime(System.currentTimeMillis());
 		gi = gameInstanceService.saveOrUpdate(gi);
 		newGameQueue.put(keyForNewGameQueue, gi);

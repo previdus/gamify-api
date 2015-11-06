@@ -81,7 +81,17 @@ public class GameInstance implements Serializable {
 	
 	@Column(name="no_of_players_beaten" ,columnDefinition="int default 0")
     private int noOfPlayersBeaten = 0;
+	
+	private transient boolean isFreeText;
 
+
+	public boolean isFreeText() {
+		return isFreeText;
+	}
+
+	public void setFreeText(boolean isFreeText) {
+		this.isFreeText = isFreeText;
+	}
 
 	@Column(name="game_winning_points" ,columnDefinition="int default 0")
     private int gameWinningPoints = 0;

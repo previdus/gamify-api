@@ -46,10 +46,21 @@ public class Exam  implements Serializable{
 	private String examImageName;
 
 	
-	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default 'ACTIVE'", length = 20)
 	private String state;
 	
+	@Column(name="mode", nullable=false, columnDefinition = "character varying (20) default 'MIXED'", length = 20)
+	private String mode;
 	
+	
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 	@Filter(name=ExamSection.ACTIVE_EXAM_SECTIONS, condition="state = :state")
 	@OneToMany(mappedBy="exam", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)	
