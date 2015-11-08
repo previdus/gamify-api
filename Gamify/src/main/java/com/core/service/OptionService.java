@@ -21,5 +21,6 @@ public interface OptionService {
 	public Option enableOption(Long optionId);
 	public Option disableQuestion(Long optionId);
 	public Option softDelete(Long optionId);
+	public  List<Option> findFreeResponseOptionByQuestionId(long questionId);
 
 }

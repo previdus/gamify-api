@@ -29,6 +29,7 @@ import com.core.service.ExamSectionService;
 import com.core.service.OptionService;
 import com.core.service.RoomService;
 import com.core.service.TopicService;
+import com.core.util.FreeTextAnswerMatcherUtil;
 
 @Controller
 @RequestMapping(value = "/api/play")
@@ -235,9 +236,20 @@ public class ApiLmsGameController {
 			String optionIdString, String freeResponseAnswer, Long optionId) {
 		if(isThisAFreeResponseTypeOfQuestion(freeResponseAnswer, optionId)){
 		    List<Option> optionList = optionService.findByOptionTextAndQuestion(new Long(questionId), freeResponseAnswer);
+		    //free response text exact match
 		    if(optionList != null && optionList.size() == 1){
 		    	Option option = optionList.get(0);
 		    	optionId = option.getId();
+		    }
+		    //free respnse text no match. So matching with the util to see close matches
+		    else{
+		    	optionList = optionService.findFreeResponseOptionByQuestionId(new Long(questionId));
+		    	if(optionList != null && optionList.size() == 1){
+			    	Option option = optionList.get(0);
+			    	if(FreeTextAnswerMatcherUtil.isAnswerCorrect(option.getText(), freeResponseAnswer)){
+			    		optionId = option.getId();
+			    	}
+			    }
 		    }
 		}
 		else{

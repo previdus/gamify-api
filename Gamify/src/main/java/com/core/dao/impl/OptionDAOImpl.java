@@ -71,6 +71,13 @@ public class OptionDAOImpl extends
         return findObjectsByKeyMap(Option.class,keyValueMap);
 	}
 	
+
+	public  List<Option> findFreeResponseOptionByQuestionId(long questionId){
+		Map<String, Object> keyValueMap = new HashMap<String, Object>();		
+		keyValueMap.put("question.id", questionId);
+        return findObjectsByKeyMap(Option.class,keyValueMap);
+	}
+	
 	public  List<Option> findActiveOptionByOrderAndQuestion(long questionId, int order){
 		Map<String, Object> keyValueMap = new HashMap<String, Object>();
 		keyValueMap.put("ordr", order);

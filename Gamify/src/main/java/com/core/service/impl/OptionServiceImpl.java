@@ -95,4 +95,7 @@ public class OptionServiceImpl implements OptionService {
 		return optionDAO.saveOrUpdate(option);
 	}
 
+	public  List<Option> findFreeResponseOptionByQuestionId(long questionId){
+		return optionDAO.findFreeResponseOptionByQuestionId(questionId);
+	}
 }
