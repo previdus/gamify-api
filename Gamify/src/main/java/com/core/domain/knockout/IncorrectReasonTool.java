@@ -26,7 +26,7 @@ public class IncorrectReasonTool {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id")
 	private Question question; 
-	
+
 	@Column(name="user_id", nullable=false)
 	private long userId;
 	
@@ -41,6 +41,9 @@ public class IncorrectReasonTool {
 	private Long createdTimeStamp;
 
 	
+	public IncorrectReasonTool() {
+	}
+	
 	public IncorrectReasonTool(Question question, long userId,long gameId, 
 			IncorrectReasonENUM reason) {
 		super();
@@ -51,7 +54,10 @@ public class IncorrectReasonTool {
 		this.createdTimeStamp = System.currentTimeMillis();
 	}
 
-
+	public long getId() {
+		return id;
+	}
+	
 	public Question getQuestion() {
 		return question;
 	}

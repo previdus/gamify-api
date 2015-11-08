@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.core.dao.StarMarkQuestionDAO;
 import com.core.dao.generic.HibernateGenericRepository;
+import com.core.domain.Question;
 import com.core.domain.knockout.StarMarkQuestion;
 
 @Repository("starMarkQuestionDAO")
@@ -23,7 +24,7 @@ HibernateGenericRepository<StarMarkQuestion, Serializable> implements StarMarkQu
 		Criteria cr = session.createCriteria(StarMarkQuestion.class);
 		cr.add(Restrictions.eq("userId", userId));
 		cr.add(Restrictions.eq("gameId", gameId));
-		cr.add(Restrictions.eq("question.id", questionId));
+		cr.add(Restrictions.eq("question", new Question(questionId)));
 		List results = cr.list();
 		releaseSession(session);
 		if(results == null || results.size() == 0)

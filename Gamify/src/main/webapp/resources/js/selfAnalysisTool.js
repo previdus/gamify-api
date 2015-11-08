@@ -1,7 +1,19 @@
-function addIncorrectReason(){	
+function addIncorrectReason(questionId, reason, isSelect, code){	
 	var gameId = $( "#gameId" ).val();
-	var questionId = '';
-	var reason = '';
+	
+		 $('#Reason'+ questionId + "A1").hide();
+		 $('#Reason'+ questionId + "A2").show();
+		 $('#Reason'+ questionId + "B1").hide();
+		 $('#Reason'+ questionId + "B2").show();
+		 $('#Reason'+ questionId + "C1").hide();
+		 $('#Reason'+ questionId + "C2").show();
+		 $('#Reason'+ questionId + "D1").hide();
+		 $('#Reason'+ questionId + "D2").show();
+		 $('#Reason'+ questionId + "E1").hide();
+		 $('#Reason'+ questionId + "E2").show();
+		 $('#Reason'+ questionId + code + "1").show();
+		 $('#Reason'+ questionId + code + "2").hide();
+	
 	var ajaxURL = myContextPath+ "/api/tool/self-analysis/incorrect-reason";
 	$.ajax({
 	    url: ajaxURL,
@@ -13,23 +25,23 @@ function addIncorrectReason(){
 	    async: true,
 	    success: function( json ) {
 	    	if(json != null){ 
-		    	$("#mFormStatus").html(json.message);
+		    	$("#reviewFormStatus").html(json.message);
 		    	if(json.status == 1){
-		    		$("#mFormStatus").css("background-color","green");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","green");
+		    		$("#reviewFormStatus").css("color","white");
 		    		
 			    	}
 		    	else{	
-		    		$("#mFormStatus").css("background-color","red");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","red");
+		    		$("#reviewFormStatus").css("color","white");
 		    		//resetMCQQuestionForm();
 		    		}	
 	    	}    	
 	    },
 	    error: function( xhr, status, errorThrown ) {
-	    	$("#mFormStatus").html('Somthing Went wrong on Server. Please try again!');
-	    	$("#mFormStatus").css("background-color","red");
-    		$("#mFormStatus").css("color","white");	
+	    	$("#reviewFormStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#reviewFormStatus").css("background-color","red");
+    		$("#reviewFormStatus").css("color","white");	
 	    },
 	    // Code to run regardless of success or failure
 	    	complete: function( xhr, status ) {
@@ -38,10 +50,8 @@ function addIncorrectReason(){
 }	
 
 
-function starMarkQuestion(){	
+function starMarkQuestion(questionId){	
 	var gameId = $( "#gameId" ).val();
-	var questionId = '';
-	
 	var ajaxURL = myContextPath+ "/api/tool/self-analysis/star-mark";
 	$.ajax({
 	    url: ajaxURL,
@@ -52,23 +62,23 @@ function starMarkQuestion(){
 	    async: true,
 	    success: function( json ) {
 	    	if(json != null){ 
-		    	$("#mFormStatus").html(json.message);
+		    	$("#reviewFormStatus").html(json.message);
 		    	if(json.status == 1){
-		    		$("#mFormStatus").css("background-color","green");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","green");
+		    		$("#reviewFormStatus").css("color","white");
 		    		
 			    	}
 		    	else{	
-		    		$("#mFormStatus").css("background-color","red");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","red");
+		    		$("#reviewFormStatus").css("color","white");
 		    		//resetMCQQuestionForm();
 		    		}	
 	    	}    	
 	    },
 	    error: function( xhr, status, errorThrown ) {
-	    	$("#mFormStatus").html('Somthing Went wrong on Server. Please try again!');
-	    	$("#mFormStatus").css("background-color","red");
-    		$("#mFormStatus").css("color","white");	
+	    	$("#reviewFormStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#reviewFormStatus").css("background-color","red");
+    		$("#reviewFormStatus").css("color","white");	
 	    },
 	    // Code to run regardless of success or failure
 	    	complete: function( xhr, status ) {
@@ -77,9 +87,8 @@ function starMarkQuestion(){
 }	
 
 
-function requestSolution(){	
+function requestSolution(questionId){	
 	var gameId = $( "#gameId" ).val();
-	var questionId = '';
 	
 	var ajaxURL = myContextPath+ "/api/tool/self-analysis/request-solution";
 	$.ajax({
@@ -91,23 +100,23 @@ function requestSolution(){
 	    async: true,
 	    success: function( json ) {
 	    	if(json != null){ 
-		    	$("#mFormStatus").html(json.message);
+		    	$("#reviewFormStatus").html(json.message);
 		    	if(json.status == 1){
-		    		$("#mFormStatus").css("background-color","green");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","green");
+		    		$("#reviewFormStatus").css("color","white");
 		    		
 			    	}
 		    	else{	
-		    		$("#mFormStatus").css("background-color","red");
-		    		$("#mFormStatus").css("color","white");
+		    		$("#reviewFormStatus").css("background-color","red");
+		    		$("#reviewFormStatus").css("color","white");
 		    		//resetMCQQuestionForm();
 		    		}	
 	    	}    	
 	    },
 	    error: function( xhr, status, errorThrown ) {
-	    	$("#mFormStatus").html('Somthing Went wrong on Server. Please try again!');
-	    	$("#mFormStatus").css("background-color","red");
-    		$("#mFormStatus").css("color","white");	
+	    	$("#reviewFormStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#reviewFormStatus").css("background-color","red");
+    		$("#reviewFormStatus").css("color","white");	
 	    },
 	    // Code to run regardless of success or failure
 	    	complete: function( xhr, status ) {

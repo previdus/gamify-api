@@ -39,12 +39,13 @@ public class ApiSelfAnalysisController {
 		Long userId = result.getUser() != null ? result.getUser().getId()
 				: null;
 		userId = (userId == null || userId == 0) && (loggedInUser != null) ? loggedInUser
-				.getId() : null;
+				.getId() : userId;
 		if (userId != null && userId != 0) {
 			IncorrectReasonENUM incorrectReason = IncorrectReasonENUM
 					.valueOf(reason);
 			selfAnalysisToolService.addReason(gameId, userId, questionId,
 					incorrectReason);
+			result.setMessage("Successfully marked the reason!");
 		} else {
 			result.setStatus(-1);
 			result.setMessage("User not loggedIn");
@@ -67,9 +68,10 @@ public class ApiSelfAnalysisController {
 		Long userId = result.getUser() != null ? result.getUser().getId()
 				: null;
 		userId = (userId == null || userId == 0) && (loggedInUser != null) ? loggedInUser
-				.getId() : null;
+				.getId() : userId;
 		if (userId != null && userId != 0) {
 			selfAnalysisToolService.starMark(gameId, userId, questionId);
+			result.setMessage("Marked the question for review. You may review this later for revision!");
 		} else {
 			result.setStatus(-1);
 			result.setMessage("User not loggedIn");
@@ -92,9 +94,10 @@ public class ApiSelfAnalysisController {
 		Long userId = result.getUser() != null ? result.getUser().getId()
 				: null;
 		userId = (userId == null || userId == 0) && (loggedInUser != null) ? loggedInUser
-				.getId() : null;
+				.getId() : userId;
 		if (userId != null && userId != 0) {
 			selfAnalysisToolService.requestSolution(gameId, userId, questionId);
+			result.setMessage("Solution shall soon be posted to you!");
 		} else {
 			result.setStatus(-1);
 			result.setMessage("User not loggedIn");

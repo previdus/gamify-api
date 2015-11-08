@@ -34,6 +34,8 @@ public class RequestSolution {
 	@Column(name="created_timestamp", nullable=false)
 	private Long createdTimeStamp;
 
+	public RequestSolution() {
+	}
 	
 	public RequestSolution(Question question, long userId,long gameId) {
 		super();

@@ -33,6 +33,8 @@ public class StarMarkQuestion {
 	@Column(name="created_timestamp", nullable=false)
 	private Long createdTimeStamp;
 
+	public StarMarkQuestion() {
+	}
 	
 	public StarMarkQuestion(Question question, long userId,long gameId) {
 		super();

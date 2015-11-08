@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.core.dao.IncorrectReasonToolDAO;
 import com.core.dao.generic.HibernateGenericRepository;
+import com.core.domain.Question;
 import com.core.domain.knockout.IncorrectReasonTool;
 
 @Repository("incorrectReasonToolDAO")
@@ -22,7 +23,7 @@ public IncorrectReasonTool get(long gameId, long userId, long questionId) {
 		Criteria cr = session.createCriteria(IncorrectReasonTool.class);
 		cr.add(Restrictions.eq("userId", userId));
 		cr.add(Restrictions.eq("gameId", gameId));
-		cr.add(Restrictions.eq("question.Id", questionId));
+		cr.add(Restrictions.eq("question", new Question(questionId)));
 		List results = cr.list();
 		releaseSession(session);
 		if(results == null || results.size() == 0)
