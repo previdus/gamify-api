@@ -244,11 +244,13 @@ public class ApiLmsGameController {
 		    //free respnse text no match. So matching with the util to see close matches
 		    else{
 		    	optionList = optionService.findFreeResponseOptionByQuestionId(new Long(questionId));
-		    	if(optionList != null && optionList.size() == 1){
-			    	Option option = optionList.get(0);
-			    	if(FreeTextAnswerMatcherUtil.isAnswerCorrect(option.getText(), freeResponseAnswer)){
-			    		optionId = option.getId();
-			    	}
+		    	if(optionList != null ){
+		    		for(Option option: optionList){				    	
+				    	if(FreeTextAnswerMatcherUtil.isAnswerCorrect(option.getText(), freeResponseAnswer)){
+				    		optionId = option.getId();
+				    		break;
+				    	}
+		    		}
 			    }
 		    }
 		}
