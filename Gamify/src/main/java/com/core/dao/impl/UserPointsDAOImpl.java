@@ -23,7 +23,7 @@ public void addPoints(long userId, int points) {
   Session session =  getSession();
   UserPoints userPoints = (UserPoints) session.get(UserPoints.class, userId);
   if(userPoints == null)
-	  session.saveOrUpdate(new UserPoints(userId, points));
+	  session.saveOrUpdate(new UserPoints(userId, points)); 
   else{
 	Query qry = session.createQuery(
 			"update UserPoints set  lmsPoints = lmsPoints + :points where userId = :userId").setParameter(

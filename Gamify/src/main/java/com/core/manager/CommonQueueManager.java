@@ -302,9 +302,10 @@ public class CommonQueueManager {
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setNoOfPlayersBeaten(gi.getPlayers().size() -1);
 					prl.setQuestionWinner(true);
+					prl.getPlayer().addPoints(prl.getPointsEarned());
+					userPointsService.addPoints(userId, prl.getPointsEarned());
 				}
-				prl.getPlayer().addPoints(prl.getPointsEarned());
-				userPointsService.addPoints(userId, prl.getPointsEarned());
+				
 			}
 			
 			if(gi.haveAllPlayersResponded()){
