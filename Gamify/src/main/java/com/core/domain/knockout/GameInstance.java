@@ -70,12 +70,15 @@ public class GameInstance implements Serializable {
 	//the game instance object is visible in the frontend for every ajax poll and the player can easily figure out 
 	//what the answer key to the question is if it is named the obvious
 	private transient Long  bang;
+	
+	@Column(name="is_bot_added" ,columnDefinition="boolean default false")
+	private boolean isBotAdded = false;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "exam_section_id")
 	private ExamSection examSection;
 	
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = true )
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
 	
@@ -91,6 +94,16 @@ public class GameInstance implements Serializable {
 
 	public void setFreeText(boolean isFreeText) {
 		this.isFreeText = isFreeText;
+	}
+	
+	
+
+	public boolean isBotAdded() {
+		return isBotAdded;
+	}
+
+	public void setBotAdded(boolean isBotAdded) {
+		this.isBotAdded = isBotAdded;
 	}
 
 	@Column(name="game_winning_points" ,columnDefinition="int default 0")
@@ -394,7 +407,24 @@ public class GameInstance implements Serializable {
 	}
 	
 	public boolean haveAllPlayersResponded(){
-		return this.getPlayers().size() == this.getPlayerResponsesToCurrentQuestion().size();
+		if( this.getPlayers().size() == this.getPlayerResponsesToCurrentQuestion().size())
+			return true;
+		if(this.getPlayers().size() - this.getPlayerResponsesToCurrentQuestion().size() != 1)
+			return false;
+		else if(this.isBotAdded)
+			return true;
+		else 
+			return false;
+		
+//		boolean hasAllResponded = false;
+//		for(long userId : this.getPlayers().keySet()){
+//			 if(UserCategory.B.equals(this.getPlayers().get(userId).getUser().getCategory())){
+//				 hasAllResponded = true;
+//				 break;
+//			 }
+//		}
+//		return hasAllResponded;
+		
 	}
 
 	public boolean hasPlayerLostTheGame(Long userId) {

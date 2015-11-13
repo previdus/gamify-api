@@ -52,6 +52,9 @@ public class User implements Serializable {
 	@Column(name="time_at_which_user_registered")
     private Long timeAtWhichPlayerResponded;
 	
+	@Column(name="lms_points")
+	private long lmsPoints = 0;
+	
 	public String getFacebookId() {
 		return facebookId;
 	}
@@ -91,6 +94,14 @@ public class User implements Serializable {
 	
 	
 
+
+	public long getLmsPoints() {
+		return lmsPoints;
+	}
+
+	public void setLmsPoints(long lmsPoints) {
+		this.lmsPoints = lmsPoints;
+	}
 
 	public Long getId() {
 		return id;

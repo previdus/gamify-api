@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 			return userDAO.saveOrUpdate(user);
 		} catch (ConstraintException ce) {
 			log.info(ce.getMessage());
-			return null;
+			throw ce;
 		}
 
 	}
@@ -62,5 +62,10 @@ public class UserServiceImpl implements UserService {
 	public User getBotUser() {
 				return userDAO.getBotUser();
 			}
+
+	public void addLmsPoints(Long userId, int points) {
+		userDAO.addLmsPoints(userId, points);
+		
+	}
 
 }

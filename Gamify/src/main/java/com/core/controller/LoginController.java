@@ -42,6 +42,8 @@ public class LoginController {
 	
 	
 	private GenericValidator validator;
+	
+	
 
 	@Autowired
 	public LoginController(GenericValidator validator) {
@@ -53,7 +55,6 @@ public class LoginController {
 	public ModelAndView login(Model model) {
 		
 		model.addAttribute(new User());	
-		
 		return new ModelAndView("account/LoginPage");
 	}
 

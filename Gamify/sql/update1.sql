@@ -1,0 +1,1 @@
+ALTER TABLE `cb_lms-db`.`question` ADD COLUMN `question_type` VARCHAR(20) NOT NULL DEFAULT 'FREE_TEXT' AFTER `pre_text_for_free_text_question`;

@@ -128,5 +128,16 @@ public class UserDAOImpl extends HibernateGenericRepository<User, Serializable>
 		releaseSession(session);
 		return null;
 	}
+	
+	public void addLmsPoints(long userId, int points) {
+		Session session =  getSession();
+		Query qry = session.createQuery(
+				"update User set  lmsPoints = lmsPoints + :points where id = :userId");
+				qry.setInteger("points", points);
+				qry.setLong("userId", userId);
+				qry.executeUpdate();
+				releaseSession(session);
+
+	}
 
 }

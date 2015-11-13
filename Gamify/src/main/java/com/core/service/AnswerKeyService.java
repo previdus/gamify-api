@@ -6,7 +6,7 @@ import com.core.domain.Question;
 
 public interface AnswerKeyService {
 
-	public boolean isCorrectAnswer(Long questionId, Option Answer);
+	public boolean isCorrectAnswer(Long questionId, Option Answer, String freeTextResponse);
 
 	public AnswerKey getAnswerKey(Question question);
 	

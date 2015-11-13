@@ -66,9 +66,11 @@ public class MoveFromWaitingToReadyqueueServiceImpl implements MoveFromWaitingTo
 				}
 				else if(System.currentTimeMillis() - gi.getGameCreationTime() > (Integer)GameConstants.CONFIGURATION_MAP.get(GameConstants.ADD_BOT_USER_AFTER_WAITING_MILLISECONDS_KEY)){
 					if(examSectionLevel){
+						gi.setBotAdded(true);
 						ExamSectionGameQueueManager.addBotUser(key);
 					}
 					else{
+						gi.setBotAdded(true);
 						TopicGameQueueManager.addBotUser(key);
 					}
 				}

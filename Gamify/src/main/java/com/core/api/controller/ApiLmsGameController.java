@@ -212,7 +212,7 @@ public class ApiLmsGameController {
 			optionId = checkIfResponseIsFree(questionId, optionIdString,
 					freeResponseAnswer, optionId);
 			GameInstance gi = ExamSectionGameQueueManager.recordPlayerResponseToQuestion(
-					user.getId(), new Long(questionId), optionId,
+					user.getId(), new Long(questionId), optionId,freeResponseAnswer,
 					new Long(timeTakenToRespond));
 			if (gi == null) {
 				log.info("In respondToQuestion - GI is NUll --------------------------------------------------------------------------");

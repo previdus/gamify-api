@@ -27,6 +27,7 @@ import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Proxy;
 
 import com.core.constants.EntityStateENUM;
+import com.core.constants.QuestionTypeENUM;
 import com.core.domain.lms.Topic;
 
 @Entity
@@ -48,10 +49,18 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(name = "question_text")
 	private String questionText;
+	
 	@Column(name = "image_url")
 	private String imageUrl;
+	
+	@Column(name = "pre_text_for_free_text_question")
+	private String preTextForFreeTextQustion;
+	
+	@Column(name = "post_text_for_free_text_question")
+	private String postTextForFreeTextQustion;
 
 	@Column(name = "max_time_to_answer_in_seconds", columnDefinition="int default 80")
 	private int maxTimeToAnswerInSeconds;
@@ -64,6 +73,7 @@ public class Question implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
+	
 	@Column(name = "difficulty_level")
 	private byte difficultyLevel;
 	
@@ -71,9 +81,12 @@ public class Question implements Serializable {
 	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
 	private EntityStateENUM state;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name="question_type", nullable=false, columnDefinition = "character varying (20) default FREE_TEXT", length = 20)
+	private QuestionTypeENUM questionType;
+	
 	@Column(name = "question_frequency", columnDefinition="int default 0")
 	private int questionFrequency;
-	
 	
 
 	public int getQuestionFrequency() {
@@ -111,13 +124,35 @@ public class Question implements Serializable {
 //		this.difficultyLevel = difficultyLevel;
 //	}
 	
-	
-	
 
 	public Long getId() {
 		return id;
 	}
-	
+
+	public QuestionTypeENUM getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(QuestionTypeENUM questionType) {
+		this.questionType = questionType;
+	}
+
+	public String getPreTextForFreeTextQustion() {
+		return preTextForFreeTextQustion;
+	}
+
+	public void setPreTextForFreeTextQustion(String preTextForFreeTextQustion) {
+		this.preTextForFreeTextQustion = preTextForFreeTextQustion;
+	}
+
+	public String getPostTextForFreeTextQustion() {
+		return postTextForFreeTextQustion;
+	}
+
+	public void setPostTextForFreeTextQustion(String postTextForFreeTextQustion) {
+		this.postTextForFreeTextQustion = postTextForFreeTextQustion;
+	}
+
 	public Question(String questionText, String imageUrl,
 			int maxTimeToAnswerInSeconds, Topic topic,
 			byte difficultyLevel, EntityStateENUM state) {
@@ -202,5 +237,7 @@ public class Question implements Serializable {
 		this.questionFrequency++;
 		
 	}
+	
+	
 
 }

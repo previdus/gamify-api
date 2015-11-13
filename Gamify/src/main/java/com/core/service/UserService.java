@@ -22,4 +22,6 @@ public interface UserService {
 	
 	public User getBotUser();
 
+	public void addLmsPoints(Long userId, int points);
+
 }

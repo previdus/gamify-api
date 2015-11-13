@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.core.constants.GameConstants;
 import com.core.domain.Option;
 import com.core.domain.User;
 
@@ -38,6 +39,13 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	
 	@Column(name="time_at_which_player_responded")
     private Long timeAtWhichPlayerResponded = System.currentTimeMillis();
+	
+	@Column(name="free_text_response")
+	private String freeTextResponse;
+	
+	@Column(name="game_id")
+	private long gameId;
+	
 	
 	public Long getTimeAtWhichPlayerResponded() {
 		return timeAtWhichPlayerResponded;
@@ -80,30 +88,32 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	
 	
 	
-	public PlayerResponseLog(Player player, User user, Option response,
+	public PlayerResponseLog(long gameId, Player player, User user, Option response, String freeTextResponse,
 			Long timeTakenToAnswer,  long questionId) {
 		super();
+		this.gameId = gameId;
 		this.player = player;
 		this.user = user;
 		this.response = response;
 		this.timeTakenToAnswer = timeTakenToAnswer;
 		this.questionId = questionId;
+		this.freeTextResponse = freeTextResponse;
 		markResponse(response);
 	}
 
 
 
-	public PlayerResponseLog(User user, Option response,
-			Long timeTakenToAnswer, Integer rank) {
-		super();
-		this.user = user;
-		this.response = response;
-		this.timeTakenToAnswer = timeTakenToAnswer;
-		this.rank = rank;
-		
-		markResponse(response);
-	}
-	
+//	public PlayerResponseLog(User user, Option response,
+//			Long timeTakenToAnswer, Integer rank) {
+//		super();
+//		this.user = user;
+//		this.response = response;
+//		this.timeTakenToAnswer = timeTakenToAnswer;
+//		this.rank = rank;
+//		
+//		markResponse(response);
+//	}
+//	
 	
 	
 	private void markResponse(Option response){
@@ -117,7 +127,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 
 
-	public void setPointsEarned(int pointsEarned) {
+	private void setPointsEarned(int pointsEarned) {
 		this.pointsEarned = pointsEarned;
 	}
 
@@ -204,6 +214,7 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	public void setResponseCorrect(boolean responseCorrect) {
 		this.responseCorrect = responseCorrect;
 		this.pointsEarned = this.pointsEarned + 100;
+		this.player.addPoints(100);
 	}
 
 
@@ -214,9 +225,9 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 
 
-	public void setQuestionWinner(boolean questionWinner) {
-		this.questionWinner = questionWinner;
-	}
+//	public void setQuestionWinner(boolean questionWinner) {
+//		this.questionWinner = questionWinner;
+//	}
 
 
 
@@ -228,13 +239,42 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 
 	public void setNoOfPlayersBeaten(int noOfPlayersBeaten) {
 		this.noOfPlayersBeaten = noOfPlayersBeaten;
+		this.questionWinner = true;
 		if(noOfPlayersBeaten > 0)
 			this.pointsEarned = this.pointsEarned + (noOfPlayersBeaten * 100);
+		this.player.addPoints(noOfPlayersBeaten * 100);
 	}
 
 
 	public PreviousQuestionLog getPreviousQuestionLog() {
 		return previousQuestionLog;
+	}
+	
+	public String getFreeTextResponse() {
+		return freeTextResponse;
+	}
+
+	public void setFreeTextResponse(String freeTextResponse) {
+		this.freeTextResponse = freeTextResponse;
+	}
+
+	public long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(long gameId) {
+		this.gameId = gameId;
+	}
+
+	public void markResponseAsWrong() {
+		if(GameConstants.LMS_NEGATIVE_MARKING_ENABLED){
+		if(this.response == null && (this.freeTextResponse == null || this.freeTextResponse.trim().length() == 0))
+			this.pointsEarned = -25;
+		else
+			this.pointsEarned = -50;
+		}
+		this.player.addPoints(this.pointsEarned);
+		
 	}
 	
 }

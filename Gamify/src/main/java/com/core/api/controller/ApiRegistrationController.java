@@ -83,8 +83,10 @@ public class ApiRegistrationController {
 		UserAccountStatus accountStatus;
 		if(facebookId != null)
 			accountStatus = UserAccountStatus.ACTIVE;
-		else 
+		else if((Boolean)GameConstants.CONFIGURATION_MAP.get(GameConstants.IS_EMAIL_VERIFICATION_MANDATORY_KEY))
 			accountStatus = UserAccountStatus.EMAIL_VERIFICATION_PENDING;
+			else
+				accountStatus = UserAccountStatus.ACTIVE;
 			try{
 				user = new User(userName, password, email, displayName,
 						resolveGender(gender), facebookId,imageUrl,parentsEmail, accountStatus);

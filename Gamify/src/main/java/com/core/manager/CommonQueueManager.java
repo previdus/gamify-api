@@ -5,9 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.core.constants.GameConstants;
 import com.core.constants.GameConstants.GAME_DIFFICULTY_LEVEL;
 import com.core.constants.GameConstants.GAME_STATE;
@@ -21,7 +23,6 @@ import com.core.domain.lms.Topic;
 import com.core.service.AnswerKeyService;
 import com.core.service.GameInstanceService;
 import com.core.service.UserEloRatingService;
-import com.core.service.UserPointsService;
 import com.core.service.UserService;
 
 public class CommonQueueManager {
@@ -70,12 +71,7 @@ public class CommonQueueManager {
 	
 	protected static GameInstanceService gameInstanceService;
 
-	protected static UserPointsService userPointsService;
 	
-	@Autowired(required = true)
-	public void setUserPointsService(UserPointsService userPointsService) {
-		CommonQueueManager.userPointsService = userPointsService;
-	}
 
 	/**
 	 * Sets the answerKeyServiceDao This method should never be called except by
@@ -218,9 +214,8 @@ public class CommonQueueManager {
 		gi.setStateToDone();
 		User user =  gi.markGameWinner();
 		if(user != null){
-			int winningPoints = gi.getGameWinningPoints();
-			gi.getPlayers().get(user.getId()).addPoints(winningPoints); 
-			userPointsService.addPoints(user.getId(), winningPoints);
+			int winningPoints = gi.getGameWinningPoints(); 
+			userService.addLmsPoints(user.getId(), winningPoints);
 		}
 		gameInstanceService.saveOrUpdate(gi);
 		finishedGames.put(gi.getId(), gi);
@@ -279,19 +274,19 @@ public class CommonQueueManager {
 	}
 	
 	public static synchronized GameInstance recordPlayerResponseToQuestion(
-			Long userId, Long questionId, Long optionId,
+			Long userId, Long questionId, Long optionId,String freeTextResponse,
 			long secondsTakenToRespond) {
 		GameInstance gi = playerGameMap.get(userId);
 		if (isTheResponseForCurrentQuestion(questionId, gi)) {
-			PlayerResponseLog prl = new PlayerResponseLog(gi.getPlayers().get(
-					userId), new User(userId), new Option(optionId),
+			PlayerResponseLog prl = new PlayerResponseLog(gi.getId() ,gi.getPlayers().get(
+					userId), new User(userId), new Option(optionId), freeTextResponse,
 					secondsTakenToRespond, questionId);
 			log.info("just before setting the option id:" + optionId
 					+ " for player:" + userId + " for question with id:"
 					+ questionId);
 			
 			gi.getPlayerResponsesToCurrentQuestion().put(userId, prl);
-			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse())) {
+			if (answerKeyService.isCorrectAnswer(questionId, prl.getResponse(), freeTextResponse)) {
 				prl.setResponseCorrect(true);
 				if (isThereNoWinnerInThisGameOrIfThisTimeIsTheBest(
 						secondsTakenToRespond, gi)) {
@@ -301,11 +296,13 @@ public class CommonQueueManager {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setNoOfPlayersBeaten(gi.getPlayers().size() -1);
-					prl.setQuestionWinner(true);
-					prl.getPlayer().addPoints(prl.getPointsEarned());
-					userPointsService.addPoints(userId, prl.getPointsEarned());
+					userService.addLmsPoints(userId, prl.getPointsEarned());
 				}
 				
+			}else{
+				// either user has not responded or has responded wrong
+				prl.markResponseAsWrong();
+				userService.addLmsPoints(userId, prl.getPointsEarned());
 			}
 			
 			if(gi.haveAllPlayersResponded()){
@@ -313,6 +310,7 @@ public class CommonQueueManager {
 				
 				}
 		}
+	
 		return gi;
 	}
 

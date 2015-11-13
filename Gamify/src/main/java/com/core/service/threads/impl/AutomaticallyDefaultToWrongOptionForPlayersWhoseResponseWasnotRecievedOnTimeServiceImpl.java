@@ -55,7 +55,7 @@ public class AutomaticallyDefaultToWrongOptionForPlayersWhoseResponseWasnotRecie
 								userId);
 						log.info("recording response since its timed out");
 						CommonQueueManager.recordPlayerResponseToQuestion(player.getUser().getId(),
-								gi.getCurrentQuestion().getId(), -1L, 0L);
+								gi.getCurrentQuestion().getId(), -1L, null, 0L);
 						
 					}
 				}

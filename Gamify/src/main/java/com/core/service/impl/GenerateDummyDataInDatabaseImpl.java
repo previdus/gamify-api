@@ -76,10 +76,10 @@ public class GenerateDummyDataInDatabaseImpl implements
 		List<PreviousQuestionLog> logs = new LinkedList<PreviousQuestionLog>();
 		PreviousQuestionLog pql1 = new PreviousQuestionLog(new Question(2l),
 				null, new User(1l), gi);
-		pql1.addPlayerResponses(new PlayerResponseLog(new User(1l), new Option(
-				1l), 1l, 1));
-		pql1.addPlayerResponses(new PlayerResponseLog(new User(2l), new Option(
-				2l), 2l, 2));
+//		pql1.addPlayerResponses(new PlayerResponseLog(new User(1l), new Option(
+//				1l), 1l, 1));
+//		pql1.addPlayerResponses(new PlayerResponseLog(new User(2l), new Option(
+//				2l), 2l, 2));
 		// logs.add(new PreviousQuestionLog(new Question(3l), null, new
 		// User(2l), new AnswerKey(3l, 1l) ,gi ));
 		logs.add(pql1);

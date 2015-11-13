@@ -116,6 +116,5 @@ public class GameConstants {
 	
 	
 	public static final String JAVASCRIPT_STRING_FOR_REQUEST_PARAMETERS_UNDEFINED = "undefined";
-	
-
+	public static final boolean LMS_NEGATIVE_MARKING_ENABLED = true;
 }

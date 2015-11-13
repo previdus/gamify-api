@@ -22,4 +22,6 @@ public interface UserDAO extends GenericRepository<User, Serializable> {
 	
 	public User getBotUser();
 	
+	public void addLmsPoints(long userId, int points);
+	
 }

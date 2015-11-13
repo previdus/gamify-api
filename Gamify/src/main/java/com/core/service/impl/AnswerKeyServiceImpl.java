@@ -28,7 +28,7 @@ public class AnswerKeyServiceImpl implements AnswerKeyService {
 	@Autowired
 	private OptionService optionService;
 
-	public boolean isCorrectAnswer(Long questionId, Option answer) {
+	public boolean isCorrectAnswer(Long questionId, Option answer, String freeTextResponse) {
 		if (answer == null)
 			return false;
 		log.info("answerKeyService questionId:" + questionId + ", optionId:"
