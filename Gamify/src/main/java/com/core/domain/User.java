@@ -52,7 +52,7 @@ public class User implements Serializable {
 	@Column(name="time_at_which_user_registered")
     private Long timeAtWhichPlayerResponded;
 	
-	@Column(name="lms_points")
+	@Column(name="lms_points" , columnDefinition="BIGINT(20) default 0")
 	private long lmsPoints = 0;
 	
 	public String getFacebookId() {
@@ -90,6 +90,7 @@ public class User implements Serializable {
 		this.parentEmailId = parentEmailAddress;
 		this.userAccountStatus = accountStatus;
 		this.timeAtWhichPlayerResponded = System.currentTimeMillis();
+		this.lmsPoints = 0;
 	}
 	
 	

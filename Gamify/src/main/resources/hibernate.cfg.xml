@@ -23,7 +23,6 @@
 		<mapping class="com.core.domain.knockout.UserEloRatingPerTopic" />
 		<mapping class="com.core.domain.knockout.PreviousQuestionLog" />
 		<mapping class="com.core.domain.knockout.PlayerResponseLog" />
-		<mapping class="com.core.domain.UserPoints" />
 		<mapping class="com.core.domain.knockout.RequestSolution" />
 		<mapping class="com.core.domain.knockout.StarMarkQuestion" />
 		<mapping class="com.core.domain.knockout.IncorrectReasonTool" />
