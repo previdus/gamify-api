@@ -33,6 +33,20 @@ $(document).ready(function(){
 	$("#questiontextUpdate").click(function(){
 		updateQuestionText();
 	});
+
+	$("#updatePreTextForFreeTextQustionButton").click(function(){
+		updatePreTextForFreeTextQuestion();
+	});
+
+	$("#updatePostTextForFreeTextQustionButton").click(function(){
+		updatePostTextForFreeTextQuestion();
+	});
+
+	$("#updateQuestionTypeButton").click(function(){
+		updateQuestionType();
+	});
+
+	
 	$("#updateTimeAllocationButton").click(function(){
 		updateTimeAllocation();
 	});

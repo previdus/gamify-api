@@ -188,8 +188,143 @@ function updateStateSoftDelete(){
 	updateState('softDelete');
 }
 
+function updatePreTextForFreeTextQuestion(){
+	
+	
+	var questionId = $("#displayQuestionIdOnupdate").val();
+	var updatePreTextForFreeTextQuestion = $("#updatePreTextForFreeTextQuestion").val();
+	$("#updateStatus").html("");
+	$("#updateStatus").css("background-color","white");
+	$.ajax({
+	    url: myContextPath + "/api/content/question/update/pre-text",
+	    data: {questionId:questionId, updatePreTextForFreeTextQuestion:updatePreTextForFreeTextQuestion},
+	    type: "POST",
+	    dataType : "json",
+	    async: false,
+	    success: function( json ) {
+	    	if(json != null){ 
+		    	$("#updateStatus").html(json.message);
+		    	if(json.status == 1){
+		    		$("#updateStatus").css("background-color","green");
+		    		$("#updateStatus").css("color","white");
+			    	}
+		    	else{
+		    		$("#updateStatus").css("background-color","red");
+		    		$("#updateStatus").css("color","white");
+		    		}	
+	    	}    	
+	    },
+	    beforeSend: function() {
+	    	$("#updateStatus").html('Updating Question ....');
+	    	$("#updateStatus").css("background-color","blue");
+    		$("#updateStatus").css("color","white");  
+	    },
+	    error: function( xhr, status, errorThrown ) {
+	    	$("#updateStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#updateStatus").css("background-color","red");
+    		$("#updateStatus").css("color","white");	
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+	    	var questionId = $("#displayQuestionIdOnupdate").val();
+	    	$("#questionIdForSearch").val(questionId);
+	    	searchQuestion();
+	    }
+	});
+	
+}
+
+function updatePostTextForFreeTextQuestion(){
+	
+	var questionId = $("#displayQuestionIdOnupdate").val();
+	var updatePostTextForFreeTextQuestion = $("#updatePostTextForFreeTextQuestion").val();
+	$("#updateStatus").html("");
+	$("#updateStatus").css("background-color","white");
+	$.ajax({
+	    url: myContextPath + "/api/content/question/update/post-text",
+	    data: {questionId:questionId, updatePostTextForFreeTextQuestion:updatePostTextForFreeTextQuestion},
+	    type: "POST",
+	    dataType : "json",
+	    async: false,
+	    success: function( json ) {
+	    	if(json != null){ 
+		    	$("#updateStatus").html(json.message);
+		    	if(json.status == 1){
+		    		$("#updateStatus").css("background-color","green");
+		    		$("#updateStatus").css("color","white");
+			    	}
+		    	else{
+		    		$("#updateStatus").css("background-color","red");
+		    		$("#updateStatus").css("color","white");
+		    		}	
+	    	}    	
+	    },
+	    beforeSend: function() {
+	    	$("#updateStatus").html('Updating Question ....');
+	    	$("#updateStatus").css("background-color","blue");
+    		$("#updateStatus").css("color","white");  
+	    },
+	    error: function( xhr, status, errorThrown ) {
+	    	$("#updateStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#updateStatus").css("background-color","red");
+    		$("#updateStatus").css("color","white");	
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+	    	var questionId = $("#displayQuestionIdOnupdate").val();
+	    	$("#questionIdForSearch").val(questionId);
+	    	searchQuestion();
+	    }
+	});
+	
+}
+
+function updateQuestionType(){
+	
+	var questionId = $("#displayQuestionIdOnupdate").val();
+	var questionType = $("#updateQuestionType").val();
+	$("#updateStatus").html("");
+	$("#updateStatus").css("background-color","white");
+	$.ajax({
+	    url: myContextPath + "/api/content/question/update/type",
+	    data: {questionId:questionId, questionType:questionType},
+	    type: "POST",
+	    dataType : "json",
+	    async: false,
+	    success: function( json ) {
+	    	if(json != null){ 
+		    	$("#updateStatus").html(json.message);
+		    	if(json.status == 1){
+		    		$("#updateStatus").css("background-color","green");
+		    		$("#updateStatus").css("color","white");
+			    	}
+		    	else{
+		    		$("#updateStatus").css("background-color","red");
+		    		$("#updateStatus").css("color","white");
+		    		}	
+	    	}    	
+	    },
+	    beforeSend: function() {
+	    	$("#updateStatus").html('Updating Question ....');
+	    	$("#updateStatus").css("background-color","blue");
+    		$("#updateStatus").css("color","white"); 
+	    },
+	    error: function( xhr, status, errorThrown ) {
+	    	$("#updateStatus").html('Somthing Went wrong on Server. Please try again!');
+	    	$("#updateStatus").css("background-color","red");
+    		$("#updateStatus").css("color","white");	
+	    },
+	    // Code to run regardless of success or failure
+	    complete: function( xhr, status ) {
+	    	var questionId = $("#displayQuestionIdOnupdate").val();
+	    	$("#questionIdForSearch").val(questionId);
+	    	searchQuestion();
+	    }
+	});
+	
+}
+
 function updateState(action){
-	alert('updating state to : ' + action);
 	var questionId = $("#displayQuestionIdOnupdate").val();
 	$("#updateStatus").html("");
 	$("#updateStatus").css("background-color","white");

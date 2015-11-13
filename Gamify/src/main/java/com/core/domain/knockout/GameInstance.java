@@ -72,7 +72,7 @@ public class GameInstance implements Serializable {
 	private transient Long  bang;
 	
 	@Column(name="is_bot_added" ,columnDefinition="boolean default false")
-	private boolean isBotAdded = false;
+	private Boolean isBotAdded = false;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "exam_section_id")
@@ -407,14 +407,12 @@ public class GameInstance implements Serializable {
 	}
 	
 	public boolean haveAllPlayersResponded(){
-		if( this.getPlayers().size() == this.getPlayerResponsesToCurrentQuestion().size())
+		System.out.println(" ----------------------------  " + this.getPlayers().size() + " players in game and " + this.getPlayerResponsesToCurrentQuestion().size() + " players responded");
+		if( this.getPlayers().size() <= this.getPlayerResponsesToCurrentQuestion().size())
 			return true;
 		if(this.getPlayers().size() - this.getPlayerResponsesToCurrentQuestion().size() != 1)
 			return false;
-		else if(this.isBotAdded)
-			return true;
-		else 
-			return false;
+		return this.isBotAdded;
 		
 //		boolean hasAllResponded = false;
 //		for(long userId : this.getPlayers().keySet()){

@@ -4,6 +4,9 @@ function addNewMCQQuestion(){
 	
 	var topicId = $( "#topicId" ).val();
 	var questionText = sanitizeForLatex($( "#inputMQuestionText" ).val());
+	var preTextForFreeTextQustion  = $( "#mcqPreTextForFreeTextQustion" ).val();
+	var postTextForFreeTextQustion = $( "#mcqPostTextForFreeTextQustion" ).val();
+	var questionType = $( "#mcqQuestionType" ).val();
 	var option1Text=sanitizeForLatex($( "#inputMOpt1" ).val());
 	var option2Text=sanitizeForLatex($( "#inputMOpt2" ).val());
 	var option3Text=sanitizeForLatex($( "#inputMOpt3" ).val());
@@ -23,6 +26,9 @@ function addNewMCQQuestion(){
 	    url: ajaxURL,
 	    data: {topicId:topicId,
 	    	questionText:questionText,
+	    	preTextForFreeTextQustion:preTextForFreeTextQustion,
+	    	postTextForFreeTextQustion:postTextForFreeTextQustion,
+	    	questionType:questionType,
 	    	difficultyLevel:difficultyLevel,
 	    	maxTimeAllocatedInSecs:maxTimeAllocatedInSecs,
 	    	option1Text:option1Text,
@@ -68,5 +74,6 @@ function resetMCQQuestionForm(){
 	$( "#inputMOpt3" ).val('');
 	$( "#inputMOpt4" ).val('');
 	$( "#inputMOpt5" ).val('');
-	$( "#timeAllocated").val('');
+	$( "#mcqPreTextForFreeTextQustion").val('');
+	$( "#mcqPostTextForFreeTextQustion").val('');
 }

@@ -15,6 +15,11 @@ function searchQuestion(){
 	    		$("#updatetimeAllocated").val(json.question.maxTimeToAnswerInSeconds);
 	    		$("#updateMdifficulty").val(json.question.difficultyLevel);
 	    		$("#stateOnQuestionUpdate").val(json.question.state);
+	    		
+	    		$("#updatePreTextForFreeTextQuestion").val(json.question.preTextForFreeTextQustion);
+	    		$("#updatePostTextForFreeTextQuestion").val(json.question.postTextForFreeTextQustion);
+	    		$("#updateQuestionType").val(json.question.questionType);
+	    		
 	    		$("#deletedOptions").html('');
 	    		var coun =0;
 	    		if(json.question.options != null){
@@ -109,6 +114,11 @@ function searchQuestionbyState(){
 	    		$("#updatetimeAllocated").val(quest.maxTimeToAnswerInSeconds);
 	    		$("#updateMdifficulty").val(quest.difficultyLevel);
 	    		$("#stateOnQuestionUpdate").val(quest.state);
+	    		
+	    		$("#updatePreTextForFreeTextQuestion").val(quest.preTextForFreeTextQustion);
+	    		$("#updatePostTextForFreeTextQuestion").val(quest.postTextForFreeTextQustion);
+	    		$("#updateQuestionType").val(quest.questionType);
+	    		
 	    		$("#deletedOptions").html('');
 	    		var coun =0;
 	    		if(quest.options != null){

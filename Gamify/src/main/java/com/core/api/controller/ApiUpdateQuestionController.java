@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
 import com.core.constants.EntityStateENUM;
+import com.core.constants.QuestionTypeENUM;
 import com.core.domain.AnswerKey;
 import com.core.service.AnswerKeyService;
 import com.core.service.QuestionService;
@@ -113,6 +114,87 @@ public class ApiUpdateQuestionController {
 		return result;
 	}
 
+	
+	@RequestMapping(value = "/pre-text", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ApiResult updatePreText(
+			@RequestParam(value = "questionId", required = false) Long questionId,
+			@RequestParam(value = "updatePreTextForFreeTextQuestion", required = false) String updatePreTextForFreeTextQuestion,
+			Model model, HttpServletRequest request) {
+		String success = null;
+		String error = null;
+		// validate inputs
+		 if (questionId == null || questionId == 0)
+			error = "Please tell which question you want to update!";
+
+		ApiResult result = new ApiResult();
+		if (error == null) {
+			questionService.editQuestionPreText(questionId,
+					updatePreTextForFreeTextQuestion);
+			success = "Successfully Updated the Question...";
+			result.setStatus(1);
+			result.setMessage(success);
+		} else {
+			result.setStatus(-1);
+			result.setMessage(error);
+		}
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/post-text", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ApiResult updatePostText(
+			@RequestParam(value = "questionId", required = false) Long questionId,
+			@RequestParam(value = "updatePostTextForFreeTextQuestion", required = false) String updatePostTextForFreeTextQuestion,
+			Model model, HttpServletRequest request) {
+		String success = null;
+		String error = null;
+		// validate inputs
+		 if (questionId == null || questionId == 0)
+			error = "Please tell which question you want to update!";
+
+		ApiResult result = new ApiResult();
+		if (error == null) {
+			questionService.editQuestionPostText(questionId,
+					updatePostTextForFreeTextQuestion);
+			success = "Successfully Updated the Question...";
+			result.setStatus(1);
+			result.setMessage(success);
+		} else {
+			result.setStatus(-1);
+			result.setMessage(error);
+		}
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/type", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ApiResult updateType(
+			@RequestParam(value = "questionId", required = false) Long questionId,
+			@RequestParam(value = "questionType", required = false) String questionType,
+			Model model, HttpServletRequest request) {
+		String success = null;
+		String error = null;
+		// validate inputs
+		 if (questionId == null || questionId == 0)
+			error = "Please tell which question you want to update!";
+
+		ApiResult result = new ApiResult();
+		if (error == null) {
+			questionService.editQuestionType(questionId,
+				QuestionTypeENUM.valueOf(questionType));
+			success = "Successfully Updated the Question...";
+			result.setStatus(1);
+			result.setMessage(success);
+		} else {
+			result.setStatus(-1);
+			result.setMessage(error);
+		}
+		return result;
+	}
+	
 	@RequestMapping(value = "/difficultyLevel", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ApiResult updateDifficultyLevel(

@@ -27,9 +27,33 @@
             				<button type="button" id="questiontextUpdate" class="btn btn-primary btn-xs">Update</button>
             			</div>
         		</div>
+        		
+        		
+        		<div class="form-group">
+            			<label class="control-label col-xs-2" for="inputMQuestionText">Option free text display:</label>
+            			<div class="col-xs-2">
+            				<input type="text" id="updatePreTextForFreeTextQuestion" class="form-control" placeholder="Pre text">
+            				<button type="button" id="updatePreTextForFreeTextQustionButton" class="btn btn-primary btn-xs">Update</button>
+            			</div>
+            			<div class="col-xs-2">
+                			<input type="text" id="updatePostTextForFreeTextQuestion" class="form-control" placeholder="Pre text">
+            				<button type="button" id="updatePostTextForFreeTextQustionButton" class="btn btn-primary btn-xs">Update</button>
+            			</div>
+            			<label class="control-label col-xs-2" for="updateQuestionType"> Question presented as:</label>
+            			<div class="col-xs-3">
+                			<select class="form-control" id="updateQuestionType">
+                    				<option value="MCQ">MCQ Only</option>	
+                    				<option value="FREE_TEXT">Free Text Only</option>
+									<option value="MCQ_OR_FREE_TEXT">MCQ/ Free Text Any</option>
+                			</select>
+                			<button type="button" id="updateQuestionTypeButton" class="btn btn-primary btn-xs">Update</button>
+            			</div>
+        		</div>
+        		
+        		
         	<div class="form-group">
             			<label class="control-label col-xs-2">Difficulty Level:</label>
-            			<div class="col-xs-3">
+            			<div class="col-xs-4">
                 			<select class="form-control" id="updateMdifficulty">
                     				<option value="1">Easy</option>
 						<option value="2">Moderate</option>	
@@ -38,7 +62,7 @@
                 			<button type="button" id="updateDiffLevelButton" class="btn btn-primary btn-xs">Update</button>
             			</div>
 				<div class="form-group">
-					<div class="col-xs-4">
+					<div class="col-xs-5">
                 				<div class="input-group">
                     					<span class="input-group-addon">Time Allocation</span>
                     					<input type="text" id="updatetimeAllocated" class="form-control" placeholder="max time allowed ">

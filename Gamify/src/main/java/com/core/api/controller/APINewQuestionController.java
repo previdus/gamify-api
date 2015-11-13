@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.core.api.beans.ApiResult;
 import com.core.constants.EntityStateENUM;
+import com.core.constants.QuestionTypeENUM;
 import com.core.domain.Option;
 import com.core.domain.Question;
 import com.core.domain.lms.Topic;
@@ -35,6 +36,9 @@ public class APINewQuestionController {
 	public ApiResult addNewMcqQuestion(
 			@RequestParam(value = "topicId", required = false) Long topicId,
 			@RequestParam(value = "questionText", required = false) String questionText,
+			@RequestParam(value = "preTextForFreeTextQustion", required = false) String preTextForFreeTextQustion,
+			@RequestParam(value = "postTextForFreeTextQustion", required = false) String postTextForFreeTextQustion,
+			@RequestParam(value = "questionType", required = false) String questionType,
 			@RequestParam(value = "difficultyLevel", required = false) Byte difficultyLevel,
 			@RequestParam(value = "maxTimeAllocatedInSecs", required = false) Integer maxTimeAllocatedInSecs,
 			@RequestParam(value = "option1Text", required = false) String option1Text,
@@ -135,6 +139,9 @@ public class APINewQuestionController {
 		
 		if (error == null) {
 			question.setOptions(options);
+			question.setPostTextForFreeTextQustion(postTextForFreeTextQustion);
+			question.setPreTextForFreeTextQustion(preTextForFreeTextQustion);
+			question.setQuestionType(QuestionTypeENUM.valueOf(questionType));
 			questionService.saveMCQQuestion(question,options, correctOption);
 			success = "Successfully Added the Question...";
 			result.setStatus(1);
@@ -151,6 +158,8 @@ public class APINewQuestionController {
 	public ApiResult addNewFreeTextQuestion(
 			@RequestParam(value = "topicId", required = false) Long topicId,
 			@RequestParam(value = "questionText", required = false) String questionText,
+			@RequestParam(value = "preTextForFreeTextQustion", required = false) String preTextForFreeTextQustion,
+			@RequestParam(value = "postTextForFreeTextQustion", required = false) String postTextForFreeTextQustion,
 			@RequestParam(value = "correctAnswer", required = false) String correctAnswer,
 			@RequestParam(value = "difficultyLevel", required = false) Byte difficultyLevel,
 			@RequestParam(value = "maxTimeAllocatedInSecs", required = false) Integer maxTimeAllocatedInSecs,
@@ -176,6 +185,9 @@ public class APINewQuestionController {
 			question = new Question(questionText, imageUploadUrl,
 					maxTimeAllocatedInSecs, new Topic(topicId),
 					difficultyLevel, newQuestionAdditionState);
+			question.setPostTextForFreeTextQustion(postTextForFreeTextQustion);
+			question.setPreTextForFreeTextQustion(preTextForFreeTextQustion);
+			question.setQuestionType(QuestionTypeENUM.FREE_TEXT);
 			Option correctOption = new Option(correctAnswer, null, 1, question, newQuestionAdditionState);
 			questionService.saveFreeTextQuestion(question, correctOption);
 			success = "Successfully Added the Question...";

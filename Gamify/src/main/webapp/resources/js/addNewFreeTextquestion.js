@@ -3,6 +3,8 @@ function addNewFreeTextQuestion(){
 	var questionText = sanitizeForLatex($("#freeQuestionText").val());
 	var correctAns= sanitizeForLatex($("#freeAnswer").val());
 	var difficultyLevel = $( "#freedifficulty" ).val();
+	var preTextForFreeTextQustion  = $( "#freePreTextForFreeTextQustion" ).val();
+	var postTextForFreeTextQustion = $( "#freePostTextForFreeTextQustion" ).val();
 	var maxTimeAllocatedInSec =$( "#ffftimeAllocated" ).val();
 	var image_url =	'';	
 	$("#freeStatus").html("");
@@ -11,6 +13,8 @@ function addNewFreeTextQuestion(){
 	    url: myContextPath + "/api/content/questions/add/freeText",
 	    data: {topicId:topicId,
 	    	   questionText:questionText,
+	    	   preTextForFreeTextQustion:preTextForFreeTextQustion,
+	    	   postTextForFreeTextQustion:postTextForFreeTextQustion,
 	    	   correctAnswer:correctAns,
 	    	   difficultyLevel:difficultyLevel,
 	    	   maxTimeAllocatedInSecs:maxTimeAllocatedInSec,
@@ -48,5 +52,7 @@ function addNewFreeTextQuestion(){
 function resetFreeTextForm(){
 	$("#freeQuestionText").val('');
 	$("#freeAnswer").val('');
+	$("#freePreTextForFreeTextQustion").val('');
+	$("#freePostTextForFreeTextQustion").val('');
 	$( "#ffftimeAllocated").val('');
 }

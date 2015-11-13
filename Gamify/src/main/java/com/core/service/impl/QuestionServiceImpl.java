@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.core.constants.EntityStateENUM;
+import com.core.constants.QuestionTypeENUM;
 import com.core.dao.AnswerKeyDAO;
 import com.core.dao.OptionDAO;
 import com.core.dao.QuestionDAO;
@@ -150,6 +151,29 @@ public class QuestionServiceImpl implements QuestionService {
 	public List<Question> findByTopicStatePageNo(long topicId, EntityStateENUM state,
 			int pageNo, int limit) {
 		return questionDAO.findByTopicStatePageNo(topicId,state,pageNo, limit);
+	}
+
+	public Question editQuestionType(Long questionId, QuestionTypeENUM questionType) {
+		Question question = questionDAO.findObjectByIdImmediate(questionId);
+		question.setQuestionType(questionType);
+		return questionDAO.saveOrUpdate(question);
+		
+	}
+
+	public Question editQuestionPostText(Long questionId,
+			String updatePostTextForFreeTextQuestion) {
+		Question question = questionDAO.findObjectByIdImmediate(questionId);
+		question.setPostTextForFreeTextQustion(updatePostTextForFreeTextQuestion);
+		return questionDAO.saveOrUpdate(question);
+		
+	}
+
+	public Question editQuestionPreText(Long questionId,
+			String updatePreTextForFreeTextQuestion) {
+		Question question = questionDAO.findObjectByIdImmediate(questionId);
+		question.setPreTextForFreeTextQustion(updatePreTextForFreeTextQuestion);
+		return questionDAO.saveOrUpdate(question);
+		
 	}
 
 	

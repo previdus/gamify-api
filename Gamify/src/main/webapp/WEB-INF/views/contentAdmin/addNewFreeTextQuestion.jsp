@@ -8,12 +8,19 @@
                 			<textarea id="freeQuestionText" class="form-control" placeholder="Type Question Text Here"></textarea>
             			</div>
         		</div>
-				<div class="form-group">
-            			<label class="control-label col-xs-3" for="inputEmail">Correct Answer:</label>
-            			<div class="col-xs-9">
+        		<div class="form-group">
+            			<label class="control-label col-xs-3" for="inputEmail">Option Display text:</label>
+            			<div class="col-xs-2">
+                			<textarea id="freePreTextForFreeTextQustion" class="form-control" placeholder="Pre text"></textarea>
+            			</div>
+            			<div class="col-xs-5">
                 			<textarea id="freeAnswer" name="freeAnswer" class="form-control" placeholder="Type Correct Answer Here"></textarea>
             			</div>
+            			<div class="col-xs-2">
+                			<textarea id="freePostTextForFreeTextQustion" class="form-control" placeholder="Post text"></textarea>
+            			</div>
         		</div>
+
 				<div class="form-group">
             			<label class="control-label col-xs-3">Difficulty Level:</label>
             			<div class="col-xs-3">

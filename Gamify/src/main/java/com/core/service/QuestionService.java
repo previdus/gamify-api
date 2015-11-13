@@ -3,6 +3,7 @@ package com.core.service;
 import java.util.List;
 
 import com.core.constants.EntityStateENUM;
+import com.core.constants.QuestionTypeENUM;
 import com.core.domain.Option;
 import com.core.domain.Question;
 import com.core.domain.lms.Topic;
@@ -28,6 +29,11 @@ public interface QuestionService {
 	public Option addNewOption(Long questionId, String optionText);
 	public List<Question> findByTopicStatePageNo(long topicId, EntityStateENUM state,
 			int pageNo, int limit);
+	public Question editQuestionType(Long questionId, QuestionTypeENUM valueOf);
+	public Question editQuestionPostText(Long questionId,
+			String updatePostTextForFreeTextQuestion);
+	public Question editQuestionPreText(Long questionId,
+			String updatePreTextForFreeTextQuestion);
 
 	
 }

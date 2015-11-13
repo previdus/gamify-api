@@ -8,6 +8,23 @@
                 			<textarea id="inputMQuestionText" class="form-control" placeholder="Type Question Text Here"></textarea>
             			</div>
         		</div>
+        		<div class="form-group">
+            			<label class="control-label col-xs-2" for="inputMQuestionText">Option free text display:</label>
+            			<div class="col-xs-2">
+                			<textarea id="mcqPreTextForFreeTextQustion" class="form-control" placeholder="Pre Text"></textarea>
+            			</div>
+            			<div class="col-xs-2">
+                			<textarea id="mcqPostTextForFreeTextQustion" class="form-control" placeholder="Post Text"></textarea>
+            			</div>
+            			<label class="control-label col-xs-2" for="mcqQuestionType"> Question presented as:</label>
+            			<div class="col-xs-3">
+                			<select class="form-control" id="mcqQuestionType">
+                    				<option value="MCQ">MCQ Only</option>	
+                    				<option value="FREE_TEXT">Free Text Only</option>
+									<option value="MCQ_OR_FREE_TEXT">MCQ/ Free Text Any</option>
+                			</select>
+            			</div>
+        		</div>
 			<div class="form-group">
             			<label class="control-label col-xs-2" for="inputMOpt1">Option 1:</label>
             			<div class="col-xs-9">
