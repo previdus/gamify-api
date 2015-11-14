@@ -305,7 +305,9 @@ function renderHtml(obj,fromAjax){
 	     	    	});
     	    	}
     	    	else {
-        	    	questionHtml += "<br/><input class=\"freeResponseText\" id=\"freeResponseText\" type=\"text\" name=\"freeResponseText\" onkeyup=\"test()\"></input><br/>";
+        	    	questionHtml += "<br/>"+obj.currentQuestion.preTextForFreeTextQustion+
+        	    	"<input class=\"freeResponseText\" id=\"freeResponseText\" type=\"text\" name=\"freeResponseText\" onkeyup=\"test()\"></input>"
+        	    	+obj.currentQuestion.postTextForFreeTextQustion+"<br/>";
         	    	// Enable #x
         	    	$( "#freeResponseText" ).val('test');
         	    	
