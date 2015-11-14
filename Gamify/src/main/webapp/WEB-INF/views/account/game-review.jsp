@@ -18,6 +18,12 @@
 .mainHeader {
 	background-color: #D0F5A9;
 }
+.logo-section h1 .half {
+  color: #1976d2;
+}
+.logo-section h1 .quarter {
+  color: red;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -118,7 +124,7 @@
 				</button>
 				<div class="logo-section">
 					<h1>
-						lastman<span class="half">standing</span>
+						last<span class="quarter">M</span>an<span class="half">standing</span>
 					</h1>
 				</div>
 			</div>
@@ -164,7 +170,7 @@
 		<br> <br>
 		<div>
 			<div id="questionSection">
-				<div class="text-center bg-danger text-capitalize mainHeader">
+				<div class="text-center bg-info text-capitalize mainHeader">
 
 					<h3>
 						<b>Game Review Screen - <c:if test="${gi.examSection != null}">
@@ -178,7 +184,7 @@
 				</div>
 
 				<nav> 
-					<div class="text-center bg-danger">
+					<div class="text-center bg-info">
 						<c:if test="${gi.gameWinner != null}">
 						    <div class='row'>
 						        <div class="col-sm-4 text-left  text-danger">
@@ -202,7 +208,7 @@
 						</div>
 					</div>
 				</nav>
-				<div id="reviewFormStatus" ></div>
+				
 				<ul class="pager">
 					<li class="previous text-capitalize"><a id="previousButton"
 						href="#">&larr; Previous Question</a></li>
@@ -213,6 +219,7 @@
 					value="${fn:length(gi.previousQuestionLogs)}" /> <input
 					type="hidden" id="currentPageNo" value="1">
 				<div class="container">
+					
 					<c:forEach items="${gi.previousQuestionLogs}" var="questionLog"
 						varStatus="loopCounter">
 						<c:choose>
@@ -224,16 +231,12 @@
 							</c:otherwise>
 						</c:choose>
 							<div class="">
-								<nav class="bg-danger text-danger text-center">
-									<div class="row">
-										<div class="col-sm-2 text-left label label-success" onclick='requestSolution(${questionLog.question.id})'>
-											<b> <c:out value=" Request Solution" /> <i class="glyphicon glyphicon-hand-up"></i></b>
-										</div>
-										<div class="col-sm-8 text-center"> Question </div>
-										<div class="col-sm-2 text-right label label-success" onclick='starMarkQuestion(${questionLog.question.id})'><b> Mark Review <i class="glyphicon glyphicon-star"></i></b>
-										</div>
+								<nav class="bg-primary text-danger text-center">
+									
+										 Question 
+										
 								
-									</div>
+									
 								</nav>
 								</br>
 								<div class="">
@@ -244,7 +247,7 @@
 									</p>
 									</h4>
 								</div>
-								<nav class="bg-danger text-danger text-right"> Best <i
+								<nav class="bg-info text-danger text-right"> Best <i
 									class="glyphicon glyphicon-hourglass"></i> 
 									<c:choose>
 										<c:when test="${questionLog.bestTime <= 0}">
@@ -255,7 +258,7 @@
 										</c:otherwise>
 									</c:choose> 
 								</nav>
-								<nav class="bg-danger text-danger text-center ">
+								<nav class="bg-primary text-danger text-center ">
 									<b> Options </b> 
 								</nav>
 								</br>
@@ -263,27 +266,32 @@
 									<div class="col-sm-2">
 									</div>
 									<c:forEach items="${questionLog.question.options}" var="option" varStatus="stat">
-										<div class="col-sm-2 text-capitalize">
+										<div class="col-sm-2">
 											<p>
 												<c:if test="${questionLog.answerKey.optionId == option.id}">
+													<nav class="bg-success text-center text-success">
 													<div>
-														<span class="label label-success text-capitalize"><i
+														<span class=""><i
 															class="glyphicon glyphicon-ok"></i> <c:out
 															value="${option.text}"></c:out> </span>
 													</div>
+													</nav>
 												</c:if>
 												<c:if test="${questionLog.answerKey.optionId != option.id}">
+													<nav class="bg-danger text-center text-danger">
 													<div>
-														<span class="label label-danger text-capitalize"><c:out
-															value="${option.text}"></c:out></span>
+														<span class="">
+														<c:out value="${option.text}"></c:out>
+														</span>
 													</div>
+													</nav>
 												</c:if>
 											</p>
 										</div>
 									</c:forEach>
 								</div>
 								</br>
-								<nav class="bg-danger text-center text-danger">
+								<nav class="bg-primary text-center text-danger">
 								<b> Player Responses </b> </nav>
 								</br>
 								<div class="row">
@@ -300,50 +308,91 @@
 													<p>
 														<c:out value="${playerResponse.user.name}"></c:out>
 													</p>
+					
 													<p>
 														<i class="glyphicon glyphicon-hourglass"></i>
 														<c:out value="${playerResponse.timeTakenToAnswer/1000}"></c:out>
 														(sec)
 													</p>
+													<p>
+														<span class="label label-info">
+															<c:out value="Total Points"></c:out>
+															<span class="label label-info badge">
+															<c:out value="${playerResponse.user.lmsPoints}"></c:out>
+															</span>
+														</span>
+													</p>
+													<p>
+														<span class="label label-info">
+														<c:out value="Points Earned in this Game"></c:out>
+														  	<span class="badge">
+															<c:out value="${playerResponse.player.pointsWon}"></c:out>
+														</span></span>
+													</p>
 													<div>
 														<p>
 															<c:if
 																test="${questionLog.answerKey.optionId != playerResponse.response.id}">
-																<span class="label label-danger">Response
-																	Given: <c:out value="${playerResponse.response.text}"></c:out>
-																</span>
+																
 																<div>
 																	<p>
 																		<span class="label label-danger">Points
-																			Earned: <c:out value="${playerResponse.pointsEarned}"></c:out>
+																			Earned For this Question: <span class="badge">
+																			<c:out value="${playerResponse.pointsEarned}"></c:out>
+																			</span>
 																		</span>
 																	</p>
 																</div>
+																<p>
+																<span class="label label-danger ">Your incorrect response 
+																<span class="bg-success badge"> 
+																	<c:choose>
+																		<c:when test="${not empty playerResponse.freeTextResponse}">
+       																		<c:out value="${playerResponse.freeTextResponse}"></c:out>
+   																	 	</c:when>
+   																	 	<c:otherwise>
+																			<c:out value="${playerResponse.response.text}"></c:out>
+																		</c:otherwise>
+																	</c:choose>
+																</span></span>
+																</p>
 															</c:if>
 															<c:if
 																test="${questionLog.answerKey.optionId == playerResponse.response.id}">
-																<span class="label label-success">Response
-																	Given: <c:out value="${playerResponse.response.text}"></c:out>
-																</span>
-																<div>
+																
+																
 																	<p>
 																		<span class="label label-success">Points
-																			Earned: <c:out value="${playerResponse.pointsEarned}"></c:out>
+																			Earned For this Question: 
+																			<span class="badge">
+																			<c:out value="${playerResponse.pointsEarned}"></c:out>
+																			</span>
 																		</span>
 																	</p>
-																</div>
+																<p>
+																<span class="label label-success">Your response is correct!
+																	
+																	<span class="bg-success badge"> 
+																	<c:out value="${playerResponse.response.text}"></c:out>
+																</span></span>
+																</p>
 															</c:if>
 														</p>
 
 														<div>
 															<c:if test="${playerResponse.questionWinner == true}">
 																<span class="label label-success text-capitalize">Question
-																	Winner:<i class="glyphicon glyphicon-ok"></i>
-																</span>
+																	Winner:
+																	<span class="badge">
+																	<i class="glyphicon glyphicon-ok"></i>
+																</span></span>
 															</c:if>
 															<c:if test="${playerResponse.questionWinner == false}">
 																<span class="label label-danger text-capitalize">Question
-																	Winner:<i class="glyphicon glyphicon-remove"></i>
+																	Winner:
+																	<span class="badge">
+																	<i class="glyphicon glyphicon-remove"></i>
+																	</span>
 																</span>
 															</c:if>
 														</div>
@@ -354,7 +403,7 @@
 									</c:forEach>
 								</div>
 							</div>
-							<div class="text-center bg-danger text-capitalize text-danger mainHeader">
+							<div class="text-center bg-primary text-capitalize text-danger mainHeader">
 							Self Analysis Tool</div>
 			
 							<div class="text-left bg-info text-info text-capitalize mainHeader">
@@ -394,7 +443,21 @@
 								</div>
 							</div>
 							<div class="text-center bg-danger text-capitalize mainHeader">
+							<nav class="bg-danger text-danger text-center">-</nav>
+							<nav class="bg-danger text-danger text-center">
+									<div class="row">
+										<div class="col-sm-3 text-center">  </div>
+										<div class="col-sm-2 text-left label label-success" onclick='requestSolution(${questionLog.question.id})'>
+											<b> <c:out value=" Request Solution" /> <i class="glyphicon glyphicon-hand-up"></i></b>
+										</div>
+										<div class="col-sm-2 text-center">  </div>
+										<div class="col-sm-2 text-right label label-success" onclick='starMarkQuestion(${questionLog.question.id})'><b> Mark For Revision <i class="glyphicon glyphicon-star"></i></b>
+										</div>
+												<div class="col-sm-3 text-center">  </div>
+									</div>
+								</nav>
 							-</div>
+							<div  id="reviewFormStatus"></div>
 						</div>
 					
 					

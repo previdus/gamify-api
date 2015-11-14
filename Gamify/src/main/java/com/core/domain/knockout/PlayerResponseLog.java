@@ -24,7 +24,9 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	@GeneratedValue
 	private Long id;
 	
-	private transient Player player;
+	@ManyToOne(optional=true)
+	@JoinColumn(name="player_id" , nullable=true)
+	private Player player;
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name="user_id")

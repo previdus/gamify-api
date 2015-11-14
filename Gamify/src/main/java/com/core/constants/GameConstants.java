@@ -84,7 +84,8 @@ public class GameConstants {
 	// keep -1 if you dont want baut to be added
 	//move to db
 	public static final String ADD_BOT_USER_AFTER_WAITING_MILLISECONDS_KEY = "addBotUserAterWaitingMilliseconds"; 
-	private static final int ADD_BOT_USER_AFTER_WAITING_MILLISECONDS = 20000;
+	private static final int ADD_BOT_USER_AFTER_WAITING_MILLISECONDS = -1;
+			//20000;
 	
 	//move to db
 	public static final String IS_EMAIL_VERIFICATION_MANDATORY_KEY =  "isEmailVerificationMandatory";

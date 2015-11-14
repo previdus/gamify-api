@@ -22,7 +22,7 @@ function addIncorrectReason(questionId, reason, isSelect, code){
 	    	reason:reason},
 	    type: "POST",
 	    dataType : "json",
-	    async: true,
+	    async: false,
 	    success: function( json ) {
 	    	if(json != null){ 
 		    	$("#reviewFormStatus").html(json.message);
@@ -59,7 +59,7 @@ function starMarkQuestion(questionId){
 	    	questionId:questionId},
 	    type: "POST",
 	    dataType : "json",
-	    async: true,
+	    async: false,
 	    success: function( json ) {
 	    	if(json != null){ 
 		    	$("#reviewFormStatus").html(json.message);
@@ -97,7 +97,7 @@ function requestSolution(questionId){
 	    	questionId:questionId},
 	    type: "POST",
 	    dataType : "json",
-	    async: true,
+	    async: false,
 	    success: function( json ) {
 	    	if(json != null){ 
 		    	$("#reviewFormStatus").html(json.message);
