@@ -306,7 +306,7 @@ function renderHtml(obj,fromAjax){
     	    	}
     	    	else {
         	    	questionHtml += "<br/>"+obj.currentQuestion.preTextForFreeTextQustion+
-        	    	"<input class=\"freeResponseText\" id=\"freeResponseText\" type=\"text\" name=\"freeResponseText\" onkeyup=\"test()\"></input>"
+        	    	"&nbsp;&nbsp;<input class=\"freeResponseText\" id=\"freeResponseText\" type=\"text\" name=\"freeResponseText\" onkeyup=\"test()\"></input>&nbsp;&nbsp;"
         	    	+obj.currentQuestion.postTextForFreeTextQustion+"<br/>";
         	    	// Enable #x
         	    	$( "#freeResponseText" ).val('test');
