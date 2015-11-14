@@ -52,7 +52,7 @@ public class ExamSection implements Serializable {
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
 	
-	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default 'ACTIVE'", length = 20)
 	private String state;
 
 	public String getState() {

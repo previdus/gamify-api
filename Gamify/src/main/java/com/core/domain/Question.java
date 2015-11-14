@@ -78,11 +78,11 @@ public class Question implements Serializable {
 	private byte difficultyLevel;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default 'ACTIVE'", length = 20)
 	private EntityStateENUM state;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="question_type", nullable=false, columnDefinition = "character varying (20) default FREE_TEXT", length = 20)
+	@Column(name="question_type", nullable=false, columnDefinition = "character varying (20) default 'FREE_TEXT'", length = 20)
 	private QuestionTypeENUM questionType;
 	
 	@Column(name = "question_frequency", columnDefinition="int default 0")

@@ -35,7 +35,7 @@ public class Topic implements Serializable {
 
 	private String name;
 	
-	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default ACTIVE", length = 20)
+	@Column(name="state", nullable=false, columnDefinition = "character varying (20) default 'ACTIVE'", length = 20)
 	private String state;
 	
 	@JsonIgnore
