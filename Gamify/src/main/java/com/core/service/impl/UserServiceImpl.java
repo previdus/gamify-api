@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User getUser(Long userId) {
-		return userDAO.getUser(userId);
+		return userDAO.findObjectByIdImmediate(userId);
 	}
 
 	public User getUserByName(String name) {
