@@ -215,7 +215,7 @@ public class CommonQueueManager {
 		User user =  gi.markGameWinner();
 		if(user != null){
 			int winningPoints = gi.getGameWinningPoints(); 
-			userService.addLmsPoints(user.getId(), winningPoints);
+			userService.addLmsPoints(user.getId(), winningPoints, gi.getCurrentQuestion().fetchTopic().getId());
 		}
 		gameInstanceService.saveOrUpdate(gi);
 		finishedGames.put(gi.getId(), gi);
@@ -296,13 +296,12 @@ public class CommonQueueManager {
 					gi.setBestTimeForCurrentQuestion(secondsTakenToRespond);
 					gi.setCurrentQuestionWinner(new User(userId));
 					prl.setNoOfPlayersBeaten(gi.getPlayers().size() -1);
-					userService.addLmsPoints(userId, prl.getPointsEarned());
 				}
-				
+				userService.addLmsPoints(userId, prl.getPointsEarned(), gi.getCurrentQuestion().fetchTopic().getId());
 			}else{
 				// either user has not responded or has responded wrong
 				prl.markResponseAsWrong();
-				userService.addLmsPoints(userId, prl.getPointsEarned());
+				userService.addLmsPoints(userId, prl.getPointsEarned(),gi.getCurrentQuestion().fetchTopic().getId());
 			}
 			
 			if(gi.haveAllPlayersResponded()){

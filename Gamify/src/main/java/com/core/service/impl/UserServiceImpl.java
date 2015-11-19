@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.core.controller.LoginController;
 import com.core.dao.UserDAO;
+import com.core.dao.UserPointsDAO;
 import com.core.domain.User;
+import com.core.domain.knockout.UserPoints;
 import com.core.exception.ConstraintException;
 import com.core.service.UserService;
 
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	public UserDAO userDAO;
+	
+	@Autowired
+	public UserPointsDAO userPointsDAO;
 
 	public User getUser(String userName, String pwd) {
 		return userDAO.getUser(userName, pwd);
@@ -63,8 +67,9 @@ public class UserServiceImpl implements UserService {
 				return userDAO.getBotUser();
 			}
 
-	public void addLmsPoints(Long userId, int points) {
+	public void addLmsPoints(Long userId, int points,long topicId) {
 		userDAO.addLmsPoints(userId, points);
+		userPointsDAO.saveNew(new UserPoints(new User(userId), points, topicId));
 		
 	}
 

@@ -6,7 +6,7 @@
 	</div>
 	<div id="updateStatus"></div>
 	
-	<form  class="form-horizontal">
+	<form  class="form-horizontal" data-toggle="validator">
 		<div>
 			<div class="col-md-3" style="margin-bottom: 1em;">
 				<label class="control-label " for="displayName">Display Name:</label>

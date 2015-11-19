@@ -180,7 +180,7 @@ function showRatedPlayersForTheChosenTopic(examSectionId){
     </head>
     <body id="roomPage">
         <!-- navbar -->
-<jsp:include page="topmenu.jsp" flush="true"/>
+	<jsp:include page="topmenu.jsp" flush="true"/>
     
     <div id="exams">
     <div id="welcomeUser">Welcome ${user.displayName}&nbsp;&nbsp;&nbsp;<img src="${user.imageUrl}"></img></div>

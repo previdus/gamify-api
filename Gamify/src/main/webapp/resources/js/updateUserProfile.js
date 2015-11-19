@@ -97,6 +97,7 @@ function renderResult(user){
 	$("#gender").val(user.gender);
 	$( "#parentEmail").val(user.parentEmailId);
 	
+	
 }
 
 getUserDetails();
