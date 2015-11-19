@@ -48,6 +48,9 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	@Column(name="game_id")
 	private long gameId;
 	
+	@Column(name="topic_id")
+	private long topicId;
+	
 	
 	public Long getTimeAtWhichPlayerResponded() {
 		return timeAtWhichPlayerResponded;
@@ -91,9 +94,10 @@ public class PlayerResponseLog implements Comparable<PlayerResponseLog>, Seriali
 	
 	
 	public PlayerResponseLog(long gameId, Player player, User user, Option response, String freeTextResponse,
-			Long timeTakenToAnswer,  long questionId) {
+			Long timeTakenToAnswer,  long questionId, long topicId) {
 		super();
 		this.gameId = gameId;
+		this.topicId = topicId;
 		this.player = player;
 		this.user = user;
 		this.response = response;

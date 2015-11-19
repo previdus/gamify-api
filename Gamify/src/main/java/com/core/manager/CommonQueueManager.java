@@ -280,7 +280,7 @@ public class CommonQueueManager {
 		if (isTheResponseForCurrentQuestion(questionId, gi)) {
 			PlayerResponseLog prl = new PlayerResponseLog(gi.getId() ,gi.getPlayers().get(
 					userId), new User(userId), new Option(optionId), freeTextResponse,
-					secondsTakenToRespond, questionId);
+					secondsTakenToRespond, questionId, gi.getCurrentQuestion().fetchTopic().getId());
 			log.info("just before setting the option id:" + optionId
 					+ " for player:" + userId + " for question with id:"
 					+ questionId);
