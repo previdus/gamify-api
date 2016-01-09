@@ -14,7 +14,7 @@ import com.core.dao.PlayerResponseLogDAO;
 import com.core.dao.generic.HibernateGenericRepository;
 import com.core.domain.knockout.PlayerResponseLog;
 
-@Repository("answerKeyDAO")
+@Repository("playerResponseLogDAO")
 public class PlayerResponseLogDAOImpl extends
 		HibernateGenericRepository<PlayerResponseLog, Serializable> implements
 		PlayerResponseLogDAO {
