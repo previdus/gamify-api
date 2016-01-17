@@ -27,5 +27,6 @@
 		<mapping class="com.core.domain.knockout.StarMarkQuestion" />
 		<mapping class="com.core.domain.knockout.IncorrectReasonTool" />
 		<mapping class="com.core.domain.knockout.UserPoints" />
+		<mapping class="com.core.domain.Test" />
 	</session-factory>
 </hibernate-configuration>
